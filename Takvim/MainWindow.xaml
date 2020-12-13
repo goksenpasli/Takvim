@@ -1,0 +1,155 @@
+﻿<Window x:Class="Takvim.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:Takvim"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Takvim"
+    Width="800" Height="450"
+    d:DataContext="{d:DesignInstance Type=local:MainViewModel}"
+    RenderOptions.EdgeMode="Aliased"  WindowState="Maximized"
+    mc:Ignorable="d">
+    <Window.Resources>
+        <Viewbox x:Key="Bayrak" x:Shared="false">
+            <Canvas Width="32.000" Height="21.333">
+                <Path Data=" M 0.000,0.000 L 32.000,0.000 L 32.000,21.333 L 0.000,21.333 L 0.000,0.000 Z" Fill="Red" />
+                <Path Data=" M 10.667,5.330 C 12.565,5.330 14.231,6.322 15.176,7.815 C 14.395,6.945 13.262,6.397 12.001,6.397 C 9.645,6.397 7.735,8.309 7.735,10.667 C 7.735,13.025 9.645,14.936 12.001,14.936 C 13.262,14.936 14.395,14.389 15.176,13.518 C 14.231,15.012 12.565,16.004 10.667,16.004 C 7.722,16.004 5.335,13.614 5.335,10.667 C 5.335,7.719 7.722,5.330 10.667,5.330 Z" Fill="White" />
+                <Path Data=" M 15.215,10.667 L 17.169,10.038 L 17.165,7.993 L 18.368,9.650 L 20.320,9.014 L 19.110,10.667 L 20.320,12.319 L 18.368,11.683 L 17.165,13.341 L 17.169,11.295 L 15.215,10.667 Z" Fill="White" />
+            </Canvas>
+        </Viewbox>
+        <local:YarımGünTatilConverter x:Key="YarımGünTatilConverter" />
+        <local:GünTatilConverter x:Key="GünTatilConverter" />
+        <CollectionViewSource x:Key="Data" Source="{Binding Günler}">
+            <CollectionViewSource.GroupDescriptions>
+                <PropertyGroupDescription PropertyName="Ay" />
+            </CollectionViewSource.GroupDescriptions>
+        </CollectionViewSource>
+    </Window.Resources>
+    <Window.DataContext>
+        <local:MainViewModel />
+    </Window.DataContext>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Border BorderBrush="Black" BorderThickness="1" Grid.Row="0" Grid.ColumnSpan="3">
+            <TextBlock Text="{Binding SeçiliYıl}" HorizontalAlignment="Center" FontWeight="Bold" />
+        </Border>
+        <Button Content="ç"
+            Grid.Row="1" Grid.Column="0" Grid.RowSpan="2"
+            FontFamily="Wingdings"
+            Command="{Binding Geri}" />
+        <ListBox Grid.Row="1" Grid.Column="1" Grid.RowSpan="2"
+            ItemsSource="{Binding Mode=OneWay, Source={StaticResource Data}}"
+            SelectedIndex="{Binding BugünIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="Margin" Value="1" />
+                    <Setter Property="BorderThickness" Value="0.5" />
+                    <Setter Property="BorderBrush" Value="#FF145CD6" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding GünAdı}" Value="Cmt">
+                            <Setter Property="Background" Value="Yellow" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding GünAdı}" Value="Paz">
+                            <Setter Property="Background" Value="Red" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Converter={StaticResource GünTatilConverter}, Mode=OneWay}" Value="true">
+                            <Setter Property="Background" Value="Magenta" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Converter={StaticResource YarımGünTatilConverter}, Mode=OneWay}" Value="true">
+                            <Setter Property="Background">
+                                <Setter.Value>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                        <GradientStop Offset="0.5" Color="Transparent" />
+                                        <GradientStop Offset="0.5" Color="Magenta" />
+                                        <LinearGradientBrush.RelativeTransform>
+                                            <RotateTransform Angle="45" CenterX="0.5" CenterY="0.5" />
+                                        </LinearGradientBrush.RelativeTransform>
+                                    </LinearGradientBrush>
+                                </Setter.Value>
+                            </Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ListBox.ItemContainerStyle>
+            <ListBox.GroupStyle>
+                <GroupStyle>
+                    <GroupStyle.Panel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Columns="3" Rows="4" />
+                        </ItemsPanelTemplate>
+                    </GroupStyle.Panel>
+                    <GroupStyle.ContainerStyle>
+                        <Style TargetType="GroupItem">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type GroupItem}">
+                                        <Grid Margin="2">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition />
+                                            </Grid.RowDefinitions>
+                                            <Border Grid.Row="0" BorderBrush="Black" BorderThickness="1,1,1,0">
+                                                <TextBlock Text="{Binding Path=Name}"
+                                                    Background="Green"
+                                                    FontWeight="Bold"
+                                                    TextAlignment="Center" />
+                                            </Border>
+                                            <Border Grid.Row="1" BorderBrush="Black" BorderThickness="1">
+                                                <Border.Background>
+                                                    <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                                        <GradientStop Offset="0" Color="#FF146AD6" />
+                                                        <GradientStop Offset="1" Color="#FF146AD6" />
+                                                        <GradientStop Offset="0.5" Color="#FF1A75D1" />
+                                                    </LinearGradientBrush>
+                                                </Border.Background>
+                                                <ItemsPresenter />
+                                            </Border>
+                                        </Grid>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </GroupStyle.ContainerStyle>
+                </GroupStyle>
+            </ListBox.GroupStyle>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Canvas Width="32" Height="30">
+                        <ContentControl Canvas.Right="0" Width="16" Height="10">
+                            <ContentControl.Style>
+                                <Style TargetType="ContentControl">
+                                    <Setter Property="Content" Value="{x:Null}" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Converter={StaticResource GünTatilConverter}, Mode=OneWay}" Value="true">
+                                            <Setter Property="Content" Value="{StaticResource Bayrak}" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ContentControl.Style>
+                        </ContentControl>
+                        <TextBlock FontSize="11">
+                            <Run Text="{Binding Gün}" />
+                            <LineBreak />
+                            <Run Text="{Binding GünAdı}" />
+                        </TextBlock>
+                    </Canvas>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid Columns="7" FirstColumn="{Binding Items[0].Offset}" />
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+        </ListBox>
+        <Button Content="è"
+            Grid.Row="1" Grid.Column="2" Grid.RowSpan="2"
+            FontFamily="Wingdings"
+            Command="{Binding İleri}" />
+    </Grid>
+</Window>

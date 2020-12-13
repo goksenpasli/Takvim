@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Blend for Visual Studio Version 16
+VisualStudioVersion = 16.0.30717.126
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Takvim", "Takvim\Takvim.csproj", "{3F78F189-43DE-420B-879F-88D1FEB93C1B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3F78F189-43DE-420B-879F-88D1FEB93C1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F78F189-43DE-420B-879F-88D1FEB93C1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F78F189-43DE-420B-879F-88D1FEB93C1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F78F189-43DE-420B-879F-88D1FEB93C1B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8A5496F0-D625-45FF-8D0B-8EA3636EA768}
+	EndGlobalSection
+EndGlobal
