@@ -54,6 +54,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Base64ImageConverter.cs" />
+    <Compile Include="Data.cs" />
+    <Compile Include="InpcBase.cs" />
+    <Compile Include="RelayCommand.cs" />
+    <Compile Include="XmlDateConverter.cs" />
+    <Compile Include="YarımGünTatilConverter.cs" />
+    <Page Include="DataEnterWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -62,6 +72,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DataEnterWindow.xaml.cs">
+      <DependentUpon>DataEnterWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GünTatilConverter.cs" />
     <Compile Include="MainViewModel.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
