@@ -168,6 +168,30 @@ namespace Takvim
                 }
             }, parameter => !string.IsNullOrWhiteSpace(GünNotAçıklama));
 
+
+            ResimSakla = new RelayCommand(parameter =>
+            {
+                if (parameter is XmlElement xmlElement)
+                {
+                    SaveFileDialog saveFileDialog = new SaveFileDialog
+                    {
+                        DefaultExt = ".jpg",
+                        Title = "SAKLA",
+                        Filter = "Resim Dosyası (.jpg)|*.jpg",
+                        FileName = xmlElement.PreviousSibling.InnerText
+                    };
+
+                    if (saveFileDialog.ShowDialog() == true)
+                    {
+                        var bytes = Convert.FromBase64String(xmlElement.InnerText);
+                        using var imageFile = new FileStream(saveFileDialog.FileName, FileMode.Create);
+                        imageFile.Write(bytes, 0, bytes.Length);
+                        imageFile.Flush();
+                    }
+                }
+
+            }, parameter => true);
+
             VeriEkleEkranı = new RelayCommand(parameter =>
             {
                 verigirişwindow = new Window
@@ -189,6 +213,8 @@ namespace Takvim
         public ICommand XmlVeriEkle { get; }
 
         public ICommand ResimYükle { get; }
+
+        public ICommand ResimSakla { get; }
 
         public ICommand VeriEkleEkranı { get; }
     }
