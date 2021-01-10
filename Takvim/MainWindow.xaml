@@ -9,6 +9,9 @@
     RenderOptions.EdgeMode="Aliased" WindowState="Maximized"
     mc:Ignorable="d">
     <Window.Resources>
+        <Storyboard x:Key="TimerColorAnimation" RepeatBehavior="Forever" Timeline.DesiredFrameRate="3">
+            <ColorAnimation Storyboard.TargetProperty="(Button.BorderBrush).(SolidColorBrush.Color)" From="Black" To="Red" Duration="00:00:01" />
+        </Storyboard>
         <local:NullableToBooleanConverter x:Key="NullableToBooleanConverter" />
         <local:Data x:Key="Data" />
         <local:XmlDateConverter x:Key="XmlDateConverter" />
@@ -156,7 +159,12 @@
                                 <Setter Property="BorderBrush" Value="Transparent" />
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding GünNotAçıklama, Converter={StaticResource NullableToBooleanConverter}}" Value="true">
-                                        <Setter Property="BorderBrush" Value="Black" />
+                                        <DataTrigger.EnterActions>
+                                            <BeginStoryboard Storyboard="{StaticResource TimerColorAnimation}" />
+                                        </DataTrigger.EnterActions>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding GünNotAçıklama}" Value="">
+                                        <Setter Property="BorderBrush" Value="Transparent" />
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
@@ -175,7 +183,10 @@
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
-                        <Image HorizontalAlignment="Left" Source="{Binding ConverterParameter=96, Converter={StaticResource Base64ImageConverter}, XPath=Resim}" ToolTipService.InitialShowDelay="500">
+                        <Image Height="96"
+                            HorizontalAlignment="Left"
+                            Source="{Binding ConverterParameter=96, Converter={StaticResource Base64ImageConverter}, XPath=Resim}"
+                            ToolTipService.InitialShowDelay="500">
                             <Image.ToolTip>
                                 <Image RenderOptions.BitmapScalingMode="Fant" Source="{Binding Converter={StaticResource Base64ImageConverter}, XPath=Resim}" />
                             </Image.ToolTip>
