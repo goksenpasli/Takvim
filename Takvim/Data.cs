@@ -178,7 +178,7 @@ namespace Takvim
                         DefaultExt = ".jpg",
                         Title = "SAKLA",
                         Filter = "Resim Dosyası (.jpg)|*.jpg",
-                        FileName = xmlElement.PreviousSibling.InnerText
+                        FileName = xmlElement.PreviousSibling?.InnerText
                     };
 
                     if (saveFileDialog.ShowDialog() == true)

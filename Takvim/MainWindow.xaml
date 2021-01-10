@@ -1,4 +1,4 @@
-﻿<Window x:Class="Takvim.MainWindow" x:Name="window"
+﻿<Window x:Class="Takvim.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:Takvim"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -9,6 +9,7 @@
     RenderOptions.EdgeMode="Aliased" WindowState="Maximized"
     mc:Ignorable="d">
     <Window.Resources>
+        <local:NullableToBooleanConverter x:Key="NullableToBooleanConverter" />
         <local:Data x:Key="Data" />
         <local:XmlDateConverter x:Key="XmlDateConverter" />
         <local:Base64ImageConverter x:Key="Base64ImageConverter" />
@@ -44,7 +45,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <Border Grid.Row="0" Grid.ColumnSpan="3"
+        <Border Grid.Row="0" Grid.ColumnSpan="4"
             BorderBrush="Black" BorderThickness="1">
             <TextBlock Text="{Binding SeçiliYıl}" HorizontalAlignment="Center" FontWeight="Bold" />
         </Border>
@@ -128,7 +129,7 @@
             </ListBox.GroupStyle>
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Button Background="Transparent" BorderBrush="Transparent" Command="{Binding VeriEkleEkranı}">
+                    <Button Background="Transparent" Command="{Binding VeriEkleEkranı}">
                         <Button.Content>
                             <Canvas Width="32" Height="28">
                                 <ContentControl Canvas.Right="0" Width="16" Height="10">
@@ -150,6 +151,16 @@
                                 </TextBlock>
                             </Canvas>
                         </Button.Content>
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="BorderBrush" Value="Transparent" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding GünNotAçıklama, Converter={StaticResource NullableToBooleanConverter}}" Value="true">
+                                        <Setter Property="BorderBrush" Value="Black" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
                     </Button>
                 </DataTemplate>
             </ListBox.ItemTemplate>
@@ -164,7 +175,7 @@
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
-                        <Image HorizontalAlignment="Left" Source="{Binding IsAsync=True, ConverterParameter=96, Converter={StaticResource Base64ImageConverter}, XPath=Resim}">
+                        <Image HorizontalAlignment="Left" Source="{Binding ConverterParameter=96, Converter={StaticResource Base64ImageConverter}, XPath=Resim}" ToolTipService.InitialShowDelay="500">
                             <Image.ToolTip>
                                 <Image RenderOptions.BitmapScalingMode="Fant" Source="{Binding Converter={StaticResource Base64ImageConverter}, XPath=Resim}" />
                             </Image.ToolTip>

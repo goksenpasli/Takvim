@@ -68,7 +68,6 @@ namespace Takvim
         {
             xmlDataProvider = (XmlDataProvider)Application.Current.MainWindow.TryFindResource("XmlData");
             xmlDataProvider.Source = new Uri(xmlpath);
-
             xmldoc = new XmlDocument();
             if (File.Exists(xmlpath))
             {
@@ -114,18 +113,18 @@ namespace Takvim
                             TamTarih = DateTime.Parse(tarih)
                         };
 
-                        //foreach (XmlNode xn in xmldoc.SelectNodes("/Veriler/Veri"))
-                        //{
-                        //    if (DateTime.Parse(xn["Gun"].InnerText) == data.TamTarih)
-                        //    {
-                        //        data.GünNotAçıklama = xn["Aciklama"].InnerText;
-                        //    }
+                        foreach (XmlNode xn in xmldoc.SelectNodes("/Veriler/Veri"))
+                        {
+                            if (DateTime.Parse(xn["Gun"].InnerText) == data.TamTarih)
+                            {
+                                data.GünNotAçıklama = xn["Aciklama"].InnerText;
+                            }
 
-                        //    if (DateTime.Parse(xn["Gun"].InnerText) == data.TamTarih && xn["Resim"]?.InnerText != null)
-                        //    {
-                        //        data.ResimData = Convert.FromBase64String(xn["Resim"].InnerText);
-                        //    }
-                        //}
+                            //if (DateTime.Parse(xn["Gun"].InnerText) == data.TamTarih && xn["Resim"]?.InnerText != null)
+                            //{
+                            //    data.ResimData = Convert.FromBase64String(xn["Resim"].InnerText);
+                            //}
+                        }
                         Günler.Add(data);
                     }
                 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.IO;
 using System.Windows.Data;
 using System.Windows.Media.Imaging;
@@ -13,12 +14,15 @@ namespace Takvim
             {
                 BitmapImage bi = new BitmapImage();
                 bi.BeginInit();
-                bi.CacheOption = BitmapCacheOption.None;
+                bi.CacheOption = BitmapCacheOption.OnLoad;
                 bi.CreateOptions = BitmapCreateOptions.IgnoreColorProfile;
                 bi.DecodePixelHeight = int.TryParse((string)parameter, out int res) ? res : 0;
                 bi.StreamSource = new MemoryStream(System.Convert.FromBase64String(base64image));
                 bi.EndInit();
-                bi.Freeze();
+                if (bi.CanFreeze)
+                {
+                    bi.Freeze();
+                }
                 return bi;
             }
             return null;

@@ -40,6 +40,9 @@
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -60,6 +63,7 @@
     <Compile Include="Base64ImageConverter.cs" />
     <Compile Include="Data.cs" />
     <Compile Include="InpcBase.cs" />
+    <Compile Include="NullableToBooleanConverter.cs" />
     <Compile Include="RelayCommand.cs" />
     <Compile Include="XmlDateConverter.cs" />
     <Compile Include="YarımGünTatilConverter.cs" />
@@ -109,6 +113,9 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
