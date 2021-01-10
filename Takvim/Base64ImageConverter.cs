@@ -15,7 +15,7 @@ namespace Takvim
                 bi.BeginInit();
                 bi.CacheOption = BitmapCacheOption.None;
                 bi.CreateOptions = BitmapCreateOptions.IgnoreColorProfile;
-                bi.DecodePixelHeight = int.TryParse((string)parameter, out int res) ? res : 96;
+                bi.DecodePixelHeight = int.TryParse((string)parameter, out int res) ? res : 0;
                 bi.StreamSource = new MemoryStream(System.Convert.FromBase64String(base64image));
                 bi.EndInit();
                 bi.Freeze();

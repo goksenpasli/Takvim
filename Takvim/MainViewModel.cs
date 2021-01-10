@@ -105,25 +105,27 @@ namespace Takvim
                     string tarih = $"{j}.{i}.{SeçiliYıl}";
                     if (DateTime.TryParse(tarih, out _))
                     {
-                        var data = new Data();
-                        data.GünAdı = DateTime.Parse(tarih).ToString("ddd");
-                        data.Gün = DateTime.Parse(tarih).Day;
-                        data.Ay = DateTime.Parse(tarih).ToString("MMMM");
-                        data.Offset = (int)DateTime.Parse(tarih).DayOfWeek;
-                        data.TamTarih = DateTime.Parse(tarih);
-
-                        foreach (XmlNode xn in xmldoc.SelectNodes("/Veriler/Veri"))
+                        var data = new Data
                         {
-                            if (DateTime.Parse(xn["Gun"].InnerText) == data.TamTarih)
-                            {
-                                data.GünNotAçıklama = xn["Aciklama"].InnerText;
-                            }
+                            GünAdı = DateTime.Parse(tarih).ToString("ddd"),
+                            Gün = DateTime.Parse(tarih).Day,
+                            Ay = DateTime.Parse(tarih).ToString("MMMM"),
+                            Offset = (int)DateTime.Parse(tarih).DayOfWeek,
+                            TamTarih = DateTime.Parse(tarih)
+                        };
 
-                            if (DateTime.Parse(xn["Gun"].InnerText) == data.TamTarih && xn["Resim"]?.InnerText != null)
-                            {
-                                data.ResimData = Convert.FromBase64String(xn["Resim"].InnerText);
-                            }
-                        }
+                        //foreach (XmlNode xn in xmldoc.SelectNodes("/Veriler/Veri"))
+                        //{
+                        //    if (DateTime.Parse(xn["Gun"].InnerText) == data.TamTarih)
+                        //    {
+                        //        data.GünNotAçıklama = xn["Aciklama"].InnerText;
+                        //    }
+
+                        //    if (DateTime.Parse(xn["Gun"].InnerText) == data.TamTarih && xn["Resim"]?.InnerText != null)
+                        //    {
+                        //        data.ResimData = Convert.FromBase64String(xn["Resim"].InnerText);
+                        //    }
+                        //}
                         Günler.Add(data);
                     }
                 }

@@ -14,7 +14,7 @@
         <XmlDataProvider x:Key="XmlData" XPath="Veriler/Veri" />
         <CollectionViewSource x:Key="cvs" Source="{StaticResource XmlData}">
             <CollectionViewSource.SortDescriptions>
-                <scm:SortDescription PropertyName="Gun" />
+                <scm:SortDescription Direction="Descending" PropertyName="Gun" />
             </CollectionViewSource.SortDescriptions>
         </CollectionViewSource>
         <Viewbox x:Key="Bayrak" x:Shared="false">
@@ -103,10 +103,9 @@
                                                 <RowDefinition />
                                             </Grid.RowDefinitions>
                                             <Border Grid.Row="0" BorderBrush="Black" BorderThickness="1,1,1,0">
-                                                <TextBlock Text="{Binding Path=Name}"
-                                                    Background="Green"
-                                                    FontWeight="Bold"
-                                                    TextAlignment="Center" />
+                                                <TextBlock Background="Green" FontWeight="Bold" TextAlignment="Center">
+                                                    <Run Text="{Binding Path=Name, Mode=OneWay}" />
+                                                </TextBlock>
                                             </Border>
                                             <Border Grid.Row="1" BorderBrush="Black" BorderThickness="1">
                                                 <Border.Background>
@@ -164,11 +163,15 @@
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
-                        <Image HorizontalAlignment="Left" Source="{Binding ConverterParameter=96, Converter={StaticResource Base64ImageConverter}, XPath=Resim}" />
+                        <Image HorizontalAlignment="Left" Source="{Binding IsAsync=True, ConverterParameter=96, Converter={StaticResource Base64ImageConverter}, XPath=Resim}">
+                            <Image.ToolTip>
+                                <Image RenderOptions.BitmapScalingMode="Fant" Source="{Binding Converter={StaticResource Base64ImageConverter}, XPath=Resim}" />
+                            </Image.ToolTip>
+                        </Image>
                         <TextBlock>
                             <Run Text="{Binding Converter={StaticResource XmlDateConverter}, StringFormat=\{0:dd/MM/yyyy\}, XPath=Gun}" />
                             <LineBreak />
-                            <Run Foreground="Red" FontWeight="Bold" Text="{Binding XPath=Aciklama}">
+                            <Run Text="{Binding XPath=Aciklama}" Foreground="Red" FontWeight="Bold">
                                 <Run.ToolTip>
                                     <TextBlock Text="{Binding XPath=Aciklama}" />
                                 </Run.ToolTip>
@@ -177,6 +180,11 @@
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <VirtualizingStackPanel />
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
         </ListBox>
         <Button Content="è"
             Grid.Row="0" Grid.Column="3" Grid.RowSpan="2"
