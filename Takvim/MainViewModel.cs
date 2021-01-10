@@ -35,6 +35,8 @@ namespace Takvim
         private int seçiliYıl = DateTime.Now.Year;
 
         private int bugünIndex = DateTime.Today.DayOfYear - 1;
+        private int sütünSayısı=4;
+        private int satırSayısı=3;
 
         public int SeçiliYıl
         {
@@ -60,6 +62,32 @@ namespace Takvim
                 {
                     bugünIndex = value;
                     OnPropertyChanged(nameof(BugünIndex));
+                }
+            }
+        }
+
+        public int SütünSayısı
+        {
+            get => sütünSayısı;
+
+            set
+            {
+                if (sütünSayısı != value)
+                {
+                    sütünSayısı = value;
+                    OnPropertyChanged(nameof(SütünSayısı));
+                }
+            }
+        }
+        public int SatırSayısı
+        {
+            get => satırSayısı;
+            set
+            {
+                if (satırSayısı != value)
+                {
+                    satırSayısı = value;
+                    OnPropertyChanged(nameof(SatırSayısı));
                 }
             }
         }
