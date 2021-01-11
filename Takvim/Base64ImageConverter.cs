@@ -8,7 +8,7 @@ namespace Takvim
 {
     public class Base64ImageConverter : IValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is string base64image)
             {

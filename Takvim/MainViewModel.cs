@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Xml;
+using System.ComponentModel;
 
 namespace Takvim
 {
@@ -101,7 +102,6 @@ namespace Takvim
             {
                 xmldoc.Load(xmlpath);
             }
-
             TakvimVerileriniOluştur(SeçiliYıl);
 
             Geri = new RelayCommand(parameter =>
@@ -115,6 +115,35 @@ namespace Takvim
                 SeçiliYıl++;
                 TakvimVerileriniOluştur(SeçiliYıl);
             }, parameter => SeçiliYıl < 9999);
+
+            PropertyChanged += MainViewModel_PropertyChanged;
+        }
+
+        private void MainViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "SütünSayısı")
+            {
+                if (12 % SütünSayısı == 0)
+                {
+                    SatırSayısı = 12 / SütünSayısı;
+                }
+                if (SatırSayısı * SütünSayısı < 12)
+                {
+                    SatırSayısı++;
+                }
+            }
+
+            if (e.PropertyName == "SatırSayısı")
+            {
+                if (12 % SatırSayısı == 0)
+                {
+                    SütünSayısı = 12 / SatırSayısı;
+                }
+                if (SatırSayısı * SütünSayısı < 12)
+                {
+                    SütünSayısı++;
+                }
+            }
         }
 
         public ICommand Geri { get; }
