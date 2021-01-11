@@ -9,33 +9,38 @@
     RenderOptions.EdgeMode="Aliased" UseLayoutRounding="True" WindowState="Maximized"
     mc:Ignorable="d">
     <Window.Resources>
-        <Storyboard x:Key="TimerColorAnimation" RepeatBehavior="Forever" Timeline.DesiredFrameRate="3">
-            <ColorAnimation Storyboard.TargetProperty="(Button.BorderBrush).(SolidColorBrush.Color)" From="Black" To="Red" Duration="00:00:01" />
-        </Storyboard>
-        <local:NullableToBooleanConverter x:Key="NullableToBooleanConverter" />
-        <local:Data x:Key="Data" />
-        <local:XmlDateConverter x:Key="XmlDateConverter" />
-        <local:Base64ImageConverter x:Key="Base64ImageConverter" />
-        <XmlDataProvider x:Key="XmlData" XPath="Veriler/Veri" />
-        <CollectionViewSource x:Key="cvs" Source="{StaticResource XmlData}">
-            <CollectionViewSource.SortDescriptions>
-                <scm:SortDescription Direction="Descending" PropertyName="Gun" />
-            </CollectionViewSource.SortDescriptions>
-        </CollectionViewSource>
-        <Viewbox x:Key="Bayrak" x:Shared="false">
-            <Canvas Width="32.000" Height="21.333">
-                <Path Data=" M 0.000,0.000 L 32.000,0.000 L 32.000,21.333 L 0.000,21.333 L 0.000,0.000 Z" Fill="Red" />
-                <Path Data=" M 10.667,5.330 C 12.565,5.330 14.231,6.322 15.176,7.815 C 14.395,6.945 13.262,6.397 12.001,6.397 C 9.645,6.397 7.735,8.309 7.735,10.667 C 7.735,13.025 9.645,14.936 12.001,14.936 C 13.262,14.936 14.395,14.389 15.176,13.518 C 14.231,15.012 12.565,16.004 10.667,16.004 C 7.722,16.004 5.335,13.614 5.335,10.667 C 5.335,7.719 7.722,5.330 10.667,5.330 Z" Fill="White" />
-                <Path Data=" M 15.215,10.667 L 17.169,10.038 L 17.165,7.993 L 18.368,9.650 L 20.320,9.014 L 19.110,10.667 L 20.320,12.319 L 18.368,11.683 L 17.165,13.341 L 17.169,11.295 L 15.215,10.667 Z" Fill="White" />
-            </Canvas>
-        </Viewbox>
-        <local:YarımGünTatilConverter x:Key="YarımGünTatilConverter" />
-        <local:GünTatilConverter x:Key="GünTatilConverter" />
-        <CollectionViewSource x:Key="Günler" Source="{Binding Günler}">
-            <CollectionViewSource.GroupDescriptions>
-                <PropertyGroupDescription PropertyName="Ay" />
-            </CollectionViewSource.GroupDescriptions>
-        </CollectionViewSource>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="SliderResource.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <Storyboard x:Key="TimerColorAnimation" RepeatBehavior="Forever" Timeline.DesiredFrameRate="3">
+                <ColorAnimation Storyboard.TargetProperty="(Button.BorderBrush).(SolidColorBrush.Color)" From="Black" To="Red" Duration="00:00:01" />
+            </Storyboard>
+            <local:NullableToBooleanConverter x:Key="NullableToBooleanConverter" />
+            <local:Data x:Key="Data" />
+            <local:XmlDateConverter x:Key="XmlDateConverter" />
+            <local:Base64ImageConverter x:Key="Base64ImageConverter" />
+            <XmlDataProvider x:Key="XmlData" XPath="Veriler/Veri" />
+            <CollectionViewSource x:Key="cvs" Source="{StaticResource XmlData}">
+                <CollectionViewSource.SortDescriptions>
+                    <scm:SortDescription Direction="Descending" PropertyName="Gun" />
+                </CollectionViewSource.SortDescriptions>
+            </CollectionViewSource>
+            <Viewbox x:Key="Bayrak" x:Shared="false">
+                <Canvas Width="32.000" Height="21.333">
+                    <Path Data=" M 0.000,0.000 L 32.000,0.000 L 32.000,21.333 L 0.000,21.333 L 0.000,0.000 Z" Fill="Red" />
+                    <Path Data=" M 10.667,5.330 C 12.565,5.330 14.231,6.322 15.176,7.815 C 14.395,6.945 13.262,6.397 12.001,6.397 C 9.645,6.397 7.735,8.309 7.735,10.667 C 7.735,13.025 9.645,14.936 12.001,14.936 C 13.262,14.936 14.395,14.389 15.176,13.518 C 14.231,15.012 12.565,16.004 10.667,16.004 C 7.722,16.004 5.335,13.614 5.335,10.667 C 5.335,7.719 7.722,5.330 10.667,5.330 Z" Fill="White" />
+                    <Path Data=" M 15.215,10.667 L 17.169,10.038 L 17.165,7.993 L 18.368,9.650 L 20.320,9.014 L 19.110,10.667 L 20.320,12.319 L 18.368,11.683 L 17.165,13.341 L 17.169,11.295 L 15.215,10.667 Z" Fill="White" />
+                </Canvas>
+            </Viewbox>
+            <local:YarımGünTatilConverter x:Key="YarımGünTatilConverter" />
+            <local:GünTatilConverter x:Key="GünTatilConverter" />
+            <CollectionViewSource x:Key="Günler" Source="{Binding Günler}">
+                <CollectionViewSource.GroupDescriptions>
+                    <PropertyGroupDescription PropertyName="Ay" />
+                </CollectionViewSource.GroupDescriptions>
+            </CollectionViewSource>
+        </ResourceDictionary>
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -59,8 +64,9 @@
             FontFamily="Wingdings"
             Command="{Binding Geri}" />
         <Slider Grid.Row="1" Grid.Column="1"
-            AutoToolTipPlacement="TopLeft" IsDirectionReversed="True" IsSnapToTickEnabled="True" Maximum="12"
-            Minimum="1" Orientation="Vertical"
+            IsDirectionReversed="True" IsSnapToTickEnabled="True" Maximum="12" Minimum="1"
+            Orientation="Vertical"
+            Style="{StaticResource SliderStyle}"
             Value="{Binding SatırSayısı}" />
         <ListBox Grid.Row="1" Grid.Column="2" Grid.RowSpan="1"
             ItemsSource="{Binding Mode=OneWay, Source={StaticResource Günler}}"
@@ -185,7 +191,8 @@
             </ListBox.ItemsPanel>
         </ListBox>
         <Slider Grid.Row="2" Grid.Column="2"
-            AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" Maximum="12" Minimum="1"
+            IsSnapToTickEnabled="True" Maximum="12" Minimum="1"
+            Style="{StaticResource SliderStyle}"
             Value="{Binding SütünSayısı}" />
         <ListBox Grid.Row="1" Grid.Column="3" Grid.RowSpan="2"
             ItemsSource="{Binding Mode=OneWay, Source={StaticResource cvs}}">
