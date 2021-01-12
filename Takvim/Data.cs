@@ -23,6 +23,7 @@ namespace Takvim
         private DateTime tamTarih;
 
         private byte[] resimData;
+        private bool önemliMi;
 
         public int Gün
         {
@@ -120,6 +121,20 @@ namespace Takvim
             }
         }
 
+        public bool ÖnemliMi
+        {
+            get => önemliMi;
+
+            set
+            {
+                if (önemliMi != value)
+                {
+                    önemliMi = value;
+                    OnPropertyChanged(nameof(ÖnemliMi));
+                }
+            }
+        }
+
         public Data()
         {
             Window verigirişwindow = null;
@@ -136,6 +151,8 @@ namespace Takvim
 
                 var xmlDoc = XDocument.Load(MainViewModel.xmlpath);
                 var parentElement = new XElement("Veri");
+                parentElement.Add(new XAttribute("Id", new Random().Next(1, int.MaxValue)));
+                parentElement.Add(new XAttribute("Onemli", ÖnemliMi));
                 var xmlcontent = new object[3];
                 xmlcontent[0] = new XElement("Gun", TamTarih);
                 xmlcontent[1] = new XElement("Aciklama", GünNotAçıklama);

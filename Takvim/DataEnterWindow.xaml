@@ -10,10 +10,12 @@
             <RowDefinition />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <TextBox Text="{Binding GünNotAçıklama, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" />
-        <Button Content="RESİM YÜKLE" Grid.Row="1" Command="{Binding ResimYükle, Mode=OneWay}" />
-        <Button Content="VERİYİ EKLE" Grid.Row="2" Command="{Binding XmlVeriEkle, Mode=OneWay}" />
+        <CheckBox Content="ÖNEMLİ Mİ" Grid.Row="1" IsChecked="{Binding ÖnemliMi}" />
+        <Button Content="RESİM YÜKLE" Grid.Row="2" Command="{Binding ResimYükle, Mode=OneWay}" />
+        <Button Content="VERİYİ EKLE" Grid.Row="3" Command="{Binding XmlVeriEkle, Mode=OneWay}" />
     </Grid>
 </UserControl>
