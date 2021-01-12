@@ -68,6 +68,7 @@
     <Compile Include="StringNullOrEmptyConverter.cs" />
     <Compile Include="XmlDateConverter.cs" />
     <Compile Include="YarımGünTatilConverter.cs" />
+    <Compile Include="ŞuAnkiAyColorConverter.cs" />
     <Page Include="DataEnterWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

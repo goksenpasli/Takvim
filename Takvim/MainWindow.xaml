@@ -13,6 +13,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="SliderResource.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <local:ŞuAnkiAyColorConverter x:Key="ŞuAnkiAyColorConverter" />
             <local:StringNullOrEmptyConverter x:Key="StringNullOrEmptyConverter" />
             <Storyboard x:Key="TimerColorAnimation" RepeatBehavior="Forever" Timeline.DesiredFrameRate="3">
                 <ColorAnimation Storyboard.TargetProperty="(Button.BorderBrush).(SolidColorBrush.Color)" From="Black" To="Red" Duration="00:00:01" />
@@ -124,7 +125,7 @@
                                                 <RowDefinition />
                                             </Grid.RowDefinitions>
                                             <Border Grid.Row="0" BorderBrush="Black" BorderThickness="1,1,1,0">
-                                                <TextBlock Background="Green" FontWeight="Bold" TextAlignment="Center">
+                                                <TextBlock Background="{Binding Name, Converter={StaticResource ŞuAnkiAyColorConverter}}" FontWeight="Bold" TextAlignment="Center">
                                                     <Run Text="{Binding Path=Name, Mode=OneWay}" />
                                                 </TextBlock>
                                             </Border>
