@@ -13,6 +13,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="SliderResource.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <local:StringNullOrEmptyConverter x:Key="StringNullOrEmptyConverter" />
             <Storyboard x:Key="TimerColorAnimation" RepeatBehavior="Forever" Timeline.DesiredFrameRate="3">
                 <ColorAnimation Storyboard.TargetProperty="(Button.BorderBrush).(SolidColorBrush.Color)" From="Black" To="Red" Duration="00:00:01" />
             </Storyboard>
@@ -147,7 +148,7 @@
             </ListBox.GroupStyle>
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Button Background="Transparent" Command="{Binding VeriEkleEkranı}">
+                    <Button Background="Transparent" BorderBrush="Transparent" Command="{Binding VeriEkleEkranı}">
                         <Button.Content>
                             <Canvas Width="32" Height="28">
                                 <ContentControl Canvas.Right="0" Width="16" Height="10">
@@ -171,15 +172,13 @@
                         </Button.Content>
                         <Button.Style>
                             <Style TargetType="Button">
-                                <Setter Property="BorderBrush" Value="Transparent" />
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding GünNotAçıklama, Converter={StaticResource NullableToBooleanConverter}}" Value="true">
+                                    <DataTrigger Binding="{Binding GünNotAçıklama, Converter={StaticResource StringNullOrEmptyConverter}}" Value="false">
                                         <DataTrigger.EnterActions>
                                             <BeginStoryboard x:Name="Sb" Storyboard="{StaticResource TimerColorAnimation}" />
                                         </DataTrigger.EnterActions>
                                     </DataTrigger>
-                                    <DataTrigger Binding="{Binding GünNotAçıklama}" Value="">
-                                        <Setter Property="BorderBrush" Value="Transparent" />
+                                    <DataTrigger Binding="{Binding GünNotAçıklama, Converter={StaticResource StringNullOrEmptyConverter}}" Value="true">
                                         <DataTrigger.EnterActions>
                                             <StopStoryboard BeginStoryboardName="Sb" />
                                         </DataTrigger.EnterActions>
