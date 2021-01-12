@@ -164,21 +164,20 @@ namespace Takvim
         private ObservableCollection<Data> TakvimVerileriniOluştur(int SeçiliYıl)
         {
             Günler = new ObservableCollection<Data>();
-
             for (int i = 1; i <= 12; i++)
             {
                 for (int j = 1; j <= 31; j++)
                 {
                     string tarih = $"{j}.{i}.{SeçiliYıl}";
-                    if (DateTime.TryParse(tarih, out _))
+                    if (DateTime.TryParse(tarih, out DateTime date))
                     {
                         var data = new Data
                         {
-                            GünAdı = DateTime.Parse(tarih).ToString("ddd"),
-                            Gün = DateTime.Parse(tarih).Day,
-                            Ay = DateTime.Parse(tarih).ToString("MMMM"),
-                            Offset = (int)DateTime.Parse(tarih).DayOfWeek,
-                            TamTarih = DateTime.Parse(tarih)
+                            GünAdı = date.ToString("ddd"),
+                            Gün = date.Day,
+                            Ay = date.ToString("MMMM"),
+                            Offset = (int)date.DayOfWeek,
+                            TamTarih = date
                         };
 
                         foreach (XmlNode xn in xmldoc.SelectNodes("/Veriler/Veri"))

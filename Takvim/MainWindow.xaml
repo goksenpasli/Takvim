@@ -175,11 +175,14 @@
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding GünNotAçıklama, Converter={StaticResource NullableToBooleanConverter}}" Value="true">
                                         <DataTrigger.EnterActions>
-                                            <BeginStoryboard Storyboard="{StaticResource TimerColorAnimation}" />
+                                            <BeginStoryboard x:Name="Sb" Storyboard="{StaticResource TimerColorAnimation}" />
                                         </DataTrigger.EnterActions>
                                     </DataTrigger>
                                     <DataTrigger Binding="{Binding GünNotAçıklama}" Value="">
                                         <Setter Property="BorderBrush" Value="Transparent" />
+                                        <DataTrigger.EnterActions>
+                                            <StopStoryboard BeginStoryboardName="Sb" />
+                                        </DataTrigger.EnterActions>
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
