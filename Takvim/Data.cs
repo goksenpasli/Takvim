@@ -168,7 +168,6 @@ namespace Takvim
                 }
             }, parameter => !string.IsNullOrWhiteSpace(GünNotAçıklama));
 
-
             ResimSakla = new RelayCommand(parameter =>
             {
                 if (parameter is XmlElement xmlElement)
@@ -189,7 +188,6 @@ namespace Takvim
                         imageFile.Flush();
                     }
                 }
-
             }, parameter => true);
 
             VeriEkleEkranı = new RelayCommand(parameter =>

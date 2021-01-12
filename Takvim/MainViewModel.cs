@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Xml;
-using System.ComponentModel;
 
 namespace Takvim
 {
     public class MainViewModel : InpcBase
     {
-        public static readonly string xmlpath = Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory) + @"\Data.xml";
+        public static readonly string xmlpath = AppDomain.CurrentDomain.BaseDirectory + @"\Data.xml";
 
         public static XmlDataProvider xmlDataProvider;
 
@@ -36,8 +36,10 @@ namespace Takvim
         private int seçiliYıl = DateTime.Now.Year;
 
         private int bugünIndex = DateTime.Today.DayOfYear - 1;
-        private int sütünSayısı=4;
-        private int satırSayısı=3;
+
+        private int sütünSayısı = 4;
+
+        private int satırSayısı = 3;
 
         public int SeçiliYıl
         {
@@ -80,6 +82,7 @@ namespace Takvim
                 }
             }
         }
+
         public int SatırSayısı
         {
             get => satırSayısı;
@@ -116,6 +119,12 @@ namespace Takvim
                 TakvimVerileriniOluştur(SeçiliYıl);
             }, parameter => SeçiliYıl < 9999);
 
+            SatırSütünSıfırla = new RelayCommand(parameter =>
+            {
+                SatırSayısı = 3;
+                SütünSayısı = 4;
+            }, parameter => SatırSayısı != 3 && SütünSayısı != 4);
+
             PropertyChanged += MainViewModel_PropertyChanged;
         }
 
@@ -149,6 +158,8 @@ namespace Takvim
         public ICommand Geri { get; }
 
         public ICommand İleri { get; }
+
+        public ICommand SatırSütünSıfırla { get; }
 
         private ObservableCollection<Data> TakvimVerileriniOluştur(int SeçiliYıl)
         {
