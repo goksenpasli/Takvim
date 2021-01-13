@@ -6,7 +6,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Xml;
-
+using System.Linq;
 namespace Takvim
 {
     public class MainViewModel : InpcBase
@@ -180,18 +180,20 @@ namespace Takvim
                             TamTarih = date
                         };
 
-                        foreach (XmlNode xn in xmldoc.SelectNodes("/Veriler/Veri"))
+                        foreach (var xn in from XmlNode xn in xmldoc.SelectNodes("/Veriler/Veri") where DateTime.Parse(xn["Gun"].InnerText) == data.TamTarih select xn)
                         {
-                            if (DateTime.Parse(xn["Gun"].InnerText) == data.TamTarih)
+                            data.GünNotAçıklama = xn["Aciklama"].InnerText;
+                            if (string.Equals(xn.Attributes.GetNamedItem("Onemli").Value, "true", StringComparison.CurrentCultureIgnoreCase))
                             {
-                                data.GünNotAçıklama = xn["Aciklama"].InnerText;
+                                data.ÖnemliMi = true;
                             }
 
-                            //if (DateTime.Parse(xn["Gun"].InnerText) == data.TamTarih && xn["Resim"]?.InnerText != null)
-                            //{
-                            //    data.ResimData = Convert.FromBase64String(xn["Resim"].InnerText);
-                            //}
+                            if (xn["Resim"]?.InnerText != null)
+                            {
+                                data.ResimData = Convert.FromBase64String(xn["Resim"].InnerText);
+                            }
                         }
+
                         Günler.Add(data);
                     }
                 }
