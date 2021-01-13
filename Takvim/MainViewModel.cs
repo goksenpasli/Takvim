@@ -123,7 +123,7 @@ namespace Takvim
             {
                 SatırSayısı = 3;
                 SütünSayısı = 4;
-            }, parameter => SatırSayısı != 3 && SütünSayısı != 4);
+            }, parameter => SatırSayısı != 3 || SütünSayısı != 4);
 
             PropertyChanged += MainViewModel_PropertyChanged;
         }
