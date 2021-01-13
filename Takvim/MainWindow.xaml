@@ -59,7 +59,7 @@
         </Grid.RowDefinitions>
         <Border Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3"
             BorderBrush="Black" BorderThickness="1">
-            <TextBlock Text="{Binding SeçiliYıl}" HorizontalAlignment="Center" FontWeight="Bold" />
+            <TextBox Text="{Binding SeçiliYıl, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" FontWeight="Bold" />
         </Border>
         <Button Content="ç"
             Grid.Row="0" Grid.Column="0" Grid.RowSpan="3"

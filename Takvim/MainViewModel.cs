@@ -110,13 +110,11 @@ namespace Takvim
             Geri = new RelayCommand(parameter =>
             {
                 SeçiliYıl--;
-                TakvimVerileriniOluştur(SeçiliYıl);
             }, parameter => SeçiliYıl > 1);
 
             İleri = new RelayCommand(parameter =>
             {
                 SeçiliYıl++;
-                TakvimVerileriniOluştur(SeçiliYıl);
             }, parameter => SeçiliYıl < 9999);
 
             SatırSütünSıfırla = new RelayCommand(parameter =>
@@ -153,6 +151,11 @@ namespace Takvim
                     SütünSayısı++;
                 }
             }
+
+            if (e.PropertyName == "SeçiliYıl" && SeçiliYıl > 0 && SeçiliYıl < 10000)
+            {
+                TakvimVerileriniOluştur(SeçiliYıl);
+            }
         }
 
         public ICommand Geri { get; }
@@ -168,7 +171,8 @@ namespace Takvim
             {
                 for (int j = 1; j <= 31; j++)
                 {
-                    string tarih = $"{j}.{i}.{SeçiliYıl}";
+                    
+                    string tarih = $"{j}.{i}.{SeçiliYıl:0000}";
                     if (DateTime.TryParse(tarih, out DateTime date))
                     {
                         var data = new Data
