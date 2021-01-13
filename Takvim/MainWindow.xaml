@@ -49,7 +49,7 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="10*" />
-            <ColumnDefinition />
+            <ColumnDefinition Width="2*" />
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -204,29 +204,22 @@
             ItemsSource="{Binding Mode=OneWay, Source={StaticResource cvs}}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel>
-                        <StackPanel.Style>
-                            <Style TargetType="StackPanel">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding XPath=@Onemli}" Value="true">
-                                        <Setter Property="Background" Value="Red"/>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </StackPanel.Style>
-                        <Image MaxHeight="96"
-                            HorizontalAlignment="Left"
-                            Source="{Binding ConverterParameter=96, Converter={StaticResource Base64ImageConverter}, XPath=Resim}"
-                            ToolTipService.InitialShowDelay="500">
-                            <Image.ToolTip>
-                                <Image RenderOptions.BitmapScalingMode="Fant" Source="{Binding Converter={StaticResource Base64ImageConverter}, XPath=Resim}" />
-                            </Image.ToolTip>
-                            <Image.ContextMenu>
+                    <StackPanel Orientation="Horizontal">
+                        <Rectangle Width="{Binding ElementName=Img, Path=ImageSource.Width}"
+                            Height="{Binding ElementName=Img, Path=ImageSource.Height}"
+                            RadiusX="20" RadiusY="20" Margin="0,0,3,0">
+                            <Rectangle.Fill>
+                                <ImageBrush x:Name="Img" ImageSource="{Binding ConverterParameter=96, Converter={StaticResource Base64ImageConverter}, XPath=Resim}" />
+                            </Rectangle.Fill>
+                            <Rectangle.ContextMenu>
                                 <ContextMenu DataContext="{Binding Path=PlacementTarget.DataContext, RelativeSource={RelativeSource Mode=Self}}">
                                     <MenuItem Header="SAKLA" Command="{Binding ResimSakla, Source={StaticResource Data}}" CommandParameter="{Binding Mode=OneWay, XPath=Resim}" />
                                 </ContextMenu>
-                            </Image.ContextMenu>
-                        </Image>
+                            </Rectangle.ContextMenu>
+                            <Rectangle.ToolTip>
+                                <Image RenderOptions.BitmapScalingMode="Fant" Source="{Binding Converter={StaticResource Base64ImageConverter}, XPath=Resim}" />
+                            </Rectangle.ToolTip>
+                        </Rectangle>
                         <TextBlock>
                             <Run Text="{Binding Converter={StaticResource XmlDateConverter}, StringFormat=\{0:dd/MM/yyyy\}, XPath=Gun}" />
                             <LineBreak />
@@ -244,6 +237,16 @@
                     <VirtualizingStackPanel />
                 </ItemsPanelTemplate>
             </ListBox.ItemsPanel>
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="BorderBrush" Value="Blue" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding XPath=@Onemli}" Value="true">
+                            <Setter Property="Background" Value="Red" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ListBox.ItemContainerStyle>
         </ListBox>
         <Button Content="è"
             Grid.Row="0" Grid.Column="4" Grid.RowSpan="3"
