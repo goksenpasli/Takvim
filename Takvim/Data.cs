@@ -24,6 +24,7 @@ namespace Takvim
 
         private byte[] resimData;
         private bool önemliMi;
+        private string resimUzantı;
 
         public int Gün
         {
@@ -135,6 +136,20 @@ namespace Takvim
             }
         }
 
+        public string ResimUzantı
+        {
+            get => resimUzantı;
+
+            set
+            {
+                if (resimUzantı != value)
+                {
+                    resimUzantı = value;
+                    OnPropertyChanged(nameof(ResimUzantı));
+                }
+            }
+        }
+
         public Data()
         {
             Window verigirişwindow = null;
@@ -149,7 +164,7 @@ namespace Takvim
                     writer.Flush();
                 }
 
-                var xmlDoc = XDocument.Load(MainViewModel.xmlpath);
+                var xDocument = XDocument.Load(MainViewModel.xmlpath);
                 var parentElement = new XElement("Veri");
                 parentElement.Add(new XAttribute("Id", new Random().Next(1, int.MaxValue)));
                 parentElement.Add(new XAttribute("Onemli", ÖnemliMi));
@@ -158,12 +173,14 @@ namespace Takvim
                 xmlcontent[1] = new XElement("Aciklama", GünNotAçıklama);
                 if (ResimData != null)
                 {
-                    xmlcontent[2] = new XElement("Resim", Convert.ToBase64String(ResimData));
+                    var xElement = new XElement("Resim", Convert.ToBase64String(ResimData));
+                    xElement.Add(new XAttribute("Ext", ResimUzantı));
+                    xmlcontent[2] = xElement;
                 }
 
                 parentElement.Add(xmlcontent);
-                xmlDoc.Element("Veriler")?.Add(parentElement);
-                xmlDoc.Save(MainViewModel.xmlpath);
+                xDocument.Element("Veriler")?.Add(parentElement);
+                xDocument.Save(MainViewModel.xmlpath);
                 verigirişwindow.Close();
                 MainViewModel.xmlDataProvider.Refresh();
             }, parameter => !string.IsNullOrWhiteSpace(GünNotAçıklama));
@@ -177,6 +194,7 @@ namespace Takvim
                     if (data.Length < 50 * 1024)
                     {
                         ResimData = data;
+                        ResimUzantı = Path.GetExtension(openFileDialog.FileName).ToLower();
                     }
                     else
                     {
@@ -191,10 +209,9 @@ namespace Takvim
                 {
                     SaveFileDialog saveFileDialog = new SaveFileDialog
                     {
-                        DefaultExt = ".jpg",
                         Title = "SAKLA",
-                        Filter = "Resim Dosyası (.jpg)|*.jpg",
-                        FileName = xmlElement.PreviousSibling?.InnerText
+                        Filter = "Resim Dosyaları (*.jpg;*.jpeg;*.tif;*.tiff)|*.jpg;*.jpeg;*.tif;*.tiff",
+                        FileName = xmlElement.PreviousSibling?.InnerText+ xmlElement.GetAttribute("Ext")
                     };
 
                     if (saveFileDialog.ShowDialog() == true)

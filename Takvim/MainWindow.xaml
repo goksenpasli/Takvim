@@ -48,8 +48,8 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="10*" />
-            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="20*" />
+            <ColumnDefinition Width="3*" />
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -151,7 +151,7 @@
                 <DataTemplate>
                     <Button Background="Transparent" BorderBrush="Transparent" Command="{Binding VeriEkleEkranı}">
                         <Button.Content>
-                            <Canvas Width="32" Height="28">
+                            <Canvas Width="28" Height="28">
                                 <ContentControl Canvas.Right="0" Width="16" Height="10">
                                     <ContentControl.Style>
                                         <Style TargetType="ContentControl">
@@ -207,7 +207,8 @@
                     <StackPanel Orientation="Horizontal">
                         <Rectangle Width="{Binding ElementName=Img, Path=ImageSource.Width}"
                             Height="{Binding ElementName=Img, Path=ImageSource.Height}"
-                            RadiusX="20" RadiusY="20" Margin="0,0,3,0">
+                            Margin="0,0,3,0"
+                            RadiusX="20" RadiusY="20">
                             <Rectangle.Fill>
                                 <ImageBrush x:Name="Img" ImageSource="{Binding ConverterParameter=96, Converter={StaticResource Base64ImageConverter}, XPath=Resim}" />
                             </Rectangle.Fill>
