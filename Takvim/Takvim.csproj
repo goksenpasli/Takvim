@@ -66,6 +66,7 @@
     <Compile Include="NullableToBooleanConverter.cs" />
     <Compile Include="RelayCommand.cs" />
     <Compile Include="StringNullOrEmptyConverter.cs" />
+    <Compile Include="StringToBrushConverter.cs" />
     <Compile Include="XmlDateConverter.cs" />
     <Compile Include="YarımGünTatilConverter.cs" />
     <Compile Include="ŞuAnkiAyColorConverter.cs" />

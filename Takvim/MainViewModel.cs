@@ -6,6 +6,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Xml;
 namespace Takvim
 {
@@ -40,6 +41,8 @@ namespace Takvim
         private int sütünSayısı = 4;
 
         private int satırSayısı = 3;
+        private Brush seçiliRenkCmt=Brushes.Yellow;
+        private Brush seçiliRenkPaz=Brushes.Red;
 
         public int SeçiliYıl
         {
@@ -96,6 +99,34 @@ namespace Takvim
             }
         }
 
+        public Brush SeçiliRenkCmt
+        {
+            get => seçiliRenkCmt;
+
+            set
+            {
+                if (seçiliRenkCmt != value)
+                {
+                    seçiliRenkCmt = value;
+                    OnPropertyChanged(nameof(SeçiliRenkCmt));
+                }
+            }
+        }
+
+        public Brush SeçiliRenkPaz
+        {
+            get => seçiliRenkPaz;
+
+            set
+            {
+                if (seçiliRenkPaz != value)
+                {
+                    seçiliRenkPaz = value;
+                    OnPropertyChanged(nameof(SeçiliRenkPaz));
+                }
+            }
+        }
+
         public MainViewModel()
         {
             xmlDataProvider = (XmlDataProvider)Application.Current.MainWindow.TryFindResource("XmlData");
@@ -107,15 +138,9 @@ namespace Takvim
             }
             TakvimVerileriniOluştur(SeçiliYıl);
 
-            Geri = new RelayCommand(parameter =>
-            {
-                SeçiliYıl--;
-            }, parameter => SeçiliYıl > 1);
+            Geri = new RelayCommand(parameter => SeçiliYıl--, parameter => SeçiliYıl > 1);
 
-            İleri = new RelayCommand(parameter =>
-            {
-                SeçiliYıl++;
-            }, parameter => SeçiliYıl < 9999);
+            İleri = new RelayCommand(parameter => SeçiliYıl++, parameter => SeçiliYıl < 9999);
 
             SatırSütünSıfırla = new RelayCommand(parameter =>
             {

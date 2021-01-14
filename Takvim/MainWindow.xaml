@@ -1,4 +1,4 @@
-﻿<Window x:Class="Takvim.MainWindow"
+﻿<Window x:Class="Takvim.MainWindow" x:Name="Window"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:Takvim"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -13,6 +13,8 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="SliderResource.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <ObjectDataProvider x:Key="Renkler" MethodName="GetProperties" ObjectInstance="{x:Type Colors}" />
+            <local:StringToBrushConverter x:Key="StringToBrushConverter" />
             <local:ŞuAnkiAyColorConverter x:Key="ŞuAnkiAyColorConverter" />
             <local:StringNullOrEmptyConverter x:Key="StringNullOrEmptyConverter" />
             <Storyboard x:Key="TimerColorAnimation" RepeatBehavior="Forever" Timeline.DesiredFrameRate="3">
@@ -83,10 +85,10 @@
                     <Setter Property="BorderBrush" Value="#FF145CD6" />
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding GünAdı}" Value="Cmt">
-                            <Setter Property="Background" Value="Yellow" />
+                            <Setter Property="Background" Value="{Binding Path=DataContext.SeçiliRenkCmt, ElementName=Window}" />
                         </DataTrigger>
                         <DataTrigger Binding="{Binding GünAdı}" Value="Paz">
-                            <Setter Property="Background" Value="Red" />
+                            <Setter Property="Background" Value="{Binding Path=DataContext.SeçiliRenkPaz, ElementName=Window}" />
                         </DataTrigger>
                         <DataTrigger Binding="{Binding Converter={StaticResource GünTatilConverter}, Mode=OneWay}" Value="true">
                             <Setter Property="Background" Value="Magenta" />
@@ -200,7 +202,41 @@
             IsSnapToTickEnabled="True" Maximum="12" Minimum="1"
             Style="{StaticResource SliderStyle}"
             Value="{Binding SütünSayısı}" />
-        <ListBox Grid.Row="1" Grid.Column="3" Grid.RowSpan="2"
+        <UniformGrid Grid.Row="2" Grid.Column="3" Columns="2">
+            <ComboBox ItemsSource="{Binding Source={StaticResource Renkler}}"
+                ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                SelectedValue="{Binding SeçiliRenkCmt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                SelectedValuePath="Name" ToolTip="Cumartesi Renk">
+                <ComboBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Width="300" Height="350"
+                            IsItemsHost="True" Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ComboBox.ItemsPanel>
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <Rectangle Width="16" Height="16" Fill="{Binding Name, Converter={StaticResource StringToBrushConverter}}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <ComboBox ItemsSource="{Binding Source={StaticResource Renkler}}"
+                ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                SelectedValue="{Binding SeçiliRenkPaz, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                SelectedValuePath="Name" ToolTip="Pazar Renk">
+                <ComboBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Width="300" Height="350"
+                            IsItemsHost="True" Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ComboBox.ItemsPanel>
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <Rectangle Width="16" Height="16" Fill="{Binding Name, Converter={StaticResource StringToBrushConverter}}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </UniformGrid>
+        <ListBox Grid.Row="1" Grid.Column="3" Grid.RowSpan="1"
             ItemsSource="{Binding Mode=OneWay, Source={StaticResource cvs}}">
             <ListBox.ItemTemplate>
                 <DataTemplate>

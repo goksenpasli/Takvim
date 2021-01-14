@@ -187,7 +187,7 @@ namespace Takvim
 
             ResimYükle = new RelayCommand(parameter =>
             {
-                OpenFileDialog openFileDialog = new OpenFileDialog { Multiselect = false, Filter = "Resim Dosyaları (*.jpg;*.jpeg;*.tif;*.tiff)|*.jpg;*.jpeg;*.tif;*.tiff" };
+                OpenFileDialog openFileDialog = new OpenFileDialog { Multiselect = false, Filter = "Resim Dosyaları (*.jpg;*.jpeg;*.tif;*.tiff)|*.jpg;*.jpeg;*.tif;*.tiff)" };
                 if (openFileDialog.ShowDialog() == true)
                 {
                     var data = File.ReadAllBytes(openFileDialog.FileName);
@@ -210,7 +210,7 @@ namespace Takvim
                     SaveFileDialog saveFileDialog = new SaveFileDialog
                     {
                         Title = "SAKLA",
-                        Filter = "Resim Dosyaları (*.jpg;*.jpeg;*.tif;*.tiff)|*.jpg;*.jpeg;*.tif;*.tiff",
+                        Filter = "Resim Dosyaları (*.jpg;*.jpeg;*.tif;*.tiff)|*.jpg;*.jpeg;*.tif;*.tiff)",
                         FileName = xmlElement.PreviousSibling?.InnerText+ xmlElement.GetAttribute("Ext")
                     };
 
