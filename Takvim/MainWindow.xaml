@@ -13,6 +13,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="SliderResource.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <local:BrushToColorConverter x:Key="BrushToColorConverter" />
             <ObjectDataProvider x:Key="Renkler" MethodName="GetProperties" ObjectInstance="{x:Type Colors}" />
             <local:StringToBrushConverter x:Key="StringToBrushConverter" />
             <local:ŞuAnkiAyColorConverter x:Key="ŞuAnkiAyColorConverter" />
@@ -44,6 +45,16 @@
                     <PropertyGroupDescription PropertyName="Ay" />
                 </CollectionViewSource.GroupDescriptions>
             </CollectionViewSource>
+            <DataTemplate x:Key="ComboBoxRectItemTemplate">
+                <Rectangle Width="16" Height="16" Fill="{Binding Name, Converter={StaticResource StringToBrushConverter}}" />
+            </DataTemplate>
+            <Style x:Key="ComboBoxItemContainerStyle" TargetType="{x:Type ComboBoxItem}">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding Name}" Value="Black">
+                        <Setter Property="IsEnabled" Value="False" />
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
         </ResourceDictionary>
     </Window.Resources>
     <Grid>
@@ -91,14 +102,14 @@
                             <Setter Property="Background" Value="{Binding Path=DataContext.SeçiliRenkPaz, ElementName=Window}" />
                         </DataTrigger>
                         <DataTrigger Binding="{Binding Converter={StaticResource GünTatilConverter}, Mode=OneWay}" Value="true">
-                            <Setter Property="Background" Value="Magenta" />
+                            <Setter Property="Background" Value="{Binding Path=DataContext.ResmiTatilRenk, ElementName=Window}" />
                         </DataTrigger>
                         <DataTrigger Binding="{Binding Converter={StaticResource YarımGünTatilConverter}, Mode=OneWay}" Value="true">
                             <Setter Property="Background">
                                 <Setter.Value>
                                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
                                         <GradientStop Offset="0.5" Color="Transparent" />
-                                        <GradientStop Offset="0.5" Color="Magenta" />
+                                        <GradientStop Offset="0.5" Color="{Binding DataContext.ResmiTatilRenk, Converter={StaticResource BrushToColorConverter}, ElementName=Window}" />
                                         <LinearGradientBrush.RelativeTransform>
                                             <RotateTransform Angle="45" CenterX="0.5" CenterY="0.5" />
                                         </LinearGradientBrush.RelativeTransform>
@@ -202,8 +213,10 @@
             IsSnapToTickEnabled="True" Maximum="12" Minimum="1"
             Style="{StaticResource SliderStyle}"
             Value="{Binding SütünSayısı}" />
-        <UniformGrid Grid.Row="2" Grid.Column="3" Columns="2">
+        <UniformGrid Grid.Row="2" Grid.Column="3" Columns="3">
             <ComboBox ItemsSource="{Binding Source={StaticResource Renkler}}"
+                ItemContainerStyle="{StaticResource ComboBoxItemContainerStyle}"
+                ItemTemplate="{StaticResource ComboBoxRectItemTemplate}"
                 ScrollViewer.VerticalScrollBarVisibility="Disabled"
                 SelectedValue="{Binding SeçiliRenkCmt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                 SelectedValuePath="Name" ToolTip="Cumartesi Renk">
@@ -213,13 +226,10 @@
                             IsItemsHost="True" Orientation="Horizontal" />
                     </ItemsPanelTemplate>
                 </ComboBox.ItemsPanel>
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <Rectangle Width="16" Height="16" Fill="{Binding Name, Converter={StaticResource StringToBrushConverter}}" />
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
             </ComboBox>
             <ComboBox ItemsSource="{Binding Source={StaticResource Renkler}}"
+                ItemContainerStyle="{StaticResource ComboBoxItemContainerStyle}"
+                ItemTemplate="{StaticResource ComboBoxRectItemTemplate}"
                 ScrollViewer.VerticalScrollBarVisibility="Disabled"
                 SelectedValue="{Binding SeçiliRenkPaz, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                 SelectedValuePath="Name" ToolTip="Pazar Renk">
@@ -229,11 +239,19 @@
                             IsItemsHost="True" Orientation="Horizontal" />
                     </ItemsPanelTemplate>
                 </ComboBox.ItemsPanel>
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <Rectangle Width="16" Height="16" Fill="{Binding Name, Converter={StaticResource StringToBrushConverter}}" />
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <ComboBox ItemsSource="{Binding Source={StaticResource Renkler}}"
+                ItemContainerStyle="{StaticResource ComboBoxItemContainerStyle}"
+                ItemTemplate="{StaticResource ComboBoxRectItemTemplate}"
+                ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                SelectedValue="{Binding ResmiTatilRenk, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                SelectedValuePath="Name" ToolTip="Resmi Tatil Renk">
+                <ComboBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Width="300" Height="350"
+                            IsItemsHost="True" Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ComboBox.ItemsPanel>
             </ComboBox>
         </UniformGrid>
         <ListBox Grid.Row="1" Grid.Column="3" Grid.RowSpan="1"

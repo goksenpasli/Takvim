@@ -61,6 +61,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Base64ImageConverter.cs" />
+    <Compile Include="BrushToColorConverter.cs" />
     <Compile Include="Data.cs" />
     <Compile Include="InpcBase.cs" />
     <Compile Include="NullableToBooleanConverter.cs" />

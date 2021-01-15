@@ -43,6 +43,7 @@ namespace Takvim
         private int satırSayısı = 3;
         private Brush seçiliRenkCmt=Brushes.Yellow;
         private Brush seçiliRenkPaz=Brushes.Red;
+        private Brush resmiTatilRenk=Brushes.Magenta;
 
         public int SeçiliYıl
         {
@@ -123,6 +124,20 @@ namespace Takvim
                 {
                     seçiliRenkPaz = value;
                     OnPropertyChanged(nameof(SeçiliRenkPaz));
+                }
+            }
+        }
+
+        public Brush ResmiTatilRenk
+        {
+            get => resmiTatilRenk;
+
+            set
+            {
+                if (resmiTatilRenk != value)
+                {
+                    resmiTatilRenk = value;
+                    OnPropertyChanged(nameof(ResmiTatilRenk));
                 }
             }
         }
