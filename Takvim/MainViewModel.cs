@@ -41,9 +41,9 @@ namespace Takvim
         private int sütünSayısı = 4;
 
         private int satırSayısı = 3;
-        private Brush seçiliRenkCmt=Brushes.Yellow;
-        private Brush seçiliRenkPaz=Brushes.Red;
-        private Brush resmiTatilRenk=Brushes.Magenta;
+        private Brush seçiliRenkCmt = Brushes.Yellow;
+        private Brush seçiliRenkPaz = Brushes.Red;
+        private Brush resmiTatilRenk = Brushes.Magenta;
 
         public int SeçiliYıl
         {
@@ -163,6 +163,14 @@ namespace Takvim
                 SütünSayısı = 4;
             }, parameter => SatırSayısı != 3 || SütünSayısı != 4);
 
+            YılaGit = new RelayCommand(parameter =>
+            {
+                if (parameter is XmlElement xmlElement)
+                {
+                    SeçiliYıl = DateTime.Parse(xmlElement.InnerText).Year;
+                }
+            }, parameter => true);
+
             PropertyChanged += MainViewModel_PropertyChanged;
         }
 
@@ -204,6 +212,8 @@ namespace Takvim
 
         public ICommand SatırSütünSıfırla { get; }
 
+        public ICommand YılaGit { get; }
+
         private ObservableCollection<Data> TakvimVerileriniOluştur(int SeçiliYıl)
         {
             Günler = new ObservableCollection<Data>();
@@ -211,7 +221,6 @@ namespace Takvim
             {
                 for (int j = 1; j <= 31; j++)
                 {
-                    
                     string tarih = $"{j}.{i}.{SeçiliYıl:0000}";
                     if (DateTime.TryParse(tarih, out DateTime date))
                     {

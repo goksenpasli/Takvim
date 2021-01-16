@@ -166,6 +166,21 @@
                         <Button.Content>
                             <Canvas Width="28" Height="28">
                                 <ContentControl Canvas.Right="0" Width="16" Height="10">
+                                    <ContentControl.ToolTip>
+                                        <ToolTip>
+                                            <ListBox ItemsSource="{Binding Tatiller, Source={StaticResource GünTatilConverter}}">
+                                                <ListBox.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock>
+                                                            <Run Text="{Binding Item2, Mode=OneWay}" />
+                                                            <Run Text="{Binding Item1, Mode=OneWay}" />
+                                                            <Run Text="{Binding Item3, Mode=OneWay}" />
+                                                        </TextBlock>
+                                                    </DataTemplate>
+                                                </ListBox.ItemTemplate>
+                                            </ListBox>
+                                        </ToolTip>
+                                    </ContentControl.ToolTip>
                                     <ContentControl.Style>
                                         <Style TargetType="ContentControl">
                                             <Setter Property="Content" Value="{x:Null}" />
@@ -284,6 +299,12 @@
                                 </Run.ToolTip>
                             </Run>
                         </TextBlock>
+                        <Button Content="ç"
+                            Background="Transparent" BorderBrush="Transparent"
+                            FontFamily="Wingdings"
+                            Command="{Binding DataContext.YılaGit, ElementName=Window}"
+                            CommandParameter="{Binding Mode=OneWay, XPath=Gun}"
+                            ToolTip="YILA GİT" />
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>

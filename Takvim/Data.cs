@@ -211,7 +211,7 @@ namespace Takvim
                     {
                         Title = "SAKLA",
                         Filter = "Resim Dosyaları (*.jpg;*.jpeg;*.tif;*.tiff)|*.jpg;*.jpeg;*.tif;*.tiff)",
-                        FileName = xmlElement.PreviousSibling?.InnerText+ xmlElement.GetAttribute("Ext")
+                        FileName = xmlElement.PreviousSibling?.InnerText + xmlElement.GetAttribute("Ext")
                     };
 
                     if (saveFileDialog.ShowDialog() == true)

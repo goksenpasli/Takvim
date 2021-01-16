@@ -5,7 +5,6 @@ using System.Windows.Media;
 
 namespace Takvim
 {
-
     public class ŞuAnkiAyColorConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => value is string ay ? ay == DateTime.Now.ToString("MMMM") ? Brushes.Green : Brushes.Red : Brushes.Green;

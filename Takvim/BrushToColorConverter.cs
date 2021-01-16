@@ -5,7 +5,6 @@ using System.Windows.Media;
 
 namespace Takvim
 {
-    
     public class BrushToColorConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => ((SolidColorBrush)value).Color;
