@@ -1,6 +1,7 @@
 ﻿<Window x:Class="Takvim.MainWindow" x:Name="Window"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:Takvim"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ice="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options" xmlns:local="clr-namespace:Takvim"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
     Title="Takvim"
@@ -56,6 +57,11 @@
                     </DataTrigger>
                 </Style.Triggers>
             </Style>
+            <LinearGradientBrush x:Key="BorderBackground" ice:Freeze="True" StartPoint="0.5,0" EndPoint="0.5,1">
+                <GradientStop Offset="0" Color="#FF146AD6" />
+                <GradientStop Offset="1" Color="#FF146AD6" />
+                <GradientStop Offset="0.5" Color="#FF1A75D1" />
+            </LinearGradientBrush>
         </ResourceDictionary>
     </Window.Resources>
     <Grid>
@@ -108,7 +114,7 @@
                         <DataTrigger Binding="{Binding Converter={StaticResource YarımGünTatilConverter}, Mode=OneWay}" Value="true">
                             <Setter Property="Background">
                                 <Setter.Value>
-                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                    <LinearGradientBrush ice:Freeze="True" StartPoint="0,0" EndPoint="1,0">
                                         <GradientStop Offset="0.5" Color="Transparent" />
                                         <GradientStop Offset="0.5" Color="{Binding DataContext.ResmiTatilRenk, Converter={StaticResource BrushToColorConverter}, ElementName=Window}" />
                                         <LinearGradientBrush.RelativeTransform>
@@ -138,19 +144,14 @@
                                                 <RowDefinition Height="Auto" />
                                                 <RowDefinition />
                                             </Grid.RowDefinitions>
-                                            <Border Grid.Row="0" BorderBrush="Black" BorderThickness="1,1,1,0">
-                                                <TextBlock Background="{Binding Name, Converter={StaticResource ŞuAnkiAyColorConverter}}" FontWeight="Bold" TextAlignment="Center">
-                                                    <Run Text="{Binding Path=Name, Mode=OneWay}" />
-                                                </TextBlock>
+                                            <Border Grid.Row="0"
+                                                Background="{Binding Name, Converter={StaticResource ŞuAnkiAyColorConverter}}"
+                                                BorderBrush="Black" BorderThickness="1">
+                                                <TextBlock Text="{Binding Path=Name, Mode=OneWay}" FontWeight="Bold" TextAlignment="Center" />
                                             </Border>
-                                            <Border Grid.Row="1" BorderBrush="Black" BorderThickness="1">
-                                                <Border.Background>
-                                                    <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                                                        <GradientStop Offset="0" Color="#FF146AD6" />
-                                                        <GradientStop Offset="1" Color="#FF146AD6" />
-                                                        <GradientStop Offset="0.5" Color="#FF1A75D1" />
-                                                    </LinearGradientBrush>
-                                                </Border.Background>
+                                            <Border Grid.Row="1"
+                                                Background="{StaticResource BorderBackground}"
+                                                BorderBrush="Black" BorderThickness="1">
                                                 <ItemsPresenter />
                                             </Border>
                                         </Grid>
@@ -202,6 +203,16 @@
                                     DataContext="{Binding Mode=OneWay, Converter={StaticResource DateNoteCountConverter}}"
                                     FontSize="8">
                                     <Run Text="{Binding VeriSayısı, StringFormat=\{0:D\}}" />
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Visibility" Value="Visible" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding VeriSayısı}" Value="0">
+                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
                                 </TextBlock>
                             </Canvas>
                         </Button.Content>

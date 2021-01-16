@@ -205,18 +205,19 @@ namespace Takvim
 
             ResimYükle = new RelayCommand(parameter =>
             {
+                const int filelimit = 50 * 1024;
                 OpenFileDialog openFileDialog = new OpenFileDialog { Multiselect = false, Filter = "Resim Dosyaları (*.jpg;*.jpeg;*.tif;*.tiff)|*.jpg;*.jpeg;*.tif;*.tiff)" };
                 if (openFileDialog.ShowDialog() == true)
                 {
                     var data = File.ReadAllBytes(openFileDialog.FileName);
-                    if (data.Length < 50 * 1024)
+                    if (data.Length < filelimit)
                     {
                         ResimData = data;
                         ResimUzantı = Path.GetExtension(openFileDialog.FileName).ToLower();
                     }
                     else
                     {
-                        MessageBox.Show("Resim Boyutu En Çok 50 KB Olabilir.", "TAKVİM", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                        MessageBox.Show($"Resim Boyutu En Çok {filelimit / 1024} KB Olabilir.", "TAKVİM", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                     }
                 }
             }, parameter => !string.IsNullOrWhiteSpace(GünNotAçıklama));
