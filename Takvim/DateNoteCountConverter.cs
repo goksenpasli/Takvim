@@ -18,7 +18,10 @@ namespace Takvim
             if (value is Data data)
             {
                 var adet = xmlNode?.Count(z => !string.IsNullOrWhiteSpace(z["Aciklama"].InnerText) && DateTime.Parse(z["Gun"].InnerText) == data.TamTarih);
-                data.VeriSayısı = (int)adet;
+                if (adet != null)
+                {
+                    data.VeriSayısı = (int)adet;
+                }
                 return data;
             }
             else
