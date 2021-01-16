@@ -11,7 +11,7 @@ using System.Xml;
 
 namespace Takvim
 {
-    public class MainViewModel : InpcBase
+    public class MainViewModel : InpcBase, IDataErrorInfo
     {
         public static readonly string xmlpath = AppDomain.CurrentDomain.BaseDirectory + @"\Data.xml";
 
@@ -145,6 +145,15 @@ namespace Takvim
                 }
             }
         }
+
+        public string Error => string.Empty;
+
+        public string this[string columnName] =>
+            columnName switch
+            {
+                "SeçiliYıl" when SeçiliYıl <= 0 || SeçiliYıl > 9999 => "Seçili Yıl 1-9999 Aralığındadır.",
+                _ => null
+            };
 
         public MainViewModel()
         {
