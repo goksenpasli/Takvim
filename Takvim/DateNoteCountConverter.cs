@@ -1,20 +1,25 @@
 ﻿using System;
-using System.Globalization;
-using System.Windows.Data;
-using System.Linq;
-using System.Xml;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Windows.Data;
+using System.Xml;
 
 namespace Takvim
 {
-    public class DateNoteCountConverter : IMultiValueConverter
+    public class DateNoteCountConverter : IValueConverter
     {
-        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        private readonly ICollection<XmlNode> xmlNode;
+
+        public DateNoteCountConverter() => xmlNode = MainViewModel.xmlDataProvider?.Data as ICollection<XmlNode>;
+
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (values[0] is DateTime dateTime && values[1] is XmlDataProvider xmldataprovider )
+            if (value is Data data)
             {
-                var adet = (xmldataprovider.Data as ICollection<XmlNode>)?.Count(z => !string.IsNullOrWhiteSpace(z["Aciklama"].InnerText) && DateTime.Parse(z["Gun"].InnerText) == dateTime);
-                return adet == 0 ? null : adet;
+                var adet = xmlNode?.Count(z => !string.IsNullOrWhiteSpace(z["Aciklama"].InnerText) && DateTime.Parse(z["Gun"].InnerText) == data.TamTarih);
+                data.VeriSayısı = (int)adet;
+                return data;
             }
             else
             {
@@ -22,6 +27,6 @@ namespace Takvim
             }
         }
 
-        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture) => throw new NotImplementedException();
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
     }
 }

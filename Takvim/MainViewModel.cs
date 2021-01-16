@@ -8,6 +8,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Xml;
+
 namespace Takvim
 {
     public class MainViewModel : InpcBase
@@ -41,8 +42,11 @@ namespace Takvim
         private int sütünSayısı = 4;
 
         private int satırSayısı = 3;
+
         private Brush seçiliRenkCmt = Brushes.Yellow;
+
         private Brush seçiliRenkPaz = Brushes.Red;
+
         private Brush resmiTatilRenk = Brushes.Magenta;
 
         public int SeçiliYıl

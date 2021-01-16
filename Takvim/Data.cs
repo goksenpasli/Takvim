@@ -23,8 +23,12 @@ namespace Takvim
         private DateTime tamTarih;
 
         private byte[] resimData;
+
         private bool önemliMi;
+
         private string resimUzantı;
+
+        private int veriSayısı;
 
         public int Gün
         {
@@ -150,6 +154,20 @@ namespace Takvim
             }
         }
 
+        public int VeriSayısı
+        {
+            get => veriSayısı;
+
+            set
+            {
+                if (veriSayısı != value)
+                {
+                    veriSayısı = value;
+                    OnPropertyChanged(nameof(VeriSayısı));
+                }
+            }
+        }
+
         public Data()
         {
             Window verigirişwindow = null;
@@ -177,11 +195,11 @@ namespace Takvim
                     xElement.Add(new XAttribute("Ext", ResimUzantı));
                     xmlcontent[2] = xElement;
                 }
-
                 parentElement.Add(xmlcontent);
                 xDocument.Element("Veriler")?.Add(parentElement);
                 xDocument.Save(MainViewModel.xmlpath);
                 verigirişwindow.Close();
+                VeriSayısı++;
                 MainViewModel.xmlDataProvider.Refresh();
             }, parameter => !string.IsNullOrWhiteSpace(GünNotAçıklama));
 

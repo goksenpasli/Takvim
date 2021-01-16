@@ -10,8 +10,8 @@
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*"/>
-            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="1*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition />
@@ -20,10 +20,16 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <TextBox Text="{Binding GünNotAçıklama, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-            AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Visible"  />
-        <Image Source="{Binding ResimData, TargetNullValue={x:Null}}" Grid.Column="1"/>
-        <CheckBox Content="ÖNEMLİ Mİ" Grid.Row="1" IsChecked="{Binding ÖnemliMi, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="2" />
-        <Button Content="RESİM YÜKLE" Grid.Row="2" Command="{Binding ResimYükle, Mode=OneWay}" Grid.ColumnSpan="2" />
-        <Button Content="VERİYİ EKLE" Grid.Row="3" Command="{Binding XmlVeriEkle, Mode=OneWay}" Grid.ColumnSpan="2"   />
+            AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" />
+        <Image Grid.Column="1" Source="{Binding ResimData, TargetNullValue={x:Null}}" />
+        <CheckBox Content="ÖNEMLİ Mİ"
+            Grid.Row="1" Grid.ColumnSpan="2"
+            IsChecked="{Binding ÖnemliMi, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        <Button Content="RESİM YÜKLE"
+            Grid.Row="2" Grid.ColumnSpan="2"
+            Command="{Binding ResimYükle, Mode=OneWay}" />
+        <Button Content="VERİYİ EKLE"
+            Grid.Row="3" Grid.ColumnSpan="2"
+            Command="{Binding XmlVeriEkle, Mode=OneWay}" />
     </Grid>
 </UserControl>

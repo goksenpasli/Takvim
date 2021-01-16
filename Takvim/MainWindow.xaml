@@ -198,13 +198,10 @@
                                     <LineBreak />
                                     <Run Text="{Binding GünAdı}" />
                                 </TextBlock>
-                                <TextBlock Canvas.Right="0" Canvas.Bottom="0" FontSize="8">
-                                    <TextBlock.Text>
-                                        <MultiBinding Converter="{StaticResource DateNoteCountConverter}" StringFormat="{}{0:D}">
-                                            <Binding Path="TamTarih" />
-                                            <Binding BindsDirectlyToSource="True" Source="{StaticResource XmlData}" />
-                                        </MultiBinding>
-                                    </TextBlock.Text>
+                                <TextBlock Canvas.Right="0" Canvas.Bottom="0"
+                                    DataContext="{Binding Mode=OneWay, Converter={StaticResource DateNoteCountConverter}}"
+                                    FontSize="8">
+                                    <Run Text="{Binding VeriSayısı, StringFormat=\{0:D\}}" />
                                 </TextBlock>
                             </Canvas>
                         </Button.Content>
