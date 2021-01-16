@@ -171,7 +171,7 @@ namespace Takvim
                 var xmlcontent = new object[3];
                 xmlcontent[0] = new XElement("Gun", TamTarih);
                 xmlcontent[1] = new XElement("Aciklama", GünNotAçıklama);
-                if (ResimData != null)
+                if (ResimData != null && ResimUzantı != null)
                 {
                     var xElement = new XElement("Resim", Convert.ToBase64String(ResimData));
                     xElement.Add(new XAttribute("Ext", ResimUzantı));

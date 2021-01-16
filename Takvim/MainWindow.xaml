@@ -45,6 +45,7 @@
                     <PropertyGroupDescription PropertyName="Ay" />
                 </CollectionViewSource.GroupDescriptions>
             </CollectionViewSource>
+            <local:DateNoteCountConverter x:Key="DateNoteCountConverter" />
             <DataTemplate x:Key="ComboBoxRectItemTemplate">
                 <Rectangle Width="16" Height="16" Fill="{Binding Name, Converter={StaticResource StringToBrushConverter}}" />
             </DataTemplate>
@@ -196,6 +197,14 @@
                                     <Run Text="{Binding Gün}" />
                                     <LineBreak />
                                     <Run Text="{Binding GünAdı}" />
+                                </TextBlock>
+                                <TextBlock Canvas.Right="0" Canvas.Bottom="0" FontSize="8">
+                                    <TextBlock.Text>
+                                        <MultiBinding Converter="{StaticResource DateNoteCountConverter}" StringFormat="{}{0:D}">
+                                            <Binding Path="TamTarih" />
+                                            <Binding BindsDirectlyToSource="True" Source="{StaticResource XmlData}" />
+                                        </MultiBinding>
+                                    </TextBlock.Text>
                                 </TextBlock>
                             </Canvas>
                         </Button.Content>
