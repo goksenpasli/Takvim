@@ -184,6 +184,12 @@ namespace Takvim
                 }
             }, parameter => true);
 
+            AyarSıfırla = new RelayCommand(parameter =>
+            {
+                Properties.Settings.Default.Reset();
+                MessageBox.Show("Renk Ayarları Varsayılana Çevrildi. Yeniden Başlatın.","TAKVİM",MessageBoxButton.OK,MessageBoxImage.Exclamation);
+            }, parameter => true);
+
             PropertyChanged += MainViewModel_PropertyChanged;
         }
 
@@ -234,6 +240,8 @@ namespace Takvim
         public ICommand SatırSütünSıfırla { get; }
 
         public ICommand YılaGit { get; }
+
+        public ICommand AyarSıfırla { get; }
 
         private ObservableCollection<Data> TakvimVerileriniOluştur(int SeçiliYıl)
         {
