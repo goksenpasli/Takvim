@@ -1,4 +1,7 @@
-﻿using System.Windows;
+﻿using System;
+using System.Collections.Generic;
+using System.Windows;
+using System.Xml;
 
 namespace Takvim
 {
@@ -12,5 +15,7 @@ namespace Takvim
             InitializeComponent();
             DataContext = new MainViewModel();
         }
+
+        private void CollectionViewSource_Filter(object sender, System.Windows.Data.FilterEventArgs e) => e.Accepted = DateTime.Parse((e.Item as XmlNode)?["Gun"].InnerText) == DateTime.Today;
     }
 }

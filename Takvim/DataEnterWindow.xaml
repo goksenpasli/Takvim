@@ -29,6 +29,7 @@
             IsChecked="{Binding ÖnemliMi, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
         <ComboBox Grid.Row="1" Grid.Column="2"
             ItemsSource="{Binding Source={StaticResource Renkler}}"
+            ItemContainerStyle="{StaticResource ComboBoxItemContainerStyle}"
             ItemTemplate="{StaticResource ComboBoxRectItemTemplate}"
             ScrollViewer.VerticalScrollBarVisibility="Disabled"
             SelectedValue="{Binding VeriRenk, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
