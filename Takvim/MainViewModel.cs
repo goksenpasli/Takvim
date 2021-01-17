@@ -296,6 +296,12 @@ namespace Takvim
                             {
                                 data.VeriRenk = (SolidColorBrush)new BrushConverter().ConvertFromString(xn["Renk"].InnerText);
                             }
+
+                            var saat = xn.Attributes.GetNamedItem("Saat");
+                            if (saat != null)
+                            {
+                                data.EtkinlikSüresi = Convert.ToDouble(saat.Value);
+                            }
                         }
 
                         Günler.Add(data);

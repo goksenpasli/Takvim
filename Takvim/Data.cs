@@ -31,6 +31,7 @@ namespace Takvim
 
         private int veriSayısı;
         private Brush veriRenk;
+        private double etkinlikSüresi;
 
         public int Gün
         {
@@ -184,6 +185,20 @@ namespace Takvim
             }
         }
 
+        public double EtkinlikSüresi
+        {
+            get => etkinlikSüresi;
+
+            set
+            {
+                if (etkinlikSüresi != value)
+                {
+                    etkinlikSüresi = value;
+                    OnPropertyChanged(nameof(EtkinlikSüresi));
+                }
+            }
+        }
+
         public Data()
         {
             Window verigirişwindow = null;
@@ -202,6 +217,7 @@ namespace Takvim
                 var parentElement = new XElement("Veri");
                 parentElement.Add(new XAttribute("Id", new Random().Next(1, int.MaxValue)));
                 parentElement.Add(new XAttribute("Onemli", ÖnemliMi));
+                parentElement.Add(new XAttribute("Saat", EtkinlikSüresi));
                 var xmlcontent = new object[3];
                 xmlcontent[0] = new XElement("Gun", TamTarih);
                 xmlcontent[1] = new XElement("Aciklama", GünNotAçıklama);
@@ -225,7 +241,7 @@ namespace Takvim
 
             ResimYükle = new RelayCommand(parameter =>
             {
-                const int filelimit = 50 * 1024;
+                const int filelimit = 100 * 1024;
                 OpenFileDialog openFileDialog = new OpenFileDialog { Multiselect = false, Filter = "Resim Dosyaları (*.jpg;*.jpeg;*.tif;*.tiff)|*.jpg;*.jpeg;*.tif;*.tiff)" };
                 if (openFileDialog.ShowDialog() == true)
                 {
