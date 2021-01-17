@@ -43,11 +43,11 @@ namespace Takvim
 
         private int satırSayısı = 3;
 
-        private Brush seçiliRenkCmt = ConvertToBrush(Properties.Settings.Default.CmtRenk);
+        private Brush seçiliRenkCmt = Properties.Settings.Default.CmtRenk.ConvertToBrush();
 
-        private Brush seçiliRenkPaz = ConvertToBrush(Properties.Settings.Default.PazRenk);
+        private Brush seçiliRenkPaz = Properties.Settings.Default.PazRenk.ConvertToBrush();
 
-        private Brush resmiTatilRenk = ConvertToBrush(Properties.Settings.Default.ResmiTatil);
+        private Brush resmiTatilRenk = Properties.Settings.Default.ResmiTatil.ConvertToBrush();
 
         public int SeçiliYıl
         {
@@ -187,7 +187,7 @@ namespace Takvim
             AyarSıfırla = new RelayCommand(parameter =>
             {
                 Properties.Settings.Default.Reset();
-                MessageBox.Show("Renk Ayarları Varsayılana Çevrildi. Yeniden Başlatın.","TAKVİM",MessageBoxButton.OK,MessageBoxImage.Exclamation);
+                MessageBox.Show("Renk Ayarları Varsayılana Çevrildi. Yeniden Başlatın.", "TAKVİM", MessageBoxButton.OK, MessageBoxImage.Exclamation);
             }, parameter => true);
 
             PropertyChanged += MainViewModel_PropertyChanged;
@@ -226,9 +226,9 @@ namespace Takvim
 
             if (e.PropertyName == "SeçiliRenkPaz" || e.PropertyName == "SeçiliRenkCmt" || e.PropertyName == "ResmiTatilRenk")
             {
-                Properties.Settings.Default.PazRenk = ConvertToColor(SeçiliRenkPaz);
-                Properties.Settings.Default.CmtRenk = ConvertToColor(SeçiliRenkCmt);
-                Properties.Settings.Default.ResmiTatil = ConvertToColor(ResmiTatilRenk);
+                Properties.Settings.Default.PazRenk = SeçiliRenkPaz.ConvertToColor();
+                Properties.Settings.Default.CmtRenk = SeçiliRenkCmt.ConvertToColor();
+                Properties.Settings.Default.ResmiTatil = ResmiTatilRenk.ConvertToColor();
                 Properties.Settings.Default.Save();
             }
         }
@@ -281,14 +281,6 @@ namespace Takvim
                 }
             }
             return Günler;
-        }
-
-        private static Brush ConvertToBrush(System.Drawing.Color color) => new SolidColorBrush(Color.FromArgb(color.A, color.R, color.G, color.B));
-
-        private static System.Drawing.Color ConvertToColor(Brush color)
-        {
-            var t = (SolidColorBrush)color;
-            return System.Drawing.Color.FromArgb(t.Color.A, t.Color.R, t.Color.G, t.Color.B);
         }
     }
 }

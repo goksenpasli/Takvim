@@ -65,6 +65,7 @@
     <Compile Include="BrushToColorConverter.cs" />
     <Compile Include="DateNoteCountConverter.cs" />
     <Compile Include="Data.cs" />
+    <Compile Include="ExtensionMethods.cs" />
     <Compile Include="InpcBase.cs" />
     <Compile Include="NullableToBooleanConverter.cs" />
     <Compile Include="RelayCommand.cs" />
