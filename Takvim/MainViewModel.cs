@@ -43,11 +43,11 @@ namespace Takvim
 
         private int satırSayısı = 3;
 
-        private Brush seçiliRenkCmt = Brushes.Yellow;
+        private Brush seçiliRenkCmt = ConvertToBrush(Properties.Settings.Default.CmtRenk);
 
-        private Brush seçiliRenkPaz = Brushes.Red;
+        private Brush seçiliRenkPaz = ConvertToBrush(Properties.Settings.Default.PazRenk);
 
-        private Brush resmiTatilRenk = Brushes.Magenta;
+        private Brush resmiTatilRenk = ConvertToBrush(Properties.Settings.Default.ResmiTatil);
 
         public int SeçiliYıl
         {
@@ -217,6 +217,14 @@ namespace Takvim
             {
                 TakvimVerileriniOluştur(SeçiliYıl);
             }
+
+            if (e.PropertyName == "SeçiliRenkPaz" || e.PropertyName == "SeçiliRenkCmt" || e.PropertyName == "ResmiTatilRenk")
+            {
+                Properties.Settings.Default.PazRenk = ConvertToColor(SeçiliRenkPaz);
+                Properties.Settings.Default.CmtRenk = ConvertToColor(SeçiliRenkCmt);
+                Properties.Settings.Default.ResmiTatil = ConvertToColor(ResmiTatilRenk);
+                Properties.Settings.Default.Save();
+            }
         }
 
         public ICommand Geri { get; }
@@ -265,6 +273,14 @@ namespace Takvim
                 }
             }
             return Günler;
+        }
+
+        private static Brush ConvertToBrush(System.Drawing.Color color) => new SolidColorBrush(Color.FromArgb(color.A, color.R, color.G, color.B));
+
+        private static System.Drawing.Color ConvertToColor(Brush color)
+        {
+            var t = (SolidColorBrush)color;
+            return System.Drawing.Color.FromArgb(t.Color.A, t.Color.R, t.Color.G, t.Color.B);
         }
     }
 }

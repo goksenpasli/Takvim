@@ -22,5 +22,41 @@ namespace Takvim.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Magenta")]
+        public global::System.Drawing.Color ResmiTatil {
+            get {
+                return ((global::System.Drawing.Color)(this["ResmiTatil"]));
+            }
+            set {
+                this["ResmiTatil"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Yellow")]
+        public global::System.Drawing.Color CmtRenk {
+            get {
+                return ((global::System.Drawing.Color)(this["CmtRenk"]));
+            }
+            set {
+                this["CmtRenk"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Red")]
+        public global::System.Drawing.Color PazRenk {
+            get {
+                return ((global::System.Drawing.Color)(this["PazRenk"]));
+            }
+            set {
+                this["PazRenk"] = value;
+            }
+        }
     }
 }

@@ -48,7 +48,7 @@
             </CollectionViewSource>
             <local:DateNoteCountConverter x:Key="DateNoteCountConverter" />
             <DataTemplate x:Key="ComboBoxRectItemTemplate">
-                <Rectangle Width="16" Height="16" Fill="{Binding Name, Converter={StaticResource StringToBrushConverter}}" />
+                <Rectangle Width="16" Height="16" Fill="{Binding Name, Converter={StaticResource StringToBrushConverter}}" RadiusX="2" RadiusY="2" />
             </DataTemplate>
             <Style x:Key="ComboBoxItemContainerStyle" TargetType="{x:Type ComboBoxItem}">
                 <Style.Triggers>
