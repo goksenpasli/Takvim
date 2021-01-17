@@ -58,5 +58,17 @@ namespace Takvim.Properties {
                 this["PazRenk"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("MediumSlateBlue")]
+        public global::System.Drawing.Color GövdeRenk {
+            get {
+                return ((global::System.Drawing.Color)(this["GövdeRenk"]));
+            }
+            set {
+                this["GövdeRenk"] = value;
+            }
+        }
     }
 }

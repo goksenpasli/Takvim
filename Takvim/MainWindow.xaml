@@ -50,7 +50,8 @@
             <DataTemplate x:Key="ComboBoxRectItemTemplate">
                 <Rectangle Width="16" Height="16"
                     Fill="{Binding Name, Converter={StaticResource StringToBrushConverter}}"
-                    RadiusX="2" RadiusY="2" />
+                    RadiusX="2" RadiusY="2"
+                    ToolTip="{Binding Name}" />
             </DataTemplate>
             <Style x:Key="ComboBoxItemContainerStyle" TargetType="{x:Type ComboBoxItem}">
                 <Style.Triggers>
@@ -59,11 +60,6 @@
                     </DataTrigger>
                 </Style.Triggers>
             </Style>
-            <LinearGradientBrush x:Key="BorderBackground" ice:Freeze="True" StartPoint="0.5,0" EndPoint="0.5,1">
-                <GradientStop Offset="0" Color="#FF146AD6" />
-                <GradientStop Offset="1" Color="#FF146AD6" />
-                <GradientStop Offset="0.5" Color="#FF1A75D1" />
-            </LinearGradientBrush>
         </ResourceDictionary>
     </Window.Resources>
     <Grid>
@@ -86,7 +82,8 @@
         <Button Content="ç"
             Grid.Row="0" Grid.Column="0" Grid.RowSpan="3"
             FontFamily="Wingdings"
-            Command="{Binding Geri}" />
+            Command="{Binding Geri}"
+            ToolTip="ÖNCEKİ YIL" />
         <Slider Grid.Row="1" Grid.Column="1"
             IsDirectionReversed="True" IsSnapToTickEnabled="True" Maximum="12" Minimum="1"
             Orientation="Vertical"
@@ -152,7 +149,7 @@
                                                 <TextBlock Text="{Binding Path=Name, Mode=OneWay}" FontWeight="Bold" TextAlignment="Center" />
                                             </Border>
                                             <Border Grid.Row="1"
-                                                Background="{StaticResource BorderBackground}"
+                                                Background="{Binding DataContext.GövdeRenk, ElementName=Window}"
                                                 BorderBrush="Black" BorderThickness="1">
                                                 <ItemsPresenter />
                                             </Border>
@@ -247,7 +244,7 @@
             IsSnapToTickEnabled="True" Maximum="12" Minimum="1"
             Style="{StaticResource SliderStyle}"
             Value="{Binding SütünSayısı}" />
-        <UniformGrid Grid.Row="2" Grid.Column="3" Columns="4">
+        <UniformGrid Grid.Row="2" Grid.Column="3" Columns="5">
             <ComboBox ItemsSource="{Binding Source={StaticResource Renkler}}"
                 ItemContainerStyle="{StaticResource ComboBoxItemContainerStyle}"
                 ItemTemplate="{StaticResource ComboBoxRectItemTemplate}"
@@ -280,6 +277,19 @@
                 ScrollViewer.VerticalScrollBarVisibility="Disabled"
                 SelectedValue="{Binding ResmiTatilRenk, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                 SelectedValuePath="Name" ToolTip="Resmi Tatil Renk">
+                <ComboBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Width="300" Height="350"
+                            IsItemsHost="True" Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ComboBox.ItemsPanel>
+            </ComboBox>
+            <ComboBox ItemsSource="{Binding Source={StaticResource Renkler}}"
+                ItemContainerStyle="{StaticResource ComboBoxItemContainerStyle}"
+                ItemTemplate="{StaticResource ComboBoxRectItemTemplate}"
+                ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                SelectedValue="{Binding GövdeRenk, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                SelectedValuePath="Name" ToolTip="Gövde Renk">
                 <ComboBox.ItemsPanel>
                     <ItemsPanelTemplate>
                         <WrapPanel Width="300" Height="350"
@@ -347,6 +357,7 @@
         <Button Content="è"
             Grid.Row="0" Grid.Column="4" Grid.RowSpan="3"
             FontFamily="Wingdings"
-            Command="{Binding İleri}" />
+            Command="{Binding İleri}"
+            ToolTip="SONRAKİ YIL" />
     </Grid>
 </Window>
