@@ -1,5 +1,22 @@
 ﻿<Application x:Class="Takvim.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:Takvim"
     StartupUri="MainWindow.xaml">
-    <Application.Resources />
+    <Application.Resources>
+        <local:StringToBrushConverter x:Key="StringToBrushConverter" />
+        <ObjectDataProvider x:Key="Renkler" MethodName="GetProperties" ObjectInstance="{x:Type Colors}" />
+        <DataTemplate x:Key="ComboBoxRectItemTemplate">
+            <Rectangle Width="16" Height="16"
+                Fill="{Binding Name, Converter={StaticResource StringToBrushConverter}}"
+                RadiusX="2" RadiusY="2"
+                ToolTip="{Binding Name}" />
+        </DataTemplate>
+        <Style x:Key="ComboBoxItemContainerStyle" TargetType="{x:Type ComboBoxItem}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Name}" Value="Black">
+                    <Setter Property="IsEnabled" Value="False" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </Application.Resources>
 </Application>

@@ -3,6 +3,7 @@ using System;
 using System.IO;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Xml;
 using System.Xml.Linq;
 
@@ -29,6 +30,7 @@ namespace Takvim
         private string resimUzantı;
 
         private int veriSayısı;
+        private Brush veriRenk;
 
         public int Gün
         {
@@ -168,6 +170,20 @@ namespace Takvim
             }
         }
 
+        public Brush VeriRenk
+        {
+            get => veriRenk;
+
+            set
+            {
+                if (veriRenk != value)
+                {
+                    veriRenk = value;
+                    OnPropertyChanged(nameof(VeriRenk));
+                }
+            }
+        }
+
         public Data()
         {
             Window verigirişwindow = null;
@@ -194,6 +210,10 @@ namespace Takvim
                     var xElement = new XElement("Resim", Convert.ToBase64String(ResimData));
                     xElement.Add(new XAttribute("Ext", ResimUzantı));
                     xmlcontent[2] = xElement;
+                }
+                if (VeriRenk!=null)
+                {
+                    parentElement.Add(new XAttribute("Renk", VeriRenk));
                 }
                 parentElement.Add(xmlcontent);
                 xDocument.Element("Veriler")?.Add(parentElement);

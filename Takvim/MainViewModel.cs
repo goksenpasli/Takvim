@@ -49,7 +49,7 @@ namespace Takvim
 
         private Brush resmiTatilRenk = Properties.Settings.Default.ResmiTatil.ConvertToBrush();
 
-        private Brush gövdeRenk= Properties.Settings.Default.GövdeRenk.ConvertToBrush();
+        private Brush gövdeRenk = Properties.Settings.Default.GövdeRenk.ConvertToBrush();
 
         public int SeçiliYıl
         {
@@ -290,6 +290,11 @@ namespace Takvim
                             if (xn["Resim"]?.InnerText != null)
                             {
                                 data.ResimData = Convert.FromBase64String(xn["Resim"].InnerText);
+                            }
+
+                            if (xn["Renk"]?.InnerText != null)
+                            {
+                                data.VeriRenk = (SolidColorBrush)new BrushConverter().ConvertFromString(xn["Renk"].InnerText);
                             }
                         }
 

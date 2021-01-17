@@ -15,8 +15,6 @@
                 <ResourceDictionary Source="SliderResource.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <local:BrushToColorConverter x:Key="BrushToColorConverter" />
-            <ObjectDataProvider x:Key="Renkler" MethodName="GetProperties" ObjectInstance="{x:Type Colors}" />
-            <local:StringToBrushConverter x:Key="StringToBrushConverter" />
             <local:ŞuAnkiAyColorConverter x:Key="ŞuAnkiAyColorConverter" />
             <local:StringNullOrEmptyConverter x:Key="StringNullOrEmptyConverter" />
             <Storyboard x:Key="TimerColorAnimation" RepeatBehavior="Forever" Timeline.DesiredFrameRate="3">
@@ -47,19 +45,6 @@
                 </CollectionViewSource.GroupDescriptions>
             </CollectionViewSource>
             <local:DateNoteCountConverter x:Key="DateNoteCountConverter" />
-            <DataTemplate x:Key="ComboBoxRectItemTemplate">
-                <Rectangle Width="16" Height="16"
-                    Fill="{Binding Name, Converter={StaticResource StringToBrushConverter}}"
-                    RadiusX="2" RadiusY="2"
-                    ToolTip="{Binding Name}" />
-            </DataTemplate>
-            <Style x:Key="ComboBoxItemContainerStyle" TargetType="{x:Type ComboBoxItem}">
-                <Style.Triggers>
-                    <DataTrigger Binding="{Binding Name}" Value="Black">
-                        <Setter Property="IsEnabled" Value="False" />
-                    </DataTrigger>
-                </Style.Triggers>
-            </Style>
         </ResourceDictionary>
     </Window.Resources>
     <Grid>
@@ -304,10 +289,11 @@
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
+                        <Ellipse Width="16" Height="16" Fill="{Binding XPath=@Renk}" />
                         <Rectangle Width="{Binding ElementName=Img, Path=ImageSource.Width}"
                             Height="{Binding ElementName=Img, Path=ImageSource.Height}"
                             Margin="0,0,3,0"
-                            RadiusX="20" RadiusY="20">
+                            RadiusX="10" RadiusY="10">
                             <Rectangle.Fill>
                                 <ImageBrush x:Name="Img" ImageSource="{Binding ConverterParameter=96, Converter={StaticResource Base64ImageConverter}, XPath=Resim}" />
                             </Rectangle.Fill>

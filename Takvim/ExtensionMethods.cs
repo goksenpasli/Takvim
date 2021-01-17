@@ -7,8 +7,8 @@ namespace Takvim
 
         public static System.Drawing.Color ConvertToColor(this Brush color)
         {
-            var t = (SolidColorBrush)color;
-            return System.Drawing.Color.FromArgb(t.Color.A, t.Color.R, t.Color.G, t.Color.B);
+            var sb = (SolidColorBrush)color;
+            return System.Drawing.Color.FromArgb(sb.Color.A, sb.Color.R, sb.Color.G, sb.Color.B);
         }
     }
 }
