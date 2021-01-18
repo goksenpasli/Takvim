@@ -1,6 +1,6 @@
 ﻿<Application x:Class="Takvim.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="clr-namespace:Takvim"
+    xmlns:ice="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options" xmlns:local="clr-namespace:Takvim"
     StartupUri="MainWindow.xaml">
     <Application.Resources>
         <local:StringToBrushConverter x:Key="StringToBrushConverter" />
@@ -17,6 +17,51 @@
                     <Setter Property="IsEnabled" Value="False" />
                 </DataTrigger>
             </Style.Triggers>
+        </Style>
+        <LinearGradientBrush x:Key="GroupBoxBackGround" ice:Freeze="True" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0" EndPoint="0.5,1">
+            <GradientStop ice:Freeze="True" Offset="1" Color="#FE00B6E8" />
+            <GradientStop ice:Freeze="True" Color="#FF48F3CA" />
+        </LinearGradientBrush>
+        <Style TargetType="GroupBox">
+            <Style.Resources>
+                <LinearGradientBrush x:Key="GroupBoxBackGround" ice:Freeze="True" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0" EndPoint="0.5,1">
+                    <GradientStop ice:Freeze="True" Offset="1" Color="#FE00B6E8" />
+                    <GradientStop ice:Freeze="True" Color="#FF48F3CA" />
+                </LinearGradientBrush>
+            </Style.Resources>
+            <Setter Property="Background" Value="{StaticResource GroupBoxBackGround}" />
+            <Setter Property="BorderBrush" Value="Black" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type GroupBox}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Border Grid.Row="0"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="1"
+                                CornerRadius="3,3,0,0">
+                                <ContentPresenter Margin="4" ContentSource="Header" RecognizesAccessKey="True" />
+                            </Border>
+                            <Border Grid.Row="1"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="1,0,1,1"
+                                CornerRadius="0,0,1,1">
+                                <Border.Background>
+                                    <LinearGradientBrush ice:Freeze="True" StartPoint="0.5,0" EndPoint="0.5,1">
+                                        <GradientStop ice:Freeze="True" Offset="0" Color="#FFFDFEFF" />
+                                        <GradientStop ice:Freeze="True" Offset="1" Color="#FFC1D3EA" />
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                                <ContentPresenter Margin="1" />
+                            </Border>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
     </Application.Resources>
 </Application>

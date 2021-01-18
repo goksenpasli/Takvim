@@ -1,4 +1,5 @@
 ﻿using System.Windows.Media;
+
 namespace Takvim
 {
     internal static class ExtensionMethods

@@ -61,7 +61,7 @@ namespace Takvim.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("MediumSlateBlue")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Transparent")]
         public global::System.Drawing.Color GövdeRenk {
             get {
                 return ((global::System.Drawing.Color)(this["GövdeRenk"]));

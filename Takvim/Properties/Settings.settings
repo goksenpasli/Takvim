@@ -12,7 +12,7 @@
       <Value Profile="(Default)">Red</Value>
     </Setting>
     <Setting Name="GövdeRenk" Type="System.Drawing.Color" Scope="User">
-      <Value Profile="(Default)">MediumSlateBlue</Value>
+      <Value Profile="(Default)">Transparent</Value>
     </Setting>
   </Settings>
 </SettingsFile>

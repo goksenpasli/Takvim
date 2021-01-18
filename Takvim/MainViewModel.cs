@@ -96,6 +96,7 @@ namespace Takvim
         public int SatırSayısı
         {
             get => satırSayısı;
+
             set
             {
                 if (satırSayısı != value)

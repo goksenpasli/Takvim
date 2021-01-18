@@ -30,12 +30,15 @@ namespace Takvim
         private string resimUzantı;
 
         private int veriSayısı;
+
         private Brush veriRenk;
+
         private double etkinlikSüresi;
 
         public int Gün
         {
             get => gün;
+
             set
             {
                 if (gün != value)
@@ -63,6 +66,7 @@ namespace Takvim
         public string GünAdı
         {
             get => günAdı;
+
             set
             {
                 if (günAdı != value)
@@ -227,7 +231,7 @@ namespace Takvim
                     xElement.Add(new XAttribute("Ext", ResimUzantı));
                     xmlcontent[2] = xElement;
                 }
-                if (VeriRenk!=null)
+                if (VeriRenk != null)
                 {
                     parentElement.Add(new XAttribute("Renk", VeriRenk));
                 }

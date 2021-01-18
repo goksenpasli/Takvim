@@ -124,22 +124,14 @@
                             <Setter Property="Template">
                                 <Setter.Value>
                                     <ControlTemplate TargetType="{x:Type GroupItem}">
-                                        <Grid Margin="2">
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="Auto" />
-                                                <RowDefinition />
-                                            </Grid.RowDefinitions>
-                                            <Border Grid.Row="0"
-                                                Background="{Binding Name, Converter={StaticResource ŞuAnkiAyColorConverter}}"
-                                                BorderBrush="Black" BorderThickness="1">
+                                        <GroupBox Background="{Binding Name, Converter={StaticResource ŞuAnkiAyColorConverter}}" Margin="1">
+                                            <GroupBox.Header>
                                                 <TextBlock Text="{Binding Path=Name, Mode=OneWay}" FontWeight="Bold" TextAlignment="Center" />
-                                            </Border>
-                                            <Border Grid.Row="1"
-                                                Background="{Binding DataContext.GövdeRenk, ElementName=Window}"
-                                                BorderBrush="Black" BorderThickness="1">
+                                            </GroupBox.Header>
+                                            <Border Background="{Binding DataContext.GövdeRenk, ElementName=Window}">
                                                 <ItemsPresenter />
                                             </Border>
-                                        </Grid>
+                                        </GroupBox>
                                     </ControlTemplate>
                                 </Setter.Value>
                             </Setter>
@@ -151,7 +143,7 @@
                 <DataTemplate>
                     <Button Background="Transparent" BorderBrush="Transparent" Command="{Binding VeriEkleEkranı}">
                         <Button.Content>
-                            <Canvas Width="28" Height="28">
+                            <Canvas Width="27" Height="27">
                                 <ContentControl Canvas.Right="0" Width="16" Height="10">
                                     <ContentControl.ToolTip>
                                         <ToolTip>
@@ -290,84 +282,90 @@
                 <RowDefinition Height="4*" />
                 <RowDefinition />
             </Grid.RowDefinitions>
-            <ListBox Grid.Row="0" ItemsSource="{Binding Mode=OneWay, Source={StaticResource Cvs}}">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <Grid>
-                                <Ellipse Width="16" Height="16" Fill="{Binding XPath=@Renk}" />
-                                <TextBlock Text="{Binding XPath=@Saat}"
-                                    HorizontalAlignment="Center" VerticalAlignment="Center"
-                                    FontSize="10" FontWeight="Bold">
-                                    <TextBlock.ToolTip>
-                                        <TextBlock Text="{Binding XPath=@Saat, StringFormat={}{0} Saatlik Etkinlik Düzenlendi}" />
-                                    </TextBlock.ToolTip>
+            <GroupBox Header="TÜM LİSTE"
+                Grid.Row="0"
+                Margin="2"
+                FontWeight="Bold">
+                <ListBox Background="Transparent" ItemsSource="{Binding Mode=OneWay, Source={StaticResource Cvs}}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Button Content="ç"
+                                    Background="Transparent" BorderBrush="Transparent"
+                                    FontFamily="Wingdings"
+                                    Command="{Binding DataContext.YılaGit, ElementName=Window}"
+                                    CommandParameter="{Binding Mode=OneWay, XPath=Gun}"
+                                    ToolTip="YILA GİT" />
+                                <Grid>
+                                    <Ellipse Width="16" Height="16" Fill="{Binding XPath=@Renk}" />
+                                    <TextBlock Text="{Binding XPath=@Saat}"
+                                        HorizontalAlignment="Center" VerticalAlignment="Center"
+                                        FontSize="10" FontWeight="Bold">
+                                        <TextBlock.ToolTip>
+                                            <TextBlock Text="{Binding XPath=@Saat, StringFormat={}{0} Saatlik Etkinlik Düzenlendi}" />
+                                        </TextBlock.ToolTip>
+                                    </TextBlock>
+                                </Grid>
+                                <Rectangle Width="{Binding ElementName=Img, Path=ImageSource.Width}"
+                                    Height="{Binding ElementName=Img, Path=ImageSource.Height}"
+                                    Margin="3,0"
+                                    RadiusX="10" RadiusY="10" ToolTipService.InitialShowDelay="500">
+                                    <Rectangle.Fill>
+                                        <ImageBrush x:Name="Img" ImageSource="{Binding ConverterParameter=96, Converter={StaticResource Base64ImageConverter}, XPath=Resim}" />
+                                    </Rectangle.Fill>
+                                    <Rectangle.ContextMenu>
+                                        <ContextMenu DataContext="{Binding Path=PlacementTarget.DataContext, RelativeSource={RelativeSource Mode=Self}}">
+                                            <MenuItem Header="SAKLA" Command="{Binding ResimSakla, Source={StaticResource Data}}" CommandParameter="{Binding Mode=OneWay, XPath=Resim}" />
+                                        </ContextMenu>
+                                    </Rectangle.ContextMenu>
+                                    <Rectangle.ToolTip>
+                                        <Image RenderOptions.BitmapScalingMode="Fant" Source="{Binding Converter={StaticResource Base64ImageConverter}, XPath=Resim}" />
+                                    </Rectangle.ToolTip>
+                                </Rectangle>
+                                <TextBlock TextWrapping="Wrap">
+                                    <Run Text="{Binding Converter={StaticResource XmlDateConverter}, StringFormat=\{0:dd/MM/yyyy\}, XPath=Gun}" />
+                                    <LineBreak />
+                                    <Run Text="{Binding XPath=Aciklama}"
+                                        Foreground="Green"
+                                        FontWeight="Bold"
+                                        ToolTip="{Binding XPath=Aciklama}" />
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Width" Value="70" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding ElementName=Img, Path=ImageSource}" Value="{x:Null}">
+                                                    <Setter Property="Width" Value="140" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
                                 </TextBlock>
-                            </Grid>
-                            <Rectangle Width="{Binding ElementName=Img, Path=ImageSource.Width}"
-                                Height="{Binding ElementName=Img, Path=ImageSource.Height}"
-                                Margin="3,0"
-                                RadiusX="10" RadiusY="10" ToolTipService.InitialShowDelay="500">
-                                <Rectangle.Fill>
-                                    <ImageBrush x:Name="Img" ImageSource="{Binding ConverterParameter=96, Converter={StaticResource Base64ImageConverter}, XPath=Resim}" />
-                                </Rectangle.Fill>
-                                <Rectangle.ContextMenu>
-                                    <ContextMenu DataContext="{Binding Path=PlacementTarget.DataContext, RelativeSource={RelativeSource Mode=Self}}">
-                                        <MenuItem Header="SAKLA" Command="{Binding ResimSakla, Source={StaticResource Data}}" CommandParameter="{Binding Mode=OneWay, XPath=Resim}" />
-                                    </ContextMenu>
-                                </Rectangle.ContextMenu>
-                                <Rectangle.ToolTip>
-                                    <Image RenderOptions.BitmapScalingMode="Fant" Source="{Binding Converter={StaticResource Base64ImageConverter}, XPath=Resim}" />
-                                </Rectangle.ToolTip>
-                            </Rectangle>
-                            <TextBlock TextWrapping="Wrap">
-                                <Run Text="{Binding Converter={StaticResource XmlDateConverter}, StringFormat=\{0:dd/MM/yyyy\}, XPath=Gun}" />
-                                <LineBreak />
-                                <Run Text="{Binding XPath=Aciklama}"
-                                    Foreground="Green"
-                                    FontWeight="Bold"
-                                    ToolTip="{Binding XPath=Aciklama}" />
-                                <TextBlock.Style>
-                                    <Style TargetType="TextBlock">
-                                        <Setter Property="Width" Value="64" />
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding ElementName=Img, Path=ImageSource}" Value="{x:Null}">
-                                                <Setter Property="Width" Value="140" />
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </TextBlock.Style>
-                            </TextBlock>
-                            <Button Content="ç"
-                                Background="Transparent" BorderBrush="Transparent"
-                                FontFamily="Wingdings"
-                                Command="{Binding DataContext.YılaGit, ElementName=Window}"
-                                CommandParameter="{Binding Mode=OneWay, XPath=Gun}"
-                                ToolTip="YILA GİT" />
-                        </StackPanel>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-                <ListBox.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <VirtualizingStackPanel />
-                    </ItemsPanelTemplate>
-                </ListBox.ItemsPanel>
-                <ListBox.ItemContainerStyle>
-                    <Style TargetType="ListBoxItem">
-                        <Setter Property="BorderBrush" Value="Blue" />
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding XPath=@Onemli}" Value="true">
-                                <Setter Property="Background" Value="Red" />
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </ListBox.ItemContainerStyle>
-            </ListBox>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel />
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="BorderBrush" Value="Blue" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding XPath=@Onemli}" Value="true">
+                                    <Setter Property="Background" Value="Red" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                </ListBox>
+            </GroupBox>
             <GroupBox Header="BÜGÜNKÜ LİSTE"
                 Grid.Row="1"
                 Foreground="Red"
+                Margin="2,0,2,2"
                 FontWeight="Bold">
-                <ListBox ItemsSource="{Binding Mode=OneWay, Source={StaticResource FilteredCvs}}">
+                <ListBox Background="Transparent" ItemsSource="{Binding Mode=OneWay, Source={StaticResource FilteredCvs}}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding XPath=Aciklama}" />
