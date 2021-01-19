@@ -283,26 +283,26 @@ namespace Takvim
                         foreach (var xn in from XmlNode xn in xmldoc.SelectNodes("/Veriler/Veri") where DateTime.Parse(xn["Gun"].InnerText) == data.TamTarih select xn)
                         {
                             data.GünNotAçıklama = xn["Aciklama"].InnerText;
-                            if (string.Equals(xn.Attributes.GetNamedItem("Onemli").Value, "true", StringComparison.CurrentCultureIgnoreCase))
-                            {
-                                data.ÖnemliMi = true;
-                            }
+                            //if (string.Equals(xn.Attributes.GetNamedItem("Onemli").Value, "true", StringComparison.CurrentCultureIgnoreCase))
+                            //{
+                            //    data.ÖnemliMi = true;
+                            //}
 
-                            if (xn["Resim"]?.InnerText != null)
-                            {
-                                data.ResimData = Convert.FromBase64String(xn["Resim"].InnerText);
-                            }
+                            //if (xn["Resim"]?.InnerText != null)
+                            //{
+                            //    data.ResimData = Convert.FromBase64String(xn["Resim"].InnerText);
+                            //}
 
-                            if (xn["Renk"]?.InnerText != null)
-                            {
-                                data.VeriRenk = (SolidColorBrush)new BrushConverter().ConvertFromString(xn["Renk"].InnerText);
-                            }
+                            //if (xn["Renk"]?.InnerText != null)
+                            //{
+                            //    data.VeriRenk = (SolidColorBrush)new BrushConverter().ConvertFromString(xn["Renk"].InnerText);
+                            //}
 
-                            var saat = xn.Attributes.GetNamedItem("Saat");
-                            if (saat != null)
-                            {
-                                data.EtkinlikSüresi = Convert.ToDouble(saat.Value);
-                            }
+                            //var saat = xn.Attributes.GetNamedItem("Saat");
+                            //if (saat != null)
+                            //{
+                            //    data.EtkinlikSüresi = Convert.ToDouble(saat.Value);
+                            //}
 
                             //if (xn["Dosyalar"] != null)
                             //{
