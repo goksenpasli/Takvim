@@ -196,12 +196,12 @@
                         <Button.Style>
                             <Style TargetType="Button">
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding Id, Converter={StaticResource IntBooleanZeroConverter}}" Value="true">
+                                    <DataTrigger Binding="{Binding VeriSayısı, Converter={StaticResource IntBooleanZeroConverter}}" Value="true">
                                         <DataTrigger.EnterActions>
                                             <BeginStoryboard x:Name="Sb" Storyboard="{StaticResource TimerColorAnimation}" />
                                         </DataTrigger.EnterActions>
                                     </DataTrigger>
-                                    <DataTrigger Binding="{Binding Id, Converter={StaticResource IntBooleanZeroConverter}}" Value="false">
+                                    <DataTrigger Binding="{Binding VeriSayısı}" Value="0">
                                         <DataTrigger.EnterActions>
                                             <StopStoryboard BeginStoryboardName="Sb" />
                                         </DataTrigger.EnterActions>
