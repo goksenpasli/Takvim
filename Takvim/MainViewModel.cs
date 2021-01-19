@@ -282,7 +282,7 @@ namespace Takvim
 
                         foreach (var xn in from XmlNode xn in xmldoc.SelectNodes("/Veriler/Veri") where DateTime.Parse(xn["Gun"].InnerText) == data.TamTarih select xn)
                         {
-                            data.GünNotAçıklama = xn["Aciklama"].InnerText;
+                            data.Id = Convert.ToInt32(xn.Attributes.GetNamedItem("Id").Value);
                             //if (string.Equals(xn.Attributes.GetNamedItem("Onemli").Value, "true", StringComparison.CurrentCultureIgnoreCase))
                             //{
                             //    data.ÖnemliMi = true;

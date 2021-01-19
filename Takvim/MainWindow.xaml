@@ -16,7 +16,7 @@
             </ResourceDictionary.MergedDictionaries>
             <local:BrushToColorConverter x:Key="BrushToColorConverter" />
             <local:ŞuAnkiAyColorConverter x:Key="ŞuAnkiAyColorConverter" />
-            <local:StringNullOrEmptyConverter x:Key="StringNullOrEmptyConverter" />
+            <local:IntBooleanZeroConverter x:Key="IntBooleanZeroConverter" />
             <Storyboard x:Key="TimerColorAnimation" RepeatBehavior="Forever" Timeline.DesiredFrameRate="3">
                 <ColorAnimation Storyboard.TargetProperty="(Button.BorderBrush).(SolidColorBrush.Color)" From="Black" To="Red" Duration="00:00:01" />
             </Storyboard>
@@ -196,12 +196,12 @@
                         <Button.Style>
                             <Style TargetType="Button">
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding GünNotAçıklama, Converter={StaticResource StringNullOrEmptyConverter}}" Value="false">
+                                    <DataTrigger Binding="{Binding Id, Converter={StaticResource IntBooleanZeroConverter}}" Value="true">
                                         <DataTrigger.EnterActions>
                                             <BeginStoryboard x:Name="Sb" Storyboard="{StaticResource TimerColorAnimation}" />
                                         </DataTrigger.EnterActions>
                                     </DataTrigger>
-                                    <DataTrigger Binding="{Binding GünNotAçıklama, Converter={StaticResource StringNullOrEmptyConverter}}" Value="true">
+                                    <DataTrigger Binding="{Binding Id, Converter={StaticResource IntBooleanZeroConverter}}" Value="false">
                                         <DataTrigger.EnterActions>
                                             <StopStoryboard BeginStoryboardName="Sb" />
                                         </DataTrigger.EnterActions>
@@ -269,16 +269,16 @@
                             <StackPanel>
                                 <StackPanel Orientation="Horizontal">
                                     <Button Content="ç"
-                                    Background="Transparent" BorderBrush="Transparent"
-                                    FontFamily="Wingdings"
-                                    Command="{Binding DataContext.YılaGit, ElementName=Window}"
-                                    CommandParameter="{Binding Mode=OneWay, XPath=Gun}"
-                                    ToolTip="YILA GİT" />
+                                        Background="Transparent" BorderBrush="Transparent"
+                                        FontFamily="Wingdings"
+                                        Command="{Binding DataContext.YılaGit, ElementName=Window}"
+                                        CommandParameter="{Binding Mode=OneWay, XPath=Gun}"
+                                        ToolTip="YILA GİT" />
                                     <Grid>
                                         <Ellipse Width="16" Height="16" Fill="{Binding XPath=@Renk}" />
                                         <TextBlock Text="{Binding XPath=@Saat}"
-                                        HorizontalAlignment="Center" VerticalAlignment="Center"
-                                        FontSize="10" FontWeight="Bold">
+                                            HorizontalAlignment="Center" VerticalAlignment="Center"
+                                            FontSize="10" FontWeight="Bold">
                                             <TextBlock.Style>
                                                 <Style TargetType="TextBlock">
                                                     <Style.Triggers>
@@ -291,12 +291,12 @@
                                             <TextBlock.ToolTip>
                                                 <TextBlock Text="{Binding XPath=@Saat, StringFormat={}{0} Saatlik Etkinlik Düzenlendi}" />
                                             </TextBlock.ToolTip>
-                                    </TextBlock>
+                                        </TextBlock>
                                     </Grid>
                                     <Rectangle Width="{Binding ElementName=Img, Path=ImageSource.Width}"
-                                    Height="{Binding ElementName=Img, Path=ImageSource.Height}"
-                                    Margin="3,0"
-                                    RadiusX="10" RadiusY="10" ToolTipService.InitialShowDelay="500">
+                                        Height="{Binding ElementName=Img, Path=ImageSource.Height}"
+                                        Margin="3,0"
+                                        RadiusX="10" RadiusY="10" ToolTipService.InitialShowDelay="500">
                                         <Rectangle.Fill>
                                             <ImageBrush x:Name="Img" ImageSource="{Binding ConverterParameter=96, Converter={StaticResource Base64ImageConverter}, XPath=Resim}" />
                                         </Rectangle.Fill>
@@ -310,12 +310,12 @@
                                         </Rectangle.ToolTip>
                                     </Rectangle>
                                     <TextBlock TextWrapping="Wrap">
-                                    <Run Text="{Binding Converter={StaticResource XmlDateConverter}, StringFormat=\{0:dd/MM/yyyy\}, XPath=Gun}" />
-                                    <LineBreak />
-                                    <Run Text="{Binding XPath=Aciklama}"
-                                        Foreground="Green"
-                                        FontWeight="Bold"
-                                        ToolTip="{Binding XPath=Aciklama}" />
+                                        <Run Text="{Binding Converter={StaticResource XmlDateConverter}, StringFormat=\{0:dd/MM/yyyy\}, XPath=Gun}" />
+                                        <LineBreak />
+                                        <Run Text="{Binding XPath=Aciklama}"
+                                            Foreground="Green"
+                                            FontWeight="Bold"
+                                            ToolTip="{Binding XPath=Aciklama}" />
                                         <TextBlock.Style>
                                             <Style TargetType="TextBlock">
                                                 <Setter Property="Width" Value="70" />

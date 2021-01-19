@@ -38,6 +38,7 @@ namespace Takvim
         private double etkinlikSüresi;
 
         private ObservableCollection<string> dosyalar;
+        private int ıd;
 
         public int Gün
         {
@@ -119,6 +120,20 @@ namespace Takvim
                 {
                     günNotAçıklama = value;
                     OnPropertyChanged(nameof(GünNotAçıklama));
+                }
+            }
+        }
+
+        public int Id
+        {
+            get => ıd;
+
+            set
+            {
+                if (ıd != value)
+                {
+                    ıd = value;
+                    OnPropertyChanged(nameof(Id));
                 }
             }
         }
