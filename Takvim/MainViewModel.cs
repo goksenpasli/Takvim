@@ -283,34 +283,6 @@ namespace Takvim
                         foreach (var xn in from XmlNode xn in xmldoc.SelectNodes("/Veriler/Veri") where DateTime.Parse(xn["Gun"].InnerText) == data.TamTarih select xn)
                         {
                             data.Id = Convert.ToInt32(xn.Attributes.GetNamedItem("Id").Value);
-                            //if (string.Equals(xn.Attributes.GetNamedItem("Onemli").Value, "true", StringComparison.CurrentCultureIgnoreCase))
-                            //{
-                            //    data.ÖnemliMi = true;
-                            //}
-
-                            //if (xn["Resim"]?.InnerText != null)
-                            //{
-                            //    data.ResimData = Convert.FromBase64String(xn["Resim"].InnerText);
-                            //}
-
-                            //if (xn["Renk"]?.InnerText != null)
-                            //{
-                            //    data.VeriRenk = (SolidColorBrush)new BrushConverter().ConvertFromString(xn["Renk"].InnerText);
-                            //}
-
-                            //var saat = xn.Attributes.GetNamedItem("Saat");
-                            //if (saat != null)
-                            //{
-                            //    data.EtkinlikSüresi = Convert.ToDouble(saat.Value);
-                            //}
-
-                            //if (xn["Dosyalar"] != null)
-                            //{
-                            //    foreach (var dosya in from XmlNode dosya in xn["Dosyalar"] select dosya)
-                            //    {
-                            //        data.Dosyalar.Add(dosya.Attributes.GetNamedItem("Yol").Value);
-                            //    }
-                            //}
                         }
 
                         Günler.Add(data);
