@@ -199,7 +199,7 @@ namespace Takvim
                 {
                     SeçiliYıl = DateTime.Parse(xmlElement.InnerText).Year;
                 }
-            }, parameter => true);
+            }, parameter => parameter is XmlElement xmlElement && DateTime.Parse(xmlElement.InnerText).Year != DateTime.Now.Year);
 
             AyarSıfırla = new RelayCommand(parameter =>
             {
@@ -303,6 +303,14 @@ namespace Takvim
                             {
                                 data.EtkinlikSüresi = Convert.ToDouble(saat.Value);
                             }
+
+                            //if (xn["Dosyalar"] != null)
+                            //{
+                            //    foreach (var dosya in from XmlNode dosya in xn["Dosyalar"] select dosya)
+                            //    {
+                            //        data.Dosyalar.Add(dosya.Attributes.GetNamedItem("Yol").Value);
+                            //    }
+                            //}
                         }
 
                         Günler.Add(data);

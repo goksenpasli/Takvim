@@ -1,5 +1,7 @@
 ﻿using Microsoft.Win32;
 using System;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Input;
@@ -34,6 +36,8 @@ namespace Takvim
         private Brush veriRenk;
 
         private double etkinlikSüresi;
+
+        private ObservableCollection<string> dosyalar;
 
         public int Gün
         {
@@ -203,25 +207,38 @@ namespace Takvim
             }
         }
 
+        public ObservableCollection<string> Dosyalar
+        {
+            get => dosyalar;
+
+            set
+            {
+                if (dosyalar != value)
+                {
+                    dosyalar = value;
+                    OnPropertyChanged(nameof(Dosyalar));
+                }
+            }
+        }
+
         public Data()
         {
             Window verigirişwindow = null;
 
             XmlVeriEkle = new RelayCommand(parameter =>
             {
-                if (!File.Exists(MainViewModel.xmlpath))
-                {
-                    using XmlWriter writer = XmlWriter.Create(MainViewModel.xmlpath);
-                    writer.WriteStartElement("Veriler");
-                    writer.WriteEndElement();
-                    writer.Flush();
-                }
-
+                WriteXmlRootData(MainViewModel.xmlpath);
                 var xDocument = XDocument.Load(MainViewModel.xmlpath);
                 var parentElement = new XElement("Veri");
+
                 parentElement.Add(new XAttribute("Id", new Random().Next(1, int.MaxValue)));
                 parentElement.Add(new XAttribute("Onemli", ÖnemliMi));
                 parentElement.Add(new XAttribute("Saat", EtkinlikSüresi));
+                if (VeriRenk != null)
+                {
+                    parentElement.Add(new XAttribute("Renk", VeriRenk));
+                }
+
                 var xmlcontent = new object[3];
                 xmlcontent[0] = new XElement("Gun", TamTarih);
                 xmlcontent[1] = new XElement("Aciklama", GünNotAçıklama);
@@ -231,15 +248,24 @@ namespace Takvim
                     xElement.Add(new XAttribute("Ext", ResimUzantı));
                     xmlcontent[2] = xElement;
                 }
-                if (VeriRenk != null)
+
+                var xmlfiles = new XElement("Dosyalar");
+                if (Dosyalar != null)
                 {
-                    parentElement.Add(new XAttribute("Renk", VeriRenk));
+                    foreach (var dosya in Dosyalar)
+                    {
+                        var file = new XElement("Dosya");
+                        file.Add(new XAttribute("Yol", dosya));
+                        xmlfiles.Add(file);
+                    }
                 }
+
                 parentElement.Add(xmlcontent);
+                parentElement.Add(xmlfiles);
                 xDocument.Element("Veriler")?.Add(parentElement);
                 xDocument.Save(MainViewModel.xmlpath);
-                verigirişwindow.Close();
                 VeriSayısı++;
+                verigirişwindow.Close();
                 MainViewModel.xmlDataProvider.Refresh();
             }, parameter => !string.IsNullOrWhiteSpace(GünNotAçıklama));
 
@@ -258,6 +284,19 @@ namespace Takvim
                     else
                     {
                         MessageBox.Show($"Resim Boyutu En Çok {filelimit / 1024} KB Olabilir.", "TAKVİM", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    }
+                }
+            }, parameter => !string.IsNullOrWhiteSpace(GünNotAçıklama));
+
+            DosyalarYükle = new RelayCommand(parameter =>
+            {
+                OpenFileDialog openFileDialog = new OpenFileDialog { Multiselect = true, Filter = "Tüm Dosyalar (*.*)|*.*" };
+                if (openFileDialog.ShowDialog() == true)
+                {
+                    Dosyalar = new ObservableCollection<string>();
+                    foreach (var dosya in openFileDialog.FileNames)
+                    {
+                        Dosyalar.Add(dosya);
                     }
                 }
             }, parameter => !string.IsNullOrWhiteSpace(GünNotAçıklama));
@@ -283,6 +322,18 @@ namespace Takvim
                 }
             }, parameter => true);
 
+            DosyaAç = new RelayCommand(parameter =>
+            {
+                if (parameter is XmlAttribute xmlAttribute)
+                {
+                    Process.Start(xmlAttribute.Value);
+                }
+            }, parameter => parameter is XmlAttribute xmlAttribute && File.Exists(xmlAttribute.Value));
+
+            Dosyalarİptal = new RelayCommand(parameter => Dosyalar = null, parameter => Dosyalar?.Count > 0);
+
+            Resimİptal = new RelayCommand(parameter => ResimData = null, parameter => ResimData?.Length > 0);
+
             VeriEkleEkranı = new RelayCommand(parameter =>
             {
                 verigirişwindow = new Window
@@ -292,7 +343,7 @@ namespace Takvim
                     DataContext = this,
                     Width = 300,
                     WindowStyle = WindowStyle.ToolWindow,
-                    Height = 200,
+                    Height = 250,
                     Owner = Application.Current.MainWindow,
                     ShowInTaskbar = false,
                     WindowStartupLocation = WindowStartupLocation.CenterScreen
@@ -301,9 +352,28 @@ namespace Takvim
             }, parameter => true);
         }
 
+        private static void WriteXmlRootData(string xmlfilepath)
+        {
+            if (!File.Exists(xmlfilepath))
+            {
+                using XmlWriter writer = XmlWriter.Create(MainViewModel.xmlpath);
+                writer.WriteStartElement("Veriler");
+                writer.WriteEndElement();
+                writer.Flush();
+            }
+        }
+
         public ICommand XmlVeriEkle { get; }
 
         public ICommand ResimYükle { get; }
+
+        public ICommand DosyalarYükle { get; }
+
+        public ICommand Dosyalarİptal { get; }
+
+        public ICommand DosyaAç { get; }
+
+        public ICommand Resimİptal { get; }
 
         public ICommand ResimSakla { get; }
 
