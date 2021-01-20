@@ -5,9 +5,6 @@
     d:DataContext="{d:DesignInstance Type=local:Data}"
     d:DesignHeight="150" d:DesignWidth="250" UseLayoutRounding="True"
     mc:Ignorable="d">
-    <UserControl.Resources>
-        <local:Base64ImageConverter x:Key="Base64ImageConverter" />
-    </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*" />
@@ -55,7 +52,7 @@
                 <TextBlock>
                     <Run Text="DOSYALAR YÜKLE" />
                     <Run Text="(LINK OLARAK)" Foreground="Red" />
-                    <Run Text="{Binding Dosyalar.Count, Mode=OneWay}" Foreground="Red" />
+                    <Run Text="{Binding Dosyalar.Count, Mode=OneWay, StringFormat={}{0} DOSYA}" Foreground="Red" />
                 </TextBlock>
             </Button.Content>
             <Button.ContextMenu>

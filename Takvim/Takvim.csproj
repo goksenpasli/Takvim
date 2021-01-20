@@ -71,6 +71,7 @@
     <Compile Include="NullableToBooleanConverter.cs" />
     <Compile Include="RelayCommand.cs" />
     <Compile Include="IntBooleanZeroConverter.cs" />
+    <Compile Include="SelectedDateToDataListConverter.cs" />
     <Compile Include="StringToBrushConverter.cs" />
     <Compile Include="XmlDateConverter.cs" />
     <Compile Include="YarımGünTatilConverter.cs" />
