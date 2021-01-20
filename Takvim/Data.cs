@@ -11,7 +11,7 @@ using System.Xml.Linq;
 
 namespace Takvim
 {
-    public class Data : InpcBase
+    public class Data : InpcBase, IDisposable
     {
         private int gün;
 
@@ -38,7 +38,10 @@ namespace Takvim
         private double etkinlikSüresi;
 
         private ObservableCollection<string> dosyalar;
+
         private int ıd;
+
+        private bool disposedValue;
 
         public int Gün
         {
@@ -284,6 +287,7 @@ namespace Takvim
                 VeriSayısı++;
                 verigirişwindow.Close();
                 MainViewModel.xmlDataProvider.Refresh();
+                Dispose(true);
             }, parameter => !string.IsNullOrWhiteSpace(GünNotAçıklama));
 
             ResimYükle = new RelayCommand(parameter =>
@@ -395,5 +399,28 @@ namespace Takvim
         public ICommand ResimSakla { get; }
 
         public ICommand VeriEkleEkranı { get; }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    GünNotAçıklama = null;
+                    ResimData = null;
+                    Dosyalar = null;
+                    VeriRenk = null;
+                    ÖnemliMi = false;
+                }
+
+                disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
+        }
     }
 }
