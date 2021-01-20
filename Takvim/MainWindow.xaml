@@ -51,11 +51,19 @@
             <local:ListBoxDatePassedVisibilityConverter x:Key="ListBoxDatePassedVisibilityConverter" />
             <Style x:Key="ListBoxTümListeItemContainerStyle" TargetType="{x:Type ListBoxItem}">
                 <Setter Property="BorderBrush" Value="Blue" />
-                <Setter Property="Visibility" Value="{Binding Mode=OneWay, Converter={StaticResource ListBoxDatePassedVisibilityConverter}}"/>
+                <Setter Property="Visibility" Value="{Binding Mode=OneWay, Converter={StaticResource ListBoxDatePassedVisibilityConverter}}" />
                 <Style.Triggers>
                     <DataTrigger Binding="{Binding XPath=@Onemli}" Value="true">
                         <Setter Property="Background" Value="Red" />
-                    </DataTrigger>  
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+            <Style x:Key="ListBoxToolTipItemContainerStyle" TargetType="{x:Type ListBoxItem}">
+                <Setter Property="BorderBrush" Value="Blue" />
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding XPath=@Onemli}" Value="true">
+                        <Setter Property="Background" Value="Red" />
+                    </DataTrigger>
                 </Style.Triggers>
             </Style>
         </ResourceDictionary>
@@ -197,7 +205,7 @@
                                     FontSize="8">
                                     <Run Text="{Binding VeriSayısı, StringFormat=\{0:D\}}">
                                         <Run.ToolTip>
-                                            <ListBox ItemsSource="{Binding Mode=OneWay, Converter={StaticResource SelectedDateToDataListConverter}}" ItemContainerStyle="{StaticResource ListBoxTümListeItemContainerStyle}">
+                                            <ListBox ItemsSource="{Binding Mode=OneWay, Converter={StaticResource SelectedDateToDataListConverter}}" ItemContainerStyle="{StaticResource ListBoxToolTipItemContainerStyle}">
                                                 <ListBox.ItemTemplate>
                                                     <DataTemplate>
                                                         <StackPanel Orientation="Horizontal">
