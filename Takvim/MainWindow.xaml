@@ -48,6 +48,14 @@
                 </CollectionViewSource.GroupDescriptions>
             </CollectionViewSource>
             <local:DateNoteCountConverter x:Key="DateNoteCountConverter" />
+            <Style x:Key="ListBoxTümListeItemContainerStyle" TargetType="{x:Type ListBoxItem}">
+                <Setter Property="BorderBrush" Value="Blue" />
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding XPath=@Onemli}" Value="true">
+                        <Setter Property="Background" Value="Red" />
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
         </ResourceDictionary>
     </Window.Resources>
     <Grid>
@@ -187,7 +195,15 @@
                                     FontSize="8">
                                     <Run Text="{Binding VeriSayısı, StringFormat=\{0:D\}}">
                                         <Run.ToolTip>
-                                            <ListBox ItemsSource="{Binding Mode=OneWay, Converter={StaticResource SelectedDateToDataListConverter}}" />
+                                            <ListBox ItemsSource="{Binding Mode=OneWay, Converter={StaticResource SelectedDateToDataListConverter}}" ItemContainerStyle="{StaticResource ListBoxTümListeItemContainerStyle}">
+                                                <ListBox.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock Text="{Binding XPath=Aciklama}" />
+                                                        </StackPanel>
+                                                    </DataTemplate>
+                                                </ListBox.ItemTemplate>
+                                            </ListBox>
                                         </Run.ToolTip>
                                     </Run>
                                     <TextBlock.Style>
@@ -242,7 +258,7 @@
                 Grid.Row="0"
                 Margin="2"
                 FontWeight="Bold">
-                <ListBox Background="Transparent" ItemsSource="{Binding Mode=OneWay, Source={StaticResource Cvs}}">
+                <ListBox Background="Transparent" ItemsSource="{Binding Mode=OneWay, Source={StaticResource Cvs}}" ItemContainerStyle="{StaticResource ListBoxTümListeItemContainerStyle}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel>
@@ -298,10 +314,14 @@
                                                     </DataTrigger>
                                                 </Style.Triggers>
                                             </Style>
-                                        </TextBlock.Style><Run Text="{Binding Converter={StaticResource XmlDateConverter}, StringFormat=\{0:dd/MM/yyyy\}, XPath=Gun}" /><LineBreak /><Run Text="{Binding XPath=Aciklama}"
+                                        </TextBlock.Style>
+                                        <Run Text="{Binding Converter={StaticResource XmlDateConverter}, StringFormat=\{0:dd/MM/yyyy\}, XPath=Gun}" />
+                                        <LineBreak />
+                                        <Run Text="{Binding XPath=Aciklama}"
                                             Foreground="Green"
                                             FontWeight="Bold"
-                                            ToolTip="{Binding XPath=Aciklama}" /></TextBlock>
+                                            ToolTip="{Binding XPath=Aciklama}" />
+                                    </TextBlock>
                                 </StackPanel>
                                 <ComboBox ItemsSource="{Binding XPath=Dosyalar/Dosya}" FontWeight="Normal">
                                     <ComboBox.ItemTemplate>
@@ -327,16 +347,6 @@
                             <VirtualizingStackPanel />
                         </ItemsPanelTemplate>
                     </ListBox.ItemsPanel>
-                    <ListBox.ItemContainerStyle>
-                        <Style TargetType="{x:Type ListBoxItem}">
-                            <Setter Property="BorderBrush" Value="Blue" />
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding XPath=@Onemli}" Value="true">
-                                    <Setter Property="Background" Value="Red" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </ListBox.ItemContainerStyle>
                 </ListBox>
             </GroupBox>
             <GroupBox Header="BÜGÜNKÜ LİSTE"
