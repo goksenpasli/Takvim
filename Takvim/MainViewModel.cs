@@ -39,9 +39,9 @@ namespace Takvim
 
         private int bugünIndex = DateTime.Today.DayOfYear - 1;
 
-        private int sütünSayısı = 4;
+        private int sütünSayısı = Properties.Settings.Default.Sütün;
 
-        private int satırSayısı = 3;
+        private int satırSayısı = Properties.Settings.Default.Satır;
 
         private Brush seçiliRenkCmt = Properties.Settings.Default.CmtRenk.ConvertToBrush();
 
@@ -191,6 +191,7 @@ namespace Takvim
             {
                 SatırSayısı = 3;
                 SütünSayısı = 4;
+                Properties.Settings.Default.Save();
             }, parameter => SatırSayısı != 3 || SütünSayısı != 4);
 
             YılaGit = new RelayCommand(parameter =>
@@ -199,7 +200,7 @@ namespace Takvim
                 {
                     SeçiliYıl = DateTime.Parse(xmlElement.InnerText).Year;
                 }
-            }, parameter => parameter is XmlElement xmlElement && DateTime.Parse(xmlElement.InnerText).Year != DateTime.Now.Year);
+            }, parameter => parameter is XmlElement xmlElement && DateTime.Parse(xmlElement.InnerText).Year != SeçiliYıl);
 
             AyarSıfırla = new RelayCommand(parameter =>
             {
@@ -222,6 +223,7 @@ namespace Takvim
                 {
                     SatırSayısı++;
                 }
+                SaveColumnRowSettings();
             }
 
             if (e.PropertyName == "SatırSayısı")
@@ -234,6 +236,7 @@ namespace Takvim
                 {
                     SütünSayısı++;
                 }
+                SaveColumnRowSettings();
             }
 
             if (e.PropertyName == "SeçiliYıl" && SeçiliYıl > 0 && SeçiliYıl < 10000)
@@ -247,6 +250,13 @@ namespace Takvim
                 Properties.Settings.Default.CmtRenk = SeçiliRenkCmt.ConvertToColor();
                 Properties.Settings.Default.ResmiTatil = ResmiTatilRenk.ConvertToColor();
                 Properties.Settings.Default.GövdeRenk = GövdeRenk.ConvertToColor();
+                Properties.Settings.Default.Save();
+            }
+
+            void SaveColumnRowSettings()
+            {
+                Properties.Settings.Default.Satır = SatırSayısı;
+                Properties.Settings.Default.Sütün = SütünSayısı;
                 Properties.Settings.Default.Save();
             }
         }

@@ -70,5 +70,29 @@ namespace Takvim.Properties {
                 this["GövdeRenk"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("3")]
+        public int Satır {
+            get {
+                return ((int)(this["Satır"]));
+            }
+            set {
+                this["Satır"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("4")]
+        public int Sütün {
+            get {
+                return ((int)(this["Sütün"]));
+            }
+            set {
+                this["Sütün"] = value;
+            }
+        }
     }
 }

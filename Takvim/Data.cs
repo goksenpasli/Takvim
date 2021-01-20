@@ -272,6 +272,7 @@ namespace Takvim
                         var file = new XElement("Dosya");
                         file.Add(new XAttribute("Yol", dosya));
                         file.Add(new XAttribute("Ad", Path.GetFileNameWithoutExtension(dosya)));
+                        file.Add(new XAttribute("Ext", Path.GetExtension(dosya)));
                         xmlfiles.Add(file);
                     }
                 }

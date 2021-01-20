@@ -4,7 +4,7 @@
     xmlns:ice="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options" xmlns:local="clr-namespace:Takvim"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
-    Title="Takvim"
+    Title="Takvim"    xmlns:properties="clr-namespace:Takvim.Properties" 
     Width="800" Height="450"
     d:DataContext="{d:DesignInstance Type=local:MainViewModel}"
     UseLayoutRounding="True" WindowState="Maximized"
@@ -14,6 +14,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="SliderResource.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <local:FileExtensionToIconConverter x:Key="FileExtensionToIconConverter" />
             <local:BrushToColorConverter x:Key="BrushToColorConverter" />
             <local:ŞuAnkiAyColorConverter x:Key="ŞuAnkiAyColorConverter" />
             <local:IntBooleanZeroConverter x:Key="IntBooleanZeroConverter" />
@@ -332,11 +333,17 @@
                                     <ComboBox.ItemTemplate>
                                         <DataTemplate>
                                             <StackPanel Orientation="Horizontal">
+                                                <Image Width="24" Height="24" Source="{Binding XPath=@Ext, Converter={StaticResource FileExtensionToIconConverter}}" />
                                                 <Button Content="AÇ" Command="{Binding DosyaAç, Mode=OneWay, Source={StaticResource Data}}" CommandParameter="{Binding XPath=@Yol}" />
                                                 <TextBlock Text="{Binding XPath=@Ad}" VerticalAlignment="Center" />
                                             </StackPanel>
                                         </DataTemplate>
                                     </ComboBox.ItemTemplate>
+                                    <ComboBox.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <VirtualizingStackPanel />
+                                        </ItemsPanelTemplate>
+                                    </ComboBox.ItemsPanel>
                                 </ComboBox>
                             </StackPanel>
                         </DataTemplate>
