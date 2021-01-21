@@ -35,6 +35,20 @@ namespace Takvim
             }
         }
 
+        public ObservableCollection<Data> AyGünler
+        {
+            get => ayGünler;
+
+            set
+            {
+                if (ayGünler != value)
+                {
+                    ayGünler = value;
+                    OnPropertyChanged(nameof(AyGünler));
+                }
+            }
+        }
+
         private int seçiliYıl = DateTime.Now.Year;
 
         private int bugünIndex = DateTime.Today.DayOfYear - 1;
@@ -50,6 +64,8 @@ namespace Takvim
         private Brush resmiTatilRenk = Properties.Settings.Default.ResmiTatil.ConvertToBrush();
 
         private Brush gövdeRenk = Properties.Settings.Default.GövdeRenk.ConvertToBrush();
+
+        private ObservableCollection<Data> ayGünler;
 
         public int SeçiliYıl
         {
@@ -181,7 +197,9 @@ namespace Takvim
             {
                 xmldoc.Load(xmlpath);
             }
+
             TakvimVerileriniOluştur(SeçiliYıl);
+            AyTakvimVerileriniOluştur(DateTime.Now.Month);
 
             Geri = new RelayCommand(parameter => SeçiliYıl--, parameter => SeçiliYıl > 1);
 
@@ -242,6 +260,7 @@ namespace Takvim
             if (e.PropertyName == "SeçiliYıl" && SeçiliYıl > 0 && SeçiliYıl < 10000)
             {
                 TakvimVerileriniOluştur(SeçiliYıl);
+
             }
 
             if (e.PropertyName == "SeçiliRenkPaz" || e.PropertyName == "GövdeRenk" || e.PropertyName == "SeçiliRenkCmt" || e.PropertyName == "ResmiTatilRenk")
@@ -300,6 +319,12 @@ namespace Takvim
                 }
             }
             return Günler;
+        }
+
+        private ObservableCollection<Data> AyTakvimVerileriniOluştur(int SeçiliAy)
+        {
+            AyGünler= new ObservableCollection<Data>(Günler.Where(z => z.TamTarih.Month == SeçiliAy));
+            return AyGünler;
         }
     }
 }

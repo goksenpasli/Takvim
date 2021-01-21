@@ -4,6 +4,22 @@
     StartupUri="MainWindow.xaml">
     <Application.Resources>
         <local:StringToBrushConverter x:Key="StringToBrushConverter" />
+        <local:GünTatilConverter x:Key="GünTatilConverter" />
+        <local:YarımGünTatilConverter x:Key="YarımGünTatilConverter" />
+        <local:DateNoteCountConverter x:Key="DateNoteCountConverter" />
+        <local:BrushToColorConverter x:Key="BrushToColorConverter" />
+        <local:IntBooleanZeroConverter x:Key="IntBooleanZeroConverter" />
+        <local:SelectedDateToDataListConverter x:Key="SelectedDateToDataListConverter" />
+        <Storyboard x:Key="TimerColorAnimation" RepeatBehavior="Forever" Timeline.DesiredFrameRate="3">
+            <ColorAnimation Storyboard.TargetProperty="(Button.BorderBrush).(SolidColorBrush.Color)" From="Black" To="Red" Duration="00:00:01" />
+        </Storyboard>
+        <Viewbox x:Key="Bayrak" x:Shared="false">
+            <Canvas Width="32.000" Height="21.333">
+                <Path Data=" M 0.000,0.000 L 32.000,0.000 L 32.000,21.333 L 0.000,21.333 L 0.000,0.000 Z" Fill="Red" />
+                <Path Data=" M 10.667,5.330 C 12.565,5.330 14.231,6.322 15.176,7.815 C 14.395,6.945 13.262,6.397 12.001,6.397 C 9.645,6.397 7.735,8.309 7.735,10.667 C 7.735,13.025 9.645,14.936 12.001,14.936 C 13.262,14.936 14.395,14.389 15.176,13.518 C 14.231,15.012 12.565,16.004 10.667,16.004 C 7.722,16.004 5.335,13.614 5.335,10.667 C 5.335,7.719 7.722,5.330 10.667,5.330 Z" Fill="White" />
+                <Path Data=" M 15.215,10.667 L 17.169,10.038 L 17.165,7.993 L 18.368,9.650 L 20.320,9.014 L 19.110,10.667 L 20.320,12.319 L 18.368,11.683 L 17.165,13.341 L 17.169,11.295 L 15.215,10.667 Z" Fill="White" />
+            </Canvas>
+        </Viewbox>
         <ObjectDataProvider x:Key="Renkler" MethodName="GetProperties" ObjectInstance="{x:Type Colors}" />
         <DataTemplate x:Key="ComboBoxRectItemTemplate">
             <Rectangle Width="16" Height="16"
@@ -22,17 +38,23 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
+        <Style x:Key="ListBoxToolTipItemContainerStyle" TargetType="{x:Type ListBoxItem}">
+            <Setter Property="BorderBrush" Value="Blue" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding XPath=@Onemli}" Value="true">
+                    <Setter Property="Background" Value="Red" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
         <LinearGradientBrush x:Key="GroupBoxBackGround" ice:Freeze="True" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0" EndPoint="0.5,1">
             <GradientStop ice:Freeze="True" Offset="1" Color="#FE00B6E8" />
             <GradientStop ice:Freeze="True" Color="#FF48F3CA" />
         </LinearGradientBrush>
+        <LinearGradientBrush x:Key="BorderBackground" ice:Freeze="True" StartPoint="0.5,0" EndPoint="0.5,1">
+            <GradientStop ice:Freeze="True" Offset="0" Color="#FFFDFEFF" />
+            <GradientStop ice:Freeze="True" Offset="1" Color="#FFC1D3EA" />
+        </LinearGradientBrush>
         <Style TargetType="GroupBox">
-            <Style.Resources>
-                <LinearGradientBrush x:Key="GroupBoxBackGround" ice:Freeze="True" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0" EndPoint="0.5,1">
-                    <GradientStop ice:Freeze="True" Offset="1" Color="#FE00B6E8" />
-                    <GradientStop ice:Freeze="True" Color="#FF48F3CA" />
-                </LinearGradientBrush>
-            </Style.Resources>
             <Setter Property="Background" Value="{StaticResource GroupBoxBackGround}" />
             <Setter Property="BorderBrush" Value="Black" />
             <Setter Property="Template">
@@ -51,21 +73,131 @@
                                 <ContentPresenter Margin="4" ContentSource="Header" RecognizesAccessKey="True" />
                             </Border>
                             <Border Grid.Row="1"
+                                Background="{StaticResource BorderBackground}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="1,0,1,1"
                                 CornerRadius="0,0,1,1">
-                                <Border.Background>
-                                    <LinearGradientBrush ice:Freeze="True" StartPoint="0.5,0" EndPoint="0.5,1">
-                                        <GradientStop ice:Freeze="True" Offset="0" Color="#FFFDFEFF" />
-                                        <GradientStop ice:Freeze="True" Offset="1" Color="#FFC1D3EA" />
-                                    </LinearGradientBrush>
-                                </Border.Background>
                                 <ContentPresenter Margin="1" />
                             </Border>
                         </Grid>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
+        </Style>
+        <DataTemplate x:Key="ListBoxDataTemplate">
+            <Button Background="Transparent" BorderBrush="Transparent" Command="{Binding VeriEkleEkranı}">
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding VeriSayısı, Converter={StaticResource IntBooleanZeroConverter}}" Value="true">
+                                <DataTrigger.EnterActions>
+                                    <BeginStoryboard x:Name="Sb" Storyboard="{StaticResource TimerColorAnimation}" />
+                                </DataTrigger.EnterActions>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding VeriSayısı}" Value="0">
+                                <DataTrigger.EnterActions>
+                                    <StopStoryboard BeginStoryboardName="Sb" />
+                                </DataTrigger.EnterActions>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+                <Canvas Width="27" Height="27">
+                    <ContentControl Canvas.Right="0"
+                        Width="16" Height="10"
+                        IsTabStop="False">
+                        <ContentControl.ToolTip>
+                            <ToolTip>
+                                <ListBox ItemsSource="{Binding Tatiller, Source={StaticResource GünTatilConverter}}">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock>
+                                                <Run Text="{Binding Item2, Mode=OneWay}" />
+                                                <Run Text=" " />
+                                                <Run Text="{Binding Item1, Mode=OneWay}" />
+                                                <Run Text=" " />
+                                                <Run Text="{Binding Item3, Mode=OneWay}" />
+                                            </TextBlock>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                            </ToolTip>
+                        </ContentControl.ToolTip>
+                        <ContentControl.Style>
+                            <Style TargetType="{x:Type ContentControl}">
+                                <Setter Property="Content" Value="{x:Null}" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Converter={StaticResource GünTatilConverter}, Mode=OneWay}" Value="true">
+                                        <Setter Property="Content" Value="{StaticResource Bayrak}" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ContentControl.Style>
+                    </ContentControl>
+                    <TextBlock FontSize="11">
+                        <Run Text="{Binding Gün}" />
+                        <LineBreak />
+                        <Run Text="{Binding GünAdı}" />
+                    </TextBlock>
+                    <TextBlock Canvas.Right="0" Canvas.Bottom="0"
+                        DataContext="{Binding Converter={StaticResource DateNoteCountConverter}, Mode=OneWay}"
+                        FontSize="8">
+                        <TextBlock.Style>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="Visibility" Value="Visible" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding VeriSayısı}" Value="0">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                        <Run Text="{Binding VeriSayısı, StringFormat=\{0:D\}}">
+                            <Run.ToolTip>
+                                <ListBox ItemsSource="{Binding Converter={StaticResource SelectedDateToDataListConverter}, Mode=OneWay}" ItemContainerStyle="{StaticResource ListBoxToolTipItemContainerStyle}">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="{Binding XPath=Aciklama}" />
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                            </Run.ToolTip>
+                        </Run>
+                    </TextBlock>
+                </Canvas>
+            </Button>
+        </DataTemplate>
+        <Style x:Key="ListBoxItemContainerStyle" TargetType="{x:Type ListBoxItem}">
+            <Setter Property="IsTabStop" Value="False" />
+            <Setter Property="Margin" Value="1" />
+            <Setter Property="BorderThickness" Value="0.5" />
+            <Setter Property="BorderBrush" Value="#FF145CD6" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding GünAdı}" Value="Cmt">
+                    <Setter Property="Background" Value="{Binding DataContext.SeçiliRenkCmt, ElementName=Window}" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding GünAdı}" Value="Paz">
+                    <Setter Property="Background" Value="{Binding DataContext.SeçiliRenkPaz, ElementName=Window}" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Converter={StaticResource GünTatilConverter}, Mode=OneWay}" Value="true">
+                    <Setter Property="Background" Value="{Binding DataContext.ResmiTatilRenk, ElementName=Window}" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Converter={StaticResource YarımGünTatilConverter}, Mode=OneWay}" Value="true">
+                    <Setter Property="Background">
+                        <Setter.Value>
+                            <LinearGradientBrush ice:Freeze="True" StartPoint="0,0" EndPoint="1,0">
+                                <LinearGradientBrush.RelativeTransform>
+                                    <RotateTransform Angle="45" CenterX="0.5" CenterY="0.5" />
+                                </LinearGradientBrush.RelativeTransform>
+                                <GradientStop Offset="0.5" Color="Transparent" />
+                                <GradientStop Offset="0.5" Color="{Binding DataContext.ResmiTatilRenk, Converter={StaticResource BrushToColorConverter}, ElementName=Window}" />
+                            </LinearGradientBrush>
+                        </Setter.Value>
+                    </Setter>
+                </DataTrigger>
+            </Style.Triggers>
         </Style>
     </Application.Resources>
 </Application>
