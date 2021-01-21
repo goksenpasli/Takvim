@@ -121,7 +121,29 @@
                         <GroupBox.Header>
                             <TextBlock Text="{Binding AyGünler[0].Ay}" FontWeight="Bold" TextAlignment="Center" />
                         </GroupBox.Header>
-                        <ListBox ItemsSource="{Binding AyGünler}" ItemContainerStyle="{StaticResource ListBoxItemContainerStyle}" ItemTemplate="{StaticResource ListBoxDataTemplate}">
+                        <ListBox ItemsSource="{Binding AyGünler}" ItemContainerStyle="{StaticResource ListBoxItemContainerStyle}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <StackPanel Margin="0,0,15,0" VerticalAlignment="Center">
+                                            <TextBlock FontSize="14">
+                                                <Run Text="{Binding Gün}" />
+                                                <LineBreak />
+                                                <Run Text="{Binding GünAdı}" />
+                                            </TextBlock>
+                                        </StackPanel>
+                                        <ScrollViewer Width="110" Height="100" VerticalScrollBarVisibility="Auto">
+                                            <ItemsControl VerticalAlignment="Center" ItemsSource="{Binding Converter={StaticResource SelectedDateToDataListConverter}, Mode=OneWay}">
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding XPath=Aciklama}" />
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                        </ScrollViewer>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
                             <ListBox.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <UniformGrid Columns="7" FirstColumn="{Binding Path=AyGünler[0].Offset}" />

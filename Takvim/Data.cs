@@ -41,8 +41,6 @@ namespace Takvim
 
         private int ıd;
 
-        private bool disposedValue;
-
         public int Gün
         {
             get => gün;
@@ -402,18 +400,13 @@ namespace Takvim
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!disposedValue)
+            if (disposing)
             {
-                if (disposing)
-                {
-                    GünNotAçıklama = null;
-                    ResimData = null;
-                    Dosyalar = null;
-                    VeriRenk = null;
-                    ÖnemliMi = false;
-                }
-
-                disposedValue = true;
+                GünNotAçıklama = null;
+                ResimData = null;
+                Dosyalar = null;
+                VeriRenk = null;
+                ÖnemliMi = false;
             }
         }
 
