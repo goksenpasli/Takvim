@@ -117,17 +117,18 @@
                         FontFamily="Wingdings"
                         Command="{Binding AyGeri}"
                         ToolTip="ÖNCEKİ AY" />
-                    <ListBox Grid.Column="1"
-                        Background="{StaticResource BorderBackground}"
-                        ItemsSource="{Binding AyGünler}"
-                        ItemContainerStyle="{StaticResource ListBoxItemContainerStyle}"
-                        ItemTemplate="{StaticResource ListBoxDataTemplate}">
-                        <ListBox.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <UniformGrid Columns="7" FirstColumn="{Binding Path=AyGünler[0].Offset}" />
-                            </ItemsPanelTemplate>
-                        </ListBox.ItemsPanel>
-                    </ListBox>
+                    <GroupBox Grid.Column="1" Background="{Binding AyGünler[0].Ay, Converter={StaticResource ŞuAnkiAyColorConverter}}">
+                        <GroupBox.Header>
+                            <TextBlock Text="{Binding AyGünler[0].Ay}" FontWeight="Bold" TextAlignment="Center" />
+                        </GroupBox.Header>
+                        <ListBox ItemsSource="{Binding AyGünler}" ItemContainerStyle="{StaticResource ListBoxItemContainerStyle}" ItemTemplate="{StaticResource ListBoxDataTemplate}">
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <UniformGrid Columns="7" FirstColumn="{Binding Path=AyGünler[0].Offset}" />
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                        </ListBox>
+                    </GroupBox>
                     <Button Content="è"
                         Grid.Row="0" Grid.Column="2"
                         FontFamily="Wingdings"
