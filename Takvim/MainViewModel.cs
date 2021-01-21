@@ -67,6 +67,8 @@ namespace Takvim
 
         private ObservableCollection<Data> ayGünler;
 
+        private int seçiliAy= DateTime.Now.Month;
+
         public int SeçiliYıl
         {
             get => seçiliYıl;
@@ -77,6 +79,20 @@ namespace Takvim
                 {
                     seçiliYıl = value;
                     OnPropertyChanged(nameof(SeçiliYıl));
+                }
+            }
+        }
+
+        public int SeçiliAy
+        {
+            get => seçiliAy;
+
+            set
+            {
+                if (seçiliAy != value)
+                {
+                    seçiliAy = value;
+                    OnPropertyChanged(nameof(SeçiliAy));
                 }
             }
         }
@@ -199,11 +215,15 @@ namespace Takvim
             }
 
             TakvimVerileriniOluştur(SeçiliYıl);
-            AyTakvimVerileriniOluştur(DateTime.Now.Month);
+            AyTakvimVerileriniOluştur(SeçiliAy);
 
-            Geri = new RelayCommand(parameter => SeçiliYıl--, parameter => SeçiliYıl > 1);
+            YılGeri = new RelayCommand(parameter => SeçiliYıl--, parameter => SeçiliYıl > 1);
 
-            İleri = new RelayCommand(parameter => SeçiliYıl++, parameter => SeçiliYıl < 9999);
+            AyGeri = new RelayCommand(parameter => SeçiliAy--, parameter => SeçiliAy > 1);
+
+            Yılİleri = new RelayCommand(parameter => SeçiliYıl++, parameter => SeçiliYıl < 9999);
+
+            Ayİleri = new RelayCommand(parameter => SeçiliAy++, parameter => SeçiliAy < 12);
 
             SatırSütünSıfırla = new RelayCommand(parameter =>
             {
@@ -260,7 +280,11 @@ namespace Takvim
             if (e.PropertyName == "SeçiliYıl" && SeçiliYıl > 0 && SeçiliYıl < 10000)
             {
                 TakvimVerileriniOluştur(SeçiliYıl);
-
+            }     
+            
+            if (e.PropertyName == "SeçiliAy" && SeçiliAy > 0 && SeçiliAy < 13)
+            {
+                AyTakvimVerileriniOluştur(SeçiliAy);
             }
 
             if (e.PropertyName == "SeçiliRenkPaz" || e.PropertyName == "GövdeRenk" || e.PropertyName == "SeçiliRenkCmt" || e.PropertyName == "ResmiTatilRenk")
@@ -280,9 +304,13 @@ namespace Takvim
             }
         }
 
-        public ICommand Geri { get; }
+        public ICommand AyGeri { get; }
 
-        public ICommand İleri { get; }
+        public ICommand YılGeri { get; }
+
+        public ICommand Ayİleri { get; }
+
+        public ICommand Yılİleri { get; }
 
         public ICommand SatırSütünSıfırla { get; }
 

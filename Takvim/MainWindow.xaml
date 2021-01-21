@@ -54,7 +54,7 @@
         <Button Content="ç"
             Grid.Row="0" Grid.Column="0" Grid.RowSpan="3"
             FontFamily="Wingdings"
-            Command="{Binding Geri}"
+            Command="{Binding YılGeri}"
             ToolTip="ÖNCEKİ YIL" />
         <Slider Grid.Row="1" Grid.Column="1"
             IsDirectionReversed="True" IsSnapToTickEnabled="True" IsTabStop="False" Maximum="12"
@@ -106,16 +106,34 @@
                 </ListBox>
             </TabItem>
             <TabItem Header="AY">
-                <ListBox Background="{StaticResource BorderBackground}"
-                    ItemsSource="{Binding AyGünler}"
-                    ItemContainerStyle="{StaticResource ListBoxItemContainerStyle}"
-                    ItemTemplate="{StaticResource ListBoxDataTemplate}">
-                    <ListBox.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <UniformGrid Columns="7" FirstColumn="{Binding Items[0].Offset, RelativeSource={RelativeSource AncestorType=ListBox}}" />
-                        </ItemsPanelTemplate>
-                    </ListBox.ItemsPanel>
-                </ListBox>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Button Content="ç"
+                        Grid.Row="0" Grid.Column="0"
+                        FontFamily="Wingdings"
+                        Command="{Binding AyGeri}"
+                        ToolTip="ÖNCEKİ AY" />
+                    <ListBox Grid.Column="1"
+                        Background="{StaticResource BorderBackground}"
+                        ItemsSource="{Binding AyGünler}"
+                        ItemContainerStyle="{StaticResource ListBoxItemContainerStyle}"
+                        ItemTemplate="{StaticResource ListBoxDataTemplate}">
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <UniformGrid Columns="7" FirstColumn="{Binding Path=AyGünler[0].Offset}" />
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                    </ListBox>
+                    <Button Content="è"
+                        Grid.Row="0" Grid.Column="2"
+                        FontFamily="Wingdings"
+                        Command="{Binding Ayİleri}"
+                        ToolTip="SONRAKİ AY" />
+                </Grid>
             </TabItem>
         </TabControl>
         <Slider Grid.Row="2" Grid.Column="2"
@@ -287,7 +305,7 @@
         <Button Content="è"
             Grid.Row="0" Grid.Column="4" Grid.RowSpan="3"
             FontFamily="Wingdings"
-            Command="{Binding İleri}"
+            Command="{Binding Yılİleri}"
             ToolTip="SONRAKİ YIL" />
     </Grid>
 </Window>
