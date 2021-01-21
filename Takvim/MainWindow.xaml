@@ -121,18 +121,23 @@
                         <GroupBox.Header>
                             <TextBlock Text="{Binding AyGünler[0].Ay}" FontWeight="Bold" TextAlignment="Center" />
                         </GroupBox.Header>
-                        <ListBox ItemsSource="{Binding AyGünler}" ItemContainerStyle="{StaticResource ListBoxItemContainerStyle}">
+                        <ListBox Background="{Binding DataContext.GövdeRenk, ElementName=Window}" ItemsSource="{Binding AyGünler}" ItemContainerStyle="{StaticResource ListBoxItemContainerStyle}">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
-                                        <StackPanel Margin="0,0,15,0" VerticalAlignment="Center">
+                                        <StackPanel Grid.Column="0" Margin="0,0,15,0" VerticalAlignment="Center">
                                             <TextBlock FontSize="14">
-                                                <Run Text="{Binding Gün}" />
-                                                <LineBreak />
-                                                <Run Text="{Binding GünAdı}" />
+                                                <Hyperlink Command="{Binding VeriEkleEkranı}">
+                                                    <Hyperlink.Inlines>
+                                                        <Run Text="{Binding Gün}" />
+                                                        <LineBreak />
+                                                        <Run Text="{Binding GünAdı}" />
+                                                    </Hyperlink.Inlines>
+                                                </Hyperlink>
                                             </TextBlock>
                                         </StackPanel>
-                                        <ScrollViewer Width="110" Height="100" VerticalScrollBarVisibility="Auto">
+                                        <ScrollViewer Width="100" Height="100"
+                                            HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                                             <ItemsControl VerticalAlignment="Center" ItemsSource="{Binding Converter={StaticResource SelectedDateToDataListConverter}, Mode=OneWay}">
                                                 <ItemsControl.ItemTemplate>
                                                     <DataTemplate>
