@@ -13,13 +13,13 @@ namespace Takvim
 {
     public class Data : InpcBase, IDisposable
     {
-        private int gün;
+        private short gün;
 
         private string günAdı;
 
         private string ay;
 
-        private int offset;
+        private short offset;
 
         private string günNotAçıklama;
 
@@ -41,7 +41,7 @@ namespace Takvim
 
         private int ıd;
 
-        public int Gün
+        public short Gün
         {
             get => gün;
 
@@ -97,7 +97,7 @@ namespace Takvim
             }
         }
 
-        public int Offset
+        public short Offset
         {
             get => offset;
 

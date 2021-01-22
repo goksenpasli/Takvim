@@ -74,9 +74,9 @@ namespace Takvim.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("3")]
-        public int Satır {
+        public short Satır {
             get {
-                return ((int)(this["Satır"]));
+                return ((short)(this["Satır"]));
             }
             set {
                 this["Satır"] = value;
@@ -86,9 +86,9 @@ namespace Takvim.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("4")]
-        public int Sütün {
+        public short Sütün {
             get {
-                return ((int)(this["Sütün"]));
+                return ((short)(this["Sütün"]));
             }
             set {
                 this["Sütün"] = value;

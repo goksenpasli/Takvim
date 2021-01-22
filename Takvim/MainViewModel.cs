@@ -49,13 +49,13 @@ namespace Takvim
             }
         }
 
-        private int seçiliYıl = DateTime.Now.Year;
+        private short seçiliYıl = (short)DateTime.Now.Year;
 
-        private int bugünIndex = DateTime.Today.DayOfYear - 1;
+        private short bugünIndex = (short)(DateTime.Today.DayOfYear - 1);
 
-        private int sütünSayısı = Properties.Settings.Default.Sütün;
+        private short sütünSayısı = (short)Properties.Settings.Default.Sütün;
 
-        private int satırSayısı = Properties.Settings.Default.Satır;
+        private short satırSayısı = (short)Properties.Settings.Default.Satır;
 
         private Brush seçiliRenkCmt = Properties.Settings.Default.CmtRenk.ConvertToBrush();
 
@@ -67,9 +67,9 @@ namespace Takvim
 
         private ObservableCollection<Data> ayGünler;
 
-        private int seçiliAy= DateTime.Now.Month;
+        private short seçiliAy= (short)DateTime.Now.Month;
 
-        public int SeçiliYıl
+        public short SeçiliYıl
         {
             get => seçiliYıl;
 
@@ -83,7 +83,7 @@ namespace Takvim
             }
         }
 
-        public int SeçiliAy
+        public short SeçiliAy
         {
             get => seçiliAy;
 
@@ -97,7 +97,7 @@ namespace Takvim
             }
         }
 
-        public int BugünIndex
+        public short BugünIndex
         {
             get => bugünIndex;
 
@@ -111,7 +111,7 @@ namespace Takvim
             }
         }
 
-        public int SütünSayısı
+        public short SütünSayısı
         {
             get => sütünSayısı;
 
@@ -125,7 +125,7 @@ namespace Takvim
             }
         }
 
-        public int SatırSayısı
+        public short SatırSayısı
         {
             get => satırSayısı;
 
@@ -236,7 +236,7 @@ namespace Takvim
             {
                 if (parameter is XmlElement xmlElement)
                 {
-                    SeçiliYıl = DateTime.Parse(xmlElement.InnerText).Year;
+                    SeçiliYıl = (short)DateTime.Parse(xmlElement.InnerText).Year;
                 }
             }, parameter => parameter is XmlElement xmlElement && DateTime.Parse(xmlElement.InnerText).Year != SeçiliYıl);
 
@@ -255,7 +255,7 @@ namespace Takvim
             {
                 if (12 % SütünSayısı == 0)
                 {
-                    SatırSayısı = 12 / SütünSayısı;
+                    SatırSayısı = (short)(12 / SütünSayısı);
                 }
                 if (SatırSayısı * SütünSayısı < 12)
                 {
@@ -268,7 +268,7 @@ namespace Takvim
             {
                 if (12 % SatırSayısı == 0)
                 {
-                    SütünSayısı = 12 / SatırSayısı;
+                    SütünSayısı = (short)(12 / SatırSayısı);
                 }
                 if (SatırSayısı * SütünSayısı < 12)
                 {
@@ -331,9 +331,9 @@ namespace Takvim
                         var data = new Data
                         {
                             GünAdı = date.ToString("ddd"),
-                            Gün = date.Day,
+                            Gün = (short)date.Day,
                             Ay = date.ToString("MMMM"),
-                            Offset = (int)date.DayOfWeek,
+                            Offset = (short)date.DayOfWeek,
                             TamTarih = date
                         };
 

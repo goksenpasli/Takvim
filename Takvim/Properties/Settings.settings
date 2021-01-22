@@ -14,10 +14,10 @@
     <Setting Name="GövdeRenk" Type="System.Drawing.Color" Scope="User">
       <Value Profile="(Default)">Transparent</Value>
     </Setting>
-    <Setting Name="Satır" Type="System.Int32" Scope="User">
+    <Setting Name="Satır" Type="System.Int16" Scope="User">
       <Value Profile="(Default)">3</Value>
     </Setting>
-    <Setting Name="Sütün" Type="System.Int32" Scope="User">
+    <Setting Name="Sütün" Type="System.Int16" Scope="User">
       <Value Profile="(Default)">4</Value>
     </Setting>
   </Settings>
