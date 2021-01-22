@@ -11,7 +11,7 @@
         <local:IntBooleanZeroConverter x:Key="IntBooleanZeroConverter" />
         <local:SelectedDateToDataListConverter x:Key="SelectedDateToDataListConverter" />
         <Storyboard x:Key="TimerColorAnimation" RepeatBehavior="Forever" Timeline.DesiredFrameRate="3">
-            <ColorAnimation Storyboard.TargetProperty="(Button.BorderBrush).(SolidColorBrush.Color)" From="Black" To="Red" Duration="00:00:01" />
+            <ColorAnimation Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)" From="Black" To="Red" Duration="00:00:01" />
         </Storyboard>
         <Viewbox x:Key="Bayrak" x:Shared="false">
             <Canvas Width="32.000" Height="21.333">
@@ -85,9 +85,9 @@
             </Setter>
         </Style>
         <DataTemplate x:Key="ListBoxDataTemplate">
-            <Button Background="Transparent" BorderBrush="Transparent" Command="{Binding VeriEkleEkranı}">
-                <Button.Style>
-                    <Style TargetType="{x:Type Button}">
+            <Border BorderBrush="Transparent" BorderThickness="1">
+                <Border.Style>
+                    <Style TargetType="{x:Type Border}">
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding VeriSayısı, Converter={StaticResource IntBooleanZeroConverter}}" Value="true">
                                 <DataTrigger.EnterActions>
@@ -101,8 +101,17 @@
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
-                </Button.Style>
+                </Border.Style>
                 <Canvas Width="27" Height="27">
+                    <TextBlock Canvas.Left="0" FontSize="11">
+                        <Hyperlink Command="{Binding VeriEkleEkranı}">
+                            <Hyperlink.Inlines>
+                                <Run Text="{Binding Gün}" />
+                                <LineBreak />
+                                <Run Text="{Binding GünAdı}" />
+                            </Hyperlink.Inlines>
+                        </Hyperlink>
+                    </TextBlock>
                     <ContentControl Canvas.Right="0"
                         Width="16" Height="10"
                         IsTabStop="False">
@@ -134,11 +143,6 @@
                             </Style>
                         </ContentControl.Style>
                     </ContentControl>
-                    <TextBlock FontSize="11">
-                        <Run Text="{Binding Gün}" />
-                        <LineBreak />
-                        <Run Text="{Binding GünAdı}" />
-                    </TextBlock>
                     <TextBlock Canvas.Right="0" Canvas.Bottom="0"
                         DataContext="{Binding Converter={StaticResource DateNoteCountConverter}, Mode=OneWay}"
                         FontSize="8">
@@ -167,7 +171,7 @@
                         </Run>
                     </TextBlock>
                 </Canvas>
-            </Button>
+            </Border>
         </DataTemplate>
         <Style x:Key="ListBoxItemContainerStyle" TargetType="{x:Type ListBoxItem}">
             <Setter Property="IsTabStop" Value="False" />
