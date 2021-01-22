@@ -357,7 +357,7 @@ namespace Takvim
             {
                 verigirişwindow = new Window
                 {
-                    Title = TamTarih.ToShortDateString(),
+                    Title = TamTarih.ToString("dd MMMM yyyy dddd"),
                     Content = new DataEnterWindow(),
                     DataContext = this,
                     Width = 300,
