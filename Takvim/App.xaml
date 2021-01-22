@@ -93,7 +93,17 @@
                             <LineBreak />
                             <Run Text="{Binding GünAdı}" />
                             <Run Text="" />
-                            <Run Text="{Binding VeriSayısı, StringFormat=\{0:D\}}" DataContext="{Binding Converter={StaticResource DateNoteCountConverter}, Mode=OneWay}" FontSize="8">
+                            <Run DataContext="{Binding Converter={StaticResource DateNoteCountConverter}, Mode=OneWay}" FontSize="8">
+                                <Run.Style>
+                                    <Style TargetType="Run">
+                                        <Setter Property="Text" Value="{Binding VeriSayısı, StringFormat=\{0:D\}}" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding VeriSayısı}" Value="0">
+                                                <Setter Property="Text" Value="" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Run.Style>
                                 <Run.ToolTip>
                                     <ListBox ItemsSource="{Binding Converter={StaticResource SelectedDateToDataListConverter}, Mode=OneWay}" ItemContainerStyle="{StaticResource ListBoxToolTipItemContainerStyle}">
                                         <ListBox.ItemTemplate>
@@ -119,9 +129,7 @@
                                     <DataTemplate>
                                         <TextBlock>
                                             <Run Text="{Binding Item2, Mode=OneWay}" />
-                                            <Run Text=" " />
                                             <Run Text="{Binding Item1, Mode=OneWay}" />
-                                            <Run Text=" " />
                                             <Run Text="{Binding Item3, Mode=OneWay}" />
                                         </TextBlock>
                                     </DataTemplate>

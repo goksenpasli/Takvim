@@ -53,9 +53,9 @@ namespace Takvim
 
         private short bugünIndex = (short)(DateTime.Today.DayOfYear - 1);
 
-        private short sütünSayısı = (short)Properties.Settings.Default.Sütün;
+        private short sütünSayısı = Properties.Settings.Default.Sütün;
 
-        private short satırSayısı = (short)Properties.Settings.Default.Satır;
+        private short satırSayısı = Properties.Settings.Default.Satır;
 
         private Brush seçiliRenkCmt = Properties.Settings.Default.CmtRenk.ConvertToBrush();
 
@@ -318,7 +318,7 @@ namespace Takvim
 
         public ICommand AyarSıfırla { get; }
 
-        private ObservableCollection<Data> TakvimVerileriniOluştur(int SeçiliYıl)
+        private ObservableCollection<Data> TakvimVerileriniOluştur(short SeçiliYıl)
         {
             Günler = new ObservableCollection<Data>();
             for (int i = 1; i <= 12; i++)
@@ -349,7 +349,7 @@ namespace Takvim
             return Günler;
         }
 
-        private ObservableCollection<Data> AyTakvimVerileriniOluştur(int SeçiliAy)
+        private ObservableCollection<Data> AyTakvimVerileriniOluştur(short SeçiliAy)
         {
             AyGünler= new ObservableCollection<Data>(Günler.Where(z => z.TamTarih.Month == SeçiliAy));
             return AyGünler;

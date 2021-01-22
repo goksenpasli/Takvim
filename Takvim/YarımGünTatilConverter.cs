@@ -8,9 +8,9 @@ namespace Takvim
 {
     public class YarımGünTatilConverter : IValueConverter
     {
-        private readonly List<Tuple<string, int>> tatiller = new List<Tuple<string, int>>();
+        private readonly List<Tuple<string, short>> tatiller = new List<Tuple<string, short>>();
 
-        public YarımGünTatilConverter() => tatiller.Add(new Tuple<string, int>("Ekim", 28));
+        public YarımGünTatilConverter() => tatiller.Add(new Tuple<string, short>("Ekim", 28));
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => value is Data data && tatiller.Any(z => z.Item1 == data.Ay && z.Item2 == data.Gün);
 
