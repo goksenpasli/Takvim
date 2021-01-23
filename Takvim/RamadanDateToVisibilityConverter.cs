@@ -12,6 +12,7 @@ namespace Takvim
         public RamadanDateToVisibilityConverter()
         {
             hijriCalendar = new HijriCalendar();
+            hijriCalendar.HijriAdjustment--;
         }
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => (value is DateTime date && date > hijriCalendar.MinSupportedDateTime) ? (hijriCalendar.GetMonth(date) == 9) ? Visibility.Visible : Visibility.Collapsed : Visibility.Collapsed;
 

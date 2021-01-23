@@ -118,21 +118,6 @@
                 <ContentControl Canvas.Right="0"
                     Width="16" Height="10"
                     IsTabStop="False">
-                    <ContentControl.ToolTip>
-                        <ToolTip>
-                            <ListBox ItemsSource="{Binding Tatiller, Source={StaticResource GünTatilConverter}}">
-                                <ListBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <TextBlock>
-                                            <Run Text="{Binding Item2, Mode=OneWay}" />
-                                            <Run Text="{Binding Item1, Mode=OneWay}" />
-                                            <Run Text="{Binding Item3, Mode=OneWay}" />
-                                        </TextBlock>
-                                    </DataTemplate>
-                                </ListBox.ItemTemplate>
-                            </ListBox>
-                        </ToolTip>
-                    </ContentControl.ToolTip>
                     <ContentControl.Style>
                         <Style TargetType="{x:Type ContentControl}">
                             <Setter Property="Content" Value="{x:Null}" />
