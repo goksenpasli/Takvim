@@ -70,6 +70,7 @@
     <Compile Include="InpcBase.cs" />
     <Compile Include="ListBoxDatePassedVisibilityConverter.cs" />
     <Compile Include="NullableToBooleanConverter.cs" />
+    <Compile Include="RamadanDateToHolidayConverter.cs" />
     <Compile Include="RamadanDateToVisibilityConverter.cs" />
     <Compile Include="RelayCommand.cs" />
     <Compile Include="IntBooleanZeroConverter.cs" />
