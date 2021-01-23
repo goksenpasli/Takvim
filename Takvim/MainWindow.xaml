@@ -100,7 +100,7 @@
                     </ListBox.GroupStyle>
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <UniformGrid Columns="7" FirstColumn="{Binding Items[0].Offset}" />
+                            <UniformGrid Columns="7" FirstColumn="{Binding Items/Offset}" />
                         </ItemsPanelTemplate>
                     </ListBox.ItemsPanel>
                 </ListBox>
@@ -117,9 +117,9 @@
                         FontFamily="Wingdings"
                         Command="{Binding AyGeri}"
                         ToolTip="ÖNCEKİ AY" />
-                    <GroupBox Grid.Column="1" Background="{Binding AyGünler[0].Ay, Converter={StaticResource ŞuAnkiAyColorConverter}}">
+                    <GroupBox Grid.Column="1" Background="{Binding AyGünler/Ay, Converter={StaticResource ŞuAnkiAyColorConverter}}">
                         <GroupBox.Header>
-                            <TextBlock Text="{Binding AyGünler[0].Ay}" FontWeight="Bold" TextAlignment="Center" />
+                            <TextBlock Text="{Binding AyGünler/Ay}" FontWeight="Bold" TextAlignment="Center" />
                         </GroupBox.Header>
                         <ListBox Background="{Binding DataContext.GövdeRenk, ElementName=Window}" ItemsSource="{Binding AyGünler}" ItemContainerStyle="{StaticResource ListBoxItemContainerStyle}">
                             <ListBox.ItemTemplate>
@@ -151,7 +151,7 @@
                             </ListBox.ItemTemplate>
                             <ListBox.ItemsPanel>
                                 <ItemsPanelTemplate>
-                                    <UniformGrid Columns="7" FirstColumn="{Binding Path=AyGünler[0].Offset}" />
+                                    <UniformGrid Columns="7" FirstColumn="{Binding Path=AyGünler/Offset}" />
                                 </ItemsPanelTemplate>
                             </ListBox.ItemsPanel>
                         </ListBox>

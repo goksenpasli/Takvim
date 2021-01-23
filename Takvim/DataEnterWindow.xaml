@@ -36,6 +36,7 @@
             <Image Grid.Column="1" Source="{Binding ResimData, TargetNullValue={x:Null}}" />
             <CheckBox Content="ÖNEMLİ Mİ"
                 Grid.Row="1"
+                Foreground="Red"
                 VerticalAlignment="Center"
                 IsChecked="{Binding ÖnemliMi, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             <ComboBox Grid.Row="1" Grid.Column="2"

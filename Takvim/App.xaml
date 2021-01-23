@@ -3,6 +3,7 @@
     xmlns:ice="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options" xmlns:local="clr-namespace:Takvim"
     StartupUri="MainWindow.xaml">
     <Application.Resources>
+        <local:RamadanDateToVisibilityConverter x:Key="RamadanDateToVisibilityConverter" />
         <local:StringToBrushConverter x:Key="StringToBrushConverter" />
         <local:GünTatilConverter x:Key="GünTatilConverter" />
         <local:YarımGünTatilConverter x:Key="YarımGünTatilConverter" />
@@ -54,7 +55,7 @@
             <GradientStop ice:Freeze="True" Offset="0" Color="#FFFDFEFF" />
             <GradientStop ice:Freeze="True" Offset="1" Color="#FFC1D3EA" />
         </LinearGradientBrush>
-        <Style TargetType="GroupBox">
+        <Style TargetType="{x:Type GroupBox}">
             <Setter Property="Background" Value="{StaticResource GroupBoxBackGround}" />
             <Setter Property="BorderBrush" Value="Black" />
             <Setter Property="Template">
@@ -86,39 +87,37 @@
         </Style>
         <DataTemplate x:Key="ListBoxDataTemplate">
             <Canvas Width="30" Height="30">
-                <TextBlock Canvas.Left="0" FontSize="11">
-                    <Hyperlink Command="{Binding VeriEkleEkranı}">
-                        <Hyperlink.Inlines>
-                            <Run Text="{Binding Gün}" />
-                            <LineBreak />
-                            <Run Text="{Binding GünAdı}" />
-                            <Run Text="" />
-                            <Run DataContext="{Binding Converter={StaticResource DateNoteCountConverter}, Mode=OneWay}" FontSize="8">
-                                <Run.Style>
-                                    <Style TargetType="Run">
-                                        <Setter Property="Text" Value="{Binding VeriSayısı, StringFormat=\{0:D\}}" />
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding VeriSayısı}" Value="0">
-                                                <Setter Property="Text" Value="" />
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Run.Style>
-                                <Run.ToolTip>
-                                    <ListBox ItemsSource="{Binding Converter={StaticResource SelectedDateToDataListConverter}, Mode=OneWay}" ItemContainerStyle="{StaticResource ListBoxToolTipItemContainerStyle}">
-                                        <ListBox.ItemTemplate>
-                                            <DataTemplate>
-                                                <StackPanel Orientation="Horizontal">
-                                                    <TextBlock Text="{Binding XPath=Aciklama}" />
-                                                </StackPanel>
-                                            </DataTemplate>
-                                        </ListBox.ItemTemplate>
-                                    </ListBox>
-                                </Run.ToolTip>
-                            </Run>
-                        </Hyperlink.Inlines>
-                    </Hyperlink>
-                </TextBlock>
+                <TextBlock Canvas.Left="0" FontSize="11"><Hyperlink Command="{Binding VeriEkleEkranı}">
+                        <Run Text="{Binding Gün}" />
+                        <LineBreak />
+                        <Run Text="{Binding GünAdı}" />
+                        <Run Text=" " />
+                        <Run Text="" />
+                        <Run Text=" " />
+                        <Run DataContext="{Binding Converter={StaticResource DateNoteCountConverter}, Mode=OneWay}" FontSize="8">
+                            <Run.Style>
+                                <Style TargetType="{x:Type Run}">
+                                    <Setter Property="Text" Value="{Binding VeriSayısı, StringFormat=\{0:D\}}" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding VeriSayısı}" Value="0">
+                                            <Setter Property="Text" Value="" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Run.Style>
+                            <Run.ToolTip>
+                                <ListBox ItemsSource="{Binding Converter={StaticResource SelectedDateToDataListConverter}, Mode=OneWay}" ItemContainerStyle="{StaticResource ListBoxToolTipItemContainerStyle}">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="{Binding XPath=Aciklama}" />
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                            </Run.ToolTip>
+                        </Run>
+                    </Hyperlink></TextBlock>
                 <ContentControl Canvas.Right="0"
                     Width="16" Height="10"
                     IsTabStop="False">
@@ -148,6 +147,10 @@
                         </Style>
                     </ContentControl.Style>
                 </ContentControl>
+                <TextBlock Text="R"
+                    Visibility="{Binding TamTarih, Converter={StaticResource RamadanDateToVisibilityConverter}}"
+                    Canvas.Top="10" Canvas.Right="0"
+                    FontSize="10" FontStyle="Italic" />
             </Canvas>
         </DataTemplate>
         <Style x:Key="ListBoxItemContainerStyle" TargetType="{x:Type ListBoxItem}">
