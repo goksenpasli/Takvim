@@ -177,6 +177,19 @@
                 <DataTrigger Binding="{Binding Path=TamTarih, Converter={StaticResource RamadanDateToHolidayConverter}, Mode=OneWay}" Value="true">
                     <Setter Property="Background" Value="Cyan" />
                 </DataTrigger>
+                <DataTrigger Binding="{Binding Path=TamTarih, Converter={StaticResource RamadanDateToHolidayConverter}, Mode=OneWay}" Value="{x:Null}">
+                    <Setter Property="Background">
+                        <Setter.Value>
+                            <LinearGradientBrush ice:Freeze="True" StartPoint="0,0" EndPoint="1,0">
+                                <LinearGradientBrush.RelativeTransform>
+                                    <RotateTransform Angle="45" CenterX="0.5" CenterY="0.5" />
+                                </LinearGradientBrush.RelativeTransform>
+                                <GradientStop Offset="0.5" Color="Transparent" />
+                                <GradientStop Offset="0.5" Color="Cyan" />
+                            </LinearGradientBrush>
+                        </Setter.Value>
+                    </Setter>
+                </DataTrigger>
             </Style.Triggers>
         </Style>
     </Application.Resources>
