@@ -299,7 +299,7 @@
                 </ListBox>
             </GroupBox>
         </Grid>
-        <UniformGrid Grid.Row="2" Grid.Column="3" Columns="5">
+        <UniformGrid Grid.Row="2" Grid.Column="3" Columns="6" Rows="1">
             <ComboBox ItemsSource="{Binding Source={StaticResource Renkler}}"
                 ItemContainerStyle="{StaticResource ComboBoxItemContainerStyle}"
                 ItemTemplate="{StaticResource ComboBoxRectItemTemplate}"
@@ -328,6 +328,13 @@
                 ScrollViewer.VerticalScrollBarVisibility="Disabled"
                 SelectedValue="{Binding GövdeRenk, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                 SelectedValuePath="Name" ToolTip="Gövde Renk" />
+            <ComboBox ItemsSource="{Binding Source={StaticResource Renkler}}"
+                ItemContainerStyle="{StaticResource ComboBoxItemContainerStyle}"
+                ItemTemplate="{StaticResource ComboBoxRectItemTemplate}"
+                ItemsPanel="{StaticResource CbItemsPanelTemplate}"
+                ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                SelectedValue="{Binding BayramTatilRenk, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                SelectedValuePath="Name" ToolTip="Bayram Renk" />
             <Button Content="R" Command="{Binding AyarSıfırla, Mode=OneWay}" ToolTip="Renk Ayarlarını Sıfırla" />
         </UniformGrid>
         <Button Content="è"

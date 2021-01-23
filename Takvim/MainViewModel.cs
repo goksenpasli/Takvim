@@ -68,6 +68,8 @@ namespace Takvim
         private ObservableCollection<Data> ayGünler;
 
         private short seçiliAy= (short)DateTime.Now.Month;
+        
+        private Brush bayramTatilRenk = Properties.Settings.Default.BayramRenk.ConvertToBrush();
 
         public short SeçiliYıl
         {
@@ -135,6 +137,20 @@ namespace Takvim
                 {
                     satırSayısı = value;
                     OnPropertyChanged(nameof(SatırSayısı));
+                }
+            }
+        }
+
+        public Brush BayramTatilRenk
+        {
+            get => bayramTatilRenk;
+
+            set
+            {
+                if (bayramTatilRenk != value)
+                {
+                    bayramTatilRenk = value;
+                    OnPropertyChanged(nameof(BayramTatilRenk));
                 }
             }
         }
@@ -287,12 +303,13 @@ namespace Takvim
                 AyTakvimVerileriniOluştur(SeçiliAy);
             }
 
-            if (e.PropertyName == "SeçiliRenkPaz" || e.PropertyName == "GövdeRenk" || e.PropertyName == "SeçiliRenkCmt" || e.PropertyName == "ResmiTatilRenk")
+            if (e.PropertyName == "SeçiliRenkPaz" || e.PropertyName == "GövdeRenk" || e.PropertyName == "SeçiliRenkCmt" || e.PropertyName == "ResmiTatilRenk" || e.PropertyName == "BayramTatilRenk")
             {
                 Properties.Settings.Default.PazRenk = SeçiliRenkPaz.ConvertToColor();
                 Properties.Settings.Default.CmtRenk = SeçiliRenkCmt.ConvertToColor();
                 Properties.Settings.Default.ResmiTatil = ResmiTatilRenk.ConvertToColor();
                 Properties.Settings.Default.GövdeRenk = GövdeRenk.ConvertToColor();
+                Properties.Settings.Default.BayramRenk = BayramTatilRenk.ConvertToColor();
                 Properties.Settings.Default.Save();
             }
 

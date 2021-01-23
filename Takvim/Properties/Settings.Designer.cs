@@ -94,5 +94,17 @@ namespace Takvim.Properties {
                 this["Sütün"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Cyan")]
+        public global::System.Drawing.Color BayramRenk {
+            get {
+                return ((global::System.Drawing.Color)(this["BayramRenk"]));
+            }
+            set {
+                this["BayramRenk"] = value;
+            }
+        }
     }
 }

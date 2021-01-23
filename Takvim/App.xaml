@@ -57,13 +57,6 @@
             <GradientStop ice:Freeze="True" Offset="0" Color="#FFFDFEFF" />
             <GradientStop ice:Freeze="True" Offset="1" Color="#FFC1D3EA" />
         </LinearGradientBrush>
-        <LinearGradientBrush x:Key="HalfHolidayBrush" ice:Freeze="True" StartPoint="0,0" EndPoint="1,0">
-            <LinearGradientBrush.RelativeTransform>
-                <RotateTransform Angle="45" CenterX="0.5" CenterY="0.5" />
-            </LinearGradientBrush.RelativeTransform>
-            <GradientStop Offset="0.5" Color="Transparent" />
-            <GradientStop Offset="0.5" Color="Cyan" />
-        </LinearGradientBrush>
         <Style TargetType="{x:Type GroupBox}">
             <Setter Property="Background" Value="{StaticResource GroupBoxBackGround}" />
             <Setter Property="BorderBrush" Value="Black" />
@@ -183,16 +176,36 @@
                     </Setter>
                 </DataTrigger>
                 <DataTrigger Binding="{Binding Path=TamTarih, Converter={StaticResource RamadanDateToHolidayConverter}, Mode=OneWay}" Value="true">
-                    <Setter Property="Background" Value="Cyan" />
+                    <Setter Property="Background" Value="{Binding DataContext.BayramTatilRenk, ElementName=Window}" />
                 </DataTrigger>
                 <DataTrigger Binding="{Binding Path=TamTarih, Converter={StaticResource RamadanDateToHolidayConverter}, Mode=OneWay}" Value="{x:Null}">
-                    <Setter Property="Background" Value="{StaticResource HalfHolidayBrush}" />
+                    <Setter Property="Background">
+                        <Setter.Value>
+                            <LinearGradientBrush ice:Freeze="True" StartPoint="0,0" EndPoint="1,0">
+                                <LinearGradientBrush.RelativeTransform>
+                                    <RotateTransform Angle="45" CenterX="0.5" CenterY="0.5" />
+                                </LinearGradientBrush.RelativeTransform>
+                                <GradientStop Offset="0.5" Color="Transparent" />
+                                <GradientStop Offset="0.5" Color="{Binding DataContext.BayramTatilRenk, Converter={StaticResource BrushToColorConverter}, ElementName=Window}" />
+                            </LinearGradientBrush>
+                        </Setter.Value>
+                    </Setter>
                 </DataTrigger>
                 <DataTrigger Binding="{Binding Path=TamTarih, Converter={StaticResource FeastoftheSacrificeDateToHolidayConverter}, Mode=OneWay}" Value="true">
-                    <Setter Property="Background" Value="Cyan" />
+                    <Setter Property="Background" Value="{Binding DataContext.BayramTatilRenk, ElementName=Window}" />
                 </DataTrigger>
                 <DataTrigger Binding="{Binding Path=TamTarih, Converter={StaticResource FeastoftheSacrificeDateToHolidayConverter}, Mode=OneWay}" Value="{x:Null}">
-                    <Setter Property="Background" Value="{StaticResource HalfHolidayBrush}" />
+                    <Setter Property="Background">
+                        <Setter.Value>
+                            <LinearGradientBrush ice:Freeze="True" StartPoint="0,0" EndPoint="1,0">
+                                <LinearGradientBrush.RelativeTransform>
+                                    <RotateTransform Angle="45" CenterX="0.5" CenterY="0.5" />
+                                </LinearGradientBrush.RelativeTransform>
+                                <GradientStop Offset="0.5" Color="Transparent" />
+                                <GradientStop Offset="0.5" Color="{Binding DataContext.BayramTatilRenk, Converter={StaticResource BrushToColorConverter}, ElementName=Window}" />
+                            </LinearGradientBrush>
+                        </Setter.Value>
+                    </Setter>
                 </DataTrigger>
             </Style.Triggers>
         </Style>
