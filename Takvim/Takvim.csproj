@@ -77,7 +77,6 @@
     <Compile Include="SelectedDateToDataListConverter.cs" />
     <Compile Include="StringToBrushConverter.cs" />
     <Compile Include="XmlDateConverter.cs" />
-    <Compile Include="YarımGünTatilConverter.cs" />
     <Compile Include="ŞuAnkiAyColorConverter.cs" />
     <Page Include="DataEnterWindow.xaml">
       <SubType>Designer</SubType>

@@ -6,7 +6,6 @@
         <local:RamadanDateToVisibilityConverter x:Key="RamadanDateToVisibilityConverter" />
         <local:StringToBrushConverter x:Key="StringToBrushConverter" />
         <local:GünTatilConverter x:Key="GünTatilConverter" />
-        <local:YarımGünTatilConverter x:Key="YarımGünTatilConverter" />
         <local:RamadanDateToHolidayConverter x:Key="RamadanDateToHolidayConverter" />
         <local:FeastoftheSacrificeDateToHolidayConverter x:Key="FeastoftheSacrificeDateToHolidayConverter" />
         <local:DateNoteCountConverter x:Key="DateNoteCountConverter" />
@@ -56,6 +55,20 @@
         <LinearGradientBrush x:Key="BorderBackground" ice:Freeze="True" StartPoint="0.5,0" EndPoint="0.5,1">
             <GradientStop ice:Freeze="True" Offset="0" Color="#FFFDFEFF" />
             <GradientStop ice:Freeze="True" Offset="1" Color="#FFC1D3EA" />
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="ReligiousDateHalfBackground" ice:Freeze="True" StartPoint="0,0" EndPoint="1,0">
+            <LinearGradientBrush.RelativeTransform>
+                <RotateTransform Angle="45" CenterX="0.5" CenterY="0.5" />
+            </LinearGradientBrush.RelativeTransform>
+            <GradientStop Offset="0.5" Color="Transparent" />
+            <GradientStop Offset="0.5" Color="{Binding DataContext.BayramTatilRenk, Converter={StaticResource BrushToColorConverter}, ElementName=Window}" />
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="HolidayHalfBackground" ice:Freeze="True" StartPoint="0,0" EndPoint="1,0">
+            <LinearGradientBrush.RelativeTransform>
+                <RotateTransform Angle="45" CenterX="0.5" CenterY="0.5" />
+            </LinearGradientBrush.RelativeTransform>
+            <GradientStop Offset="0.5" Color="Transparent" />
+            <GradientStop Offset="0.5" Color="{Binding DataContext.ResmiTatilRenk, Converter={StaticResource BrushToColorConverter}, ElementName=Window}" />
         </LinearGradientBrush>
         <Style TargetType="{x:Type GroupBox}">
             <Setter Property="Background" Value="{StaticResource GroupBoxBackGround}" />
@@ -162,50 +175,20 @@
                 <DataTrigger Binding="{Binding Converter={StaticResource GünTatilConverter}, Mode=OneWay}" Value="true">
                     <Setter Property="Background" Value="{Binding DataContext.ResmiTatilRenk, ElementName=Window}" />
                 </DataTrigger>
-                <DataTrigger Binding="{Binding Converter={StaticResource YarımGünTatilConverter}, Mode=OneWay}" Value="true">
-                    <Setter Property="Background">
-                        <Setter.Value>
-                            <LinearGradientBrush ice:Freeze="True" StartPoint="0,0" EndPoint="1,0">
-                                <LinearGradientBrush.RelativeTransform>
-                                    <RotateTransform Angle="45" CenterX="0.5" CenterY="0.5" />
-                                </LinearGradientBrush.RelativeTransform>
-                                <GradientStop Offset="0.5" Color="Transparent" />
-                                <GradientStop Offset="0.5" Color="{Binding DataContext.ResmiTatilRenk, Converter={StaticResource BrushToColorConverter}, ElementName=Window}" />
-                            </LinearGradientBrush>
-                        </Setter.Value>
-                    </Setter>
+                <DataTrigger Binding="{Binding Converter={StaticResource GünTatilConverter}, Mode=OneWay}" Value="{x:Null}">
+                    <Setter Property="Background" Value="{StaticResource HolidayHalfBackground}" />
                 </DataTrigger>
                 <DataTrigger Binding="{Binding Path=TamTarih, Converter={StaticResource RamadanDateToHolidayConverter}, Mode=OneWay}" Value="true">
                     <Setter Property="Background" Value="{Binding DataContext.BayramTatilRenk, ElementName=Window}" />
                 </DataTrigger>
                 <DataTrigger Binding="{Binding Path=TamTarih, Converter={StaticResource RamadanDateToHolidayConverter}, Mode=OneWay}" Value="{x:Null}">
-                    <Setter Property="Background">
-                        <Setter.Value>
-                            <LinearGradientBrush ice:Freeze="True" StartPoint="0,0" EndPoint="1,0">
-                                <LinearGradientBrush.RelativeTransform>
-                                    <RotateTransform Angle="45" CenterX="0.5" CenterY="0.5" />
-                                </LinearGradientBrush.RelativeTransform>
-                                <GradientStop Offset="0.5" Color="Transparent" />
-                                <GradientStop Offset="0.5" Color="{Binding DataContext.BayramTatilRenk, Converter={StaticResource BrushToColorConverter}, ElementName=Window}" />
-                            </LinearGradientBrush>
-                        </Setter.Value>
-                    </Setter>
+                    <Setter Property="Background" Value="{StaticResource ReligiousDateHalfBackground}" />
                 </DataTrigger>
                 <DataTrigger Binding="{Binding Path=TamTarih, Converter={StaticResource FeastoftheSacrificeDateToHolidayConverter}, Mode=OneWay}" Value="true">
                     <Setter Property="Background" Value="{Binding DataContext.BayramTatilRenk, ElementName=Window}" />
                 </DataTrigger>
                 <DataTrigger Binding="{Binding Path=TamTarih, Converter={StaticResource FeastoftheSacrificeDateToHolidayConverter}, Mode=OneWay}" Value="{x:Null}">
-                    <Setter Property="Background">
-                        <Setter.Value>
-                            <LinearGradientBrush ice:Freeze="True" StartPoint="0,0" EndPoint="1,0">
-                                <LinearGradientBrush.RelativeTransform>
-                                    <RotateTransform Angle="45" CenterX="0.5" CenterY="0.5" />
-                                </LinearGradientBrush.RelativeTransform>
-                                <GradientStop Offset="0.5" Color="Transparent" />
-                                <GradientStop Offset="0.5" Color="{Binding DataContext.BayramTatilRenk, Converter={StaticResource BrushToColorConverter}, ElementName=Window}" />
-                            </LinearGradientBrush>
-                        </Setter.Value>
-                    </Setter>
+                    <Setter Property="Background" Value="{StaticResource ReligiousDateHalfBackground}" />
                 </DataTrigger>
             </Style.Triggers>
         </Style>
