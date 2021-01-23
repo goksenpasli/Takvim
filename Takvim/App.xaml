@@ -91,9 +91,6 @@
                         <Run Text="{Binding Gün}" />
                         <LineBreak />
                         <Run Text="{Binding GünAdı}" />
-                        <Run Text=" " />
-                        <Run Text="" />
-                        <Run Text=" " />
                         <Run DataContext="{Binding Converter={StaticResource DateNoteCountConverter}, Mode=OneWay}" FontSize="8">
                             <Run.Style>
                                 <Style TargetType="{x:Type Run}">
