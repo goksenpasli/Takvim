@@ -7,6 +7,7 @@
         <local:StringToBrushConverter x:Key="StringToBrushConverter" />
         <local:GünTatilConverter x:Key="GünTatilConverter" />
         <local:YarımGünTatilConverter x:Key="YarımGünTatilConverter" />
+        <local:RamadanDateToHolidayConverter x:Key="RamadanDateToHolidayConverter" />
         <local:DateNoteCountConverter x:Key="DateNoteCountConverter" />
         <local:BrushToColorConverter x:Key="BrushToColorConverter" />
         <local:IntBooleanZeroConverter x:Key="IntBooleanZeroConverter" />
@@ -172,6 +173,9 @@
                             </LinearGradientBrush>
                         </Setter.Value>
                     </Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=TamTarih, Converter={StaticResource RamadanDateToHolidayConverter}, Mode=OneWay}" Value="true">
+                    <Setter Property="Background" Value="Cyan" />
                 </DataTrigger>
             </Style.Triggers>
         </Style>
