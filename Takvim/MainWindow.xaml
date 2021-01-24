@@ -55,11 +55,11 @@
                 <ColumnDefinition />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <TextBox x:Name="TbAra" Grid.Column="0" />
+            <TextBox Text="{Binding AramaMetin, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="0" />
             <Button Content="ARA"
                 Grid.Column="1"
                 Command="{Binding VeriAra, Mode=OneWay}"
-                CommandParameter="{Binding Text, ElementName=TbAra}" />
+                CommandParameter="{Binding AramaMetin}" />
         </Grid>
         <Button Content="ç"
             Grid.Row="0" Grid.Column="0" Grid.RowSpan="3"

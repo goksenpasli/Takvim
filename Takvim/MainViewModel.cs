@@ -17,208 +17,35 @@ namespace Takvim
 
         public static XmlDataProvider xmlDataProvider;
 
+        private readonly CollectionViewSource Cvs = (CollectionViewSource)Application.Current.MainWindow.TryFindResource("Cvs");
+
         private readonly XmlDocument xmldoc;
 
-        private ObservableCollection<Data> günler;
+        private string aramaMetin;
 
-        public ObservableCollection<Data> Günler
-        {
-            get => günler;
+        private ObservableCollection<Data> ayGünler;
 
-            set
-            {
-                if (günler != value)
-                {
-                    günler = value;
-                    OnPropertyChanged(nameof(Günler));
-                }
-            }
-        }
-
-        public ObservableCollection<Data> AyGünler
-        {
-            get => ayGünler;
-
-            set
-            {
-                if (ayGünler != value)
-                {
-                    ayGünler = value;
-                    OnPropertyChanged(nameof(AyGünler));
-                }
-            }
-        }
-
-        private short seçiliYıl = (short)DateTime.Now.Year;
+        private Brush bayramTatilRenk = Properties.Settings.Default.BayramRenk.ConvertToBrush();
 
         private short bugünIndex = (short)(DateTime.Today.DayOfYear - 1);
 
-        private short sütünSayısı = Properties.Settings.Default.Sütün;
+        private Brush gövdeRenk = Properties.Settings.Default.GövdeRenk.ConvertToBrush();
+
+        private ObservableCollection<Data> günler;
+
+        private Brush resmiTatilRenk = Properties.Settings.Default.ResmiTatil.ConvertToBrush();
 
         private short satırSayısı = Properties.Settings.Default.Satır;
+
+        private short seçiliAy = (short)DateTime.Now.Month;
 
         private Brush seçiliRenkCmt = Properties.Settings.Default.CmtRenk.ConvertToBrush();
 
         private Brush seçiliRenkPaz = Properties.Settings.Default.PazRenk.ConvertToBrush();
 
-        private Brush resmiTatilRenk = Properties.Settings.Default.ResmiTatil.ConvertToBrush();
+        private short seçiliYıl = (short)DateTime.Now.Year;
 
-        private Brush gövdeRenk = Properties.Settings.Default.GövdeRenk.ConvertToBrush();
-
-        private ObservableCollection<Data> ayGünler;
-
-        private short seçiliAy = (short)DateTime.Now.Month;
-
-        private Brush bayramTatilRenk = Properties.Settings.Default.BayramRenk.ConvertToBrush();
-
-        public short SeçiliYıl
-        {
-            get => seçiliYıl;
-
-            set
-            {
-                if (seçiliYıl != value)
-                {
-                    seçiliYıl = value;
-                    OnPropertyChanged(nameof(SeçiliYıl));
-                }
-            }
-        }
-
-        public short SeçiliAy
-        {
-            get => seçiliAy;
-
-            set
-            {
-                if (seçiliAy != value)
-                {
-                    seçiliAy = value;
-                    OnPropertyChanged(nameof(SeçiliAy));
-                }
-            }
-        }
-
-        public short BugünIndex
-        {
-            get => bugünIndex;
-
-            set
-            {
-                if (bugünIndex != value)
-                {
-                    bugünIndex = value;
-                    OnPropertyChanged(nameof(BugünIndex));
-                }
-            }
-        }
-
-        public short SütünSayısı
-        {
-            get => sütünSayısı;
-
-            set
-            {
-                if (sütünSayısı != value)
-                {
-                    sütünSayısı = value;
-                    OnPropertyChanged(nameof(SütünSayısı));
-                }
-            }
-        }
-
-        public short SatırSayısı
-        {
-            get => satırSayısı;
-
-            set
-            {
-                if (satırSayısı != value)
-                {
-                    satırSayısı = value;
-                    OnPropertyChanged(nameof(SatırSayısı));
-                }
-            }
-        }
-
-        public Brush BayramTatilRenk
-        {
-            get => bayramTatilRenk;
-
-            set
-            {
-                if (bayramTatilRenk != value)
-                {
-                    bayramTatilRenk = value;
-                    OnPropertyChanged(nameof(BayramTatilRenk));
-                }
-            }
-        }
-
-        public Brush SeçiliRenkCmt
-        {
-            get => seçiliRenkCmt;
-
-            set
-            {
-                if (seçiliRenkCmt != value)
-                {
-                    seçiliRenkCmt = value;
-                    OnPropertyChanged(nameof(SeçiliRenkCmt));
-                }
-            }
-        }
-
-        public Brush SeçiliRenkPaz
-        {
-            get => seçiliRenkPaz;
-
-            set
-            {
-                if (seçiliRenkPaz != value)
-                {
-                    seçiliRenkPaz = value;
-                    OnPropertyChanged(nameof(SeçiliRenkPaz));
-                }
-            }
-        }
-
-        public Brush ResmiTatilRenk
-        {
-            get => resmiTatilRenk;
-
-            set
-            {
-                if (resmiTatilRenk != value)
-                {
-                    resmiTatilRenk = value;
-                    OnPropertyChanged(nameof(ResmiTatilRenk));
-                }
-            }
-        }
-
-        public Brush GövdeRenk
-        {
-            get => gövdeRenk;
-
-            set
-            {
-                if (gövdeRenk != value)
-                {
-                    gövdeRenk = value;
-                    OnPropertyChanged(nameof(GövdeRenk));
-                }
-            }
-        }
-
-        public string Error => string.Empty;
-
-        public string this[string columnName] =>
-            columnName switch
-            {
-                "SeçiliYıl" when SeçiliYıl <= 0 || SeçiliYıl > 9999 => "Seçili Yıl 1-9999 Aralığındadır.",
-                _ => null
-            };
+        private short sütünSayısı = Properties.Settings.Default.Sütün;
 
         public MainViewModel()
         {
@@ -262,9 +89,218 @@ namespace Takvim
                 MessageBox.Show("Renk Ayarları Varsayılana Çevrildi. Yeniden Başlatın.", "TAKVİM", MessageBoxButton.OK, MessageBoxImage.Exclamation);
             }, parameter => true);
 
-            VeriAra = new RelayCommand(parameter => ((CollectionViewSource)Application.Current.MainWindow.TryFindResource("Cvs")).Filter += (s, e) => e.Accepted = (e.Item as XmlNode)?["Aciklama"].InnerText.Contains((string)parameter) == true, parameter => true);
+            VeriAra = new RelayCommand(parameter => Cvs.Filter += (s, e) => e.Accepted = (e.Item as XmlNode)?["Aciklama"].InnerText.Contains(AramaMetin) == true, parameter => !string.IsNullOrWhiteSpace(AramaMetin));
 
             PropertyChanged += MainViewModel_PropertyChanged;
+        }
+
+        public string AramaMetin
+        {
+            get => aramaMetin;
+
+            set
+            {
+                if (aramaMetin != value)
+                {
+                    aramaMetin = value;
+                    OnPropertyChanged(nameof(AramaMetin));
+                }
+            }
+        }
+
+        public ICommand AyarSıfırla { get; }
+
+        public ICommand AyGeri { get; }
+
+        public ObservableCollection<Data> AyGünler
+        {
+            get => ayGünler;
+
+            set
+            {
+                if (ayGünler != value)
+                {
+                    ayGünler = value;
+                    OnPropertyChanged(nameof(AyGünler));
+                }
+            }
+        }
+
+        public ICommand Ayİleri { get; }
+
+        public Brush BayramTatilRenk
+        {
+            get => bayramTatilRenk;
+
+            set
+            {
+                if (bayramTatilRenk != value)
+                {
+                    bayramTatilRenk = value;
+                    OnPropertyChanged(nameof(BayramTatilRenk));
+                }
+            }
+        }
+
+        public short BugünIndex
+        {
+            get => bugünIndex;
+
+            set
+            {
+                if (bugünIndex != value)
+                {
+                    bugünIndex = value;
+                    OnPropertyChanged(nameof(BugünIndex));
+                }
+            }
+        }
+
+        public string Error => string.Empty;
+
+        public Brush GövdeRenk
+        {
+            get => gövdeRenk;
+
+            set
+            {
+                if (gövdeRenk != value)
+                {
+                    gövdeRenk = value;
+                    OnPropertyChanged(nameof(GövdeRenk));
+                }
+            }
+        }
+
+        public ObservableCollection<Data> Günler
+        {
+            get => günler;
+
+            set
+            {
+                if (günler != value)
+                {
+                    günler = value;
+                    OnPropertyChanged(nameof(Günler));
+                }
+            }
+        }
+        public Brush ResmiTatilRenk
+        {
+            get => resmiTatilRenk;
+
+            set
+            {
+                if (resmiTatilRenk != value)
+                {
+                    resmiTatilRenk = value;
+                    OnPropertyChanged(nameof(ResmiTatilRenk));
+                }
+            }
+        }
+
+        public short SatırSayısı
+        {
+            get => satırSayısı;
+
+            set
+            {
+                if (satırSayısı != value)
+                {
+                    satırSayısı = value;
+                    OnPropertyChanged(nameof(SatırSayısı));
+                }
+            }
+        }
+
+        public ICommand SatırSütünSıfırla { get; }
+
+        public short SeçiliAy
+        {
+            get => seçiliAy;
+
+            set
+            {
+                if (seçiliAy != value)
+                {
+                    seçiliAy = value;
+                    OnPropertyChanged(nameof(SeçiliAy));
+                }
+            }
+        }
+
+        public Brush SeçiliRenkCmt
+        {
+            get => seçiliRenkCmt;
+
+            set
+            {
+                if (seçiliRenkCmt != value)
+                {
+                    seçiliRenkCmt = value;
+                    OnPropertyChanged(nameof(SeçiliRenkCmt));
+                }
+            }
+        }
+
+        public Brush SeçiliRenkPaz
+        {
+            get => seçiliRenkPaz;
+
+            set
+            {
+                if (seçiliRenkPaz != value)
+                {
+                    seçiliRenkPaz = value;
+                    OnPropertyChanged(nameof(SeçiliRenkPaz));
+                }
+            }
+        }
+
+        public short SeçiliYıl
+        {
+            get => seçiliYıl;
+
+            set
+            {
+                if (seçiliYıl != value)
+                {
+                    seçiliYıl = value;
+                    OnPropertyChanged(nameof(SeçiliYıl));
+                }
+            }
+        }
+        public short SütünSayısı
+        {
+            get => sütünSayısı;
+
+            set
+            {
+                if (sütünSayısı != value)
+                {
+                    sütünSayısı = value;
+                    OnPropertyChanged(nameof(SütünSayısı));
+                }
+            }
+        }
+        public ICommand VeriAra { get; }
+
+        public ICommand YılaGit { get; }
+
+        public ICommand YılGeri { get; }
+
+        public ICommand Yılİleri { get; }
+
+        public string this[string columnName] => columnName switch
+        {
+            "SeçiliYıl" when SeçiliYıl <= 0 || SeçiliYıl > 9999 => "Seçili Yıl 1-9999 Aralığındadır.",
+            _ => null
+        };
+
+        private ObservableCollection<Data> AyTakvimVerileriniOluştur(short SeçiliAy)
+        {
+            AyGünler = new ObservableCollection<Data>(Günler.Where(z => z.TamTarih.Month == SeçiliAy));
+            return AyGünler;
         }
 
         private void MainViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -315,6 +351,11 @@ namespace Takvim
                 Properties.Settings.Default.Save();
             }
 
+            if (e.PropertyName == "AramaMetin" && string.IsNullOrWhiteSpace(AramaMetin))
+            {
+                Cvs.View.Filter = null;
+            }
+
             void SaveColumnRowSettings()
             {
                 Properties.Settings.Default.Satır = SatırSayısı;
@@ -322,23 +363,6 @@ namespace Takvim
                 Properties.Settings.Default.Save();
             }
         }
-
-        public ICommand AyGeri { get; }
-
-        public ICommand VeriAra { get; }
-
-        public ICommand YılGeri { get; }
-
-        public ICommand Ayİleri { get; }
-
-        public ICommand Yılİleri { get; }
-
-        public ICommand SatırSütünSıfırla { get; }
-
-        public ICommand YılaGit { get; }
-
-        public ICommand AyarSıfırla { get; }
-
         private ObservableCollection<Data> TakvimVerileriniOluştur(short SeçiliYıl)
         {
             Günler = new ObservableCollection<Data>();
@@ -368,12 +392,6 @@ namespace Takvim
                 }
             }
             return Günler;
-        }
-
-        private ObservableCollection<Data> AyTakvimVerileriniOluştur(short SeçiliAy)
-        {
-            AyGünler = new ObservableCollection<Data>(Günler.Where(z => z.TamTarih.Month == SeçiliAy));
-            return AyGünler;
         }
     }
 }
