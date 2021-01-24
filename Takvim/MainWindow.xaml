@@ -15,7 +15,6 @@
             </ResourceDictionary.MergedDictionaries>
             <local:FileExtensionToIconConverter x:Key="FileExtensionToIconConverter" />
             <local:ŞuAnkiAyColorConverter x:Key="ŞuAnkiAyColorConverter" />
-            <local:NullableToBooleanConverter x:Key="NullableToBooleanConverter" />
             <local:Data x:Key="Data" />
             <local:XmlDateConverter x:Key="XmlDateConverter" />
             <local:Base64ImageConverter x:Key="Base64ImageConverter" />
@@ -51,6 +50,17 @@
             BorderBrush="Black" BorderThickness="1">
             <TextBox Text="{Binding SeçiliYıl, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" FontWeight="Bold" />
         </Border>
+        <Grid Grid.Row="0" Grid.Column="3" Margin="2,2,3,2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBox x:Name="TbAra" Grid.Column="0" />
+            <Button Content="ARA"
+                Grid.Column="1"
+                Command="{Binding VeriAra, Mode=OneWay}"
+                CommandParameter="{Binding Text, ElementName=TbAra}" />
+        </Grid>
         <Button Content="ç"
             Grid.Row="0" Grid.Column="0" Grid.RowSpan="3"
             FontFamily="Wingdings"
@@ -299,42 +309,44 @@
                     </ListBox.ItemsPanel>
                 </ListBox>
             </GroupBox>
-            <UniformGrid Grid.Row="2"  Columns="3" Rows="2" Margin="2">
+            <UniformGrid Grid.Row="2"
+                Margin="2"
+                Columns="3" Rows="2">
                 <ComboBox ItemsSource="{Binding Source={StaticResource Renkler}}"
-                ItemContainerStyle="{StaticResource ComboBoxItemContainerStyle}"
-                ItemTemplate="{StaticResource ComboBoxRectItemTemplate}"
-                ItemsPanel="{StaticResource CbItemsPanelTemplate}"
-                ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                SelectedValue="{Binding SeçiliRenkCmt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                SelectedValuePath="Name" ToolTip="Cumartesi Renk" />
+                    ItemContainerStyle="{StaticResource ComboBoxItemContainerStyle}"
+                    ItemTemplate="{StaticResource ComboBoxRectItemTemplate}"
+                    ItemsPanel="{StaticResource CbItemsPanelTemplate}"
+                    ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                    SelectedValue="{Binding SeçiliRenkCmt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    SelectedValuePath="Name" ToolTip="Cumartesi Renk" />
                 <ComboBox ItemsSource="{Binding Source={StaticResource Renkler}}"
-                ItemContainerStyle="{StaticResource ComboBoxItemContainerStyle}"
-                ItemTemplate="{StaticResource ComboBoxRectItemTemplate}"
-                ItemsPanel="{StaticResource CbItemsPanelTemplate}"
-                ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                SelectedValue="{Binding SeçiliRenkPaz, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                SelectedValuePath="Name" ToolTip="Pazar Renk" />
+                    ItemContainerStyle="{StaticResource ComboBoxItemContainerStyle}"
+                    ItemTemplate="{StaticResource ComboBoxRectItemTemplate}"
+                    ItemsPanel="{StaticResource CbItemsPanelTemplate}"
+                    ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                    SelectedValue="{Binding SeçiliRenkPaz, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    SelectedValuePath="Name" ToolTip="Pazar Renk" />
                 <ComboBox ItemsSource="{Binding Source={StaticResource Renkler}}"
-                ItemContainerStyle="{StaticResource ComboBoxItemContainerStyle}"
-                ItemTemplate="{StaticResource ComboBoxRectItemTemplate}"
-                ItemsPanel="{StaticResource CbItemsPanelTemplate}"
-                ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                SelectedValue="{Binding ResmiTatilRenk, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                SelectedValuePath="Name" ToolTip="Resmi Tatil Renk" />
+                    ItemContainerStyle="{StaticResource ComboBoxItemContainerStyle}"
+                    ItemTemplate="{StaticResource ComboBoxRectItemTemplate}"
+                    ItemsPanel="{StaticResource CbItemsPanelTemplate}"
+                    ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                    SelectedValue="{Binding ResmiTatilRenk, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    SelectedValuePath="Name" ToolTip="Resmi Tatil Renk" />
                 <ComboBox ItemsSource="{Binding Source={StaticResource Renkler}}"
-                ItemContainerStyle="{StaticResource ComboBoxItemContainerStyle}"
-                ItemTemplate="{StaticResource ComboBoxRectItemTemplate}"
-                ItemsPanel="{StaticResource CbItemsPanelTemplate}"
-                ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                SelectedValue="{Binding GövdeRenk, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                SelectedValuePath="Name" ToolTip="Gövde Renk" />
+                    ItemContainerStyle="{StaticResource ComboBoxItemContainerStyle}"
+                    ItemTemplate="{StaticResource ComboBoxRectItemTemplate}"
+                    ItemsPanel="{StaticResource CbItemsPanelTemplate}"
+                    ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                    SelectedValue="{Binding GövdeRenk, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    SelectedValuePath="Name" ToolTip="Gövde Renk" />
                 <ComboBox ItemsSource="{Binding Source={StaticResource Renkler}}"
-                ItemContainerStyle="{StaticResource ComboBoxItemContainerStyle}"
-                ItemTemplate="{StaticResource ComboBoxRectItemTemplate}"
-                ItemsPanel="{StaticResource CbItemsPanelTemplate}"
-                ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                SelectedValue="{Binding BayramTatilRenk, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                SelectedValuePath="Name" ToolTip="Bayram Renk" />
+                    ItemContainerStyle="{StaticResource ComboBoxItemContainerStyle}"
+                    ItemTemplate="{StaticResource ComboBoxRectItemTemplate}"
+                    ItemsPanel="{StaticResource CbItemsPanelTemplate}"
+                    ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                    SelectedValue="{Binding BayramTatilRenk, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    SelectedValuePath="Name" ToolTip="Bayram Renk" />
                 <Button Content="R" Command="{Binding AyarSıfırla, Mode=OneWay}" ToolTip="Renk Ayarlarını Sıfırla" />
             </UniformGrid>
 

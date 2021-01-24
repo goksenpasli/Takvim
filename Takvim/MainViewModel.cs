@@ -67,8 +67,8 @@ namespace Takvim
 
         private ObservableCollection<Data> ayGünler;
 
-        private short seçiliAy= (short)DateTime.Now.Month;
-        
+        private short seçiliAy = (short)DateTime.Now.Month;
+
         private Brush bayramTatilRenk = Properties.Settings.Default.BayramRenk.ConvertToBrush();
 
         public short SeçiliYıl
@@ -262,6 +262,8 @@ namespace Takvim
                 MessageBox.Show("Renk Ayarları Varsayılana Çevrildi. Yeniden Başlatın.", "TAKVİM", MessageBoxButton.OK, MessageBoxImage.Exclamation);
             }, parameter => true);
 
+            VeriAra = new RelayCommand(parameter => ((CollectionViewSource)Application.Current.MainWindow.TryFindResource("Cvs")).Filter += (s, e) => e.Accepted = (e.Item as XmlNode)?["Aciklama"].InnerText.Contains((string)parameter) == true, parameter => true);
+
             PropertyChanged += MainViewModel_PropertyChanged;
         }
 
@@ -296,8 +298,8 @@ namespace Takvim
             if (e.PropertyName == "SeçiliYıl" && SeçiliYıl > 0 && SeçiliYıl < 10000)
             {
                 TakvimVerileriniOluştur(SeçiliYıl);
-            }     
-            
+            }
+
             if (e.PropertyName == "SeçiliAy" && SeçiliAy > 0 && SeçiliAy < 13)
             {
                 AyTakvimVerileriniOluştur(SeçiliAy);
@@ -322,6 +324,8 @@ namespace Takvim
         }
 
         public ICommand AyGeri { get; }
+
+        public ICommand VeriAra { get; }
 
         public ICommand YılGeri { get; }
 
@@ -368,7 +372,7 @@ namespace Takvim
 
         private ObservableCollection<Data> AyTakvimVerileriniOluştur(short SeçiliAy)
         {
-            AyGünler= new ObservableCollection<Data>(Günler.Where(z => z.TamTarih.Month == SeçiliAy));
+            AyGünler = new ObservableCollection<Data>(Günler.Where(z => z.TamTarih.Month == SeçiliAy));
             return AyGünler;
         }
     }
