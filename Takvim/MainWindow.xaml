@@ -284,7 +284,13 @@
                 <ListBox Background="Transparent" ItemsSource="{Binding Mode=OneWay, Source={StaticResource FilteredCvs}}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding XPath=Aciklama}" />
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock>
+                                    <Run Text="{Binding XPath=@SaatBaslangic}" />
+                                    <Run Text="{Binding XPath=Aciklama}" />
+                                </TextBlock>
+                                <ContentControl Template="{Binding Mode=OneWay, Source={StaticResource TimePanel}}" />
+                            </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                     <ListBox.ItemsPanel>

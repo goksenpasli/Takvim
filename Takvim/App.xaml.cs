@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Threading;
+using System.Windows;
 
 namespace Takvim
 {
@@ -7,21 +8,41 @@ namespace Takvim
     /// </summary>
     public partial class App : Application
     {
+        private const string AppId = "7cf5ff9d-1479-436b-a0a2-954d4a72190a";
+
+        private readonly Semaphore instancesAllowed = new Semaphore(1, 1, AppId);
+
+        private bool WasRunning {get;}
+
+        private void Application_Exit(object sender, ExitEventArgs e)
+        {
+            if (WasRunning)
+            {
+                instancesAllowed.Release();
+            }
+        }
+
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            MainWindow mainWindow = new MainWindow();
-            mainWindow.Closing += MainWindow_Closing;
-            mainWindow.IsVisibleChanged += MainWindow_IsVisibleChanged;
-            mainWindow.StateChanged += MainWindow_StateChanged;
-            if (e.Args.Length > 0 && e.Args[0] == "/MINIMIZE")
+            if (instancesAllowed.WaitOne(1000))
             {
-                MainViewModel.AppNotifyIcon.Visible = true;
-                mainWindow.Hide();
+                MainWindow mainWindow = new MainWindow();
+                mainWindow.Closing += MainWindow_Closing;
+                mainWindow.IsVisibleChanged += MainWindow_IsVisibleChanged;
+                mainWindow.StateChanged += MainWindow_StateChanged;
+                if (e.Args.Length > 0 && e.Args[0] == "/MINIMIZE")
+                {
+                    MainViewModel.AppNotifyIcon.Visible = true;
+                    mainWindow.Hide();
+                }
+                else
+                {
+                    mainWindow.Show();
+                }
+                return;
             }
-            else
-            {
-                mainWindow.Show();
-            }
+            MessageBox.Show("Uygulama Zaten Çalışıyor.", "TAKVİM", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            Shutdown();
         }
 
         private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)

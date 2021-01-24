@@ -356,7 +356,7 @@ namespace Takvim
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Takvim", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                MessageBox.Show(ex.Message, "TAKVİM", MessageBoxButton.OK, MessageBoxImage.Exclamation);
             }
         }
 

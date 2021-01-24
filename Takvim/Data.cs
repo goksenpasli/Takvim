@@ -168,9 +168,9 @@ namespace Takvim
                     Title = TamTarih.ToString("dd MMMM yyyy dddd"),
                     Content = new DataEnterWindow(),
                     DataContext = this,
-                    Width = 350,
+                    Width = 450,
                     WindowStyle = WindowStyle.ToolWindow,
-                    Height = 250,
+                    Height = 300,
                     Owner = Application.Current.MainWindow,
                     ShowInTaskbar = false,
                     WindowStartupLocation = WindowStartupLocation.CenterScreen
