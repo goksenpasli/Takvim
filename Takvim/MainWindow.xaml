@@ -18,7 +18,6 @@
             <local:Data x:Key="Data" />
             <local:XmlDateConverter x:Key="XmlDateConverter" />
             <local:Base64ImageConverter x:Key="Base64ImageConverter" />
-            <XmlDataProvider x:Key="XmlData" XPath="Veriler/Veri" />
             <CollectionViewSource x:Key="Cvs" Source="{StaticResource XmlData}">
                 <CollectionViewSource.SortDescriptions>
                     <scm:SortDescription Direction="Descending" PropertyName="Gun" />
@@ -211,25 +210,7 @@
                                         Command="{Binding DataContext.YılaGit, ElementName=Window}"
                                         CommandParameter="{Binding Mode=OneWay, XPath=Gun}"
                                         ToolTip="YILA GİT" />
-                                    <Grid>
-                                        <Ellipse Width="16" Height="16" Fill="{Binding XPath=@Renk}" />
-                                        <TextBlock Text="{Binding XPath=@Saat}"
-                                            HorizontalAlignment="Center" VerticalAlignment="Center"
-                                            FontSize="10" FontWeight="Bold">
-                                            <TextBlock.Style>
-                                                <Style TargetType="{x:Type TextBlock}">
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding XPath=@Saat}" Value="0">
-                                                            <Setter Property="Visibility" Value="Collapsed" />
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </TextBlock.Style>
-                                            <TextBlock.ToolTip>
-                                                <TextBlock Text="{Binding StringFormat=\{0\} Saatlik Etkinlik Düzenlendi, XPath=@Saat}" />
-                                            </TextBlock.ToolTip>
-                                        </TextBlock>
-                                    </Grid>
+                                    <ContentPresenter Content="{Binding Mode=OneWay, Source={StaticResource TimePanel}}" />
                                     <Rectangle Width="{Binding ImageSource.Width, ElementName=Img}"
                                         Height="{Binding ImageSource.Height, ElementName=Img}"
                                         Margin="3,0"
@@ -349,7 +330,6 @@
                     SelectedValuePath="Name" ToolTip="Bayram Renk" />
                 <Button Content="R" Command="{Binding AyarSıfırla, Mode=OneWay}" ToolTip="Renk Ayarlarını Sıfırla" />
             </UniformGrid>
-
         </Grid>
         <Button Content="è"
             Grid.Row="0" Grid.Column="4" Grid.RowSpan="3"

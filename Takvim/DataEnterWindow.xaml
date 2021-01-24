@@ -3,8 +3,11 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:Takvim"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DataContext="{d:DesignInstance Type=local:Data}"
-    d:DesignHeight="200" d:DesignWidth="250" UseLayoutRounding="True"
+    d:DesignHeight="200" d:DesignWidth="350" Loaded="UserControl_Loaded" UseLayoutRounding="True"
     mc:Ignorable="d">
+    <UserControl.Resources>
+        <CollectionViewSource x:Key="FilteredCvs" Source="{StaticResource XmlData}" />
+    </UserControl.Resources>
     <GroupBox Header="VERİ GİR">
         <GroupBox.Style>
             <Style BasedOn="{StaticResource {x:Type GroupBox}}" TargetType="GroupBox">
@@ -22,6 +25,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="2*" />
                 <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="2*" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
@@ -39,7 +43,7 @@
                 Foreground="Red"
                 VerticalAlignment="Center"
                 IsChecked="{Binding ÖnemliMi, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-            <ComboBox Grid.Row="1" Grid.Column="2"
+            <ComboBox Grid.Row="1" Grid.Column="1"
                 ItemsSource="{Binding Source={StaticResource Renkler}}"
                 ItemContainerStyle="{StaticResource ComboBoxItemContainerStyle}"
                 ItemTemplate="{StaticResource ComboBoxRectItemTemplate}"
@@ -78,6 +82,16 @@
             <Button Content="VERİYİ EKLE"
                 Grid.Row="5" Grid.ColumnSpan="2"
                 Command="{Binding XmlVeriEkle, Mode=OneWay}" />
+            <ListBox Grid.Column="2" Grid.RowSpan="6" ItemsSource="{Binding Mode=OneWay, Source={StaticResource FilteredCvs}}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <ContentPresenter Content="{Binding Mode=OneWay, Source={StaticResource TimePanel}}" />
+                            <TextBlock Text="{Binding XPath=Aciklama}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
         </Grid>
     </GroupBox>
 </UserControl>

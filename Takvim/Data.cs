@@ -13,229 +13,33 @@ namespace Takvim
 {
     public class Data : InpcBase, IDisposable
     {
+        private string ay;
+
+        private ObservableCollection<string> dosyalar;
+
+        private double etkinlikSüresi;
+
         private short gün;
 
         private string günAdı;
 
-        private string ay;
-
-        private short offset;
-
         private string günNotAçıklama;
-
-        private DateTime tamTarih;
-
-        private byte[] resimData;
-
-        private bool önemliMi;
-
-        private string resimUzantı;
-
-        private int veriSayısı;
-
-        private Brush veriRenk;
-
-        private double etkinlikSüresi;
-
-        private ObservableCollection<string> dosyalar;
 
         private int ıd;
 
-        public short Gün
-        {
-            get => gün;
+        private short offset;
 
-            set
-            {
-                if (gün != value)
-                {
-                    gün = value;
-                    OnPropertyChanged(nameof(Gün));
-                }
-            }
-        }
+        private bool önemliMi;
 
-        public string Ay
-        {
-            get => ay;
+        private byte[] resimData;
 
-            set
-            {
-                if (ay != value)
-                {
-                    ay = value;
-                    OnPropertyChanged(nameof(Ay));
-                }
-            }
-        }
+        private string resimUzantı;
 
-        public string GünAdı
-        {
-            get => günAdı;
+        private DateTime tamTarih;
 
-            set
-            {
-                if (günAdı != value)
-                {
-                    günAdı = value;
-                    OnPropertyChanged(nameof(GünAdı));
-                }
-            }
-        }
+        private Brush veriRenk;
 
-        public DateTime TamTarih
-        {
-            get { return tamTarih; }
-
-            set
-            {
-                if (tamTarih != value)
-                {
-                    tamTarih = value;
-                    OnPropertyChanged(nameof(TamTarih));
-                }
-            }
-        }
-
-        public short Offset
-        {
-            get => offset;
-
-            set
-            {
-                if (offset != value)
-                {
-                    offset = value;
-                    OnPropertyChanged(nameof(Offset));
-                }
-            }
-        }
-
-        public string GünNotAçıklama
-        {
-            get => günNotAçıklama;
-
-            set
-            {
-                if (günNotAçıklama != value)
-                {
-                    günNotAçıklama = value;
-                    OnPropertyChanged(nameof(GünNotAçıklama));
-                }
-            }
-        }
-
-        public int Id
-        {
-            get => ıd;
-
-            set
-            {
-                if (ıd != value)
-                {
-                    ıd = value;
-                    OnPropertyChanged(nameof(Id));
-                }
-            }
-        }
-
-        public byte[] ResimData
-        {
-            get { return resimData; }
-
-            set
-            {
-                if (resimData != value)
-                {
-                    resimData = value;
-                    OnPropertyChanged(nameof(ResimData));
-                }
-            }
-        }
-
-        public bool ÖnemliMi
-        {
-            get => önemliMi;
-
-            set
-            {
-                if (önemliMi != value)
-                {
-                    önemliMi = value;
-                    OnPropertyChanged(nameof(ÖnemliMi));
-                }
-            }
-        }
-
-        public string ResimUzantı
-        {
-            get => resimUzantı;
-
-            set
-            {
-                if (resimUzantı != value)
-                {
-                    resimUzantı = value;
-                    OnPropertyChanged(nameof(ResimUzantı));
-                }
-            }
-        }
-
-        public int VeriSayısı
-        {
-            get => veriSayısı;
-
-            set
-            {
-                if (veriSayısı != value)
-                {
-                    veriSayısı = value;
-                    OnPropertyChanged(nameof(VeriSayısı));
-                }
-            }
-        }
-
-        public Brush VeriRenk
-        {
-            get => veriRenk;
-
-            set
-            {
-                if (veriRenk != value)
-                {
-                    veriRenk = value;
-                    OnPropertyChanged(nameof(VeriRenk));
-                }
-            }
-        }
-
-        public double EtkinlikSüresi
-        {
-            get => etkinlikSüresi;
-
-            set
-            {
-                if (etkinlikSüresi != value)
-                {
-                    etkinlikSüresi = value;
-                    OnPropertyChanged(nameof(EtkinlikSüresi));
-                }
-            }
-        }
-
-        public ObservableCollection<string> Dosyalar
-        {
-            get => dosyalar;
-
-            set
-            {
-                if (dosyalar != value)
-                {
-                    dosyalar = value;
-                    OnPropertyChanged(nameof(Dosyalar));
-                }
-            }
-        }
+        private int veriSayısı;
 
         public Data()
         {
@@ -360,7 +164,7 @@ namespace Takvim
                     Title = TamTarih.ToString("dd MMMM yyyy dddd"),
                     Content = new DataEnterWindow(),
                     DataContext = this,
-                    Width = 300,
+                    Width = 350,
                     WindowStyle = WindowStyle.ToolWindow,
                     Height = 250,
                     Owner = Application.Current.MainWindow,
@@ -371,32 +175,223 @@ namespace Takvim
             }, parameter => true);
         }
 
-        private static void WriteXmlRootData(string xmlfilepath)
+        public string Ay
         {
-            if (!File.Exists(xmlfilepath))
+            get => ay;
+
+            set
             {
-                using XmlWriter writer = XmlWriter.Create(MainViewModel.xmlpath);
-                writer.WriteStartElement("Veriler");
-                writer.WriteEndElement();
-                writer.Flush();
+                if (ay != value)
+                {
+                    ay = value;
+                    OnPropertyChanged(nameof(Ay));
+                }
             }
         }
 
-        public ICommand XmlVeriEkle { get; }
+        public ICommand DosyaAç { get; }
 
-        public ICommand ResimYükle { get; }
+        public ObservableCollection<string> Dosyalar
+        {
+            get => dosyalar;
 
-        public ICommand DosyalarYükle { get; }
+            set
+            {
+                if (dosyalar != value)
+                {
+                    dosyalar = value;
+                    OnPropertyChanged(nameof(Dosyalar));
+                }
+            }
+        }
 
         public ICommand Dosyalarİptal { get; }
 
-        public ICommand DosyaAç { get; }
+        public ICommand DosyalarYükle { get; }
+
+        public double EtkinlikSüresi
+        {
+            get => etkinlikSüresi;
+
+            set
+            {
+                if (etkinlikSüresi != value)
+                {
+                    etkinlikSüresi = value;
+                    OnPropertyChanged(nameof(EtkinlikSüresi));
+                }
+            }
+        }
+
+        public short Gün
+        {
+            get => gün;
+
+            set
+            {
+                if (gün != value)
+                {
+                    gün = value;
+                    OnPropertyChanged(nameof(Gün));
+                }
+            }
+        }
+
+        public string GünAdı
+        {
+            get => günAdı;
+
+            set
+            {
+                if (günAdı != value)
+                {
+                    günAdı = value;
+                    OnPropertyChanged(nameof(GünAdı));
+                }
+            }
+        }
+
+        public string GünNotAçıklama
+        {
+            get => günNotAçıklama;
+
+            set
+            {
+                if (günNotAçıklama != value)
+                {
+                    günNotAçıklama = value;
+                    OnPropertyChanged(nameof(GünNotAçıklama));
+                }
+            }
+        }
+
+        public int Id
+        {
+            get => ıd;
+
+            set
+            {
+                if (ıd != value)
+                {
+                    ıd = value;
+                    OnPropertyChanged(nameof(Id));
+                }
+            }
+        }
+
+        public short Offset
+        {
+            get => offset;
+
+            set
+            {
+                if (offset != value)
+                {
+                    offset = value;
+                    OnPropertyChanged(nameof(Offset));
+                }
+            }
+        }
+
+        public bool ÖnemliMi
+        {
+            get => önemliMi;
+
+            set
+            {
+                if (önemliMi != value)
+                {
+                    önemliMi = value;
+                    OnPropertyChanged(nameof(ÖnemliMi));
+                }
+            }
+        }
+
+        public byte[] ResimData
+        {
+            get { return resimData; }
+
+            set
+            {
+                if (resimData != value)
+                {
+                    resimData = value;
+                    OnPropertyChanged(nameof(ResimData));
+                }
+            }
+        }
 
         public ICommand Resimİptal { get; }
 
         public ICommand ResimSakla { get; }
 
+        public string ResimUzantı
+        {
+            get => resimUzantı;
+
+            set
+            {
+                if (resimUzantı != value)
+                {
+                    resimUzantı = value;
+                    OnPropertyChanged(nameof(ResimUzantı));
+                }
+            }
+        }
+
+        public ICommand ResimYükle { get; }
+
+        public DateTime TamTarih
+        {
+            get { return tamTarih; }
+
+            set
+            {
+                if (tamTarih != value)
+                {
+                    tamTarih = value;
+                    OnPropertyChanged(nameof(TamTarih));
+                }
+            }
+        }
+
         public ICommand VeriEkleEkranı { get; }
+
+        public Brush VeriRenk
+        {
+            get => veriRenk;
+
+            set
+            {
+                if (veriRenk != value)
+                {
+                    veriRenk = value;
+                    OnPropertyChanged(nameof(VeriRenk));
+                }
+            }
+        }
+
+        public int VeriSayısı
+        {
+            get => veriSayısı;
+
+            set
+            {
+                if (veriSayısı != value)
+                {
+                    veriSayısı = value;
+                    OnPropertyChanged(nameof(VeriSayısı));
+                }
+            }
+        }
+
+        public ICommand XmlVeriEkle { get; }
+
+        public void Dispose()
+        {
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
+        }
 
         protected virtual void Dispose(bool disposing)
         {
@@ -410,10 +405,15 @@ namespace Takvim
             }
         }
 
-        public void Dispose()
+        private static void WriteXmlRootData(string xmlfilepath)
         {
-            Dispose(disposing: true);
-            GC.SuppressFinalize(this);
+            if (!File.Exists(xmlfilepath))
+            {
+                using XmlWriter writer = XmlWriter.Create(MainViewModel.xmlpath);
+                writer.WriteStartElement("Veriler");
+                writer.WriteEndElement();
+                writer.Flush();
+            }
         }
     }
 }

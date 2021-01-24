@@ -185,6 +185,7 @@ namespace Takvim
                 }
             }
         }
+
         public Brush ResmiTatilRenk
         {
             get => resmiTatilRenk;
@@ -270,6 +271,7 @@ namespace Takvim
                 }
             }
         }
+
         public short SütünSayısı
         {
             get => sütünSayısı;
@@ -283,6 +285,7 @@ namespace Takvim
                 }
             }
         }
+
         public ICommand VeriAra { get; }
 
         public ICommand YılaGit { get; }
@@ -363,8 +366,10 @@ namespace Takvim
                 Properties.Settings.Default.Save();
             }
         }
+
         private ObservableCollection<Data> TakvimVerileriniOluştur(short SeçiliYıl)
         {
+            XmlNodeList xmlNodeList = xmldoc.SelectNodes("/Veriler/Veri");
             Günler = new ObservableCollection<Data>();
             for (int i = 1; i <= 12; i++)
             {
@@ -382,7 +387,7 @@ namespace Takvim
                             TamTarih = date
                         };
 
-                        foreach (var xn in from XmlNode xn in xmldoc.SelectNodes("/Veriler/Veri") where DateTime.Parse(xn["Gun"].InnerText) == data.TamTarih select xn)
+                        foreach (var xn in from XmlNode xn in xmlNodeList where DateTime.Parse(xn["Gun"].InnerText) == data.TamTarih select xn)
                         {
                             data.Id = Convert.ToInt32(xn.Attributes.GetNamedItem("Id").Value);
                         }
