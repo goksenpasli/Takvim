@@ -1,7 +1,9 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Windows;
 using System.Windows.Input;
@@ -35,12 +37,13 @@ namespace Takvim
 
         private string resimUzantı;
 
+        private string saatBaşlangıç;
+
         private DateTime tamTarih;
 
         private Brush veriRenk;
 
         private int veriSayısı;
-
         public Data()
         {
             Window verigirişwindow = null;
@@ -54,6 +57,7 @@ namespace Takvim
                 parentElement.Add(new XAttribute("Id", new Random().Next(1, int.MaxValue)));
                 parentElement.Add(new XAttribute("Onemli", ÖnemliMi));
                 parentElement.Add(new XAttribute("Saat", EtkinlikSüresi));
+                parentElement.Add(new XAttribute("SaatBaslangic", SaatBaşlangıç));
                 if (VeriRenk != null)
                 {
                     parentElement.Add(new XAttribute("Renk", VeriRenk));
@@ -90,7 +94,7 @@ namespace Takvim
                 verigirişwindow.Close();
                 MainViewModel.xmlDataProvider.Refresh();
                 Dispose(true);
-            }, parameter => !string.IsNullOrWhiteSpace(GünNotAçıklama));
+            }, parameter => !string.IsNullOrWhiteSpace(GünNotAçıklama) && DateTime.TryParseExact(SaatBaşlangıç, "H:m", new CultureInfo("tr-TR"), DateTimeStyles.None, out _));
 
             ResimYükle = new RelayCommand(parameter =>
             {
@@ -341,6 +345,20 @@ namespace Takvim
 
         public ICommand ResimYükle { get; }
 
+        public string SaatBaşlangıç
+        {
+            get => saatBaşlangıç;
+
+            set
+            {
+                if (saatBaşlangıç != value)
+                {
+                    saatBaşlangıç = value;
+                    OnPropertyChanged(nameof(SaatBaşlangıç));
+                }
+            }
+        }
+
         public DateTime TamTarih
         {
             get => tamTarih;
@@ -354,7 +372,6 @@ namespace Takvim
                 }
             }
         }
-
         public ICommand VeriEkleEkranı { get; }
 
         public Brush VeriRenk

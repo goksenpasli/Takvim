@@ -6,7 +6,6 @@
     Title="Takvim"
     Width="800" Height="600"
     d:DataContext="{d:DesignInstance Type=local:MainViewModel}"
-    
     UseLayoutRounding="True" WindowState="Maximized"
     mc:Ignorable="d">
     <Window.Resources>
@@ -215,7 +214,7 @@
                                         Command="{Binding DataContext.YılaGit, ElementName=Window}"
                                         CommandParameter="{Binding Mode=OneWay, XPath=Gun}"
                                         ToolTip="YILA GİT" />
-                                    <ContentPresenter Content="{Binding Mode=OneWay, Source={StaticResource TimePanel}}" />
+                                    <ContentControl Template="{Binding Mode=OneWay, Source={StaticResource TimePanel}}" />
                                     <Rectangle Width="{Binding ImageSource.Width, ElementName=Img}"
                                         Height="{Binding ImageSource.Height, ElementName=Img}"
                                         Margin="3,0"

@@ -71,6 +71,7 @@
     <Compile Include="FileExtensionToIconConverter.cs" />
     <Compile Include="InpcBase.cs" />
     <Compile Include="ListBoxDatePassedVisibilityConverter.cs" />
+    <Compile Include="MaskedTextBox.cs" />
     <Compile Include="NullableToBooleanConverter.cs" />
     <Compile Include="RamadanDateToHolidayConverter.cs" />
     <Compile Include="RamadanDateToVisibilityConverter.cs" />
