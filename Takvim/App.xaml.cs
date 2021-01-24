@@ -10,7 +10,7 @@ namespace Takvim
         private void Application_Startup(object sender, StartupEventArgs e)
         {
             MainWindow mainWindow = new MainWindow();
-            if (e.Args.Length>0 && e.Args[0] == "/MINIMIZE")
+            if (e.Args.Length > 0 && e.Args[0] == "/MINIMIZE")
             {
                 MainViewModel.AppNotifyIcon.Visible = true;
                 mainWindow.Hide();

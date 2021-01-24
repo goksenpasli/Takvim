@@ -70,7 +70,7 @@ namespace Takvim
                  Application.Current.MainWindow.WindowState = AppWindowState;
              };
 
-            xmlDataProvider = (XmlDataProvider)Application.Current.MainWindow.TryFindResource("XmlData");
+            xmlDataProvider = (XmlDataProvider)Application.Current.TryFindResource("XmlData");
             xmlDataProvider.Source = new Uri(xmlpath);
             xmldoc = new XmlDocument();
             if (File.Exists(xmlpath))
@@ -396,7 +396,7 @@ namespace Takvim
 
             if (e.PropertyName == "BaşlangıçtaÇalışacak")
             {
-                BaşlangıçtaÇalıştır(BaşlangıçtaÇalışacak);
+                CheckRegistryValue(BaşlangıçtaÇalışacak);
             }
 
             void SaveColumnRowSettings()
@@ -438,7 +438,7 @@ namespace Takvim
             return Günler;
         }
 
-        private void BaşlangıçtaÇalıştır(bool isChecked)
+        private void CheckRegistryValue(bool isChecked)
         {
             try
             {
