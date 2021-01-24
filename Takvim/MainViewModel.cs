@@ -15,12 +15,15 @@ namespace Takvim
     {
         public static readonly string xmlpath = AppDomain.CurrentDomain.BaseDirectory + @"\Data.xml";
 
+        public static System.Windows.Forms.NotifyIcon AppNotifyIcon;
+
+        public static WindowState AppWindowState;
+
         public static XmlDataProvider xmlDataProvider;
 
         private readonly CollectionViewSource Cvs = (CollectionViewSource)Application.Current.MainWindow.TryFindResource("Cvs");
 
         private readonly XmlDocument xmldoc;
-
         private string aramaMetin;
 
         private ObservableCollection<Data> ayGünler;
@@ -49,6 +52,19 @@ namespace Takvim
 
         public MainViewModel()
         {
+            AppNotifyIcon = new System.Windows.Forms.NotifyIcon
+            {
+                BalloonTipText = "Uygulama Sistem Tepsisine Gönderildi.",
+                BalloonTipTitle = "TAKVİM",
+                Text = "Takvim",
+                Icon = new System.Drawing.Icon(Application.GetResourceStream(new Uri("pack://application:,,,/Takvim;component/icon.ico")).Stream)
+            };
+            AppNotifyIcon.Click += (s, e) =>
+             {
+                 Application.Current.MainWindow.Show();
+                 Application.Current.MainWindow.WindowState = AppWindowState;
+             };
+
             xmlDataProvider = (XmlDataProvider)Application.Current.MainWindow.TryFindResource("XmlData");
             xmlDataProvider.Source = new Uri(xmlpath);
             xmldoc = new XmlDocument();
@@ -366,7 +382,6 @@ namespace Takvim
                 Properties.Settings.Default.Save();
             }
         }
-
         private ObservableCollection<Data> TakvimVerileriniOluştur(short SeçiliYıl)
         {
             XmlNodeList xmlNodeList = xmldoc.SelectNodes("/Veriler/Veri");
@@ -378,7 +393,7 @@ namespace Takvim
                     string tarih = $"{j}.{i}.{SeçiliYıl:0000}";
                     if (DateTime.TryParse(tarih, out DateTime date))
                     {
-                        var data = new Data
+                        Data data = new Data
                         {
                             GünAdı = date.ToString("ddd"),
                             Gün = (short)date.Day,
@@ -387,7 +402,7 @@ namespace Takvim
                             TamTarih = date
                         };
 
-                        foreach (var xn in from XmlNode xn in xmlNodeList where DateTime.Parse(xn["Gun"].InnerText) == data.TamTarih select xn)
+                        foreach (XmlNode xn in from XmlNode xn in xmlNodeList where DateTime.Parse(xn["Gun"].InnerText) == data.TamTarih select xn)
                         {
                             data.Id = Convert.ToInt32(xn.Attributes.GetNamedItem("Id").Value);
                         }

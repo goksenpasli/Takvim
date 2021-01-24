@@ -48,8 +48,8 @@ namespace Takvim
             XmlVeriEkle = new RelayCommand(parameter =>
             {
                 WriteXmlRootData(MainViewModel.xmlpath);
-                var xDocument = XDocument.Load(MainViewModel.xmlpath);
-                var parentElement = new XElement("Veri");
+                XDocument xDocument = XDocument.Load(MainViewModel.xmlpath);
+                XElement parentElement = new XElement("Veri");
 
                 parentElement.Add(new XAttribute("Id", new Random().Next(1, int.MaxValue)));
                 parentElement.Add(new XAttribute("Onemli", ÖnemliMi));
@@ -59,22 +59,22 @@ namespace Takvim
                     parentElement.Add(new XAttribute("Renk", VeriRenk));
                 }
 
-                var xmlcontent = new object[3];
+                object[] xmlcontent = new object[3];
                 xmlcontent[0] = new XElement("Gun", TamTarih);
                 xmlcontent[1] = new XElement("Aciklama", GünNotAçıklama);
                 if (ResimData != null && ResimUzantı != null)
                 {
-                    var xElement = new XElement("Resim", Convert.ToBase64String(ResimData));
+                    XElement xElement = new XElement("Resim", Convert.ToBase64String(ResimData));
                     xElement.Add(new XAttribute("Ext", ResimUzantı));
                     xmlcontent[2] = xElement;
                 }
 
-                var xmlfiles = new XElement("Dosyalar");
+                XElement xmlfiles = new XElement("Dosyalar");
                 if (Dosyalar != null)
                 {
-                    foreach (var dosya in Dosyalar)
+                    foreach (string dosya in Dosyalar)
                     {
-                        var file = new XElement("Dosya");
+                        XElement file = new XElement("Dosya");
                         file.Add(new XAttribute("Yol", dosya));
                         file.Add(new XAttribute("Ad", Path.GetFileNameWithoutExtension(dosya)));
                         file.Add(new XAttribute("Ext", Path.GetExtension(dosya)));
@@ -98,7 +98,7 @@ namespace Takvim
                 OpenFileDialog openFileDialog = new OpenFileDialog { Multiselect = false, Filter = "Resim Dosyaları (*.jpg;*.jpeg;*.tif;*.tiff)|*.jpg;*.jpeg;*.tif;*.tiff)" };
                 if (openFileDialog.ShowDialog() == true)
                 {
-                    var data = File.ReadAllBytes(openFileDialog.FileName);
+                    byte[] data = File.ReadAllBytes(openFileDialog.FileName);
                     if (data.Length < filelimit)
                     {
                         ResimData = data;
@@ -117,7 +117,7 @@ namespace Takvim
                 if (openFileDialog.ShowDialog() == true)
                 {
                     Dosyalar = new ObservableCollection<string>();
-                    foreach (var dosya in openFileDialog.FileNames)
+                    foreach (string dosya in openFileDialog.FileNames)
                     {
                         Dosyalar.Add(dosya);
                     }
@@ -137,8 +137,8 @@ namespace Takvim
 
                     if (saveFileDialog.ShowDialog() == true)
                     {
-                        var bytes = Convert.FromBase64String(xmlElement.InnerText);
-                        using var imageFile = new FileStream(saveFileDialog.FileName, FileMode.Create);
+                        byte[] bytes = Convert.FromBase64String(xmlElement.InnerText);
+                        using FileStream imageFile = new FileStream(saveFileDialog.FileName, FileMode.Create);
                         imageFile.Write(bytes, 0, bytes.Length);
                         imageFile.Flush();
                     }
@@ -309,7 +309,7 @@ namespace Takvim
 
         public byte[] ResimData
         {
-            get { return resimData; }
+            get => resimData;
 
             set
             {
@@ -343,7 +343,7 @@ namespace Takvim
 
         public DateTime TamTarih
         {
-            get { return tamTarih; }
+            get => tamTarih;
 
             set
             {

@@ -7,7 +7,7 @@
     Width="800" Height="450"
     d:DataContext="{d:DesignInstance Type=local:MainViewModel}"
     UseLayoutRounding="True" WindowState="Maximized"
-    mc:Ignorable="d">
+    mc:Ignorable="d" StateChanged="Window_StateChanged" IsVisibleChanged="Window_IsVisibleChanged" Closing="Window_Closing" >
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

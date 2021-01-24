@@ -23,7 +23,7 @@ namespace Takvim
 
         public static System.Drawing.Color ConvertToColor(this Brush color)
         {
-            var sb = (SolidColorBrush)color;
+            SolidColorBrush sb = (SolidColorBrush)color;
             return System.Drawing.Color.FromArgb(sb.Color.A, sb.Color.R, sb.Color.G, sb.Color.B);
         }
 
