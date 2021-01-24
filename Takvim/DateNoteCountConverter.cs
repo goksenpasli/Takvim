@@ -17,7 +17,7 @@ namespace Takvim
         {
             if (value is Data data)
             {
-                int? adet = xmlNode?.Count(z => System.Convert.ToInt32(z.Attributes.GetNamedItem("Id").Value) != 0 && DateTime.Parse(z["Gun"].InnerText) == data.TamTarih);
+                int? adet = xmlNode?.Count(z => DateTime.Parse(z["Gun"].InnerText) == data.TamTarih);
                 if (adet != null)
                 {
                     data.VeriSayısı = (int)adet;

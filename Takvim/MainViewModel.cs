@@ -31,6 +31,8 @@ namespace Takvim
 
         private ObservableCollection<Data> ayGünler;
 
+        private bool başlangıçtaÇalışacak = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true).GetValue("Takvim") != null;
+
         private Brush bayramTatilRenk = Properties.Settings.Default.BayramRenk.ConvertToBrush();
 
         private short bugünIndex = (short)(DateTime.Today.DayOfYear - 1);
@@ -52,8 +54,6 @@ namespace Takvim
         private short seçiliYıl = (short)DateTime.Now.Year;
 
         private short sütünSayısı = Properties.Settings.Default.Sütün;
-
-        private bool başlangıçtaÇalışacak = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true).GetValue("Takvim") != null;
 
         public MainViewModel()
         {
@@ -148,6 +148,20 @@ namespace Takvim
         }
 
         public ICommand Ayİleri { get; }
+
+        public bool BaşlangıçtaÇalışacak
+        {
+            get => başlangıçtaÇalışacak;
+
+            set
+            {
+                if (başlangıçtaÇalışacak != value)
+                {
+                    başlangıçtaÇalışacak = value;
+                    OnPropertyChanged(nameof(BaşlangıçtaÇalışacak));
+                }
+            }
+        }
 
         public Brush BayramTatilRenk
         {
@@ -306,21 +320,6 @@ namespace Takvim
                 }
             }
         }
-
-        public bool BaşlangıçtaÇalışacak
-        {
-            get => başlangıçtaÇalışacak;
-
-            set
-            {
-                if (başlangıçtaÇalışacak != value)
-                {
-                    başlangıçtaÇalışacak = value;
-                    OnPropertyChanged(nameof(BaşlangıçtaÇalışacak));
-                }
-            }
-        }
-
         public ICommand VeriAra { get; }
 
         public ICommand YılaGit { get; }
@@ -339,6 +338,26 @@ namespace Takvim
         {
             AyGünler = new ObservableCollection<Data>(Günler.Where(z => z.TamTarih.Month == SeçiliAy));
             return AyGünler;
+        }
+
+        private void SetRegistryValue(bool isChecked)
+        {
+            try
+            {
+                using RegistryKey registryKey = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+                if (isChecked)
+                {
+                    registryKey.SetValue("Takvim", $@"""{Process.GetCurrentProcess().MainModule.FileName}"" /MINIMIZE");
+                }
+                else
+                {
+                    registryKey.DeleteValue("Takvim");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Takvim", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            }
         }
 
         private void MainViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -396,7 +415,7 @@ namespace Takvim
 
             if (e.PropertyName == "BaşlangıçtaÇalışacak")
             {
-                CheckRegistryValue(BaşlangıçtaÇalışacak);
+                SetRegistryValue(BaşlangıçtaÇalışacak);
             }
 
             void SaveColumnRowSettings()
@@ -436,26 +455,6 @@ namespace Takvim
                 }
             }
             return Günler;
-        }
-
-        private void CheckRegistryValue(bool isChecked)
-        {
-            try
-            {
-                using RegistryKey registryKey = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
-                if (isChecked)
-                {
-                    registryKey.SetValue("Takvim", $@"""{Process.GetCurrentProcess().MainModule.FileName}"" /MINIMIZE");
-                }
-                else
-                {
-                    registryKey.DeleteValue("Takvim");
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Takvim", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-            }
         }
     }
 }
