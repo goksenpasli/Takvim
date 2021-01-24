@@ -4,10 +4,11 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
     Title="Takvim"
-    Width="800" Height="450"
+    Width="800" Height="600"
     d:DataContext="{d:DesignInstance Type=local:MainViewModel}"
+    Closing="Window_Closing" IsVisibleChanged="Window_IsVisibleChanged" StateChanged="Window_StateChanged"
     UseLayoutRounding="True" WindowState="Maximized"
-    mc:Ignorable="d" StateChanged="Window_StateChanged" IsVisibleChanged="Window_IsVisibleChanged" Closing="Window_Closing" >
+    mc:Ignorable="d">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -45,7 +46,11 @@
             <RowDefinition />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Border Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3"
+        <ToggleButton Content="B"
+            Grid.Column="1"
+            IsChecked="{Binding BaşlangıçtaÇalışacak}"
+            IsTabStop="False" ToolTip="Başlangıçta Çalıştır." />
+        <Border Grid.Row="0" Grid.Column="2"
             BorderBrush="Black" BorderThickness="1">
             <TextBox Text="{Binding SeçiliYıl, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" FontWeight="Bold" />
         </Border>

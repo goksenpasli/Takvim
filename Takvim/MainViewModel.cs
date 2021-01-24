@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows;
@@ -17,13 +19,14 @@ namespace Takvim
 
         public static System.Windows.Forms.NotifyIcon AppNotifyIcon;
 
-        public static WindowState AppWindowState;
+        public static WindowState AppWindowState = WindowState.Maximized;
 
         public static XmlDataProvider xmlDataProvider;
 
         private readonly CollectionViewSource Cvs = (CollectionViewSource)Application.Current.MainWindow.TryFindResource("Cvs");
 
         private readonly XmlDocument xmldoc;
+
         private string aramaMetin;
 
         private ObservableCollection<Data> ayGünler;
@@ -49,6 +52,8 @@ namespace Takvim
         private short seçiliYıl = (short)DateTime.Now.Year;
 
         private short sütünSayısı = Properties.Settings.Default.Sütün;
+
+        private bool başlangıçtaÇalışacak = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true).GetValue("Takvim") != null;
 
         public MainViewModel()
         {
@@ -302,6 +307,20 @@ namespace Takvim
             }
         }
 
+        public bool BaşlangıçtaÇalışacak
+        {
+            get => başlangıçtaÇalışacak;
+
+            set
+            {
+                if (başlangıçtaÇalışacak != value)
+                {
+                    başlangıçtaÇalışacak = value;
+                    OnPropertyChanged(nameof(BaşlangıçtaÇalışacak));
+                }
+            }
+        }
+
         public ICommand VeriAra { get; }
 
         public ICommand YılaGit { get; }
@@ -375,6 +394,11 @@ namespace Takvim
                 Cvs.View.Filter = null;
             }
 
+            if (e.PropertyName == "BaşlangıçtaÇalışacak")
+            {
+                BaşlangıçtaÇalıştır(BaşlangıçtaÇalışacak);
+            }
+
             void SaveColumnRowSettings()
             {
                 Properties.Settings.Default.Satır = SatırSayısı;
@@ -412,6 +436,26 @@ namespace Takvim
                 }
             }
             return Günler;
+        }
+
+        private void BaşlangıçtaÇalıştır(bool isChecked)
+        {
+            try
+            {
+                using RegistryKey registryKey = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+                if (isChecked)
+                {
+                    registryKey.SetValue("Takvim", $@"""{Process.GetCurrentProcess().MainModule.FileName}"" /MINIMIZE");
+                }
+                else
+                {
+                    registryKey.DeleteValue("Takvim");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Takvim", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            }
         }
     }
 }
