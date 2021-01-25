@@ -49,6 +49,7 @@ namespace Takvim
         {
             MainViewModel.AppNotifyIcon.Dispose();
             MainViewModel.AppNotifyIcon = null;
+            MainViewModel.timer?.Stop();
         }
 
         private void MainWindow_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)

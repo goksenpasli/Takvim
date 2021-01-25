@@ -183,11 +183,37 @@
                 </Grid>
             </TabItem>
         </TabControl>
-        <Slider Grid.Row="2" Grid.Column="2"
-            VerticalAlignment="Center"
-            IsSnapToTickEnabled="True" IsTabStop="False" Maximum="12" Minimum="1"
-            Style="{StaticResource SliderStyle}"
-            Value="{Binding SütünSayısı}" />
+        <UniformGrid x:Name="Ugrid"
+            Grid.Row="2" Grid.Column="2"
+            Rows="2">
+            <Slider VerticalAlignment="Center"
+                IsSnapToTickEnabled="True" IsTabStop="False" Maximum="12" Minimum="1"
+                Style="{StaticResource SliderStyle}"
+                Value="{Binding SütünSayısı}" />
+            <TextBlock Text="{Binding Etkinlik}"
+                Foreground="Red"
+                FontStyle="Italic" FontWeight="Bold">
+                <TextBlock.Resources>
+                    <Storyboard x:Key="slide">
+                        <DoubleAnimation RepeatBehavior="Forever"
+                            Storyboard.TargetName="transferCurrent" Storyboard.TargetProperty="X"
+                            From="{Binding ActualWidth, ElementName=Ugrid}"
+                            To="0" Duration="00:00:07" />
+                    </Storyboard>
+                </TextBlock.Resources>
+                <TextBlock.CacheMode>
+                    <BitmapCache/>
+                </TextBlock.CacheMode>
+                <TextBlock.RenderTransform>
+                    <TranslateTransform x:Name="transferCurrent" X="0" />
+                </TextBlock.RenderTransform>
+                <TextBlock.Triggers>
+                    <EventTrigger RoutedEvent="TextBlock.Loaded">
+                        <BeginStoryboard Storyboard="{StaticResource slide}" />
+                    </EventTrigger>
+                </TextBlock.Triggers>
+            </TextBlock>
+        </UniformGrid>
         <Grid Grid.Row="1" Grid.Column="3" Grid.RowSpan="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="4*" />

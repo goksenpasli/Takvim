@@ -1,14 +1,17 @@
 ﻿using Microsoft.Win32;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Threading;
 using System.Xml;
 
 namespace Takvim
@@ -20,6 +23,8 @@ namespace Takvim
         public static System.Windows.Forms.NotifyIcon AppNotifyIcon;
 
         public static WindowState AppWindowState = WindowState.Maximized;
+
+        public static DispatcherTimer timer;
 
         public static XmlDataProvider xmlDataProvider;
 
@@ -36,6 +41,8 @@ namespace Takvim
         private Brush bayramTatilRenk = Properties.Settings.Default.BayramRenk.ConvertToBrush();
 
         private short bugünIndex = (short)(DateTime.Today.DayOfYear - 1);
+
+        private string etkinlik;
 
         private Brush gövdeRenk = Properties.Settings.Default.GövdeRenk.ConvertToBrush();
 
@@ -55,6 +62,7 @@ namespace Takvim
 
         private short sütünSayısı = Properties.Settings.Default.Sütün;
 
+        private ObservableCollection<Data> yaklaşanEtkinlikler;
         public MainViewModel()
         {
             AppNotifyIcon = new System.Windows.Forms.NotifyIcon
@@ -80,6 +88,33 @@ namespace Takvim
 
             TakvimVerileriniOluştur(SeçiliYıl);
             AyTakvimVerileriniOluştur(SeçiliAy);
+
+            timer = new DispatcherTimer
+            {
+                Interval = new TimeSpan(0, 0, 1),
+            };
+            timer.Start();
+            timer.Tick += (s, e) =>
+            {
+                timer.Interval = new TimeSpan(0, 15, 0);
+                YaklaşanEtkinlikler = new ObservableCollection<Data>();
+                if (xmlDataProvider.Data is ICollection<XmlNode> xmlNode)
+                {
+                    foreach (XmlNode item in xmlNode)
+                    {
+                        bool saatvarmı = DateTime.TryParseExact(item.Attributes.GetNamedItem("SaatBaslangic").Value, "H:m", new CultureInfo("tr-TR"), DateTimeStyles.None, out DateTime saat);
+                        if (DateTime.Parse(item["Gun"].InnerText) == DateTime.Today && saat > DateTime.Now && saat.AddHours(-1) < DateTime.Now)
+                        {
+                            Data data = new Data
+                            {
+                                GünNotAçıklama = item["Aciklama"].InnerText,
+                            };
+                            YaklaşanEtkinlikler.Add(data);
+                            Etkinlik = string.Join("\t", YaklaşanEtkinlikler.Select(z => z.GünNotAçıklama));
+                        }
+                    }
+                }
+            };
 
             YılGeri = new RelayCommand(parameter => SeçiliYıl--, parameter => SeçiliYıl > 1);
 
@@ -192,6 +227,20 @@ namespace Takvim
         }
 
         public string Error => string.Empty;
+
+        public string Etkinlik
+        {
+            get => etkinlik;
+
+            set
+            {
+                if (etkinlik != value)
+                {
+                    etkinlik = value;
+                    OnPropertyChanged(nameof(Etkinlik));
+                }
+            }
+        }
 
         public Brush GövdeRenk
         {
@@ -320,8 +369,22 @@ namespace Takvim
                 }
             }
         }
+
         public ICommand VeriAra { get; }
 
+        public ObservableCollection<Data> YaklaşanEtkinlikler
+        {
+            get => yaklaşanEtkinlikler;
+
+            set
+            {
+                if (yaklaşanEtkinlikler != value)
+                {
+                    yaklaşanEtkinlikler = value;
+                    OnPropertyChanged(nameof(YaklaşanEtkinlikler));
+                }
+            }
+        }
         public ICommand YılaGit { get; }
 
         public ICommand YılGeri { get; }
@@ -338,26 +401,6 @@ namespace Takvim
         {
             AyGünler = new ObservableCollection<Data>(Günler.Where(z => z.TamTarih.Month == SeçiliAy));
             return AyGünler;
-        }
-
-        private void SetRegistryValue(bool isChecked)
-        {
-            try
-            {
-                using RegistryKey registryKey = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
-                if (isChecked)
-                {
-                    registryKey.SetValue("Takvim", $@"""{Process.GetCurrentProcess().MainModule.FileName}"" /MINIMIZE");
-                }
-                else
-                {
-                    registryKey.DeleteValue("Takvim");
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "TAKVİM", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-            }
         }
 
         private void MainViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -423,6 +466,26 @@ namespace Takvim
                 Properties.Settings.Default.Satır = SatırSayısı;
                 Properties.Settings.Default.Sütün = SütünSayısı;
                 Properties.Settings.Default.Save();
+            }
+        }
+
+        private void SetRegistryValue(bool isChecked)
+        {
+            try
+            {
+                using RegistryKey registryKey = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+                if (isChecked)
+                {
+                    registryKey.SetValue("Takvim", $@"""{Process.GetCurrentProcess().MainModule.FileName}"" /MINIMIZE");
+                }
+                else
+                {
+                    registryKey.DeleteValue("Takvim");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "TAKVİM", MessageBoxButton.OK, MessageBoxImage.Exclamation);
             }
         }
         private ObservableCollection<Data> TakvimVerileriniOluştur(short SeçiliYıl)
