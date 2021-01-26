@@ -572,10 +572,6 @@ namespace Takvim
                         GörünenEtkinlik = YaklaşanEtkinlikler[listboxselectedindex];
                         listboxselectedindex++;
                     }
-                    else
-                    {
-                        listboxselectedindex = -1;
-                    }
                 }
                 timer.Interval = new TimeSpan(0, 0, 15);
             };
