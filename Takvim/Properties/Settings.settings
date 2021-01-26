@@ -23,5 +23,11 @@
     <Setting Name="BayramRenk" Type="System.Drawing.Color" Scope="User">
       <Value Profile="(Default)">Cyan</Value>
     </Setting>
+    <Setting Name="KontrolSüresi" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">5</Value>
+    </Setting>
+    <Setting Name="PopupSüresi" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">10</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

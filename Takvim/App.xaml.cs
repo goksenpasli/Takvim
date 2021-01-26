@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Windows;
 using System.Windows.Threading;
+using Takvim.Properties;
 
 namespace Takvim
 {
@@ -67,7 +68,7 @@ namespace Takvim
         {
             DispatcherTimer timer = new DispatcherTimer
             {
-                Interval = new TimeSpan(0, 5, 0)
+                Interval = new TimeSpan(0, Settings.Default.KontrolSüresi, 0)
             };
             timer.Start();
             timer.Tick += (s, e) =>
@@ -76,7 +77,7 @@ namespace Takvim
                 (mainWindow.DataContext as MainViewModel)?.DuyurularPopupEkranıAç.Execute(null);
                 DispatcherTimer visibilitytimer = new DispatcherTimer
                 {
-                    Interval = new TimeSpan(0, 0, 10)
+                    Interval = new TimeSpan(0, 0, Settings.Default.PopupSüresi)
                 };
                 visibilitytimer.Start();
                 visibilitytimer.Tick += (s, e) =>

@@ -106,5 +106,29 @@ namespace Takvim.Properties {
                 this["BayramRenk"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("5")]
+        public int KontrolSüresi {
+            get {
+                return ((int)(this["KontrolSüresi"]));
+            }
+            set {
+                this["KontrolSüresi"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("10")]
+        public int PopupSüresi {
+            get {
+                return ((int)(this["PopupSüresi"]));
+            }
+            set {
+                this["PopupSüresi"] = value;
+            }
+        }
     }
 }
