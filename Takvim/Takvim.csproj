@@ -64,6 +64,7 @@
     </ApplicationDefinition>
     <Compile Include="Base64ImageConverter.cs" />
     <Compile Include="BrushToColorConverter.cs" />
+    <Compile Include="FocusWhenSelectedBehavior.cs" />
     <Compile Include="DateNoteCountConverter.cs" />
     <Compile Include="Data.cs" />
     <Compile Include="ExtensionMethods.cs" />

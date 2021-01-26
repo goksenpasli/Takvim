@@ -44,6 +44,8 @@ namespace Takvim
 
         private string etkinlik;
 
+        private Data görünenEtkinlik;
+
         private Brush gövdeRenk = Properties.Settings.Default.GövdeRenk.ConvertToBrush();
 
         private ObservableCollection<Data> günler;
@@ -91,12 +93,12 @@ namespace Takvim
 
             timer = new DispatcherTimer
             {
-                Interval = new TimeSpan(0, 0, 1),
+                Interval = new TimeSpan(0, 0, 15),
             };
             timer.Start();
+            int listboxselectedindex = 0;
             timer.Tick += (s, e) =>
             {
-                timer.Interval = new TimeSpan(0, 15, 0);
                 YaklaşanEtkinlikler = new ObservableCollection<Data>();
                 if (xmlDataProvider.Data is ICollection<XmlNode> xmlNode)
                 {
@@ -108,11 +110,17 @@ namespace Takvim
                             Data data = new Data
                             {
                                 GünNotAçıklama = item["Aciklama"].InnerText,
+                                TamTarih = saat,
                             };
                             YaklaşanEtkinlikler.Add(data);
-                            Etkinlik = string.Join("\t", YaklaşanEtkinlikler.Select(z => z.GünNotAçıklama));
                         }
                     }
+                    if (listboxselectedindex >= YaklaşanEtkinlikler.Count)
+                    {
+                        listboxselectedindex = 0;
+                    }
+                    GörünenEtkinlik = YaklaşanEtkinlikler[listboxselectedindex];
+                    listboxselectedindex++;
                 }
             };
 
@@ -238,6 +246,20 @@ namespace Takvim
                 {
                     etkinlik = value;
                     OnPropertyChanged(nameof(Etkinlik));
+                }
+            }
+        }
+
+        public Data GörünenEtkinlik
+        {
+            get => görünenEtkinlik;
+
+            set
+            {
+                if (görünenEtkinlik != value)
+                {
+                    görünenEtkinlik = value;
+                    OnPropertyChanged(nameof(GörünenEtkinlik));
                 }
             }
         }

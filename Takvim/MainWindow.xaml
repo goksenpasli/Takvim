@@ -185,34 +185,30 @@
         </TabControl>
         <UniformGrid x:Name="Ugrid"
             Grid.Row="2" Grid.Column="2"
-            Rows="2">
+            Columns="2">
             <Slider VerticalAlignment="Center"
                 IsSnapToTickEnabled="True" IsTabStop="False" Maximum="12" Minimum="1"
                 Style="{StaticResource SliderStyle}"
                 Value="{Binding SütünSayısı}" />
-            <TextBlock Text="{Binding Etkinlik}"
-                Foreground="Red"
-                FontStyle="Italic" FontWeight="Bold">
-                <TextBlock.Resources>
-                    <Storyboard x:Key="slide">
-                        <DoubleAnimation RepeatBehavior="Forever"
-                            Storyboard.TargetName="transferCurrent" Storyboard.TargetProperty="X"
-                            From="{Binding ActualWidth, ElementName=Ugrid}"
-                            To="0" Duration="00:00:07" />
-                    </Storyboard>
-                </TextBlock.Resources>
-                <TextBlock.CacheMode>
-                    <BitmapCache/>
-                </TextBlock.CacheMode>
-                <TextBlock.RenderTransform>
-                    <TranslateTransform x:Name="transferCurrent" X="0" />
-                </TextBlock.RenderTransform>
-                <TextBlock.Triggers>
-                    <EventTrigger RoutedEvent="TextBlock.Loaded">
-                        <BeginStoryboard Storyboard="{StaticResource slide}" />
-                    </EventTrigger>
-                </TextBlock.Triggers>
-            </TextBlock>
+            <ListBox Height="20"
+                ItemsSource="{Binding YaklaşanEtkinlikler}"
+                IsSynchronizedWithCurrentItem="True" ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                SelectedItem="{Binding GörünenEtkinlik}"
+                VirtualizingStackPanel.IsVirtualizing="False">
+                <ListBox.Resources>
+                    <Style TargetType="ListBoxItem">
+                        <Setter Property="local:FocusWhenSelectedBehavior.FocusSelected" Value="True" />
+                    </Style>
+                </ListBox.Resources>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Foreground="Red" FontStyle="Italic" FontWeight="Bold">
+                            <Run Text="{Binding TamTarih}" Language="tr-tr" />
+                            <Run Text="{Binding GünNotAçıklama}" />
+                        </TextBlock>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
         </UniformGrid>
         <Grid Grid.Row="1" Grid.Column="3" Grid.RowSpan="2">
             <Grid.RowDefinitions>
