@@ -115,12 +115,15 @@ namespace Takvim
                             YaklaşanEtkinlikler.Add(data);
                         }
                     }
-                    if (listboxselectedindex >= YaklaşanEtkinlikler.Count)
+                    if (YaklaşanEtkinlikler.Any())
                     {
-                        listboxselectedindex = 0;
+                        if (listboxselectedindex == YaklaşanEtkinlikler.Count)
+                        {
+                            listboxselectedindex = 0;
+                        }
+                        GörünenEtkinlik = YaklaşanEtkinlikler[listboxselectedindex];
+                        listboxselectedindex++;
                     }
-                    GörünenEtkinlik = YaklaşanEtkinlikler[listboxselectedindex];
-                    listboxselectedindex++;
                 }
             };
 
