@@ -11,7 +11,6 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Threading;
 using System.Xml;
 
 namespace Takvim
@@ -92,7 +91,6 @@ namespace Takvim
 
             TakvimVerileriniOluştur(SeçiliYıl);
             AyTakvimVerileriniOluştur(SeçiliAy);
-            YaklaşanEtkinlikleriAl();
 
             YılGeri = new RelayCommand(parameter => SeçiliYıl--, parameter => SeçiliYıl > 1);
 
@@ -135,10 +133,11 @@ namespace Takvim
                     Height = 200,
                     ShowInTaskbar = false,
                     Topmost = true,
-                    Background=Brushes.Transparent,
+                    Background = Brushes.Transparent,
                     Top = SystemParameters.PrimaryScreenHeight - 250,
                     Left = SystemParameters.PrimaryScreenWidth - 325,
                 };
+                YaklaşanEtkinlikleriAl();
                 duyurularwindow.Show();
             }, parameter => true);
 
@@ -224,6 +223,7 @@ namespace Takvim
         }
 
         public ICommand DuyurularPopupEkranıAç { get; }
+
         public string Error => string.Empty;
 
         public string Etkinlik
@@ -533,48 +533,31 @@ namespace Takvim
             return Günler;
         }
 
-        private void YaklaşanEtkinlikleriAl()
+        private ObservableCollection<Data> YaklaşanEtkinlikleriAl()
         {
-            DispatcherTimer timer = new DispatcherTimer
+            YaklaşanEtkinlikler = new ObservableCollection<Data>();
+            if (xmlDataProvider.Data is ICollection<XmlNode> xmlNode)
             {
-                Interval = new TimeSpan(0, 0, 1),
-            };
-            timer.Start();
-            int listboxselectedindex = 0;
-            timer.Tick += (s, e) =>
-            {
-                YaklaşanEtkinlikler = new ObservableCollection<Data>();
-                if (xmlDataProvider.Data is ICollection<XmlNode> xmlNode)
+                foreach (XmlNode item in xmlNode)
                 {
-                    foreach (XmlNode item in xmlNode)
+                    bool saatvarmı = DateTime.TryParseExact(item.Attributes.GetNamedItem("SaatBaslangic").Value, "H:m", new CultureInfo("tr-TR"), DateTimeStyles.None, out DateTime saat);
+                    if (DateTime.Parse(item["Gun"].InnerText) == DateTime.Today && saat > DateTime.Now && saat.AddHours(-1) < DateTime.Now)
                     {
-                        bool saatvarmı = DateTime.TryParseExact(item.Attributes.GetNamedItem("SaatBaslangic").Value, "H:m", new CultureInfo("tr-TR"), DateTimeStyles.None, out DateTime saat);
-                        if (DateTime.Parse(item["Gun"].InnerText) == DateTime.Today && saat > DateTime.Now && saat.AddHours(-1) < DateTime.Now)
+                        Data data = new Data
                         {
-                            Data data = new Data
-                            {
-                                GünNotAçıklama = item["Aciklama"].InnerText,
-                                TamTarih = saat
-                            };
-                            if (item["Resim"] != null)
-                            {
-                                data.ResimData = Convert.FromBase64String(item["Resim"].InnerText);
-                            }
-                            YaklaşanEtkinlikler.Add(data);
-                        }
-                    }
-                    if (YaklaşanEtkinlikler.Any())
-                    {
-                        if (listboxselectedindex >= YaklaşanEtkinlikler.Count)
+                            GünNotAçıklama = item["Aciklama"].InnerText,
+                            TamTarih = saat
+                        };
+                        if (item["Resim"] != null)
                         {
-                            listboxselectedindex = 0;
+                            data.ResimData = Convert.FromBase64String(item["Resim"].InnerText);
                         }
-                        GörünenEtkinlik = YaklaşanEtkinlikler[listboxselectedindex];
-                        listboxselectedindex++;
+                        YaklaşanEtkinlikler.Add(data);
                     }
                 }
-                timer.Interval = new TimeSpan(0, 0, 15);
-            };
+            }
+            return YaklaşanEtkinlikler;
+
         }
     }
 }

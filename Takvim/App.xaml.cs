@@ -32,6 +32,7 @@ namespace Takvim
                 mainWindow.Closing += MainWindow_Closing;
                 mainWindow.IsVisibleChanged += MainWindow_IsVisibleChanged;
                 mainWindow.StateChanged += MainWindow_StateChanged;
+                mainWindow.Loaded += MainWindow_Loaded;
                 if (e.Args.Length > 0 && e.Args[0] == "/MINIMIZE")
                 {
                     MainViewModel.AppNotifyIcon.Visible = true;
@@ -62,44 +63,38 @@ namespace Takvim
             }
         }
 
-        private void MainWindow_StateChanged(object sender, EventArgs e)
+        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            MainWindow mainWindow = sender as MainWindow;
             DispatcherTimer timer = new DispatcherTimer
             {
                 Interval = new TimeSpan(0, 5, 0)
             };
+            timer.Start();
+            timer.Tick += (s, e) =>
+            {
+                MainWindow mainWindow = sender as MainWindow;
+                (mainWindow.DataContext as MainViewModel)?.DuyurularPopupEkranıAç.Execute(null);
+                DispatcherTimer visibilitytimer = new DispatcherTimer
+                {
+                    Interval = new TimeSpan(0, 0, 10)
+                };
+                visibilitytimer.Start();
+                visibilitytimer.Tick += (s, e) =>
+                {
+                    MainViewModel.duyurularwindow?.Close();
+                    visibilitytimer.Stop();
+                };
+            };
+        }
+        private void MainWindow_StateChanged(object sender, EventArgs e)
+        {
+            MainWindow mainWindow = sender as MainWindow;
             if (mainWindow.WindowState == WindowState.Minimized)
             {
                 mainWindow.Hide();
-                timer.Start();
-                timer.Tick += (s, e) =>
-                {
-                    if (mainWindow.WindowState == WindowState.Minimized)
-                    {
-                        (mainWindow.DataContext as MainViewModel)?.DuyurularPopupEkranıAç.Execute(null);
-
-                        DispatcherTimer visibilitytimer = new DispatcherTimer
-                        {
-                            Interval = new TimeSpan(0, 0, 10)
-                        };
-                        visibilitytimer.Start();
-                        visibilitytimer.Tick += (s, e) =>
-                        {
-                            MainViewModel.duyurularwindow?.Close();
-                            visibilitytimer.Stop();
-                        };
-                    }
-                    else
-                    {
-                        timer.Stop();
-                    }
-                };
             }
             else
             {
-                MainViewModel.duyurularwindow?.Close();
-                timer?.Stop();
                 MainViewModel.AppWindowState = mainWindow.WindowState;
             }
         }

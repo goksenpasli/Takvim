@@ -183,34 +183,11 @@
                 </Grid>
             </TabItem>
         </TabControl>
-        <UniformGrid x:Name="Ugrid"
-            Grid.Row="2" Grid.Column="2"
-            Columns="2">
-            <Slider VerticalAlignment="Center"
-                IsSnapToTickEnabled="True" IsTabStop="False" Maximum="12" Minimum="1"
-                Style="{StaticResource SliderStyle}"
-                Value="{Binding SütünSayısı}" />
-            <ListBox Height="20"
-                ItemsSource="{Binding YaklaşanEtkinlikler}"
-                ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                SelectedItem="{Binding GörünenEtkinlik}"
-                VirtualizingStackPanel.IsVirtualizing="False">
-                <ListBox.Resources>
-                    <Style TargetType="ListBoxItem">
-                        <Setter Property="local:FocusWhenSelectedBehavior.FocusSelected" Value="True" />
-                    </Style>
-                </ListBox.Resources>
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Foreground="Red"
-                            FontSize="11" FontStyle="Italic" FontWeight="Bold">
-                            <Run Text="{Binding TamTarih}" Language="tr-tr" />
-                            <Run Text="{Binding GünNotAçıklama}" />
-                        </TextBlock>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-        </UniformGrid>
+        <Slider Grid.Row="2" Grid.Column="2"
+            VerticalAlignment="Center"
+            IsSnapToTickEnabled="True" IsTabStop="False" Maximum="12" Minimum="1"
+            Style="{StaticResource SliderStyle}"
+            Value="{Binding SütünSayısı}" />
         <Grid Grid.Row="1" Grid.Column="3" Grid.RowSpan="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="4*" />

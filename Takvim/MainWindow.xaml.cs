@@ -16,5 +16,6 @@ namespace Takvim
         }
 
         private void CollectionViewSource_Filter(object sender, System.Windows.Data.FilterEventArgs e) => e.Accepted = DateTime.Parse((e.Item as XmlNode)?["Gun"].InnerText) == DateTime.Today;
+
     }
 }
