@@ -135,6 +135,7 @@ namespace Takvim
                     Height = 200,
                     ShowInTaskbar = false,
                     Topmost = true,
+                    Background=Brushes.Transparent,
                     Top = SystemParameters.PrimaryScreenHeight - 250,
                     Left = SystemParameters.PrimaryScreenWidth - 325,
                 };
@@ -553,8 +554,12 @@ namespace Takvim
                             Data data = new Data
                             {
                                 GünNotAçıklama = item["Aciklama"].InnerText,
-                                TamTarih = saat,
+                                TamTarih = saat
                             };
+                            if (item["Resim"] != null)
+                            {
+                                data.ResimData = Convert.FromBase64String(item["Resim"].InnerText);
+                            }
                             YaklaşanEtkinlikler.Add(data);
                         }
                     }
@@ -573,7 +578,7 @@ namespace Takvim
                     }
                 }
                 timer.Interval = new TimeSpan(0, 0, 15);
-            };    
+            };
         }
     }
 }

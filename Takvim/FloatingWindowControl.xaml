@@ -10,11 +10,15 @@
             <ListBox ItemsSource="{Binding YaklaşanEtkinlikler}" ScrollViewer.VerticalScrollBarVisibility="Disabled">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock Foreground="Red"
-                            FontSize="12" FontStyle="Italic" FontWeight="Bold">
-                            <Run Text="{Binding TamTarih}" Language="tr-tr" />
-                            <Run Text="{Binding GünNotAçıklama}" />
-                        </TextBlock>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Width="32" Height="32" Source="{Binding ResimData, TargetNullValue={x:Null}}" />
+                            <TextBlock Foreground="Red"
+                                VerticalAlignment="Center"
+                                FontSize="12" FontStyle="Italic" FontWeight="Bold">
+                                <Run Text="{Binding TamTarih}" Language="tr-tr" />
+                                <Run Text="{Binding GünNotAçıklama}" />
+                            </TextBlock>
+                        </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
