@@ -560,12 +560,16 @@ namespace Takvim
                     }
                     if (YaklaşanEtkinlikler.Any())
                     {
-                        if (listboxselectedindex == YaklaşanEtkinlikler.Count)
+                        if (listboxselectedindex >= YaklaşanEtkinlikler.Count)
                         {
                             listboxselectedindex = 0;
                         }
                         GörünenEtkinlik = YaklaşanEtkinlikler[listboxselectedindex];
                         listboxselectedindex++;
+                    }
+                    else
+                    {
+                        listboxselectedindex = -1;
                     }
                 }
                 timer.Interval = new TimeSpan(0, 0, 15);

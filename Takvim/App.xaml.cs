@@ -86,7 +86,7 @@ namespace Takvim
                         visibilitytimer.Start();
                         visibilitytimer.Tick += (s, e) =>
                         {
-                            MainViewModel.duyurularwindow.Close();
+                            MainViewModel.duyurularwindow?.Close();
                             visibilitytimer.Stop();
                         };
                     }
@@ -98,8 +98,8 @@ namespace Takvim
             }
             else
             {
-                MainViewModel.duyurularwindow.Close();
-                timer.Stop();
+                MainViewModel.duyurularwindow?.Close();
+                timer?.Stop();
                 MainViewModel.AppWindowState = mainWindow.WindowState;
             }
         }
