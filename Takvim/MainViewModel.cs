@@ -24,7 +24,7 @@ namespace Takvim
 
         public static WindowState AppWindowState = WindowState.Maximized;
 
-        public static DispatcherTimer timer;
+        public static Window duyurularwindow;
 
         public static XmlDataProvider xmlDataProvider;
 
@@ -65,6 +65,7 @@ namespace Takvim
         private short sütünSayısı = Properties.Settings.Default.Sütün;
 
         private ObservableCollection<Data> yaklaşanEtkinlikler;
+
         public MainViewModel()
         {
             AppNotifyIcon = new System.Windows.Forms.NotifyIcon
@@ -74,6 +75,7 @@ namespace Takvim
                 Text = "Takvim",
                 Icon = new System.Drawing.Icon(Application.GetResourceStream(new Uri("pack://application:,,,/Takvim;component/icon.ico")).Stream)
             };
+
             AppNotifyIcon.Click += (s, e) =>
              {
                  Application.Current.MainWindow.Show();
@@ -90,42 +92,7 @@ namespace Takvim
 
             TakvimVerileriniOluştur(SeçiliYıl);
             AyTakvimVerileriniOluştur(SeçiliAy);
-
-            timer = new DispatcherTimer
-            {
-                Interval = new TimeSpan(0, 0, 15),
-            };
-            timer.Start();
-            int listboxselectedindex = 0;
-            timer.Tick += (s, e) =>
-            {
-                YaklaşanEtkinlikler = new ObservableCollection<Data>();
-                if (xmlDataProvider.Data is ICollection<XmlNode> xmlNode)
-                {
-                    foreach (XmlNode item in xmlNode)
-                    {
-                        bool saatvarmı = DateTime.TryParseExact(item.Attributes.GetNamedItem("SaatBaslangic").Value, "H:m", new CultureInfo("tr-TR"), DateTimeStyles.None, out DateTime saat);
-                        if (DateTime.Parse(item["Gun"].InnerText) == DateTime.Today && saat > DateTime.Now && saat.AddHours(-1) < DateTime.Now)
-                        {
-                            Data data = new Data
-                            {
-                                GünNotAçıklama = item["Aciklama"].InnerText,
-                                TamTarih = saat,
-                            };
-                            YaklaşanEtkinlikler.Add(data);
-                        }
-                    }
-                    if (YaklaşanEtkinlikler.Any())
-                    {
-                        if (listboxselectedindex == YaklaşanEtkinlikler.Count)
-                        {
-                            listboxselectedindex = 0;
-                        }
-                        GörünenEtkinlik = YaklaşanEtkinlikler[listboxselectedindex];
-                        listboxselectedindex++;
-                    }
-                }
-            };
+            YaklaşanEtkinlikleriAl();
 
             YılGeri = new RelayCommand(parameter => SeçiliYıl--, parameter => SeçiliYıl > 1);
 
@@ -154,6 +121,24 @@ namespace Takvim
             {
                 Properties.Settings.Default.Reset();
                 MessageBox.Show("Renk Ayarları Varsayılana Çevrildi. Yeniden Başlatın.", "TAKVİM", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            }, parameter => true);
+
+            DuyurularPopupEkranıAç = new RelayCommand(parameter =>
+            {
+                duyurularwindow = new Window
+                {
+                    Content = new FloatingWindowControl(),
+                    DataContext = this,
+                    Width = 300,
+                    WindowStyle = WindowStyle.None,
+                    AllowsTransparency = true,
+                    Height = 200,
+                    ShowInTaskbar = false,
+                    Topmost = true,
+                    Top = SystemParameters.PrimaryScreenHeight - 250,
+                    Left = SystemParameters.PrimaryScreenWidth - 325,
+                };
+                duyurularwindow.Show();
             }, parameter => true);
 
             VeriAra = new RelayCommand(parameter => Cvs.Filter += (s, e) => e.Accepted = (e.Item as XmlNode)?["Aciklama"].InnerText.Contains(AramaMetin) == true, parameter => !string.IsNullOrWhiteSpace(AramaMetin));
@@ -237,6 +222,7 @@ namespace Takvim
             }
         }
 
+        public ICommand DuyurularPopupEkranıAç { get; }
         public string Error => string.Empty;
 
         public string Etkinlik
@@ -513,6 +499,7 @@ namespace Takvim
                 MessageBox.Show(ex.Message, "TAKVİM", MessageBoxButton.OK, MessageBoxImage.Exclamation);
             }
         }
+
         private ObservableCollection<Data> TakvimVerileriniOluştur(short SeçiliYıl)
         {
             XmlNodeList xmlNodeList = xmldoc.SelectNodes("/Veriler/Veri");
@@ -543,6 +530,46 @@ namespace Takvim
                 }
             }
             return Günler;
+        }
+
+        private void YaklaşanEtkinlikleriAl()
+        {
+            DispatcherTimer timer = new DispatcherTimer
+            {
+                Interval = new TimeSpan(0, 0, 1),
+            };
+            timer.Start();
+            int listboxselectedindex = 0;
+            timer.Tick += (s, e) =>
+            {
+                YaklaşanEtkinlikler = new ObservableCollection<Data>();
+                if (xmlDataProvider.Data is ICollection<XmlNode> xmlNode)
+                {
+                    foreach (XmlNode item in xmlNode)
+                    {
+                        bool saatvarmı = DateTime.TryParseExact(item.Attributes.GetNamedItem("SaatBaslangic").Value, "H:m", new CultureInfo("tr-TR"), DateTimeStyles.None, out DateTime saat);
+                        if (DateTime.Parse(item["Gun"].InnerText) == DateTime.Today && saat > DateTime.Now && saat.AddHours(-1) < DateTime.Now)
+                        {
+                            Data data = new Data
+                            {
+                                GünNotAçıklama = item["Aciklama"].InnerText,
+                                TamTarih = saat,
+                            };
+                            YaklaşanEtkinlikler.Add(data);
+                        }
+                    }
+                    if (YaklaşanEtkinlikler.Any())
+                    {
+                        if (listboxselectedindex == YaklaşanEtkinlikler.Count)
+                        {
+                            listboxselectedindex = 0;
+                        }
+                        GörünenEtkinlik = YaklaşanEtkinlikler[listboxselectedindex];
+                        listboxselectedindex++;
+                    }
+                }
+                timer.Interval = new TimeSpan(0, 0, 15);
+            };    
         }
     }
 }

@@ -192,7 +192,7 @@
                 Value="{Binding SütünSayısı}" />
             <ListBox Height="20"
                 ItemsSource="{Binding YaklaşanEtkinlikler}"
-                IsSynchronizedWithCurrentItem="True" ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                ScrollViewer.VerticalScrollBarVisibility="Disabled"
                 SelectedItem="{Binding GörünenEtkinlik}"
                 VirtualizingStackPanel.IsVirtualizing="False">
                 <ListBox.Resources>
@@ -202,7 +202,8 @@
                 </ListBox.Resources>
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock Foreground="Red" FontStyle="Italic" FontWeight="Bold">
+                        <TextBlock Foreground="Red"
+                            FontSize="11" FontStyle="Italic" FontWeight="Bold">
                             <Run Text="{Binding TamTarih}" Language="tr-tr" />
                             <Run Text="{Binding GünNotAçıklama}" />
                         </TextBlock>

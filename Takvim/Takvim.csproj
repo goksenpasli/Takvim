@@ -64,6 +64,9 @@
     </ApplicationDefinition>
     <Compile Include="Base64ImageConverter.cs" />
     <Compile Include="BrushToColorConverter.cs" />
+    <Compile Include="FloatingWindowControl.xaml.cs">
+      <DependentUpon>FloatingWindowControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="FocusWhenSelectedBehavior.cs" />
     <Compile Include="DateNoteCountConverter.cs" />
     <Compile Include="Data.cs" />
@@ -83,6 +86,10 @@
     <Compile Include="XmlDateConverter.cs" />
     <Compile Include="ŞuAnkiAyColorConverter.cs" />
     <Page Include="DataEnterWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="FloatingWindowControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

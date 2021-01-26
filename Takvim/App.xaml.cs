@@ -1,5 +1,7 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Windows;
+using System.Windows.Threading;
 
 namespace Takvim
 {
@@ -12,7 +14,7 @@ namespace Takvim
 
         private readonly Semaphore instancesAllowed = new Semaphore(1, 1, AppId);
 
-        private bool WasRunning {get;}
+        private bool WasRunning { get; }
 
         private void Application_Exit(object sender, ExitEventArgs e)
         {
@@ -49,7 +51,7 @@ namespace Takvim
         {
             MainViewModel.AppNotifyIcon.Dispose();
             MainViewModel.AppNotifyIcon = null;
-            MainViewModel.timer?.Stop();
+            MainViewModel.duyurularwindow?.Close();
         }
 
         private void MainWindow_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -60,15 +62,44 @@ namespace Takvim
             }
         }
 
-        private void MainWindow_StateChanged(object sender, System.EventArgs e)
+        private void MainWindow_StateChanged(object sender, EventArgs e)
         {
             MainWindow mainWindow = sender as MainWindow;
+            DispatcherTimer timer = new DispatcherTimer
+            {
+                Interval = new TimeSpan(0, 5, 0)
+            };
             if (mainWindow.WindowState == WindowState.Minimized)
             {
                 mainWindow.Hide();
+                timer.Start();
+                timer.Tick += (s, e) =>
+                {
+                    if (mainWindow.WindowState == WindowState.Minimized)
+                    {
+                        (mainWindow.DataContext as MainViewModel)?.DuyurularPopupEkranıAç.Execute(null);
+
+                        DispatcherTimer visibilitytimer = new DispatcherTimer
+                        {
+                            Interval = new TimeSpan(0, 0, 10)
+                        };
+                        visibilitytimer.Start();
+                        visibilitytimer.Tick += (s, e) =>
+                        {
+                            MainViewModel.duyurularwindow.Close();
+                            visibilitytimer.Stop();
+                        };
+                    }
+                    else
+                    {
+                        timer.Stop();
+                    }
+                };
             }
             else
             {
+                MainViewModel.duyurularwindow.Close();
+                timer.Stop();
                 MainViewModel.AppWindowState = mainWindow.WindowState;
             }
         }
