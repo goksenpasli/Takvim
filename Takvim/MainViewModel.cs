@@ -138,7 +138,10 @@ namespace Takvim
                     Left = SystemParameters.PrimaryScreenWidth - 325,
                 };
                 YaklaşanEtkinlikleriAl();
-                duyurularwindow.Show();
+                if (YaklaşanEtkinlikler.Any())
+                {
+                    duyurularwindow.Show();
+                }
             }, parameter => true);
 
             VeriAra = new RelayCommand(parameter => Cvs.Filter += (s, e) => e.Accepted = (e.Item as XmlNode)?["Aciklama"].InnerText.Contains(AramaMetin) == true, parameter => !string.IsNullOrWhiteSpace(AramaMetin));
