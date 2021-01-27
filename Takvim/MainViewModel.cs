@@ -147,6 +147,9 @@ namespace Takvim
             VeriAra = new RelayCommand(parameter => Cvs.Filter += (s, e) => e.Accepted = (e.Item as XmlNode)?["Aciklama"].InnerText.Contains(AramaMetin) == true, parameter => !string.IsNullOrWhiteSpace(AramaMetin));
 
             PropertyChanged += MainViewModel_PropertyChanged;
+
+            Properties.Settings.Default.PropertyChanged += Properties_PropertyChanged;
+
         }
 
         public string AramaMetin
@@ -400,6 +403,7 @@ namespace Takvim
                 }
             }
         }
+
         public ICommand YılaGit { get; }
 
         public ICommand YılGeri { get; }
@@ -484,6 +488,13 @@ namespace Takvim
             }
         }
 
+        private void Properties_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "KontrolSüresi" || e.PropertyName == "PopupSüresi")
+            {
+                Properties.Settings.Default.Save();
+            }
+        }
         private void SetRegistryValue(bool isChecked)
         {
             try

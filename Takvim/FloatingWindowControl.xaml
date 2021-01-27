@@ -6,22 +6,30 @@
     d:DesignHeight="200" d:DesignWidth="300"
     mc:Ignorable="d">
     <Grid>
-        <GroupBox Header="DUYURULAR" Background="Red">
-            <ListBox ItemsSource="{Binding YaklaşanEtkinlikler}" ScrollViewer.VerticalScrollBarVisibility="Disabled">
-                <ListBox.ItemTemplate>
+        <GroupBox Background="Red">
+            <GroupBox.Header>
+                <TextBlock Text="DUYURULAR" HorizontalAlignment="Center" />
+            </GroupBox.Header>
+            <ItemsControl ItemsSource="{Binding YaklaşanEtkinlikler}" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
                             <Image Width="32" Height="32" Source="{Binding ResimData, TargetNullValue={x:Null}}" />
-                            <TextBlock Foreground="Red"
+                            <TextBlock Height="16"
+                                Foreground="Red"
                                 VerticalAlignment="Center"
                                 FontSize="12" FontStyle="Italic" FontWeight="Bold">
                                 <Run Text="{Binding TamTarih}" Language="tr-tr" />
-                                <Run Text="{Binding GünNotAçıklama}" />
+                                <Run Text="{Binding GünNotAçıklama}">
+                                    <Run.ToolTip>
+                                        <TextBlock Text="{Binding GünNotAçıklama}" />
+                                    </Run.ToolTip>
+                                </Run>
                             </TextBlock>
                         </StackPanel>
                     </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
         </GroupBox>
     </Grid>
 </UserControl>
