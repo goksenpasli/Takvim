@@ -309,41 +309,20 @@
             <UniformGrid Grid.Row="2"
                 Margin="2"
                 Columns="4" Rows="2">
-                <ComboBox ItemsSource="{Binding Source={StaticResource Renkler}}"
-                    ItemContainerStyle="{StaticResource ComboBoxItemContainerStyle}"
-                    ItemTemplate="{StaticResource ComboBoxRectItemTemplate}"
-                    ItemsPanel="{StaticResource CbItemsPanelTemplate}"
-                    ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                    SelectedValue="{Binding SeçiliRenkCmt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    SelectedValuePath="Name" ToolTip="Cumartesi Renk" />
-                <ComboBox ItemsSource="{Binding Source={StaticResource Renkler}}"
-                    ItemContainerStyle="{StaticResource ComboBoxItemContainerStyle}"
-                    ItemTemplate="{StaticResource ComboBoxRectItemTemplate}"
-                    ItemsPanel="{StaticResource CbItemsPanelTemplate}"
-                    ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                    SelectedValue="{Binding SeçiliRenkPaz, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    SelectedValuePath="Name" ToolTip="Pazar Renk" />
-                <ComboBox ItemsSource="{Binding Source={StaticResource Renkler}}"
-                    ItemContainerStyle="{StaticResource ComboBoxItemContainerStyle}"
-                    ItemTemplate="{StaticResource ComboBoxRectItemTemplate}"
-                    ItemsPanel="{StaticResource CbItemsPanelTemplate}"
-                    ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                    SelectedValue="{Binding ResmiTatilRenk, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    SelectedValuePath="Name" ToolTip="Resmi Tatil Renk" />
-                <ComboBox ItemsSource="{Binding Source={StaticResource Renkler}}"
-                    ItemContainerStyle="{StaticResource ComboBoxItemContainerStyle}"
-                    ItemTemplate="{StaticResource ComboBoxRectItemTemplate}"
-                    ItemsPanel="{StaticResource CbItemsPanelTemplate}"
-                    ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                    SelectedValue="{Binding GövdeRenk, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    SelectedValuePath="Name" ToolTip="Gövde Renk" />
-                <ComboBox ItemsSource="{Binding Source={StaticResource Renkler}}"
-                    ItemContainerStyle="{StaticResource ComboBoxItemContainerStyle}"
-                    ItemTemplate="{StaticResource ComboBoxRectItemTemplate}"
-                    ItemsPanel="{StaticResource CbItemsPanelTemplate}"
-                    ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                    SelectedValue="{Binding BayramTatilRenk, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    SelectedValuePath="Name" ToolTip="Bayram Renk" />
+                <UniformGrid.Resources>
+                    <Style TargetType="ComboBox">
+                        <Setter Property="ItemContainerStyle" Value="{StaticResource ComboBoxItemContainerStyle}" />
+                        <Setter Property="ItemTemplate" Value="{StaticResource ComboBoxRectItemTemplate}" />
+                        <Setter Property="ItemsPanel" Value="{StaticResource CbItemsPanelTemplate}" />
+                        <Setter Property="ItemsSource" Value="{Binding Source={StaticResource Renkler}}" />
+                        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Disabled" />
+                    </Style>
+                </UniformGrid.Resources>
+                <ComboBox SelectedValue="{Binding SeçiliRenkCmt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedValuePath="Name" ToolTip="Cumartesi Renk" />
+                <ComboBox SelectedValue="{Binding SeçiliRenkPaz, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedValuePath="Name" ToolTip="Pazar Renk" />
+                <ComboBox SelectedValue="{Binding ResmiTatilRenk, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedValuePath="Name" ToolTip="Resmi Tatil Renk" />
+                <ComboBox SelectedValue="{Binding GövdeRenk, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedValuePath="Name" ToolTip="Gövde Renk" />
+                <ComboBox SelectedValue="{Binding BayramTatilRenk, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedValuePath="Name" ToolTip="Bayram Renk" />
                 <Slider AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" IsTabStop="False" Maximum="20"
                     Minimum="1" ToolTip="KONTROL ARALIĞI DAKİKA OLARAK"
                     Value="{Binding KontrolSüresi, Mode=TwoWay, Source={x:Static properties:Settings.Default}}" />
