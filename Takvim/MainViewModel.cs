@@ -118,7 +118,7 @@ namespace Takvim
             AyarSıfırla = new RelayCommand(parameter =>
             {
                 Properties.Settings.Default.Reset();
-                MessageBox.Show("Renk Ayarları Varsayılana Çevrildi. Yeniden Başlatın.", "TAKVİM", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                MessageBox.Show("Ayarlar Varsayılana Çevrildi. Yeniden Başlatın.", "TAKVİM", MessageBoxButton.OK, MessageBoxImage.Exclamation);
             }, parameter => true);
 
             DuyurularPopupEkranıAç = new RelayCommand(parameter =>
@@ -127,15 +127,16 @@ namespace Takvim
                 {
                     Content = new FloatingWindowControl(),
                     DataContext = this,
-                    Width = 300,
+                    Width = 225,
                     WindowStyle = WindowStyle.None,
                     AllowsTransparency = true,
-                    Height = 200,
+                    Height = 150,
+                    ResizeMode=ResizeMode.NoResize,
                     ShowInTaskbar = false,
                     Topmost = true,
                     Background = Brushes.Transparent,
-                    Top = SystemParameters.PrimaryScreenHeight - 250,
-                    Left = SystemParameters.PrimaryScreenWidth - 325,
+                    Top = SystemParameters.PrimaryScreenHeight - 200,
+                    Left = SystemParameters.PrimaryScreenWidth - 250,
                 };
                 YaklaşanEtkinlikleriAl();
                 if (YaklaşanEtkinlikler.Any())

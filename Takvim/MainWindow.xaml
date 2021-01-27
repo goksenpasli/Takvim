@@ -323,13 +323,15 @@
                 <ComboBox SelectedValue="{Binding ResmiTatilRenk, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedValuePath="Name" ToolTip="Resmi Tatil Renk" />
                 <ComboBox SelectedValue="{Binding GövdeRenk, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedValuePath="Name" ToolTip="Gövde Renk" />
                 <ComboBox SelectedValue="{Binding BayramTatilRenk, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedValuePath="Name" ToolTip="Bayram Renk" />
-                <Slider AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" IsTabStop="False" Maximum="20"
+                <Slider VerticalAlignment="Center"
+                    AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" IsTabStop="False" Maximum="20"
                     Minimum="1" ToolTip="KONTROL ARALIĞI DAKİKA OLARAK"
                     Value="{Binding KontrolSüresi, Mode=TwoWay, Source={x:Static properties:Settings.Default}}" />
-                <Slider AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" IsTabStop="False" Maximum="45"
+                <Slider VerticalAlignment="Center"
+                    AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" IsTabStop="False" Maximum="45"
                     Minimum="5" ToolTip="EKRANDA GÖRÜNME SÜRESİ SANİYE OLARAK"
                     Value="{Binding PopupSüresi, Mode=TwoWay, Source={x:Static properties:Settings.Default}}" />
-                <Button Content="R" Command="{Binding AyarSıfırla, Mode=OneWay}" ToolTip="Renk Ayarlarını Sıfırla" />
+                <Button Content="R" Command="{Binding AyarSıfırla, Mode=OneWay}" ToolTip="AYARLARI SIFIRLA" />
             </UniformGrid>
         </Grid>
         <Button Content="è"

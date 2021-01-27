@@ -16,6 +16,76 @@
         <Storyboard x:Key="TimerColorAnimation" RepeatBehavior="Forever" Timeline.DesiredFrameRate="3">
             <ColorAnimation Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)" From="Yellow" To="Red" Duration="00:00:01" />
         </Storyboard>
+        <ControlTemplate x:Key="ListBoxItemControlTemplate" TargetType="{x:Type ListBoxItem}">
+            <ControlTemplate.Resources>
+                <Storyboard x:Key="StoryboardRotate" Timeline.DesiredFrameRate="30">
+                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Bd" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)">
+                        <EasingDoubleKeyFrame KeyTime="0" Value="0" />
+                        <EasingDoubleKeyFrame KeyTime="0:0:0.75" Value="360" />
+                    </DoubleAnimationUsingKeyFrames>
+                </Storyboard>
+            </ControlTemplate.Resources>
+            <Border x:Name="Bd"
+                Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                Padding="{TemplateBinding Padding}"
+                RenderTransformOrigin="0.5,0.5" SnapsToDevicePixels="True">
+                <Border.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform />
+                        <SkewTransform />
+                        <RotateTransform />
+                        <TranslateTransform />
+                    </TransformGroup>
+                </Border.RenderTransform>
+                <ContentPresenter Content="{TemplateBinding Content}"
+                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                    ContentStringFormat="{TemplateBinding ContentStringFormat}"
+                    ContentTemplate="{TemplateBinding ContentTemplate}"
+                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+            </Border>
+            <ControlTemplate.Triggers>
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="IsMouseOver" Value="True" />
+                    </MultiTrigger.Conditions>
+                    <Setter TargetName="Bd" Property="Background" Value="#1F26A0DA" />
+                    <Setter TargetName="Bd" Property="BorderBrush" Value="#A826A0DA" />
+                    <Setter TargetName="Bd" Property="CacheMode">
+                        <Setter.Value>
+                            <BitmapCache RenderAtScale="0.85" />
+                        </Setter.Value>
+                    </Setter>
+                    <MultiTrigger.EnterActions>
+                        <BeginStoryboard x:Name="Sb" Storyboard="{StaticResource StoryboardRotate}" />
+                    </MultiTrigger.EnterActions>
+                    <!--<MultiTrigger.ExitActions>
+                        <StopStoryboard  BeginStoryboardName="Sb"/>
+                    </MultiTrigger.ExitActions>-->
+                </MultiTrigger>
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="Selector.IsSelectionActive" Value="False" />
+                        <Condition Property="IsSelected" Value="True" />
+                    </MultiTrigger.Conditions>
+                    <Setter TargetName="Bd" Property="Background" Value="#3DDADADA" />
+                    <Setter TargetName="Bd" Property="BorderBrush" Value="#FFDADADA" />
+                </MultiTrigger>
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="Selector.IsSelectionActive" Value="True" />
+                        <Condition Property="IsSelected" Value="True" />
+                    </MultiTrigger.Conditions>
+                    <Setter TargetName="Bd" Property="Background" Value="#3D26A0DA" />
+                    <Setter TargetName="Bd" Property="BorderBrush" Value="#FF26A0DA" />
+                </MultiTrigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter TargetName="Bd" Property="TextElement.Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
         <ControlTemplate x:Key="Bayrak">
             <Viewbox>
                 <Canvas Width="32.000" Height="21.333">
@@ -179,6 +249,7 @@
             <Setter Property="Margin" Value="1" />
             <Setter Property="BorderThickness" Value="0.5" />
             <Setter Property="BorderBrush" Value="#FF145CD6" />
+            <Setter Property="Template" Value="{StaticResource ListBoxItemControlTemplate}" />
             <Style.Triggers>
                 <DataTrigger Binding="{Binding VeriSayısı, Converter={StaticResource IntBooleanZeroConverter}}" Value="true">
                     <DataTrigger.EnterActions>
