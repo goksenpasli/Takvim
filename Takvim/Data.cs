@@ -1,7 +1,6 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.ObjectModel;
-using System.Configuration;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
@@ -44,6 +43,7 @@ namespace Takvim
         private Brush veriRenk;
 
         private int veriSayısı;
+
         public Data()
         {
             Window verigirişwindow = null;
@@ -149,6 +149,15 @@ namespace Takvim
                 }
             }, parameter => true);
 
+
+            PencereKapat = new RelayCommand(parameter =>
+            {
+                if (parameter is Window window)
+                {
+                    window.Close();
+                }
+            }, parameter => true);
+
             DosyaAç = new RelayCommand(parameter =>
             {
                 if (parameter is XmlAttribute xmlAttribute)
@@ -169,8 +178,10 @@ namespace Takvim
                     Content = new DataEnterWindow(),
                     DataContext = this,
                     Width = 450,
-                    WindowStyle = WindowStyle.ToolWindow,
+                    AllowsTransparency = true,
+                    WindowStyle = WindowStyle.None,
                     Height = 300,
+                    Background = Brushes.Transparent,
                     Owner = Application.Current.MainWindow,
                     ShowInTaskbar = false,
                     WindowStartupLocation = WindowStartupLocation.CenterScreen
@@ -311,6 +322,7 @@ namespace Takvim
             }
         }
 
+        public ICommand PencereKapat { get; }
         public byte[] ResimData
         {
             get => resimData;
