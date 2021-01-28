@@ -44,7 +44,9 @@
     <ApplicationIcon>icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationFramework.Aero" />
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
@@ -64,6 +66,7 @@
     </ApplicationDefinition>
     <Compile Include="Base64ImageConverter.cs" />
     <Compile Include="BrushToColorConverter.cs" />
+    <Compile Include="DateAnimationConverter.cs" />
     <Compile Include="FloatingWindowControl.xaml.cs">
       <DependentUpon>FloatingWindowControl.xaml</DependentUpon>
     </Compile>

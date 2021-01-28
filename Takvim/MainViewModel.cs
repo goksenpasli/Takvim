@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Configuration;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
@@ -17,8 +18,10 @@ namespace Takvim
 {
     public class MainViewModel : InpcBase, IDataErrorInfo
     {
-        public static readonly string xmlpath = AppDomain.CurrentDomain.BaseDirectory + @"\Data.xml";
+        public static readonly string xmldatasavefolder = Path.GetDirectoryName(ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.PerUserRoamingAndLocal).FilePath);
 
+        public static readonly string xmlpath = Path.GetDirectoryName(ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.PerUserRoamingAndLocal).FilePath) + @"\Data.xml";
+        
         public static System.Windows.Forms.NotifyIcon AppNotifyIcon;
 
         public static WindowState AppWindowState = WindowState.Maximized;
@@ -30,6 +33,8 @@ namespace Takvim
         private readonly CollectionViewSource Cvs = (CollectionViewSource)Application.Current.MainWindow.TryFindResource("Cvs");
 
         private readonly XmlDocument xmldoc;
+
+        private DateTime animasyonTarih;
 
         private string aramaMetin;
 
@@ -64,7 +69,6 @@ namespace Takvim
         private short sütünSayısı = Properties.Settings.Default.Sütün;
 
         private ObservableCollection<Data> yaklaşanEtkinlikler;
-
         public MainViewModel()
         {
             AppNotifyIcon = new System.Windows.Forms.NotifyIcon
@@ -112,8 +116,10 @@ namespace Takvim
                 if (parameter is XmlElement xmlElement)
                 {
                     SeçiliYıl = (short)DateTime.Parse(xmlElement.InnerText).Year;
+                    AnimasyonTarih = DateTime.Parse(xmlElement.InnerText);
                 }
-            }, parameter => parameter is XmlElement xmlElement && DateTime.Parse(xmlElement.InnerText).Year != SeçiliYıl);
+
+            }, parameter => true);
 
             AyarSıfırla = new RelayCommand(parameter =>
             {
@@ -131,7 +137,7 @@ namespace Takvim
                     WindowStyle = WindowStyle.None,
                     AllowsTransparency = true,
                     Height = 150,
-                    ResizeMode=ResizeMode.NoResize,
+                    ResizeMode = ResizeMode.NoResize,
                     ShowInTaskbar = false,
                     Topmost = true,
                     Background = Brushes.Transparent,
@@ -151,6 +157,20 @@ namespace Takvim
 
             Properties.Settings.Default.PropertyChanged += Properties_PropertyChanged;
 
+        }
+
+        public DateTime AnimasyonTarih
+        {
+            get => animasyonTarih;
+
+            set
+            {
+                if (animasyonTarih != value)
+                {
+                    animasyonTarih = value;
+                    OnPropertyChanged(nameof(AnimasyonTarih));
+                }
+            }
         }
 
         public string AramaMetin
@@ -200,7 +220,6 @@ namespace Takvim
                 }
             }
         }
-
         public Brush BayramTatilRenk
         {
             get => bayramTatilRenk;

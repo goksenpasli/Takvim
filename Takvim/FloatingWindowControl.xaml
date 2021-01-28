@@ -11,16 +11,17 @@
             <GroupBox.Header>
                 <TextBlock Text="DUYURULAR" HorizontalAlignment="Center" />
             </GroupBox.Header>
-            <ItemsControl ItemsSource="{Binding YaklaşanEtkinlikler}" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+            <ItemsControl ItemsSource="{Binding YaklaşanEtkinlikler}" ScrollViewer.VerticalScrollBarVisibility="Auto">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
                             <Image Width="32" Height="32" Source="{Binding ResimData, TargetNullValue={x:Null}}" />
-                            <TextBlock Height="16"
+                            <TextBlock Height="32"
                                 Foreground="Red"
                                 VerticalAlignment="Center"
                                 FontSize="12" FontStyle="Italic" FontWeight="Bold">
                                 <Run Text="{Binding TamTarih}" Language="tr-tr" />
+                                <LineBreak />
                                 <Run Text="{Binding GünNotAçıklama}">
                                     <Run.ToolTip>
                                         <TextBlock Text="{Binding GünNotAçıklama}" />

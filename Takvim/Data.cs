@@ -1,7 +1,7 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
+using System.Configuration;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
@@ -372,6 +372,7 @@ namespace Takvim
                 }
             }
         }
+
         public ICommand VeriEkleEkranı { get; }
 
         public Brush VeriRenk
@@ -424,6 +425,10 @@ namespace Takvim
 
         private static void WriteXmlRootData(string xmlfilepath)
         {
+            if (!Directory.Exists(MainViewModel.xmldatasavefolder))
+            {
+                Directory.CreateDirectory(MainViewModel.xmldatasavefolder);
+            }
             if (!File.Exists(xmlfilepath))
             {
                 using XmlWriter writer = XmlWriter.Create(MainViewModel.xmlpath);
