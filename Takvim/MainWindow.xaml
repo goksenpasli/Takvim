@@ -219,7 +219,7 @@
                                         FontFamily="Wingdings"
                                         Command="{Binding DataContext.YılaGit, ElementName=Window}"
                                         CommandParameter="{Binding Mode=OneWay, XPath=Gun}"
-                                        ToolTip="YILA GİT" />
+                                        ToolTip="TARİHİ GÖR" />
                                     <ContentControl Template="{Binding Mode=OneWay, Source={StaticResource TimePanel}}" />
                                     <Rectangle Width="{Binding ImageSource.Width, ElementName=Img}"
                                         Height="{Binding ImageSource.Height, ElementName=Img}"

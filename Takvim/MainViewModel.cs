@@ -21,7 +21,7 @@ namespace Takvim
         public static readonly string xmldatasavefolder = Path.GetDirectoryName(ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.PerUserRoamingAndLocal).FilePath);
 
         public static readonly string xmlpath = Path.GetDirectoryName(ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.PerUserRoamingAndLocal).FilePath) + @"\Data.xml";
-        
+
         public static System.Windows.Forms.NotifyIcon AppNotifyIcon;
 
         public static WindowState AppWindowState = WindowState.Maximized;
@@ -34,7 +34,7 @@ namespace Takvim
 
         private readonly XmlDocument xmldoc;
 
-        private DateTime animasyonTarih;
+        private DateTime? animasyonTarih;
 
         private string aramaMetin;
 
@@ -116,6 +116,7 @@ namespace Takvim
                 if (parameter is XmlElement xmlElement)
                 {
                     SeçiliYıl = (short)DateTime.Parse(xmlElement.InnerText).Year;
+                    AnimasyonTarih = null;
                     AnimasyonTarih = DateTime.Parse(xmlElement.InnerText);
                 }
 
@@ -159,7 +160,7 @@ namespace Takvim
 
         }
 
-        public DateTime AnimasyonTarih
+        public DateTime? AnimasyonTarih
         {
             get => animasyonTarih;
 

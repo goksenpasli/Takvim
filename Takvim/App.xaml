@@ -29,6 +29,16 @@
                             <EasingDoubleKeyFrame KeyTime="0:0:0.75" Value="360" />
                         </DoubleAnimationUsingKeyFrames>
                     </Storyboard>
+                    <Storyboard x:Key="GrowListItem" AutoReverse="True" Timeline.DesiredFrameRate="30">
+                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Bd" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)">
+                            <EasingDoubleKeyFrame KeyTime="0" Value="1" />
+                            <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="3" />
+                        </DoubleAnimationUsingKeyFrames>
+                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Bd" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)">
+                            <EasingDoubleKeyFrame KeyTime="0" Value="1" />
+                            <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="3" />
+                        </DoubleAnimationUsingKeyFrames>
+                    </Storyboard>
                 </ControlTemplate.Resources>
                 <Border x:Name="Bd"
                     Background="{TemplateBinding Background}"
@@ -60,7 +70,7 @@
                             </MultiBinding>
                         </DataTrigger.Binding>
                         <DataTrigger.EnterActions>
-                            <BeginStoryboard Storyboard="{StaticResource StoryboardRotate}" />
+                            <BeginStoryboard Storyboard="{StaticResource GrowListItem}" />
                         </DataTrigger.EnterActions>
                     </DataTrigger>
                     <MultiTrigger>
