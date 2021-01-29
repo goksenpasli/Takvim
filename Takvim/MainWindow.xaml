@@ -310,7 +310,7 @@
                 Margin="2"
                 Columns="4" Rows="2">
                 <UniformGrid.Resources>
-                    <Style TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
+                    <Style BasedOn="{StaticResource {x:Type ComboBox}}" TargetType="ComboBox">
                         <Setter Property="ItemContainerStyle" Value="{StaticResource ComboBoxItemContainerStyle}" />
                         <Setter Property="ItemTemplate" Value="{StaticResource ComboBoxRectItemTemplate}" />
                         <Setter Property="ItemsPanel" Value="{StaticResource CbItemsPanelTemplate}" />

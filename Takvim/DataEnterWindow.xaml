@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Takvim.DataEnterWindow"
+﻿<UserControl x:Class="Takvim.DataEnterWindow" x:Name="userControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Microsoft_Windows_Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:Takvim"
@@ -15,7 +15,7 @@
             <GroupBox.Header>
                 <UniformGrid Columns="2">
                     <TextBlock Text="VERİ GİR" />
-                    <TextBlock HorizontalAlignment="Right" FontSize="14" FontFamily="Segoe UI Black">
+                    <TextBlock HorizontalAlignment="Right" FontSize="15" FontFamily="Segoe UI Black">
                         <Hyperlink Command="{Binding PencereKapat}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}">
                             <Hyperlink.Inlines>
                                 <Run Text="X" />
@@ -109,7 +109,14 @@
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock>
+                                <TextBlock FontSize="12" FontFamily="Segoe UI Black" >
+                                    <Hyperlink Command="{Binding DataContext.XmlVeriSil, ElementName=userControl}" CommandParameter="{Binding XPath=@Id}">
+                                        <Hyperlink.Inlines>
+                                            <Run Text="X" />
+                                        </Hyperlink.Inlines>
+                                    </Hyperlink>
+                                </TextBlock>
+                                <TextBlock >
                                     <Run Text="{Binding XPath=@SaatBaslangic}" />
                                     <Run Text="{Binding XPath=Aciklama}" />
                                 </TextBlock>

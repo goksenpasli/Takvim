@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -166,6 +167,18 @@ namespace Takvim
                 }
             }, parameter => parameter is XmlAttribute xmlAttribute && File.Exists(xmlAttribute.Value));
 
+            XmlVeriSil = new RelayCommand(parameter =>
+            {
+                if (parameter is XmlAttribute Id && MessageBox.Show("Seçili kaydı silmek istiyor musun?", "TAKVİM", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
+                {
+                    XDocument doc = XDocument.Load(MainViewModel.xmlpath);
+                    doc.Root.Elements("Veri").Where(z => z.Attribute("Id").Value == Id.Value).Remove();
+                    doc.Save(MainViewModel.xmlpath);
+                    MainViewModel.xmlDataProvider.Refresh();
+                    VeriSayısı--;
+                }
+            }, parameter => true);
+
             Dosyalarİptal = new RelayCommand(parameter => Dosyalar = null, parameter => Dosyalar?.Count > 0);
 
             Resimİptal = new RelayCommand(parameter => ResimData = null, parameter => ResimData?.Length > 0);
@@ -186,6 +199,7 @@ namespace Takvim
                     ShowInTaskbar = false,
                     WindowStartupLocation = WindowStartupLocation.CenterScreen
                 };
+                verigirişwindow.MouseLeftButtonDown += (s, e) => verigirişwindow.DragMove();
                 verigirişwindow.ShowDialog();
             }, parameter => true);
         }
@@ -323,6 +337,7 @@ namespace Takvim
         }
 
         public ICommand PencereKapat { get; }
+
         public byte[] ResimData
         {
             get => resimData;
@@ -417,6 +432,7 @@ namespace Takvim
 
         public ICommand XmlVeriEkle { get; }
 
+        public ICommand XmlVeriSil { get; }
         public void Dispose()
         {
             Dispose(disposing: true);
