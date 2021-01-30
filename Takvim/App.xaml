@@ -9,7 +9,6 @@
             </ResourceDictionary.MergedDictionaries>
             <XmlDataProvider x:Key="XmlData" IsAsynchronous="False" XPath="Veriler/Veri" />
             <local:DateAnimationConverter x:Key="DateAnimationConverter" />
-            <local:RamadanDateToVisibilityConverter x:Key="RamadanDateToVisibilityConverter" />
             <local:StringToBrushConverter x:Key="StringToBrushConverter" />
             <local:GünTatilConverter x:Key="GünTatilConverter" />
             <local:RamadanDateToHolidayConverter x:Key="RamadanDateToHolidayConverter" />
@@ -127,6 +126,20 @@
                             StrokeThickness="2.0" />
                         <Path Data="F1 M 7.000,23.000 L 21.000,23.000" Stroke="Black" StrokeEndLineCap="Round" StrokeLineJoin="Round"
                             StrokeStartLineCap="Round" StrokeThickness="2.0" />
+                    </Canvas>
+                </Viewbox>
+            </ControlTemplate>
+            <ControlTemplate x:Key="Ramazan">
+                <Viewbox>
+                    <Canvas Width="32.000" Height="32.000">
+                        <Path Data="F1 M 0.406,31.594 L 0.406,31.594 C 0.946,32.135 1.823,32.135 2.364,31.594 L 15.477,18.481 L 13.518,16.523 L 0.406,29.636 C -0.135,30.177 -0.135,31.054 0.406,31.594 Z" Fill="#ff000000" />
+                        <Path Data="F1 M 21.593,0.000 C 27.340,0.000 32.000,4.659 32.000,10.407 C 32.000,16.155 27.340,20.815 21.593,20.815 C 15.845,20.815 11.185,16.155 11.185,10.407 C 11.185,4.659 15.845,0.000 21.593,0.000 Z" Fill="#ffef9d9f" />
+                        <Canvas>
+                            <Path Data="F1 M 21.593,19.098 C 16.134,19.098 11.658,14.895 11.221,9.549 C 11.198,9.832 11.186,10.118 11.186,10.407 C 11.186,16.155 15.845,20.814 21.593,20.814 C 27.341,20.814 32.000,16.155 32.000,10.407 C 32.000,10.118 31.988,9.832 31.965,9.549 C 31.528,14.895 27.052,19.098 21.593,19.098 Z" Fill="#ffee888f" />
+                            <Path Data="F1 M 27.531,19.217 L 12.783,4.469 C 12.399,4.085 12.399,3.462 12.783,3.078 L 14.277,1.584 C 14.661,1.200 15.284,1.200 15.668,1.584 L 30.416,16.332 C 30.800,16.716 30.800,17.339 30.416,17.723 L 28.922,19.217 C 28.538,19.601 27.915,19.601 27.531,19.217 Z" Fill="#ffee888f" />
+                            <Path Data="F1 M 24.961,3.092 C 25.833,3.092 26.540,3.799 26.540,4.671 C 26.540,5.543 25.833,6.250 24.961,6.250 C 24.089,6.250 23.382,5.543 23.382,4.671 C 23.382,3.799 24.089,3.092 24.961,3.092 Z" Fill="#ffee888f" />
+                            <Path Data="F1 M 21.976,3.678 C 22.254,3.678 22.480,3.904 22.480,4.182 C 22.480,4.460 22.254,4.685 21.976,4.685 C 21.699,4.685 21.473,4.460 21.473,4.182 C 21.473,3.904 21.699,3.678 21.976,3.678 Z" Fill="#ffee888f" />
+                        </Canvas>
                     </Canvas>
                 </Viewbox>
             </ControlTemplate>
@@ -277,10 +290,6 @@
                             </Style>
                         </ContentControl.Style>
                     </ContentControl>
-                    <TextBlock Text="R"
-                        Visibility="{Binding TamTarih, Converter={StaticResource RamadanDateToVisibilityConverter}}"
-                        Canvas.Right="0" Canvas.Bottom="0"
-                        FontSize="9" FontStyle="Italic" />
                     <ContentControl Canvas.Right="0" Canvas.Bottom="7"
                         Width="8" Height="10"
                         IsTabStop="False" RenderTransformOrigin="0.5,0.5">
@@ -293,6 +302,12 @@
                                     </DataTrigger>
                                     <DataTrigger Binding="{Binding TamTarih, Converter={StaticResource FeastoftheSacrificeDateToHolidayConverter}, Mode=OneWay}" Value="{x:Null}">
                                         <Setter Property="Template" Value="{StaticResource Kurban}" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding TamTarih, Converter={StaticResource RamadanDateToHolidayConverter}, Mode=OneWay}" Value="true">
+                                        <Setter Property="Template" Value="{StaticResource Ramazan}" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding TamTarih, Converter={StaticResource RamadanDateToHolidayConverter}, Mode=OneWay}" Value="{x:Null}">
+                                        <Setter Property="Template" Value="{StaticResource Ramazan}" />
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
