@@ -49,10 +49,6 @@
             Grid.Column="1"
             IsChecked="{Binding BaşlangıçtaÇalışacak}"
             IsTabStop="False" ToolTip="Başlangıçta Çalıştır." />
-        <Border Grid.Row="0" Grid.Column="2"
-            BorderBrush="Black" BorderThickness="1">
-            <TextBox Text="{Binding SeçiliYıl, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" FontWeight="Bold" />
-        </Border>
         <Grid Grid.Row="0" Grid.Column="3" Margin="2,2,3,2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
@@ -78,8 +74,14 @@
             Grid.Row="2" Grid.Column="1"
             Command="{Binding SatırSütünSıfırla, Mode=OneWay}"
             IsTabStop="False" />
-        <TabControl Grid.Row="1" Grid.Column="2" Grid.RowSpan="1">
-            <TabItem Header="YIL">
+        <TabControl Grid.Row="0" Grid.Column="2" Grid.RowSpan="2">
+            <TabItem>
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox Text="{Binding SeçiliYıl, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" FontWeight="Bold" />
+                        <TextBlock Text="YIL" VerticalAlignment="Center" />
+                    </StackPanel>
+                </TabItem.Header>
                 <ListBox ItemsSource="{Binding Mode=OneWay, Source={StaticResource Günler}}"
                     ItemContainerStyle="{StaticResource ListBoxItemContainerStyle}"
                     ItemTemplate="{StaticResource ListBoxDataTemplate}"
@@ -194,18 +196,23 @@
                 <RowDefinition />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <GroupBox Header="TÜM LİSTE"
-                Grid.Row="0"
-                Margin="2"
-                FontWeight="Bold">
+            <GroupBox Grid.Row="0" Margin="2">
+                <GroupBox.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox x:Name="CbGeçmiş" VerticalAlignment="Center" ToolTip="Süresi Geçenleri Göster" />
+                        <TextBlock Text="TÜM LİSTE" FontWeight="Bold" />
+                    </StackPanel>
+                </GroupBox.Header>
                 <ListBox Background="Transparent" ItemsSource="{Binding Mode=OneWay, Source={StaticResource Cvs}}">
                     <ListBox.ItemContainerStyle>
                         <Style TargetType="{x:Type ListBoxItem}">
                             <Setter Property="BorderBrush" Value="Blue" />
-                            <Setter Property="Visibility" Value="{Binding Converter={StaticResource ListBoxDatePassedVisibilityConverter}, Mode=OneWay}" />
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding XPath=@Onemli}" Value="true">
                                     <Setter Property="Background" Value="Red" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Path=IsChecked, ElementName=CbGeçmiş}" Value="false">
+                                    <Setter Property="Visibility" Value="{Binding Converter={StaticResource ListBoxDatePassedVisibilityConverter}, Mode=OneWay}" />
                                 </DataTrigger>
                             </Style.Triggers>
                         </Style>
