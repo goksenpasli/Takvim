@@ -179,6 +179,17 @@ namespace Takvim
                 }
             }, parameter => true);
 
+            XmlSaatVeriGüncelle = new RelayCommand(parameter =>
+            {
+                if (parameter is XmlAttribute xmlAttribute)
+                {
+                    XDocument doc = XDocument.Load(MainViewModel.xmlpath);
+                    doc.Root.Elements("Veri").FirstOrDefault(z => z.Attribute("Id").Value == xmlAttribute.Value).Attribute("SaatBaslangic").Value = SaatBaşlangıç;
+                    doc.Save(MainViewModel.xmlpath);
+                    MainViewModel.xmlDataProvider.Refresh();
+                }
+            }, parameter => DateTime.TryParseExact(SaatBaşlangıç, "H:m", new CultureInfo("tr-TR"), DateTimeStyles.None, out _));
+
             Dosyalarİptal = new RelayCommand(parameter => Dosyalar = null, parameter => Dosyalar?.Count > 0);
 
             Resimİptal = new RelayCommand(parameter => ResimData = null, parameter => ResimData?.Length > 0);
@@ -430,6 +441,7 @@ namespace Takvim
             }
         }
 
+        public ICommand XmlSaatVeriGüncelle { get; }
         public ICommand XmlVeriEkle { get; }
 
         public ICommand XmlVeriSil { get; }

@@ -219,13 +219,12 @@
                 </Setter>
             </Style>
             <DataTemplate x:Key="ListBoxDataTemplate">
-                <Canvas Width="30" Height="30">
+                <Canvas Width="27" Height="27">
                     <TextBlock Canvas.Left="0"
-                        Width="30" Height="30"
-                        FontSize="11"><Hyperlink Command="{Binding VeriEkleEkranı}">
+                        Width="27" Height="27"
+                        FontSize="10">
+                        <Hyperlink Command="{Binding VeriEkleEkranı}">
                             <Run Text="{Binding Gün}" />
-                            <LineBreak />
-                            <Run Text="{Binding GünAdı}" />
                             <Run DataContext="{Binding Converter={StaticResource DateNoteCountConverter}, Mode=OneWay}" FontSize="8">
                                 <Run.Style>
                                     <Style TargetType="{x:Type Run}">
@@ -249,8 +248,10 @@
                                     </ListBox>
                                 </Run.ToolTip>
                             </Run>
+                            <LineBreak />
+                            <Run Text="{Binding GünAdı}" />
                         </Hyperlink></TextBlock>
-                    <ContentControl Canvas.Right="0"
+                    <ContentControl Canvas.Top="0" Canvas.Right="0"
                         Width="16" Height="10"
                         IsTabStop="False">
                         <ContentControl.Style>
@@ -266,8 +267,7 @@
                     </ContentControl>
                     <TextBlock Text="R"
                         Visibility="{Binding TamTarih, Converter={StaticResource RamadanDateToVisibilityConverter}}"
-                        Canvas.Left="23.657" Canvas.Top="10" Canvas.Right="0"
-                        Width="6.343"
+                        Canvas.Right="0" Canvas.Bottom="0"
                         FontSize="9" FontStyle="Italic" />
                 </Canvas>
             </DataTemplate>

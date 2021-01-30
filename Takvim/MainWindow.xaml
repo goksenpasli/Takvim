@@ -220,7 +220,7 @@
                                         Command="{Binding DataContext.YılaGit, ElementName=Window}"
                                         CommandParameter="{Binding Mode=OneWay, XPath=Gun}"
                                         ToolTip="TARİHİ GÖR" />
-                                    <ContentControl Template="{Binding Mode=OneWay, Source={StaticResource TimePanel}}" />
+                                    <ContentControl IsTabStop="False" Template="{Binding Mode=OneWay, Source={StaticResource TimePanel}}" />
                                     <Rectangle Width="{Binding ImageSource.Width, ElementName=Img}"
                                         Height="{Binding ImageSource.Height, ElementName=Img}"
                                         Margin="3,0"
@@ -295,7 +295,7 @@
                                     <Run Text="{Binding XPath=@SaatBaslangic}" />
                                     <Run Text="{Binding XPath=Aciklama}" />
                                 </TextBlock>
-                                <ContentControl Template="{Binding Mode=OneWay, Source={StaticResource TimePanel}}" />
+                                <ContentControl IsTabStop="False" Template="{Binding Mode=OneWay, Source={StaticResource TimePanel}}" />
                             </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>

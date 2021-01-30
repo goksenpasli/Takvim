@@ -109,18 +109,31 @@
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock FontSize="12" FontFamily="Segoe UI Black" >
-                                    <Hyperlink Command="{Binding DataContext.XmlVeriSil, ElementName=userControl}" CommandParameter="{Binding XPath=@Id}">
+                                <TextBlock FontSize="12" FontFamily="Segoe UI Black">
+                                    <Hyperlink x:Name="Hyp" Command="{Binding DataContext.XmlVeriSil, ElementName=userControl}" CommandParameter="{Binding XPath=@Id}">
                                         <Hyperlink.Inlines>
                                             <Run Text="X" />
                                         </Hyperlink.Inlines>
                                     </Hyperlink>
                                 </TextBlock>
-                                <TextBlock >
+                                <TextBlock>
                                     <Run Text="{Binding XPath=@SaatBaslangic}" />
                                     <Run Text="{Binding XPath=Aciklama}" />
                                 </TextBlock>
-                                <ContentControl Template="{Binding Mode=OneWay, Source={StaticResource TimePanel}}" />
+                                <ContentControl IsTabStop="False" Template="{Binding Mode=OneWay, Source={StaticResource TimePanel}}" />
+                                <StackPanel Orientation="Horizontal">
+                                    <StackPanel.DataContext>
+                                        <local:Data />
+                                    </StackPanel.DataContext>
+                                    <local:MaskedTextBox Width="30"
+                                        IncludePrompt="False" Mask="00:00" PromptChar="_"
+                                        Value="{Binding SaatBaşlangıç, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    <Button Content="P"
+                                        FontFamily="Wingdings 3"
+                                        Command="{Binding XmlSaatVeriGüncelle, Mode=OneWay}"
+                                        CommandParameter="{Binding ElementName=Hyp, Path=CommandParameter}"
+                                        ToolTip="SAAT GÜNCELLE" />
+                                </StackPanel>
                             </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
