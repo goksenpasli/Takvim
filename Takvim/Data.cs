@@ -74,21 +74,13 @@ namespace Takvim
                     xmlcontent[2] = xElement;
                 }
 
-                XElement xmlfiles = new XElement("Dosyalar");
                 if (Dosyalar != null)
                 {
-                    foreach (string dosya in Dosyalar)
-                    {
-                        XElement file = new XElement("Dosya");
-                        file.Add(new XAttribute("Yol", dosya));
-                        file.Add(new XAttribute("Ad", Path.GetFileNameWithoutExtension(dosya)));
-                        file.Add(new XAttribute("Ext", Path.GetExtension(dosya)));
-                        xmlfiles.Add(file);
-                    }
+                    XElement xmlfiles = WriteFileElements(Dosyalar);
+                    parentElement.Add(xmlfiles);
                 }
 
                 parentElement.Add(xmlcontent);
-                parentElement.Add(xmlfiles);
                 xDocument.Element("Veriler")?.Add(parentElement);
                 xDocument.Save(MainViewModel.xmlpath);
                 VeriSayısı++;
@@ -99,19 +91,14 @@ namespace Takvim
 
             ResimYükle = new RelayCommand(parameter =>
             {
-                const int filelimit = 100 * 1024;
                 OpenFileDialog openFileDialog = new OpenFileDialog { Multiselect = false, Filter = "Resim Dosyaları (*.jpg;*.jpeg;*.tif;*.tiff)|*.jpg;*.jpeg;*.tif;*.tiff)" };
                 if (openFileDialog.ShowDialog() == true)
                 {
                     byte[] data = File.ReadAllBytes(openFileDialog.FileName);
-                    if (data.Length < filelimit)
+                    if (CheckFileSize(data.Length))
                     {
                         ResimData = data;
                         ResimUzantı = Path.GetExtension(openFileDialog.FileName).ToLower();
-                    }
-                    else
-                    {
-                        MessageBox.Show($"Resim Boyutu En Çok {filelimit / 1024} KB Olabilir.", "TAKVİM", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                     }
                 }
             }, parameter => !string.IsNullOrWhiteSpace(GünNotAçıklama));
@@ -181,11 +168,10 @@ namespace Takvim
 
             XmlVeriGüncelle = new RelayCommand(parameter =>
             {
-                if (parameter is XmlAttribute xmlAttribute)
+                if (parameter is XmlAttribute xmlattributeId)
                 {
                     XDocument doc = XDocument.Load(MainViewModel.xmlpath);
-                    var root = doc.Root.Elements("Veri").FirstOrDefault(z => z.Attribute("Id").Value == xmlAttribute.Value);
-                    root.Attribute("SaatBaslangic").Value = SaatBaşlangıç;
+                    UpdateAttribute(xmlattributeId, "SaatBaslangic", SaatBaşlangıç, doc);
                     doc.Save(MainViewModel.xmlpath);
                     MainViewModel.xmlDataProvider.Refresh();
                 }
@@ -442,9 +428,9 @@ namespace Takvim
             }
         }
 
-        public ICommand XmlVeriGüncelle { get; }
         public ICommand XmlVeriEkle { get; }
 
+        public ICommand XmlVeriGüncelle { get; }
         public ICommand XmlVeriSil { get; }
         public void Dispose()
         {
@@ -477,6 +463,39 @@ namespace Takvim
                 writer.WriteEndElement();
                 writer.Flush();
             }
+        }
+
+        private bool CheckFileSize(int size)
+        {
+            const int filelimit = 100 * 1024;
+            if (size > filelimit)
+            {
+                MessageBox.Show($"Resim Boyutu En Çok {filelimit / 1024} KB Olabilir.", "TAKVİM", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                return false;
+            }
+            return true;
+        }
+
+        private XElement UpdateAttribute(XmlAttribute xmlAttribute, string attributevalue, string updatedattributevalue, XDocument doc)
+        {
+            XElement root = doc.Root.Elements("Veri").FirstOrDefault(z => z.Attribute("Id").Value == xmlAttribute.Value);
+            root.Attribute(attributevalue).Value = updatedattributevalue;
+            return root;
+        }
+
+        private XElement WriteFileElements(ObservableCollection<string> Dosyalar)
+        {
+            XElement xmlfiles = new XElement("Dosyalar");
+            foreach (string dosya in Dosyalar)
+            {
+                XElement file = new XElement("Dosya");
+                file.Add(new XAttribute("Yol", dosya));
+                file.Add(new XAttribute("Ad", Path.GetFileNameWithoutExtension(dosya)));
+                file.Add(new XAttribute("Ext", Path.GetExtension(dosya)));
+                xmlfiles.Add(file);
+            }
+
+            return xmlfiles;
         }
     }
 }

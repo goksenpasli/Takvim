@@ -94,6 +94,7 @@ namespace Takvim
             }
 
             TakvimVerileriniOluştur(SeçiliYıl);
+
             AyTakvimVerileriniOluştur(SeçiliAy);
 
             YılGeri = new RelayCommand(parameter => SeçiliYıl--, parameter => SeçiliYıl > 1);
