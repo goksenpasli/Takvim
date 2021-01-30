@@ -179,12 +179,13 @@ namespace Takvim
                 }
             }, parameter => true);
 
-            XmlSaatVeriGüncelle = new RelayCommand(parameter =>
+            XmlVeriGüncelle = new RelayCommand(parameter =>
             {
                 if (parameter is XmlAttribute xmlAttribute)
                 {
                     XDocument doc = XDocument.Load(MainViewModel.xmlpath);
-                    doc.Root.Elements("Veri").FirstOrDefault(z => z.Attribute("Id").Value == xmlAttribute.Value).Attribute("SaatBaslangic").Value = SaatBaşlangıç;
+                    var root = doc.Root.Elements("Veri").FirstOrDefault(z => z.Attribute("Id").Value == xmlAttribute.Value);
+                    root.Attribute("SaatBaslangic").Value = SaatBaşlangıç;
                     doc.Save(MainViewModel.xmlpath);
                     MainViewModel.xmlDataProvider.Refresh();
                 }
@@ -441,7 +442,7 @@ namespace Takvim
             }
         }
 
-        public ICommand XmlSaatVeriGüncelle { get; }
+        public ICommand XmlVeriGüncelle { get; }
         public ICommand XmlVeriEkle { get; }
 
         public ICommand XmlVeriSil { get; }

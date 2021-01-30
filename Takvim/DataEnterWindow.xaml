@@ -130,7 +130,7 @@
                                         Value="{Binding SaatBaşlangıç, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                     <Button Content="P"
                                         FontFamily="Wingdings 3"
-                                        Command="{Binding XmlSaatVeriGüncelle, Mode=OneWay}"
+                                        Command="{Binding XmlVeriGüncelle, Mode=OneWay}"
                                         CommandParameter="{Binding ElementName=Hyp, Path=CommandParameter}"
                                         ToolTip="SAAT GÜNCELLE" />
                                 </StackPanel>

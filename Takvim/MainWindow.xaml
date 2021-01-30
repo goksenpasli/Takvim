@@ -1,8 +1,8 @@
 ﻿<Window x:Class="Takvim.MainWindow" x:Name="Window"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:Takvim"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:properties="clr-namespace:Takvim.Properties" xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:properties="clr-namespace:Takvim.Properties"
+    xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
     Title="Takvim"
     Width="800" Height="600"
     d:DataContext="{d:DesignInstance Type=local:MainViewModel}"
@@ -291,6 +291,13 @@
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
+                                <TextBlock VerticalAlignment="Center" FontSize="12" FontFamily="Segoe UI Black">
+                                    <Hyperlink Command="{Binding XmlVeriSil, Mode=OneWay, Source={StaticResource Data}}" CommandParameter="{Binding XPath=@Id}">
+                                        <Hyperlink.Inlines>
+                                            <Run Text="X" />
+                                        </Hyperlink.Inlines>
+                                    </Hyperlink>
+                                </TextBlock>
                                 <TextBlock>
                                     <Run Text="{Binding XPath=@SaatBaslangic}" />
                                     <Run Text="{Binding XPath=Aciklama}" />
@@ -316,13 +323,14 @@
                         <Setter Property="ItemsPanel" Value="{StaticResource CbItemsPanelTemplate}" />
                         <Setter Property="ItemsSource" Value="{Binding Source={StaticResource Renkler}}" />
                         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Disabled" />
+                        <Setter Property="SelectedValuePath" Value="Name" />
                     </Style>
                 </UniformGrid.Resources>
-                <ComboBox SelectedValue="{Binding SeçiliRenkCmt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedValuePath="Name" ToolTip="Cumartesi Renk" />
-                <ComboBox SelectedValue="{Binding SeçiliRenkPaz, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedValuePath="Name" ToolTip="Pazar Renk" />
-                <ComboBox SelectedValue="{Binding ResmiTatilRenk, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedValuePath="Name" ToolTip="Resmi Tatil Renk" />
-                <ComboBox SelectedValue="{Binding GövdeRenk, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedValuePath="Name" ToolTip="Gövde Renk" />
-                <ComboBox SelectedValue="{Binding BayramTatilRenk, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedValuePath="Name" ToolTip="Bayram Renk" />
+                <ComboBox SelectedValue="{Binding SeçiliRenkCmt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ToolTip="Cumartesi Renk" />
+                <ComboBox SelectedValue="{Binding SeçiliRenkPaz, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ToolTip="Pazar Renk" />
+                <ComboBox SelectedValue="{Binding ResmiTatilRenk, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ToolTip="Resmi Tatil Renk" />
+                <ComboBox SelectedValue="{Binding GövdeRenk, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ToolTip="Gövde Renk" />
+                <ComboBox SelectedValue="{Binding BayramTatilRenk, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ToolTip="Bayram Renk" />
                 <Slider VerticalAlignment="Center"
                     AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" IsTabStop="False" Maximum="20"
                     Minimum="1" ToolTip="KONTROL ARALIĞI DAKİKA OLARAK"

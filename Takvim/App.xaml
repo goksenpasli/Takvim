@@ -113,9 +113,20 @@
             <ControlTemplate x:Key="Bayrak">
                 <Viewbox>
                     <Canvas Width="32.000" Height="21.333">
-                        <Path Data=" M 0.000,0.000 L 32.000,0.000 L 32.000,21.333 L 0.000,21.333 L 0.000,0.000 Z" Fill="Red" />
-                        <Path Data=" M 10.667,5.330 C 12.565,5.330 14.231,6.322 15.176,7.815 C 14.395,6.945 13.262,6.397 12.001,6.397 C 9.645,6.397 7.735,8.309 7.735,10.667 C 7.735,13.025 9.645,14.936 12.001,14.936 C 13.262,14.936 14.395,14.389 15.176,13.518 C 14.231,15.012 12.565,16.004 10.667,16.004 C 7.722,16.004 5.335,13.614 5.335,10.667 C 5.335,7.719 7.722,5.330 10.667,5.330 Z" Fill="White" />
-                        <Path Data=" M 15.215,10.667 L 17.169,10.038 L 17.165,7.993 L 18.368,9.650 L 20.320,9.014 L 19.110,10.667 L 20.320,12.319 L 18.368,11.683 L 17.165,13.341 L 17.169,11.295 L 15.215,10.667 Z" Fill="White" />
+                        <Path Data="M 0.000,0.000 L 32.000,0.000 L 32.000,21.333 L 0.000,21.333 L 0.000,0.000 Z" Fill="Red" />
+                        <Path Data="M 10.667,5.330 C 12.565,5.330 14.231,6.322 15.176,7.815 C 14.395,6.945 13.262,6.397 12.001,6.397 C 9.645,6.397 7.735,8.309 7.735,10.667 C 7.735,13.025 9.645,14.936 12.001,14.936 C 13.262,14.936 14.395,14.389 15.176,13.518 C 14.231,15.012 12.565,16.004 10.667,16.004 C 7.722,16.004 5.335,13.614 5.335,10.667 C 5.335,7.719 7.722,5.330 10.667,5.330 Z" Fill="White" />
+                        <Path Data="M 15.215,10.667 L 17.169,10.038 L 17.165,7.993 L 18.368,9.650 L 20.320,9.014 L 19.110,10.667 L 20.320,12.319 L 18.368,11.683 L 17.165,13.341 L 17.169,11.295 L 15.215,10.667 Z" Fill="White" />
+                    </Canvas>
+                </Viewbox>
+            </ControlTemplate>
+            <ControlTemplate x:Key="Kurban">
+                <Viewbox>
+                    <Canvas Width="28.000" Height="29.900">
+                        <Path Data="F1 M 27.000,17.300 C 27.000,14.700 25.600,12.400 23.400,11.200 C 24.900,9.200 26.000,6.800 26.000,4.000 C 26.000,3.000 26.000,2.000 25.500,1.000 L 25.500,1.100 C 24.300,5.900 19.900,9.000 14.900,9.000 L 13.100,9.000 C 8.100,9.000 3.600,5.900 2.500,1.100 L 2.500,1.000 C 2.000,2.000 2.000,3.000 2.000,4.000 C 2.000,6.800 3.100,9.200 4.600,11.300 C 2.400,12.500 1.000,14.700 1.000,17.300 C 2.600,17.300 4.100,16.700 5.300,15.800 L 6.400,24.800 C 6.700,27.200 8.700,28.900 11.100,28.900 L 16.900,28.900 C 19.300,28.900 21.300,27.100 21.600,24.800 L 22.700,15.800 C 23.900,16.800 25.400,17.300 27.000,17.300 Z"
+                            Stroke="Black" StrokeEndLineCap="Round" StrokeLineJoin="Round" StrokeStartLineCap="Round"
+                            StrokeThickness="2.0" />
+                        <Path Data="F1 M 7.000,23.000 L 21.000,23.000" Stroke="Black" StrokeEndLineCap="Round" StrokeLineJoin="Round"
+                            StrokeStartLineCap="Round" StrokeThickness="2.0" />
                     </Canvas>
                 </Viewbox>
             </ControlTemplate>
@@ -219,9 +230,9 @@
                 </Setter>
             </Style>
             <DataTemplate x:Key="ListBoxDataTemplate">
-                <Canvas Width="27" Height="27">
+                <Canvas Width="28" Height="28">
                     <TextBlock Canvas.Left="0"
-                        Width="27" Height="27"
+                        Width="28" Height="28"
                         FontSize="10">
                         <Hyperlink Command="{Binding VeriEkleEkranı}">
                             <Run Text="{Binding Gün}" />
@@ -250,10 +261,11 @@
                             </Run>
                             <LineBreak />
                             <Run Text="{Binding GünAdı}" />
-                        </Hyperlink></TextBlock>
+                        </Hyperlink>
+                    </TextBlock>
                     <ContentControl Canvas.Top="0" Canvas.Right="0"
                         Width="16" Height="10"
-                        IsTabStop="False">
+                        IsTabStop="False" RenderTransformOrigin="0.5,0.5">
                         <ContentControl.Style>
                             <Style TargetType="{x:Type ContentControl}">
                                 <Setter Property="Content" Value="{x:Null}" />
@@ -269,6 +281,23 @@
                         Visibility="{Binding TamTarih, Converter={StaticResource RamadanDateToVisibilityConverter}}"
                         Canvas.Right="0" Canvas.Bottom="0"
                         FontSize="9" FontStyle="Italic" />
+                    <ContentControl Canvas.Right="0" Canvas.Bottom="7"
+                        Width="8" Height="10"
+                        IsTabStop="False" RenderTransformOrigin="0.5,0.5">
+                        <ContentControl.Style>
+                            <Style TargetType="{x:Type ContentControl}">
+                                <Setter Property="Content" Value="{x:Null}" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding TamTarih, Converter={StaticResource FeastoftheSacrificeDateToHolidayConverter}, Mode=OneWay}" Value="true">
+                                        <Setter Property="Template" Value="{StaticResource Kurban}" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding TamTarih, Converter={StaticResource FeastoftheSacrificeDateToHolidayConverter}, Mode=OneWay}" Value="{x:Null}">
+                                        <Setter Property="Template" Value="{StaticResource Kurban}" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ContentControl.Style>
+                    </ContentControl>
                 </Canvas>
             </DataTemplate>
             <Style x:Key="ListBoxItemContainerStyle" TargetType="{x:Type ListBoxItem}">
