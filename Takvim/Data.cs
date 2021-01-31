@@ -45,6 +45,8 @@ namespace Takvim
 
         private int veriSayısı;
 
+        private int webpQuality = 20;
+
         public Data()
         {
             Window verigirişwindow = null;
@@ -94,12 +96,8 @@ namespace Takvim
                 OpenFileDialog openFileDialog = new OpenFileDialog { Multiselect = false, Filter = "Resim Dosyaları (*.jpg;*.jpeg;*.tif;*.tiff)|*.jpg;*.jpeg;*.tif;*.tiff)" };
                 if (openFileDialog.ShowDialog() == true)
                 {
-                    var webpbytearray = openFileDialog.FileName.WebpEncode(25);
-                    if (CheckFileSize(webpbytearray.Length))
-                    {
-                        ResimData = webpbytearray;
-                        ResimUzantı = ".webp";
-                    }
+                    ResimData = openFileDialog.FileName.WebpEncode(WebpQuality);
+                    ResimUzantı = ".webp";
                 }
             }, parameter => !string.IsNullOrWhiteSpace(GünNotAçıklama));
 
@@ -428,10 +426,25 @@ namespace Takvim
             }
         }
 
+        public int WebpQuality
+        {
+            get => webpQuality;
+            set
+            {
+                if (webpQuality != value)
+                {
+                    webpQuality = value;
+                    OnPropertyChanged(nameof(WebpQuality));
+                }
+            }
+        }
+
         public ICommand XmlVeriEkle { get; }
 
         public ICommand XmlVeriGüncelle { get; }
+
         public ICommand XmlVeriSil { get; }
+
         public void Dispose()
         {
             Dispose(disposing: true);
