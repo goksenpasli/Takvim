@@ -44,8 +44,6 @@ namespace Takvim
 
         private Brush bayramTatilRenk = Properties.Settings.Default.BayramRenk.ConvertToBrush();
 
-        private short bugünIndex = (short)(DateTime.Today.DayOfYear - 1);
-
         private string etkinlik;
 
         private Data görünenEtkinlik;
@@ -232,20 +230,6 @@ namespace Takvim
                 {
                     bayramTatilRenk = value;
                     OnPropertyChanged(nameof(BayramTatilRenk));
-                }
-            }
-        }
-
-        public short BugünIndex
-        {
-            get => bugünIndex;
-
-            set
-            {
-                if (bugünIndex != value)
-                {
-                    bugünIndex = value;
-                    OnPropertyChanged(nameof(BugünIndex));
                 }
             }
         }

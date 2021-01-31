@@ -18,6 +18,7 @@
             <local:BrushToColorConverter x:Key="BrushToColorConverter" />
             <local:IntBooleanZeroConverter x:Key="IntBooleanZeroConverter" />
             <local:SelectedDateToDataListConverter x:Key="SelectedDateToDataListConverter" />
+            <local:WebpByteArrayToImageConverter x:Key="WebpByteArrayToImageConverter" />
             <Storyboard x:Key="TimerColorAnimation" RepeatBehavior="Forever" Timeline.DesiredFrameRate="3">
                 <ColorAnimation Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)" From="Yellow" To="Red" Duration="00:00:01" />
             </Storyboard>
@@ -78,7 +79,7 @@
                         <MultiTrigger.Conditions>
                             <Condition Property="IsMouseOver" Value="True" />
                         </MultiTrigger.Conditions>
-                        <Setter TargetName="Bd" Property="Background" Value="#1F26A0DA" />
+                        <!--<Setter TargetName="Bd" Property="Background" Value="#1F26A0DA" />-->
                         <Setter TargetName="Bd" Property="BorderBrush" Value="#A826A0DA" />
                         <Setter TargetName="Bd" Property="CacheMode">
                             <Setter.Value>

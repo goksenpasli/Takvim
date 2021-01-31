@@ -86,7 +86,7 @@ namespace Takvim
                 xDocument.Element("Veriler")?.Add(parentElement);
                 xDocument.Save(MainViewModel.xmlpath);
                 VeriSayısı++;
-                verigirişwindow.Close();
+                verigirişwindow?.Close();
                 MainViewModel.xmlDataProvider.Refresh();
                 Dispose(true);
             }, parameter => !string.IsNullOrWhiteSpace(GünNotAçıklama) && DateTime.TryParseExact(SaatBaşlangıç, "H:m", new CultureInfo("tr-TR"), DateTimeStyles.None, out _));

@@ -13,9 +13,9 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="SliderResource.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <local:Data x:Key="Data" />
             <local:FilePathToIconConverter x:Key="FilePathToIconConverter" />
             <local:ŞuAnkiAyColorConverter x:Key="ŞuAnkiAyColorConverter" />
-            <local:Data x:Key="Data" />
             <local:XmlDateConverter x:Key="XmlDateConverter" />
             <local:Base64ImageConverter x:Key="Base64ImageConverter" />
             <CollectionViewSource x:Key="Cvs" Source="{StaticResource XmlData}">
@@ -82,10 +82,7 @@
                         <TextBlock Text="YIL" VerticalAlignment="Center" />
                     </StackPanel>
                 </TabItem.Header>
-                <ListBox ItemsSource="{Binding Mode=OneWay, Source={StaticResource Günler}}"
-                    ItemContainerStyle="{StaticResource ListBoxItemContainerStyle}"
-                    ItemTemplate="{StaticResource ListBoxDataTemplate}"
-                    SelectedIndex="{Binding BugünIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                <ListBox ItemsSource="{Binding Mode=OneWay, Source={StaticResource Günler}}" ItemContainerStyle="{StaticResource ListBoxItemContainerStyle}" ItemTemplate="{StaticResource ListBoxDataTemplate}">
                     <ListBox.GroupStyle>
                         <GroupStyle>
                             <GroupStyle.Panel>
@@ -228,8 +225,7 @@
                                         CommandParameter="{Binding Mode=OneWay, XPath=Gun}"
                                         ToolTip="TARİHİ GÖR" />
                                     <ContentControl IsTabStop="False" Template="{Binding Mode=OneWay, Source={StaticResource TimePanel}}" />
-                                    <Rectangle Width="72"
-                                        Height="96"
+                                    <Rectangle Width="72" Height="96"
                                         Margin="3,0"
                                         RadiusX="10" RadiusY="10" ToolTipService.InitialShowDelay="500">
                                         <Rectangle.Fill>
@@ -243,6 +239,15 @@
                                         <Rectangle.ToolTip>
                                             <Image RenderOptions.BitmapScalingMode="Fant" Source="{Binding Converter={StaticResource Base64ImageConverter}, XPath=Resim}" />
                                         </Rectangle.ToolTip>
+                                        <Rectangle.Style>
+                                            <Style TargetType="Rectangle">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding ElementName=Img, Path=ImageSource}" Value="{x:Null}">
+                                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Rectangle.Style>
                                     </Rectangle>
                                     <TextBlock TextWrapping="Wrap">
                                         <TextBlock.Style>

@@ -6,11 +6,8 @@
     BorderThickness="0"
     Margin="2"
     d:DataContext="{d:DesignInstance Type=local:MainViewModel}"
-    d:DesignHeight="150" d:DesignWidth="225"
+    d:DesignHeight="150" d:DesignWidth="225" UseLayoutRounding="True"
     mc:Ignorable="d">
-    <UserControl.Resources>
-        <local:WebpByteArrayToImageConverter x:Key="WebpByteArrayToImageConverter" />
-    </UserControl.Resources>
     <Microsoft_Windows_Themes:SystemDropShadowChrome>
         <Grid>
             <GroupBox Background="Red">
