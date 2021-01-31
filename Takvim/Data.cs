@@ -94,11 +94,11 @@ namespace Takvim
                 OpenFileDialog openFileDialog = new OpenFileDialog { Multiselect = false, Filter = "Resim Dosyaları (*.jpg;*.jpeg;*.tif;*.tiff)|*.jpg;*.jpeg;*.tif;*.tiff)" };
                 if (openFileDialog.ShowDialog() == true)
                 {
-                    byte[] data = File.ReadAllBytes(openFileDialog.FileName);
-                    if (CheckFileSize(data.Length))
+                    var webpbytearray = openFileDialog.FileName.WebpEncode(25);
+                    if (CheckFileSize(webpbytearray.Length))
                     {
-                        ResimData = data;
-                        ResimUzantı = Path.GetExtension(openFileDialog.FileName).ToLower();
+                        ResimData = webpbytearray;
+                        ResimUzantı = ".webp";
                     }
                 }
             }, parameter => !string.IsNullOrWhiteSpace(GünNotAçıklama));
@@ -123,7 +123,7 @@ namespace Takvim
                     SaveFileDialog saveFileDialog = new SaveFileDialog
                     {
                         Title = "SAKLA",
-                        Filter = "Resim Dosyaları (*.jpg;*.jpeg;*.tif;*.tiff)|*.jpg;*.jpeg;*.tif;*.tiff)",
+                        Filter = "Resim Dosyaları (*.webp)|*.webp)",
                         FileName = xmlElement.PreviousSibling?.InnerText + xmlElement.GetAttribute("Ext")
                     };
 
@@ -467,7 +467,7 @@ namespace Takvim
 
         private bool CheckFileSize(int size)
         {
-            const int filelimit = 100 * 1024;
+            const int filelimit = 50 * 1024;
             if (size > filelimit)
             {
                 MessageBox.Show($"Resim Boyutu En Çok {filelimit / 1024} KB Olabilir.", "TAKVİM", MessageBoxButton.OK, MessageBoxImage.Exclamation);

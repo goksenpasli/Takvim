@@ -87,6 +87,8 @@
     <Compile Include="IntBooleanZeroConverter.cs" />
     <Compile Include="SelectedDateToDataListConverter.cs" />
     <Compile Include="StringToBrushConverter.cs" />
+    <Compile Include="WebpByteArrayToImageConverter.cs" />
+    <Compile Include="WebPWrapper.cs" />
     <Compile Include="XmlDateConverter.cs" />
     <Compile Include="ŞuAnkiAyColorConverter.cs" />
     <Page Include="DataEnterWindow.xaml">
@@ -146,6 +148,11 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="libwebp_x86.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

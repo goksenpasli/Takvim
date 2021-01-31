@@ -8,6 +8,7 @@
     d:DesignHeight="300" d:DesignWidth="450" Loaded="UserControl_Loaded" UseLayoutRounding="True"
     mc:Ignorable="d">
     <UserControl.Resources>
+        <local:WebpByteArrayToImageConverter x:Key="WebpByteArrayToImageConverter" />
         <CollectionViewSource x:Key="FilteredCvs" Source="{StaticResource XmlData}" />
     </UserControl.Resources>
     <Microsoft_Windows_Themes:SystemDropShadowChrome>
@@ -62,7 +63,7 @@
                 </Grid.RowDefinitions>
                 <TextBox Text="{Binding GünNotAçıklama, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" />
-                <Image Grid.Column="1" Source="{Binding ResimData, TargetNullValue={x:Null}}" />
+                <Image Grid.Column="1" Source="{Binding ResimData, ConverterParameter=96, Converter={StaticResource WebpByteArrayToImageConverter}}" />
                 <CheckBox Content="ÖNEMLİ Mİ"
                     Grid.Row="1"
                     Foreground="Red"

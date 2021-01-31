@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Diagnostics;
+using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
@@ -12,6 +13,8 @@ namespace Takvim
     internal static class ExtensionMethods
     {
         private static readonly IntPtr hwnd = Process.GetCurrentProcess().Handle;
+
+        public static System.Drawing.Bitmap BitmapChangeFormat(this System.Drawing.Bitmap bitmap, System.Drawing.Imaging.PixelFormat format) => bitmap.Clone(new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height), format);
 
         public static Brush ConvertToBrush(this System.Drawing.Color color) => new SolidColorBrush(Color.FromArgb(color.A, color.R, color.G, color.B));
 
@@ -100,6 +103,74 @@ namespace Takvim
             }
 
             return null;
+        }
+        public static BitmapImage ToBitmapImage(this System.Drawing.Image bitmap, System.Drawing.Imaging.ImageFormat format, double decodeheight = 0)
+        {
+            if (bitmap != null)
+            {
+                MemoryStream memoryStream = new MemoryStream();
+                bitmap.Save(memoryStream, format);
+                memoryStream.Position = 0;
+                BitmapImage image = new BitmapImage();
+                image.BeginInit();
+                if (decodeheight != 0)
+                {
+                    image.DecodePixelHeight = bitmap.Height > (int)decodeheight ? (int)decodeheight : bitmap.Height;
+                }
+
+                image.CreateOptions = BitmapCreateOptions.IgnoreColorProfile;
+                image.CacheOption = BitmapCacheOption.OnLoad;
+                image.StreamSource = memoryStream;
+                image.EndInit();
+                bitmap.Dispose();
+                if (!image.IsFrozen && image.CanFreeze)
+                {
+                    image.Freeze();
+                }
+                GC.Collect();
+
+                return image;
+            }
+
+            return null;
+        }
+        public static BitmapSource WebpDecode(this byte[] rawWebp, double decodeheight = 0)
+        {
+            using WebP webp = new WebP();
+            WebPDecoderOptions options = new WebPDecoderOptions { use_threads = 1, no_fancy_upsampling = 1 };
+            using System.Drawing.Bitmap bmp = webp.Decode(rawWebp, options);
+            BitmapImage bitmapimage = null;
+
+            if (bmp.PixelFormat == System.Drawing.Imaging.PixelFormat.Format32bppArgb)
+            {
+                bitmapimage = bmp.ToBitmapImage(System.Drawing.Imaging.ImageFormat.Png, decodeheight);
+            }
+            else
+            {
+                bitmapimage = bmp.ToBitmapImage(System.Drawing.Imaging.ImageFormat.Jpeg, decodeheight);
+            }
+
+            rawWebp = null;
+            if (!bitmapimage.IsFrozen && bitmapimage.CanFreeze)
+            {
+                bitmapimage.Freeze();
+            }
+
+            return bitmapimage;
+        }
+        public static byte[] WebpEncode(this string resimdosyayolu, int kalite)
+        {
+            try
+            {
+                using WebP webp = new WebP();
+                using System.Drawing.Bitmap bmp = new System.Drawing.Bitmap(resimdosyayolu);
+                return bmp.PixelFormat == System.Drawing.Imaging.PixelFormat.Format24bppRgb || bmp.PixelFormat == System.Drawing.Imaging.PixelFormat.Format32bppArgb ? webp.EncodeLossy(bmp, kalite) : webp.EncodeLossy(bmp.BitmapChangeFormat(System.Drawing.Imaging.PixelFormat.Format24bppRgb), kalite);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "EBYS", MessageBoxButton.OK, MessageBoxImage.Error);
+                return null;
+            }
         }
     }
 }

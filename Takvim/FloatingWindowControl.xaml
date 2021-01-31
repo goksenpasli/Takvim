@@ -8,6 +8,9 @@
     d:DataContext="{d:DesignInstance Type=local:MainViewModel}"
     d:DesignHeight="150" d:DesignWidth="225"
     mc:Ignorable="d">
+    <UserControl.Resources>
+        <local:WebpByteArrayToImageConverter x:Key="WebpByteArrayToImageConverter" />
+    </UserControl.Resources>
     <Microsoft_Windows_Themes:SystemDropShadowChrome>
         <Grid>
             <GroupBox Background="Red">
@@ -18,7 +21,7 @@
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <Image Width="32" Height="32" Source="{Binding ResimData, TargetNullValue={x:Null}}" />
+                                <Image Width="32" Height="32" Source="{Binding ResimData, ConverterParameter=96, Converter={StaticResource WebpByteArrayToImageConverter}}" />
                                 <TextBlock Height="32"
                                     Foreground="Red"
                                     VerticalAlignment="Center"

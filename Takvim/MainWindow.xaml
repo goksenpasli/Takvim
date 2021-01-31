@@ -228,8 +228,8 @@
                                         CommandParameter="{Binding Mode=OneWay, XPath=Gun}"
                                         ToolTip="TARİHİ GÖR" />
                                     <ContentControl IsTabStop="False" Template="{Binding Mode=OneWay, Source={StaticResource TimePanel}}" />
-                                    <Rectangle Width="{Binding ImageSource.Width, ElementName=Img}"
-                                        Height="{Binding ImageSource.Height, ElementName=Img}"
+                                    <Rectangle Width="72"
+                                        Height="96"
                                         Margin="3,0"
                                         RadiusX="10" RadiusY="10" ToolTipService.InitialShowDelay="500">
                                         <Rectangle.Fill>
