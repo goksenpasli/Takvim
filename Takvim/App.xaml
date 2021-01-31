@@ -7,6 +7,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/PresentationFramework.Aero,Version=4.0.0.0,Culture=neutral,PublicKeyToken=31bf3856ad364e35,processorArchitecture=MSIL;component/themes/Aero.NormalColor.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <local:DatePassedBooleanConverter x:Key="DatePassedBooleanConverter" />
             <XmlDataProvider x:Key="XmlData" IsAsynchronous="False" XPath="Veriler/Veri" />
             <local:DateAnimationConverter x:Key="DateAnimationConverter" />
             <local:StringToBrushConverter x:Key="StringToBrushConverter" />
@@ -248,6 +249,15 @@
                         Width="28" Height="28"
                         FontSize="10">
                         <Hyperlink Command="{Binding VeriEkleEkranı}">
+                            <Hyperlink.Style>
+                                <Style TargetType="Hyperlink">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding TamTarih, Converter={StaticResource DatePassedBooleanConverter}}" Value="true">
+                                            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Hyperlink.Style>
                             <Run Text="{Binding Gün}" />
                             <Run DataContext="{Binding Converter={StaticResource DateNoteCountConverter}, Mode=OneWay}" FontSize="8">
                                 <Run.Style>

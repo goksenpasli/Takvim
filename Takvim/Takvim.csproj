@@ -67,6 +67,7 @@
     <Compile Include="Base64ImageConverter.cs" />
     <Compile Include="BrushToColorConverter.cs" />
     <Compile Include="DateAnimationConverter.cs" />
+    <Compile Include="DatePassedBooleanConverter.cs" />
     <Compile Include="FloatingWindowControl.xaml.cs">
       <DependentUpon>FloatingWindowControl.xaml</DependentUpon>
     </Compile>
