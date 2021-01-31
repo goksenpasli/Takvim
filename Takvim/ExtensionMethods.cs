@@ -11,12 +11,6 @@ namespace Takvim
 {
     internal static class ExtensionMethods
     {
-        [DllImport("shell32.dll", CharSet = CharSet.Unicode)]
-        public static extern IntPtr ExtractIcon(this IntPtr hInst, string lpszExeFileName, int nIconIndex);
-
-        [DllImport("user32.dll", CharSet = CharSet.Auto)]
-        public static extern bool DestroyIcon(this IntPtr handle);
-
         private static readonly IntPtr hwnd = Process.GetCurrentProcess().Handle;
 
         public static Brush ConvertToBrush(this System.Drawing.Color color) => new SolidColorBrush(Color.FromArgb(color.A, color.R, color.G, color.B));
@@ -27,7 +21,35 @@ namespace Takvim
             return System.Drawing.Color.FromArgb(sb.Color.A, sb.Color.R, sb.Color.G, sb.Color.B);
         }
 
-        public static BitmapSource IkonOluştur(this string value)
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        public static extern bool DestroyIcon(this IntPtr handle);
+
+        [DllImport("shell32.dll", CharSet = CharSet.Unicode)]
+        public static extern IntPtr ExtractIcon(this IntPtr hInst, string lpszExeFileName, int nIconIndex);
+        public static BitmapSource IconCreate(this string filepath)
+        {
+            if (filepath != null)
+            {
+                try
+                {
+                    System.Drawing.Icon icon = System.Drawing.Icon.ExtractAssociatedIcon(filepath);
+                    BitmapSource bitmapsource = Imaging.CreateBitmapSourceFromHIcon(icon.Handle, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+                    icon.Dispose();
+                    if (bitmapsource.CanFreeze)
+                    {
+                        bitmapsource.Freeze();
+                    }
+                    return bitmapsource;
+                }
+                catch (Exception)
+                {
+                    return null;
+                }
+            }
+            return null;
+        }
+
+        public static BitmapSource RegistryIconCreate(this string value)
         {
             if (value != null)
             {

@@ -13,7 +13,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="SliderResource.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            <local:FileExtensionToIconConverter x:Key="FileExtensionToIconConverter" />
+            <local:FilePathToIconConverter x:Key="FilePathToIconConverter" />
             <local:ŞuAnkiAyColorConverter x:Key="ŞuAnkiAyColorConverter" />
             <local:Data x:Key="Data" />
             <local:XmlDateConverter x:Key="XmlDateConverter" />
@@ -267,9 +267,12 @@
                                     <ComboBox.ItemTemplate>
                                         <DataTemplate>
                                             <StackPanel Orientation="Horizontal">
-                                                <Image Width="24" Height="24" Source="{Binding Converter={StaticResource FileExtensionToIconConverter}, XPath=@Ext}" />
-                                                <Button Content="AÇ" Command="{Binding DosyaAç, Mode=OneWay, Source={StaticResource Data}}" CommandParameter="{Binding XPath=@Yol}" />
-                                                <TextBlock Text="{Binding XPath=@Ad}" VerticalAlignment="Center" />
+                                                <Image Width="24" Height="24" Source="{Binding Converter={StaticResource FilePathToIconConverter}, XPath=@Yol}" />
+                                                <TextBlock VerticalAlignment="Center">
+                                                    <Hyperlink Command="{Binding DosyaAç, Mode=OneWay, Source={StaticResource Data}}" CommandParameter="{Binding XPath=@Yol}">
+                                                        <Run Text="{Binding XPath=@Ad}" />
+                                                    </Hyperlink>
+                                                </TextBlock>
                                             </StackPanel>
                                         </DataTemplate>
                                     </ComboBox.ItemTemplate>
@@ -339,12 +342,12 @@
                 <ComboBox SelectedValue="{Binding GövdeRenk, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ToolTip="Gövde Renk" />
                 <ComboBox SelectedValue="{Binding BayramTatilRenk, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ToolTip="Bayram Renk" />
                 <Slider VerticalAlignment="Center"
-                    AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" IsTabStop="False" Maximum="20"
-                    Minimum="1" ToolTip="KONTROL ARALIĞI DAKİKA OLARAK"
+                    AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" Maximum="20" Minimum="1"
+                    ToolTip="KONTROL ARALIĞI DAKİKA OLARAK"
                     Value="{Binding KontrolSüresi, Mode=TwoWay, Source={x:Static properties:Settings.Default}}" />
                 <Slider VerticalAlignment="Center"
-                    AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" IsTabStop="False" Maximum="45"
-                    Minimum="5" ToolTip="EKRANDA GÖRÜNME SÜRESİ SANİYE OLARAK"
+                    AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" Maximum="45" Minimum="5"
+                    ToolTip="EKRANDA GÖRÜNME SÜRESİ SANİYE OLARAK"
                     Value="{Binding PopupSüresi, Mode=TwoWay, Source={x:Static properties:Settings.Default}}" />
                 <Button Content="R" Command="{Binding AyarSıfırla, Mode=OneWay}" ToolTip="AYARLARI SIFIRLA" />
             </UniformGrid>

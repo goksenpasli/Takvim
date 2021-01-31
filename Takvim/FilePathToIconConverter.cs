@@ -5,13 +5,13 @@ using System.Windows.Data;
 
 namespace Takvim
 {
-    public class FileExtensionToIconConverter : IValueConverter
+    public class FilePathToIconConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             try
             {
-                return Path.GetExtension(value as string).IkonOluştur();
+                return (value as string).IconCreate();
             }
             catch (Exception)
             {

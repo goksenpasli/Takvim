@@ -33,6 +33,15 @@
                         <DataTrigger Binding="{Binding GünAdı}" Value="Paz">
                             <Setter Property="Background" Value="{Binding Owner.DataContext.SeçiliRenkPaz, RelativeSource={RelativeSource AncestorType=Window}}" />
                         </DataTrigger>
+                        <DataTrigger Binding="{Binding Converter={StaticResource GünTatilConverter}, Mode=OneWay}" Value="true">
+                            <Setter Property="Background" Value="{Binding Owner.DataContext.ResmiTatilRenk, RelativeSource={RelativeSource AncestorType=Window}}" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Converter={StaticResource GünTatilConverter}, Mode=OneWay}" Value="{x:Null}">
+                            <Setter Property="Background" Value="{Binding Owner.DataContext.ResmiTatilRenk, RelativeSource={RelativeSource AncestorType=Window}}" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding TamTarih, Converter={StaticResource DatePassedBooleanConverter}}" Value="true">
+                            <Setter Property="Background" Value="Gray" />
+                        </DataTrigger>
                     </Style.Triggers>
                 </Style>
             </GroupBox.Style>

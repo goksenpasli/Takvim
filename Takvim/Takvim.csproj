@@ -76,7 +76,7 @@
     <Compile Include="Data.cs" />
     <Compile Include="ExtensionMethods.cs" />
     <Compile Include="FeastoftheSacrificeDateToHolidayConverter.cs" />
-    <Compile Include="FileExtensionToIconConverter.cs" />
+    <Compile Include="FilePathToIconConverter.cs" />
     <Compile Include="InpcBase.cs" />
     <Compile Include="ListBoxDatePassedVisibilityConverter.cs" />
     <Compile Include="MaskedTextBox.cs" />
