@@ -7,6 +7,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/PresentationFramework.Aero,Version=4.0.0.0,Culture=neutral,PublicKeyToken=31bf3856ad364e35,processorArchitecture=MSIL;component/themes/Aero.NormalColor.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <local:BilinenGünlerConverter x:Key="BilinenGünlerConverter" />
             <local:DatePassedBooleanConverter x:Key="DatePassedBooleanConverter" />
             <XmlDataProvider x:Key="XmlData" IsAsynchronous="False" XPath="Veriler/Veri" />
             <local:DateAnimationConverter x:Key="DateAnimationConverter" />
@@ -324,6 +325,39 @@
                             </Style>
                         </ContentControl.Style>
                     </ContentControl>
+                    <TextBlock Text="«"
+                        Canvas.Right="0" Canvas.Bottom="0"
+                        Foreground="Blue"
+                        FontSize="8" FontFamily="Wingdings">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Converter={StaticResource BilinenGünlerConverter}, Mode=OneWay}" Value="true">
+                                        <Setter Property="Visibility" Value="Visible" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                        <TextBlock.ToolTip>
+                            <ListBox ItemsSource="{Binding Günler, Source={StaticResource BilinenGünlerConverter}}">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock>
+                                            <TextBlock.Text>
+                                                <MultiBinding StringFormat="{}{0}/{1}/{2} {3}">
+                                                    <Binding Path="Item2" />
+                                                    <Binding Path="Item1" />
+                                                    <Binding Path="DataContext.SeçiliYıl" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type Window}}" />
+                                                    <Binding Path="Item3" />
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </TextBlock.ToolTip>
+                    </TextBlock>
                 </Canvas>
             </DataTemplate>
             <Style x:Key="ListBoxItemContainerStyle" TargetType="{x:Type ListBoxItem}">

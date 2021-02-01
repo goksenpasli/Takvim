@@ -65,6 +65,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Base64ImageConverter.cs" />
+    <Compile Include="BilinenGünlerConverter.cs" />
     <Compile Include="BrushToColorConverter.cs" />
     <Compile Include="DateAnimationConverter.cs" />
     <Compile Include="DatePassedBooleanConverter.cs" />
