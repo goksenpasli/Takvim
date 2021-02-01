@@ -13,6 +13,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Xml;
+using System.Xml.Linq;
 
 namespace Takvim
 {
@@ -127,6 +128,17 @@ namespace Takvim
                 MessageBox.Show("Ayarlar Varsayılana Çevrildi. Yeniden Başlatın.", "TAKVİM", MessageBoxButton.OK, MessageBoxImage.Exclamation);
             }, parameter => true);
 
+            EskiVerileriSil = new RelayCommand(parameter =>
+            {
+                if (MessageBox.Show($"{SeçiliYıl} yılına ait tüm kayıtları silmek istiyor musun? Dikkat bu işlem geri alınamaz.", "TAKVİM", MessageBoxButton.YesNo, MessageBoxImage.Exclamation, MessageBoxResult.No) == MessageBoxResult.Yes)
+                {
+                    XDocument doc = XDocument.Load(MainViewModel.xmlpath);
+                    doc.Root.Elements("Veri").Where(z => DateTime.Parse(z.Element("Gun").Value).Year == SeçiliYıl).Remove();
+                    doc.Save(MainViewModel.xmlpath);
+                    MainViewModel.xmlDataProvider.Refresh();
+                }
+            }, parameter => SeçiliYıl < DateTime.Now.Year);
+
             DuyurularPopupEkranıAç = new RelayCommand(parameter =>
             {
                 duyurularwindow = new Window
@@ -237,6 +249,8 @@ namespace Takvim
         public ICommand DuyurularPopupEkranıAç { get; }
 
         public string Error => string.Empty;
+
+        public ICommand EskiVerileriSil { get; }
 
         public string Etkinlik
         {
@@ -395,7 +409,6 @@ namespace Takvim
         }
 
         public ICommand VeriAra { get; }
-
         public ObservableCollection<Data> YaklaşanEtkinlikler
         {
             get => yaklaşanEtkinlikler;

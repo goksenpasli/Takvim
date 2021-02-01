@@ -243,7 +243,7 @@
                                             <Style TargetType="Rectangle">
                                                 <Style.Triggers>
                                                     <DataTrigger Binding="{Binding ElementName=Img, Path=ImageSource}" Value="{x:Null}">
-                                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                                        <Setter Property="Visibility" Value="Collapsed" />
                                                     </DataTrigger>
                                                 </Style.Triggers>
                                             </Style>
@@ -330,7 +330,7 @@
             </GroupBox>
             <UniformGrid Grid.Row="2"
                 Margin="2"
-                Columns="4" Rows="2">
+                Columns="3" Rows="3">
                 <UniformGrid.Resources>
                     <Style BasedOn="{StaticResource {x:Type ComboBox}}" TargetType="ComboBox">
                         <Setter Property="ItemContainerStyle" Value="{StaticResource ComboBoxItemContainerStyle}" />
@@ -355,6 +355,10 @@
                     ToolTip="EKRANDA GÖRÜNME SÜRESİ SANİYE OLARAK"
                     Value="{Binding PopupSüresi, Mode=TwoWay, Source={x:Static properties:Settings.Default}}" />
                 <Button Content="R" Command="{Binding AyarSıfırla, Mode=OneWay}" ToolTip="AYARLARI SIFIRLA" />
+                <Button Content="SİL"
+                    Background="Red"
+                    Command="{Binding EskiVerileriSil, Mode=OneWay}"
+                    ToolTip="TÜM ESKİ VERİLERİ SİL" />
             </UniformGrid>
         </Grid>
         <Button Content="è"
