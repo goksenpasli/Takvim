@@ -170,6 +170,7 @@ namespace Takvim
                 {
                     XDocument doc = XDocument.Load(MainViewModel.xmlpath);
                     UpdateAttribute(xmlattributeId, "SaatBaslangic", SaatBaşlangıç, doc);
+                    UpdateAttribute(xmlattributeId, "Saat", EtkinlikSüresi.ToString(), doc);
                     doc.Save(MainViewModel.xmlpath);
                     MainViewModel.xmlDataProvider.Refresh();
                 }
