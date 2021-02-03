@@ -137,7 +137,7 @@ namespace Takvim
                     doc.Save(MainViewModel.xmlpath);
                     MainViewModel.xmlDataProvider.Refresh();
                 }
-            }, parameter => SeçiliYıl < DateTime.Now.Year);
+            }, parameter => SeçiliYıl < DateTime.Now.Year && File.Exists(xmlpath));
 
             DuyurularPopupEkranıAç = new RelayCommand(parameter =>
             {

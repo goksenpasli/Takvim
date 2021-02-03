@@ -7,6 +7,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/PresentationFramework.Aero,Version=4.0.0.0,Culture=neutral,PublicKeyToken=31bf3856ad364e35,processorArchitecture=MSIL;component/themes/Aero.NormalColor.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <local:BilinenGünlerSeçiliConverter x:Key="BilinenGünlerSeçiliConverter" />
             <local:BilinenGünlerConverter x:Key="BilinenGünlerConverter" />
             <local:DatePassedBooleanConverter x:Key="DatePassedBooleanConverter" />
             <XmlDataProvider x:Key="XmlData" IsAsynchronous="False" XPath="Veriler/Veri" />
@@ -340,7 +341,7 @@
                             </Style>
                         </TextBlock.Style>
                         <TextBlock.ToolTip>
-                            <ListBox ItemsSource="{Binding Günler, Source={StaticResource BilinenGünlerConverter}}">
+                            <ListBox ItemsSource="{Binding Günler, Source={StaticResource BilinenGünlerConverter}}" SelectedItem="{Binding Converter={StaticResource BilinenGünlerSeçiliConverter}, Mode=OneWay}">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <TextBlock>
@@ -355,6 +356,14 @@
                                         </TextBlock>
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
+                                <ListBox.Style>
+                                    <Style TargetType="ListBox">
+                                        <Style.Resources>
+                                            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="GreenYellow" />
+                                            <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="GreenYellow" />
+                                        </Style.Resources>
+                                    </Style>
+                                </ListBox.Style>
                             </ListBox>
                         </TextBlock.ToolTip>
                     </TextBlock>
