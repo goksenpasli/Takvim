@@ -88,6 +88,9 @@
     <Compile Include="IntBooleanZeroConverter.cs" />
     <Compile Include="SelectedDateToDataListConverter.cs" />
     <Compile Include="StringToBrushConverter.cs" />
+    <Compile Include="Viewer.xaml.cs">
+      <DependentUpon>Viewer.xaml</DependentUpon>
+    </Compile>
     <Compile Include="WebpByteArrayToImageConverter.cs" />
     <Compile Include="WebPWrapper.cs" />
     <Compile Include="XmlDateConverter.cs" />
@@ -118,6 +121,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="SliderResource.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Viewer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

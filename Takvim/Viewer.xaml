@@ -1,0 +1,34 @@
+﻿<Window x:Class="Takvim.Viewer"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:ice="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
+    xmlns:local="clr-namespace:Takvim" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Dahili Gösterici"
+    Width="800" Height="578"
+    d:DataContext="{d:DesignInstance Type=local:ImageViewer}"
+    Closing="Window_Closing" ShowInTaskbar="True" UseLayoutRounding="True" WindowStartupLocation="CenterScreen"
+    WindowState="Maximized"
+    mc:Ignorable="d">
+    <Window.Resources>
+        <local:Base64ImageConverter x:Key="Base64ImageConverter" />
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <ScrollViewer Grid.Row="0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+            <Image x:Name="Img" RenderOptions.BitmapScalingMode="Fant" RenderTransformOrigin="0.5,0.5">
+                <Image.LayoutTransform>
+                    <TransformGroup ice:Freeze="True">
+                        <ScaleTransform ice:Freeze="True" ScaleX="{Binding Zoom}" ScaleY="{Binding Zoom}" />
+                        <RotateTransform ice:Freeze="True" Angle="{Binding Angle}" />
+                    </TransformGroup>
+                </Image.LayoutTransform>
+            </Image>
+        </ScrollViewer>
+        <UniformGrid Grid.Row="1">
+            <Slider Maximum="10" Minimum="0.5" Value="{Binding Zoom}" />
+            <Slider Maximum="360" Minimum="0" Value="{Binding Angle}" />
+        </UniformGrid>
+    </Grid>
+</Window>

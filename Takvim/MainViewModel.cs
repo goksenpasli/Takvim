@@ -122,6 +122,17 @@ namespace Takvim
 
             }, parameter => true);
 
+            ResimGör = new RelayCommand(parameter =>
+            {
+                if (parameter is XmlElement xmlElement)
+                {
+                    Viewer viewer = new Viewer(xmlElement.InnerText);
+                    viewer.Owner = App.Current.MainWindow;
+                    viewer.ShowDialog();
+                }
+
+            }, parameter => true);
+
             AyarSıfırla = new RelayCommand(parameter =>
             {
                 Properties.Settings.Default.Reset();
@@ -308,6 +319,8 @@ namespace Takvim
             }
         }
 
+        public ICommand ResimGör { get; }
+
         public Brush ResmiTatilRenk
         {
             get => resmiTatilRenk;
@@ -424,7 +437,6 @@ namespace Takvim
         }
 
         public ICommand YılaGit { get; }
-
         public ICommand YılGeri { get; }
 
         public ICommand Yılİleri { get; }
