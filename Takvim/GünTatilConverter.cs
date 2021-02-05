@@ -8,18 +8,21 @@ namespace Takvim
 {
     public class GünTatilConverter : IValueConverter
     {
-        public List<Tuple<short, short, string, bool>> Tatiller { get; } = new List<Tuple<short, short, string, bool>>();
+        public List<Tuple<short, short, string, bool>> Tatiller { get; }
 
         public GünTatilConverter()
         {
-            Tatiller.Add(new Tuple<short, short, string, bool>(1, 1, "Yılbaşı", true));
-            Tatiller.Add(new Tuple<short, short, string, bool>(4, 23, "Ulusal Egemenlik ve Çocuk Bayramı", true));
-            Tatiller.Add(new Tuple<short, short, string, bool>(5, 1, "Emek ve Dayanışma Günü", true));
-            Tatiller.Add(new Tuple<short, short, string, bool>(5, 19, "Atatürk'ü Anma, Gençlik ve Spor Bayramı", true));
-            Tatiller.Add(new Tuple<short, short, string, bool>(7, 15, "Demokrasi ve Millî Birlik Günü", true));
-            Tatiller.Add(new Tuple<short, short, string, bool>(8, 30, "Zafer Bayramı", true));
-            Tatiller.Add(new Tuple<short, short, string, bool>(10, 28, "Cumhuriyet Bayramı", false));
-            Tatiller.Add(new Tuple<short, short, string, bool>(10, 29, "Cumhuriyet Bayramı", true));
+            Tatiller = new List<Tuple<short, short, string, bool>>
+            {
+                new Tuple<short, short, string, bool>(1, 1, "Yılbaşı", true),
+                new Tuple<short, short, string, bool>(4, 23, "Ulusal Egemenlik ve Çocuk Bayramı", true),
+                new Tuple<short, short, string, bool>(5, 1, "Emek ve Dayanışma Günü", true),
+                new Tuple<short, short, string, bool>(5, 19, "Atatürk'ü Anma, Gençlik ve Spor Bayramı", true),
+                new Tuple<short, short, string, bool>(7, 15, "Demokrasi ve Millî Birlik Günü", true),
+                new Tuple<short, short, string, bool>(8, 30, "Zafer Bayramı", true),
+                new Tuple<short, short, string, bool>(10, 28, "Cumhuriyet Bayramı", false),
+                new Tuple<short, short, string, bool>(10, 29, "Cumhuriyet Bayramı", true)
+            };
         }
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -39,4 +42,5 @@ namespace Takvim
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
-    }}
+    }
+}

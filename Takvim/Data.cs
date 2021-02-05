@@ -17,6 +17,8 @@ namespace Takvim
     {
         private string ay;
 
+        private bool ayTekrar;
+
         private ObservableCollection<string> dosyalar;
 
         private double etkinlikSüresi;
@@ -46,7 +48,6 @@ namespace Takvim
         private int veriSayısı;
 
         private int webpQuality = 20;
-
         public Data()
         {
             Window verigirişwindow = null;
@@ -59,6 +60,7 @@ namespace Takvim
 
                 parentElement.Add(new XAttribute("Id", new Random().Next(1, int.MaxValue)));
                 parentElement.Add(new XAttribute("Onemli", ÖnemliMi));
+                parentElement.Add(new XAttribute("AyTekrar", AyTekrar));
                 parentElement.Add(new XAttribute("Saat", EtkinlikSüresi));
                 parentElement.Add(new XAttribute("SaatBaslangic", SaatBaşlangıç));
                 if (VeriRenk != null)
@@ -215,6 +217,20 @@ namespace Takvim
             }
         }
 
+        public bool AyTekrar
+        {
+            get { return ayTekrar; }
+
+            set
+            {
+                if (ayTekrar != value)
+                {
+                    ayTekrar = value;
+                    OnPropertyChanged(nameof(AyTekrar));
+                }
+            }
+        }
+
         public ICommand DosyaAç { get; }
 
         public ObservableCollection<string> Dosyalar
@@ -332,7 +348,6 @@ namespace Takvim
                 }
             }
         }
-
         public ICommand PencereKapat { get; }
 
         public byte[] ResimData
@@ -461,6 +476,7 @@ namespace Takvim
                 Dosyalar = null;
                 VeriRenk = null;
                 ÖnemliMi = false;
+                AyTekrar=false;
             }
         }
 

@@ -7,6 +7,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/PresentationFramework.Aero,Version=4.0.0.0,Culture=neutral,PublicKeyToken=31bf3856ad364e35,processorArchitecture=MSIL;component/themes/Aero.NormalColor.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <local:AyTekrarConverter x:Key="AyTekrarConverter" />
             <local:BilinenGünlerSeçiliConverter x:Key="BilinenGünlerSeçiliConverter" />
             <local:BilinenGünlerConverter x:Key="BilinenGünlerConverter" />
             <local:DatePassedBooleanConverter x:Key="DatePassedBooleanConverter" />
@@ -326,6 +327,21 @@
                             </Style>
                         </ContentControl.Style>
                     </ContentControl>
+                    <TextBlock Text="s"
+                        Canvas.Right="0" Canvas.Bottom="-3"
+                        Foreground="DarkMagenta"
+                        FontFamily="Wingdings">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Converter={StaticResource AyTekrarConverter}, Mode=OneWay}" Value="true">
+                                        <Setter Property="Visibility" Value="Visible" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
                     <TextBlock Text="«"
                         Canvas.Right="0" Canvas.Bottom="0"
                         Foreground="Blue"

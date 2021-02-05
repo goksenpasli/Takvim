@@ -26,7 +26,7 @@
                 </Image.LayoutTransform>
             </Image>
         </ScrollViewer>
-        <UniformGrid Grid.Row="1">
+        <UniformGrid Grid.Row="1" Columns="2">
             <Slider Maximum="10" Minimum="0.5" Value="{Binding Zoom}" />
             <Slider Maximum="360" Minimum="0" Value="{Binding Angle}" />
         </UniformGrid>

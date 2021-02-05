@@ -73,19 +73,23 @@
                     LargeChange="1" Maximum="100" Minimum="1" SmallChange="1"
                     TickFrequency="1" ToolTip="WEBP RESİM YÜKLEME KALİTESİ"
                     Value="{Binding WebpQuality, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                <CheckBox Content="ÖNEMLİ Mİ"
-                    Grid.Row="2"
-                    Foreground="Red"
-                    VerticalAlignment="Center"
-                    IsChecked="{Binding ÖnemliMi, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                <ComboBox Grid.Row="2" Grid.Column="1"
-                    ItemsSource="{Binding Source={StaticResource Renkler}}"
-                    ItemContainerStyle="{StaticResource ComboBoxItemContainerStyle}"
-                    ItemTemplate="{StaticResource ComboBoxRectItemTemplate}"
-                    ItemsPanel="{StaticResource CbItemsPanelTemplate}"
-                    ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                    SelectedValue="{Binding VeriRenk, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    SelectedValuePath="Name" ToolTip="Veri Renk" />
+                <UniformGrid Grid.Row="2" Grid.ColumnSpan="2" Columns="3">
+                    <CheckBox Content="ÖNEMLİ Mİ"
+                        Foreground="Red"
+                        VerticalAlignment="Center"
+                        IsChecked="{Binding ÖnemliMi, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    <CheckBox Content="AY TEKRAR"
+                        VerticalAlignment="Center"
+                        IsChecked="{Binding AyTekrar, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        ToolTip="BU İŞARETLENİRSE HER AYIN AYNI GÜNÜNE İŞARET VERİLİR" />
+                    <ComboBox ItemsSource="{Binding Source={StaticResource Renkler}}"
+                        ItemContainerStyle="{StaticResource ComboBoxItemContainerStyle}"
+                        ItemTemplate="{StaticResource ComboBoxRectItemTemplate}"
+                        ItemsPanel="{StaticResource CbItemsPanelTemplate}"
+                        ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                        SelectedValue="{Binding VeriRenk, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        SelectedValuePath="Name" ToolTip="Veri Renk" />
+                </UniformGrid>
                 <Slider Grid.Row="3" Grid.ColumnSpan="2"
                     AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="1" IsSnapToTickEnabled="True" LargeChange="0.5"
                     Maximum="99" Minimum="0" SmallChange="0.5" TickFrequency="0.5"
