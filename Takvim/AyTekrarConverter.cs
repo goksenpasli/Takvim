@@ -9,14 +9,11 @@ namespace Takvim
 {
     public class AyTekrarConverter : IValueConverter
     {
-        private readonly ICollection<XmlNode> xmlNode;
-
-        public AyTekrarConverter() => xmlNode = MainViewModel.xmlDataProvider?.Data as ICollection<XmlNode>;
-
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is Data data)
             {
+                ICollection<XmlNode> xmlNode = MainViewModel.xmlDataProvider?.Data as ICollection<XmlNode>;
                 IEnumerable<XmlNode> liste = xmlNode?.Where(z => z.Attributes["AyTekrar"].InnerText == "true");
                 if (liste != null)
                 {

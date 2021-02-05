@@ -9,14 +9,11 @@ namespace Takvim
 {
     public class DateNoteCountConverter : IValueConverter
     {
-        private readonly ICollection<XmlNode> xmlNode;
-
-        public DateNoteCountConverter() => xmlNode = MainViewModel.xmlDataProvider?.Data as ICollection<XmlNode>;
-
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is Data data)
             {
+                ICollection<XmlNode> xmlNode = MainViewModel.xmlDataProvider?.Data as ICollection<XmlNode>;
                 int? adet = xmlNode?.Count(z => DateTime.Parse(z["Gun"].InnerText) == data.TamTarih);
                 if (adet != null)
                 {
