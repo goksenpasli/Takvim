@@ -12,6 +12,6 @@ namespace Takvim
     {
         public DataEnterWindow() => InitializeComponent();
 
-        private void UserControl_Loaded(object sender, System.Windows.RoutedEventArgs e) => (TryFindResource("FilteredCvs") as CollectionViewSource).Filter += (s, e) => e.Accepted = DateTime.Parse((e.Item as XmlNode)?["Gun"].InnerText) == (DataContext as Data)?.TamTarih;
+        private void UserControl_Loaded(object sender, System.Windows.RoutedEventArgs e) => (TryFindResource("FilteredCvs") as CollectionViewSource).Filter += (s, e) => e.Accepted = DateTime.Parse((e.Item as XmlNode)?["Gun"]?.InnerText) == (DataContext as Data)?.TamTarih;
     }
 }

@@ -15,7 +15,7 @@ namespace Takvim
             {
                 foreach (XmlNode item in xmlNode.Where(z => z.Attributes["AyTekrar"]?.InnerText == "true"))
                 {
-                    if (data.TamTarih.Day == DateTime.Parse(item["Gun"].InnerText).Day && data.TamTarih > DateTime.Today)
+                    if (data.TamTarih.Day == DateTime.Parse(item["Gun"]?.InnerText).Day && data.TamTarih > DateTime.Today)
                     {
                         data.AyTekrar = true;
                         return data;
@@ -42,7 +42,7 @@ namespace Takvim
 
                 foreach (XmlNode item in xmlNode.Where(z => z.Attributes["AyTekrar"]?.InnerText == "true"))
                 {
-                    if (data.TamTarih.Day == DateTime.Parse(item["Gun"].InnerText).Day && data.TamTarih > DateTime.Today)
+                    if (data.TamTarih.Day == DateTime.Parse(item["Gun"]?.InnerText).Day && data.TamTarih > DateTime.Today)
                     {
                         TekrarGünlerVerileri.Add(new Data
                         {

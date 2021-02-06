@@ -130,5 +130,17 @@ namespace Takvim.Properties {
                 this["PopupSüresi"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool HaftaSonlarıGizle {
+            get {
+                return ((bool)(this["HaftaSonlarıGizle"]));
+            }
+            set {
+                this["HaftaSonlarıGizle"] = value;
+            }
+        }
     }
 }

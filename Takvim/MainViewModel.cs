@@ -174,7 +174,7 @@ namespace Takvim
                 }
             }, parameter => true);
 
-            VeriAra = new RelayCommand(parameter => Cvs.Filter += (s, e) => e.Accepted = (e.Item as XmlNode)?["Aciklama"].InnerText.Contains(AramaMetin) == true, parameter => !string.IsNullOrWhiteSpace(AramaMetin));
+            VeriAra = new RelayCommand(parameter => Cvs.Filter += (s, e) => e.Accepted = (e.Item as XmlNode)?["Aciklama"]?.InnerText.Contains(AramaMetin) == true, parameter => !string.IsNullOrWhiteSpace(AramaMetin));
 
             PropertyChanged += MainViewModel_PropertyChanged;
 
@@ -521,7 +521,7 @@ namespace Takvim
 
         private void Properties_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "KontrolSüresi" || e.PropertyName == "PopupSüresi")
+            if (e.PropertyName == "KontrolSüresi" || e.PropertyName == "PopupSüresi" || e.PropertyName== "HaftaSonlarıGizle")
             {
                 Properties.Settings.Default.Save();
             }
@@ -566,7 +566,7 @@ namespace Takvim
                             TamTarih = date
                         };
 
-                        foreach (XmlNode xn in from XmlNode xn in xmlNodeList where DateTime.Parse(xn["Gun"].InnerText) == data.TamTarih select xn)
+                        foreach (XmlNode xn in from XmlNode xn in xmlNodeList where DateTime.Parse(xn["Gun"]?.InnerText) == data.TamTarih select xn)
                         {
                             data.Id = Convert.ToInt32(xn.Attributes.GetNamedItem("Id").Value);
                         }
@@ -586,16 +586,16 @@ namespace Takvim
                 foreach (XmlNode item in xmlNode)
                 {
                     bool saatvarmı = DateTime.TryParseExact(item.Attributes.GetNamedItem("SaatBaslangic").Value, "H:m", new CultureInfo("tr-TR"), DateTimeStyles.None, out DateTime saat);
-                    if (DateTime.Parse(item["Gun"].InnerText) == DateTime.Today && saat > DateTime.Now && saat.AddHours(-1) < DateTime.Now)
+                    if (DateTime.Parse(item["Gun"]?.InnerText) == DateTime.Today && saat > DateTime.Now && saat.AddHours(-1) < DateTime.Now)
                     {
                         Data data = new Data
                         {
-                            GünNotAçıklama = item["Aciklama"].InnerText,
+                            GünNotAçıklama = item["Aciklama"]?.InnerText,
                             TamTarih = saat
                         };
                         if (item["Resim"] != null)
                         {
-                            data.ResimData = Convert.FromBase64String(item["Resim"].InnerText);
+                            data.ResimData = Convert.FromBase64String(item["Resim"]?.InnerText);
                         }
                         YaklaşanEtkinlikler.Add(data);
                     }

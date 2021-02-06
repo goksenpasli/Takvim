@@ -73,7 +73,6 @@
     <Compile Include="FloatingWindowControl.xaml.cs">
       <DependentUpon>FloatingWindowControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="FocusWhenSelectedBehavior.cs" />
     <Compile Include="DateNoteCountConverter.cs" />
     <Compile Include="Data.cs" />
     <Compile Include="ExtensionMethods.cs" />

@@ -336,7 +336,7 @@
             </GroupBox>
             <UniformGrid Grid.Row="2"
                 Margin="2"
-                Columns="3" Rows="3">
+                Columns="5" Rows="2">
                 <UniformGrid.Resources>
                     <Style BasedOn="{StaticResource {x:Type ComboBox}}" TargetType="ComboBox">
                         <Setter Property="ItemContainerStyle" Value="{StaticResource ComboBoxItemContainerStyle}" />
@@ -360,6 +360,10 @@
                     AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" Maximum="45" Minimum="5"
                     ToolTip="EKRANDA GÖRÜNME SÜRESİ SANİYE OLARAK"
                     Value="{Binding PopupSüresi, Mode=TwoWay, Source={x:Static properties:Settings.Default}}" />
+                <CheckBox Content="HS"
+                    VerticalAlignment="Center"
+                    IsChecked="{Binding Path=HaftaSonlarıGizle, Mode=TwoWay, Source={x:Static properties:Settings.Default}}"
+                    ToolTip="HAFTA SONLARINI GİZLE" />
                 <Button Content="R" Command="{Binding AyarSıfırla, Mode=OneWay}" ToolTip="AYARLARI SIFIRLA" />
                 <Button Content="SİL"
                     Background="Red"
