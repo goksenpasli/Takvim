@@ -64,10 +64,10 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <TextBox Text="{Binding GünNotAçıklama, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                <TextBox Text="{Binding GünNotAçıklama, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
                     Grid.RowSpan="2"
                     AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" />
-                <Image Grid.Column="1" Source="{Binding ResimData, ConverterParameter=96, Converter={StaticResource WebpByteArrayToImageConverter}}" />
+                <Image Grid.Column="1" Source="{Binding ResimData, Mode=OneWay, ConverterParameter=96, Converter={StaticResource WebpByteArrayToImageConverter}}" />
                 <Slider Grid.Row="1" Grid.Column="1"
                     AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="1" IsSnapToTickEnabled="True" IsTabStop="False"
                     LargeChange="1" Maximum="100" Minimum="1" SmallChange="1"
@@ -77,29 +77,29 @@
                     <CheckBox Content="ÖNEMLİ Mİ"
                         Foreground="Red"
                         VerticalAlignment="Center"
-                        IsChecked="{Binding ÖnemliMi, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        IsChecked="{Binding ÖnemliMi, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
                     <CheckBox Content="AY TEKRAR"
                         VerticalAlignment="Center"
-                        IsChecked="{Binding AyTekrar, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        IsChecked="{Binding AyTekrar, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
                         ToolTip="BU İŞARETLENİRSE HER AYIN AYNI GÜNÜNE İŞARET VERİLİR" />
                     <ComboBox ItemsSource="{Binding Source={StaticResource Renkler}}"
                         ItemContainerStyle="{StaticResource ComboBoxItemContainerStyle}"
                         ItemTemplate="{StaticResource ComboBoxRectItemTemplate}"
                         ItemsPanel="{StaticResource CbItemsPanelTemplate}"
                         ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                        SelectedValue="{Binding VeriRenk, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        SelectedValue="{Binding VeriRenk, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
                         SelectedValuePath="Name" ToolTip="Veri Renk" />
                 </UniformGrid>
                 <Slider Grid.Row="3" Grid.ColumnSpan="2"
                     AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="1" IsSnapToTickEnabled="True" LargeChange="0.5"
                     Maximum="99" Minimum="0" SmallChange="0.5" TickFrequency="0.5"
                     ToolTip="ETKİNLİK SÜRESİ SAAT"
-                    Value="{Binding EtkinlikSüresi, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    Value="{Binding EtkinlikSüresi, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
                 <local:MaskedTextBox x:Name="TbBaslangiç"
                     Grid.Row="4" Grid.ColumnSpan="2"
                     IncludePrompt="False" Mask="00:00" PromptChar="_"
                     Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
-                    Value="{Binding SaatBaşlangıç, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    Value="{Binding SaatBaşlangıç, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
                 <Button Content="RESİM YÜKLE"
                     Grid.Row="5" Grid.ColumnSpan="2"
                     Command="{Binding ResimYükle, Mode=OneWay}">
@@ -163,7 +163,6 @@
                                         CommandParameter="{Binding ElementName=Hyp, Path=CommandParameter}"
                                         ToolTip="SAAT GÜNCELLE" />
                                 </StackPanel>
-
                             </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>

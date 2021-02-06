@@ -7,6 +7,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/PresentationFramework.Aero,Version=4.0.0.0,Culture=neutral,PublicKeyToken=31bf3856ad364e35,processorArchitecture=MSIL;component/themes/Aero.NormalColor.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <local:AyTekrarDataConverter x:Key="AyTekrarDataConverter"/>
             <local:AyTekrarConverter x:Key="AyTekrarConverter" />
             <local:BilinenGünlerSeçiliConverter x:Key="BilinenGünlerSeçiliConverter" />
             <local:BilinenGünlerConverter x:Key="BilinenGünlerConverter" />
@@ -327,20 +328,33 @@
                             </Style>
                         </ContentControl.Style>
                     </ContentControl>
-                    <TextBlock Text="s" 
+                    <TextBlock Text="s"
                         Canvas.Right="-3" Canvas.Bottom="-3"
                         Foreground="DarkMagenta"
+                        DataContext="{Binding Converter={StaticResource AyTekrarConverter}, Mode=OneWay}"
                         FontFamily="Wingdings">
                         <TextBlock.Style>
                             <Style TargetType="TextBlock">
                                 <Setter Property="Visibility" Value="Collapsed" />
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding Converter={StaticResource AyTekrarConverter}, Mode=OneWay}" Value="true">
+                                    <DataTrigger Binding="{Binding AyTekrar, Mode=OneWay}" Value="true">
                                         <Setter Property="Visibility" Value="Visible" />
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
                         </TextBlock.Style>
+                        <TextBlock.ToolTip>
+                            <ListBox ItemsSource="{Binding Converter={StaticResource AyTekrarDataConverter}, Mode=OneWay}" >
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock >
+                                            <Run Text="{Binding GünNotAçıklama}"/>
+                                            <Run Text="{Binding TamTarih, StringFormat=\{0:d\}}" Language="tr-tr"/>
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </TextBlock.ToolTip>
                     </TextBlock>
                     <TextBlock Text="«"
                         Canvas.Right="0" Canvas.Bottom="0"

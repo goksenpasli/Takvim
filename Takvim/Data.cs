@@ -13,7 +13,7 @@ using System.Xml.Linq;
 
 namespace Takvim
 {
-    public class Data : InpcBase, IDisposable
+    public class Data : InpcBase
     {
         private string ay;
 
@@ -57,15 +57,20 @@ namespace Takvim
                 WriteXmlRootData(MainViewModel.xmlpath);
                 XDocument xDocument = XDocument.Load(MainViewModel.xmlpath);
                 XElement parentElement = new XElement("Veri");
-
                 parentElement.Add(new XAttribute("Id", new Random().Next(1, int.MaxValue)));
-                parentElement.Add(new XAttribute("Onemli", ÖnemliMi));
-                parentElement.Add(new XAttribute("AyTekrar", AyTekrar));
                 parentElement.Add(new XAttribute("Saat", EtkinlikSüresi));
                 parentElement.Add(new XAttribute("SaatBaslangic", SaatBaşlangıç));
                 if (VeriRenk != null)
                 {
                     parentElement.Add(new XAttribute("Renk", VeriRenk));
+                }
+                if (AyTekrar)
+                {
+                    parentElement.Add(new XAttribute("AyTekrar", AyTekrar));
+                }
+                if (ÖnemliMi)
+                {
+                    parentElement.Add(new XAttribute("Onemli", ÖnemliMi));
                 }
 
                 object[] xmlcontent = new object[3];
@@ -90,7 +95,6 @@ namespace Takvim
                 VeriSayısı++;
                 verigirişwindow?.Close();
                 MainViewModel.xmlDataProvider.Refresh();
-                Dispose(true);
             }, parameter => !string.IsNullOrWhiteSpace(GünNotAçıklama) && DateTime.TryParseExact(SaatBaşlangıç, "H:m", new CultureInfo("tr-TR"), DateTimeStyles.None, out _));
 
             ResimYükle = new RelayCommand(parameter =>
@@ -108,7 +112,6 @@ namespace Takvim
                 OpenFileDialog openFileDialog = new OpenFileDialog { Multiselect = true, Filter = "Tüm Dosyalar (*.*)|*.*" };
                 if (openFileDialog.ShowDialog() == true)
                 {
-                    Dosyalar = new ObservableCollection<string>();
                     foreach (string dosya in openFileDialog.FileNames)
                     {
                         Dosyalar.Add(dosya);
@@ -198,6 +201,7 @@ namespace Takvim
                     ShowInTaskbar = false,
                     WindowStartupLocation = WindowStartupLocation.CenterScreen
                 };
+                Dosyalar = new ObservableCollection<string>();
                 verigirişwindow.MouseLeftButtonDown += (s, e) => verigirişwindow.DragMove();
                 verigirişwindow.ShowDialog();
             }, parameter => true);
@@ -219,7 +223,7 @@ namespace Takvim
 
         public bool AyTekrar
         {
-            get { return ayTekrar; }
+            get => ayTekrar;
 
             set
             {
@@ -460,25 +464,6 @@ namespace Takvim
         public ICommand XmlVeriGüncelle { get; }
 
         public ICommand XmlVeriSil { get; }
-
-        public void Dispose()
-        {
-            Dispose(disposing: true);
-            GC.SuppressFinalize(this);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                GünNotAçıklama = null;
-                ResimData = null;
-                Dosyalar = null;
-                VeriRenk = null;
-                ÖnemliMi = false;
-                AyTekrar = false;
-            }
-        }
 
         private static void WriteXmlRootData(string xmlfilepath)
         {

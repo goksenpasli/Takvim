@@ -17,14 +17,45 @@ namespace Takvim
                 {
                     if (data.TamTarih.Day == DateTime.Parse(item["Gun"].InnerText).Day && data.TamTarih > DateTime.Today)
                     {
-                        return true;
+                        data.AyTekrar = true;
+                        return data;
                     }
                 }
-                return false;
+                return null;
             }
             else
             {
-                return false;
+                return null;
+            }
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
+    }
+
+    public class AyTekrarDataConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is Data data && MainViewModel.xmlDataProvider?.Data is ICollection<XmlNode> xmlNode)
+            {
+                List<Data> TekrarGünlerVerileri = new List<Data>();
+
+                foreach (XmlNode item in xmlNode.Where(z => z.Attributes["AyTekrar"]?.InnerText == "true"))
+                {
+                    if (data.TamTarih.Day == DateTime.Parse(item["Gun"].InnerText).Day && data.TamTarih > DateTime.Today)
+                    {
+                        TekrarGünlerVerileri.Add(new Data
+                        {
+                            GünNotAçıklama = item["Aciklama"]?.InnerText,
+                            TamTarih = DateTime.Parse(item["Gun"]?.InnerText)
+                        });
+                    }
+                }
+                return TekrarGünlerVerileri;
+            }
+            else
+            {
+                return null;
             }
         }
 
