@@ -13,11 +13,9 @@ namespace Takvim
         {
             if (value is Data data)
             {
-                ICollection<XmlNode> xmlNode = MainViewModel.xmlDataProvider?.Data as ICollection<XmlNode>;
-                int? adet = xmlNode?.Count(z => DateTime.Parse(z["Gun"].InnerText) == data.TamTarih);
-                if (adet != null)
+                if (MainViewModel.xmlDataProvider?.Data is ICollection<XmlNode> xmlNode)
                 {
-                    data.VeriSayısı = (int)adet;
+                    data.VeriSayısı = xmlNode.Count(z => DateTime.Parse(z["Gun"]?.InnerText) == data.TamTarih);
                 }
                 return data;
             }

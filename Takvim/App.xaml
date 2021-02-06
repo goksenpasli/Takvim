@@ -327,8 +327,8 @@
                             </Style>
                         </ContentControl.Style>
                     </ContentControl>
-                    <TextBlock Text="s"
-                        Canvas.Right="0" Canvas.Bottom="-3"
+                    <TextBlock Text="s" 
+                        Canvas.Right="-3" Canvas.Bottom="-3"
                         Foreground="DarkMagenta"
                         FontFamily="Wingdings">
                         <TextBlock.Style>

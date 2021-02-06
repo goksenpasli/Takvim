@@ -137,7 +137,7 @@ namespace Takvim
         public static BitmapSource WebpDecode(this byte[] rawWebp, double decodeheight = 0)
         {
             using WebP webp = new WebP();
-            WebPDecoderOptions options = new WebPDecoderOptions { use_threads = 1, no_fancy_upsampling = 1 };
+            WebPDecoderOptions options = new WebPDecoderOptions { use_threads = 1 };
             using System.Drawing.Bitmap bmp = webp.Decode(rawWebp, options);
             BitmapImage bitmapimage = null;
 

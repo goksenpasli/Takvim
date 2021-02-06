@@ -13,15 +13,11 @@ namespace Takvim
         {
             if (value is Data data && MainViewModel.xmlDataProvider?.Data is ICollection<XmlNode> xmlNode)
             {
-                IEnumerable<XmlNode> liste = xmlNode?.Where(z => z.Attributes["AyTekrar"].InnerText == "true");
-                if (liste != null)
+                foreach (XmlNode item in xmlNode.Where(z => z.Attributes["AyTekrar"]?.InnerText == "true"))
                 {
-                    foreach (XmlNode item in liste)
+                    if (data.TamTarih.Day == DateTime.Parse(item["Gun"].InnerText).Day && data.TamTarih > DateTime.Today)
                     {
-                        if (data.TamTarih.Day == DateTime.Parse(item["Gun"].InnerText).Day && data.TamTarih > DateTime.Today)
-                        {
-                            return true;
-                        }
+                        return true;
                     }
                 }
                 return false;

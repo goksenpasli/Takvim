@@ -476,7 +476,7 @@ namespace Takvim
                 Dosyalar = null;
                 VeriRenk = null;
                 ÖnemliMi = false;
-                AyTekrar=false;
+                AyTekrar = false;
             }
         }
 
