@@ -12,7 +12,16 @@
         <Grid>
             <GroupBox Background="Red">
                 <GroupBox.Header>
-                    <TextBlock Text="DUYURULAR" HorizontalAlignment="Center" />
+                    <UniformGrid Columns="3" FirstColumn="1">
+                        <TextBlock Text="DUYURULAR" VerticalAlignment="Center" />
+                        <TextBlock HorizontalAlignment="Right" FontSize="15" FontFamily="Segoe UI Black">
+                            <Hyperlink Command="{Binding PencereKapat, Mode=OneWay, Source={StaticResource Data}}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}">
+                                <Hyperlink.Inlines>
+                                    <Run Text="X" />
+                                </Hyperlink.Inlines>
+                            </Hyperlink>
+                        </TextBlock>
+                    </UniformGrid>
                 </GroupBox.Header>
                 <ItemsControl ItemsSource="{Binding YaklaşanEtkinlikler}" ScrollViewer.VerticalScrollBarVisibility="Auto">
                     <ItemsControl.ItemTemplate>

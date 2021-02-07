@@ -143,8 +143,10 @@ namespace Takvim
             {
                 if (parameter is XmlElement xmlElement)
                 {
-                    Viewer viewer = new Viewer(xmlElement.InnerText);
-                    viewer.Owner = App.Current.MainWindow;
+                    Viewer viewer = new Viewer(xmlElement.InnerText)
+                    {
+                        Owner = App.Current.MainWindow
+                    };
                     viewer.ShowDialog();
                 }
 
