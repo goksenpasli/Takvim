@@ -29,9 +29,15 @@
                 </CollectionViewSource.GroupDescriptions>
             </CollectionViewSource>
             <local:ListBoxDatePassedVisibilityConverter x:Key="ListBoxDatePassedVisibilityConverter" />
-            <ControlTemplate x:Key="ButtonControlTemplate" TargetType="{x:Type Button}">
-                <Grid />
-            </ControlTemplate>
+            <Style x:Key="ComboboxFileStyle" BasedOn="{StaticResource {x:Type ComboBox}}" TargetType="ComboBox">
+                <Setter Property="BorderBrush" Value="Red" />
+                <Setter Property="BorderThickness" Value="2" />
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding XPath=Dosyalar/Dosya}" Value="{x:Null}">
+                        <Setter Property="BorderBrush" Value="#FF707070" />
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
         </ResourceDictionary>
     </Window.Resources>
     <Grid>
@@ -280,7 +286,7 @@
                                             ToolTip="{Binding XPath=Aciklama}" />
                                     </TextBlock>
                                 </StackPanel>
-                                <ComboBox ItemsSource="{Binding XPath=Dosyalar/Dosya}" FontWeight="Normal">
+                                <ComboBox ItemsSource="{Binding XPath=Dosyalar/Dosya}" FontWeight="Normal" Style="{StaticResource ComboboxFileStyle}">
                                     <ComboBox.ItemTemplate>
                                         <DataTemplate>
                                             <StackPanel Orientation="Horizontal">
