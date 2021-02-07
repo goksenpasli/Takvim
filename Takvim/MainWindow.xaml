@@ -229,7 +229,7 @@
                                         Margin="3,0"
                                         RadiusX="10" RadiusY="10" ToolTipService.InitialShowDelay="500">
                                         <Rectangle.Fill>
-                                            <ImageBrush x:Name="Img" ImageSource="{Binding ConverterParameter=96, Converter={StaticResource Base64ImageConverter}, XPath=Resim}" />
+                                            <ImageBrush x:Name="Img" ImageSource="{Binding ConverterParameter=96, Converter={StaticResource Base64ImageConverter}, IsAsync=True, XPath=Resim}" />
                                         </Rectangle.Fill>
                                         <Rectangle.ContextMenu>
                                             <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Mode=Self}}">

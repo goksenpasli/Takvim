@@ -17,7 +17,7 @@ namespace Takvim
             DataContext = new ImageViewer();
         }
 
-        public Viewer(string file) : this() => Img.Source = (BitmapImage)new Base64ImageConverter().Convert(file, null, null, CultureInfo.CurrentCulture);
+        public Viewer(string file) : this() => Img.Source = (BitmapSource)new Base64ImageConverter().Convert(file, null, null, CultureInfo.CurrentCulture);
 
         public void Dispose()
         {

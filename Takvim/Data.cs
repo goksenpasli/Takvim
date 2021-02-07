@@ -51,7 +51,7 @@ namespace Takvim
         public Data()
         {
             Window verigirişwindow = null;
-
+            
             XmlVeriEkle = new RelayCommand(parameter =>
             {
                 WriteXmlRootData(MainViewModel.xmlpath);
@@ -60,17 +60,15 @@ namespace Takvim
                 parentElement.Add(new XAttribute("Id", new Random().Next(1, int.MaxValue)));
                 parentElement.Add(new XAttribute("Saat", EtkinlikSüresi));
                 parentElement.Add(new XAttribute("SaatBaslangic", SaatBaşlangıç));
+                parentElement.Add(new XAttribute("AyTekrar", AyTekrar.ToString().ToLower()));
+
                 if (VeriRenk != null)
                 {
                     parentElement.Add(new XAttribute("Renk", VeriRenk));
                 }
-                if (AyTekrar)
-                {
-                    parentElement.Add(new XAttribute("AyTekrar", AyTekrar));
-                }
                 if (ÖnemliMi)
                 {
-                    parentElement.Add(new XAttribute("Onemli", ÖnemliMi));
+                    parentElement.Add(new XAttribute("Onemli", ÖnemliMi.ToString().ToLower()));
                 }
 
                 object[] xmlcontent = new object[3];
@@ -176,6 +174,7 @@ namespace Takvim
                     XDocument doc = XDocument.Load(MainViewModel.xmlpath);
                     UpdateAttribute(xmlattributeId, "SaatBaslangic", SaatBaşlangıç, doc);
                     UpdateAttribute(xmlattributeId, "Saat", EtkinlikSüresi.ToString(), doc);
+                    UpdateAttribute(xmlattributeId, "AyTekrar", AyTekrar.ToString().ToLower(), doc);
                     doc.Save(MainViewModel.xmlpath);
                     MainViewModel.xmlDataProvider.Refresh();
                 }

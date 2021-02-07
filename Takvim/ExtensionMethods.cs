@@ -104,7 +104,7 @@ namespace Takvim
 
             return null;
         }
-        public static BitmapImage ToBitmapImage(this System.Drawing.Image bitmap, System.Drawing.Imaging.ImageFormat format, double decodeheight = 0)
+        public static BitmapSource ToBitmapImage(this System.Drawing.Image bitmap, System.Drawing.Imaging.ImageFormat format, double decodeheight = 0)
         {
             if (bitmap != null)
             {
@@ -133,28 +133,28 @@ namespace Takvim
 
             return null;
         }
-        public static BitmapImage WebpDecode(this byte[] rawWebp, double decodeheight = 0)
+        public static BitmapSource WebpDecode(this byte[] rawWebp, double decodeheight = 0)
         {
             using WebP webp = new WebP();
             WebPDecoderOptions options = new WebPDecoderOptions { use_threads = 1 };
             using System.Drawing.Bitmap bmp = webp.Decode(rawWebp, options);
-            BitmapImage bitmapimage = null;
+            BitmapSource bitmapsource = null;
 
             if (bmp.PixelFormat == System.Drawing.Imaging.PixelFormat.Format32bppArgb)
             {
-                bitmapimage = bmp.ToBitmapImage(System.Drawing.Imaging.ImageFormat.Png, decodeheight);
+                bitmapsource = bmp.ToBitmapImage(System.Drawing.Imaging.ImageFormat.Png, decodeheight);
             }
             else
             {
-                bitmapimage = bmp.ToBitmapImage(System.Drawing.Imaging.ImageFormat.Jpeg, decodeheight);
+                bitmapsource = bmp.ToBitmapImage(System.Drawing.Imaging.ImageFormat.Jpeg, decodeheight);
             }
 
             rawWebp = null;
-            if (!bitmapimage.IsFrozen && bitmapimage.CanFreeze)
+            if (!bitmapsource.IsFrozen && bitmapsource.CanFreeze)
             {
-                bitmapimage.Freeze();
+                bitmapsource.Freeze();
             }
-            return bitmapimage;
+            return bitmapsource;
         }
         public static byte[] WebpEncode(this string resimdosyayolu, int kalite)
         {

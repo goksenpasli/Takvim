@@ -157,11 +157,12 @@
                                         IncludePrompt="False" Mask="00" PromptChar="_"
                                         ValueType="{x:Type system:Double}"
                                         Value="{Binding EtkinlikSüresi, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    <CheckBox Content="AY TEKRAR" VerticalAlignment="Center" IsChecked="{Binding AyTekrar}" />
                                     <Button Content="P"
                                         FontFamily="Wingdings 3"
                                         Command="{Binding XmlVeriGüncelle, Mode=OneWay}"
                                         CommandParameter="{Binding ElementName=Hyp, Path=CommandParameter}"
-                                        ToolTip="SAAT GÜNCELLE" />
+                                        ToolTip="GÜNCELLE" />
                                 </StackPanel>
                             </StackPanel>
                         </DataTemplate>
