@@ -195,10 +195,11 @@
             </Grid.RowDefinitions>
             <GroupBox Grid.Row="0" Margin="2">
                 <GroupBox.Header>
-                    <StackPanel Orientation="Horizontal">
-                        <CheckBox x:Name="CbGeçmiş" VerticalAlignment="Center" ToolTip="Süresi Geçenleri Göster" />
-                        <TextBlock Text="TÜM LİSTE" FontWeight="Bold" />
-                    </StackPanel>
+                    <CheckBox x:Name="CbGeçmiş" VerticalAlignment="Center" ToolTip="Süresi Geçenleri Göster">
+                        <CheckBox.Content>
+                            <TextBlock Text="TÜM LİSTE" FontWeight="Bold" />
+                        </CheckBox.Content>
+                    </CheckBox>
                 </GroupBox.Header>
                 <ListBox Background="Transparent" ItemsSource="{Binding Mode=OneWay, Source={StaticResource Cvs}}">
                     <ListBox.ItemContainerStyle>

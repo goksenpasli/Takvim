@@ -521,7 +521,7 @@ namespace Takvim
 
         private void Properties_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "KontrolSüresi" || e.PropertyName == "PopupSüresi" || e.PropertyName== "HaftaSonlarıGizle")
+            if (e.PropertyName == "KontrolSüresi" || e.PropertyName == "PopupSüresi" || e.PropertyName == "HaftaSonlarıGizle")
             {
                 Properties.Settings.Default.Save();
             }
@@ -581,28 +581,29 @@ namespace Takvim
         private ObservableCollection<Data> YaklaşanEtkinlikleriAl()
         {
             YaklaşanEtkinlikler = new ObservableCollection<Data>();
-            if (xmlDataProvider.Data is ICollection<XmlNode> xmlNode)
+            if (xmlDataProvider.Data is ICollection<XmlNode> xmlNodeCollection)
             {
-                foreach (XmlNode item in xmlNode)
+                foreach (XmlNode xmlnode in xmlNodeCollection)
                 {
-                    bool saatvarmı = DateTime.TryParseExact(item.Attributes.GetNamedItem("SaatBaslangic").Value, "H:m", new CultureInfo("tr-TR"), DateTimeStyles.None, out DateTime saat);
-                    if (DateTime.Parse(item["Gun"]?.InnerText) == DateTime.Today && saat > DateTime.Now && saat.AddHours(-1) < DateTime.Now)
+                    _ = DateTime.TryParseExact(xmlnode.Attributes.GetNamedItem("SaatBaslangic").Value, "H:m", new CultureInfo("tr-TR"), DateTimeStyles.None, out DateTime saat);
+                    bool yaklaşanetkinlik = DateTime.Parse(xmlnode["Gun"]?.InnerText) == DateTime.Today && saat > DateTime.Now && saat.AddHours(-1) < DateTime.Now;
+                    bool tekraretkinlik = DateTime.Today.Day == DateTime.Parse(xmlnode["Gun"]?.InnerText).Day && saat > DateTime.Now && saat.AddHours(-1) < DateTime.Now;
+                    if (yaklaşanetkinlik || tekraretkinlik)
                     {
                         Data data = new Data
                         {
-                            GünNotAçıklama = item["Aciklama"]?.InnerText,
+                            GünNotAçıklama = xmlnode["Aciklama"]?.InnerText,
                             TamTarih = saat
                         };
-                        if (item["Resim"] != null)
+                        if (xmlnode["Resim"] != null)
                         {
-                            data.ResimData = Convert.FromBase64String(item["Resim"]?.InnerText);
+                            data.ResimData = Convert.FromBase64String(xmlnode["Resim"]?.InnerText);
                         }
                         YaklaşanEtkinlikler.Add(data);
                     }
                 }
             }
             return YaklaşanEtkinlikler;
-
         }
     }
 }
