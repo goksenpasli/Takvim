@@ -70,12 +70,29 @@ namespace Takvim
         private ObservableCollection<Data> yaklaşanEtkinlikler;
         public MainViewModel()
         {
+            System.Windows.Forms.ContextMenu contextmenu = new System.Windows.Forms.ContextMenu();
+            System.Windows.Forms.MenuItem menuitem = new System.Windows.Forms.MenuItem
+            {
+                Index = 0,
+                Text = "VERİ EKLE"
+            };
+            contextmenu.MenuItems.Add(menuitem);
             AppNotifyIcon = new System.Windows.Forms.NotifyIcon
             {
                 BalloonTipText = "Uygulama Sistem Tepsisine Gönderildi.",
                 BalloonTipTitle = "TAKVİM",
                 Text = "Takvim",
-                Icon = new System.Drawing.Icon(Application.GetResourceStream(new Uri("pack://application:,,,/Takvim;component/icon.ico")).Stream)
+                Icon = new System.Drawing.Icon(Application.GetResourceStream(new Uri("pack://application:,,,/Takvim;component/icon.ico")).Stream),
+                ContextMenu = contextmenu
+            };
+
+            menuitem.Click += (s, e) =>
+            {
+                Data data = new Data
+                {
+                    TamTarih = DateTime.Today
+                };
+                data.VeriEkleEkranı.Execute(null);
             };
 
             AppNotifyIcon.Click += (s, e) =>
