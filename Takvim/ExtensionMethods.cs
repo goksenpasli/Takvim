@@ -108,7 +108,7 @@ namespace Takvim
         {
             if (bitmap != null)
             {
-                using MemoryStream memoryStream = new MemoryStream();
+                MemoryStream memoryStream = new MemoryStream();
                 bitmap.Save(memoryStream, format);
                 memoryStream.Position = 0;
                 BitmapImage image = new BitmapImage();
@@ -119,11 +119,11 @@ namespace Takvim
                 }
 
                 image.CreateOptions = BitmapCreateOptions.IgnoreColorProfile;
-                image.CacheOption = BitmapCacheOption.OnLoad;
+                image.CacheOption = BitmapCacheOption.None;
                 image.StreamSource = memoryStream;
-
                 image.EndInit();
                 bitmap.Dispose();
+                GC.Collect();
                 if (!image.IsFrozen && image.CanFreeze)
                 {
                     image.Freeze();
@@ -133,7 +133,7 @@ namespace Takvim
 
             return null;
         }
-        public static BitmapSource WebpDecode(this byte[] rawWebp, double decodeheight = 0)
+        public static BitmapImage WebpDecode(this byte[] rawWebp, double decodeheight = 0)
         {
             using WebP webp = new WebP();
             WebPDecoderOptions options = new WebPDecoderOptions { use_threads = 1 };
@@ -154,7 +154,6 @@ namespace Takvim
             {
                 bitmapimage.Freeze();
             }
-            GC.Collect();
             return bitmapimage;
         }
         public static byte[] WebpEncode(this string resimdosyayolu, int kalite)

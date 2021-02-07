@@ -254,7 +254,7 @@
                                         FontFamily="Wingdings"
                                         Command="{Binding DataContext.ResimGör, ElementName=Window}"
                                         CommandParameter="{Binding Mode=OneWay, XPath=Resim}"
-                                        ToolTip="RESİM GÖR" >
+                                        ToolTip="RESİM GÖR">
                                         <Button.Style>
                                             <Style TargetType="Button">
                                                 <Style.Triggers>

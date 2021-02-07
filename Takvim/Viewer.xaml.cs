@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Windows;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace Takvim
 {
@@ -16,7 +17,7 @@ namespace Takvim
             DataContext = new ImageViewer();
         }
 
-        public Viewer(string file) : this() => Img.Source = (ImageSource)new Base64ImageConverter().Convert(file, null, null, CultureInfo.CurrentCulture);
+        public Viewer(string file) : this() => Img.Source = (BitmapImage)new Base64ImageConverter().Convert(file, null, null, CultureInfo.CurrentCulture);
 
         public void Dispose()
         {
