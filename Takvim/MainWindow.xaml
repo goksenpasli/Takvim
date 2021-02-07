@@ -29,6 +29,9 @@
                 </CollectionViewSource.GroupDescriptions>
             </CollectionViewSource>
             <local:ListBoxDatePassedVisibilityConverter x:Key="ListBoxDatePassedVisibilityConverter" />
+            <ControlTemplate x:Key="ButtonControlTemplate" TargetType="{x:Type Button}">
+                <Grid />
+            </ControlTemplate>
         </ResourceDictionary>
     </Window.Resources>
     <Grid>
@@ -219,42 +222,28 @@
                             <StackPanel>
                                 <StackPanel Orientation="Horizontal">
                                     <ContentControl IsTabStop="False" Template="{Binding Mode=OneWay, Source={StaticResource TimePanel}}" />
-                                    <Button Content="ç"
-                                        Background="Transparent" BorderBrush="Transparent"
-                                        FontFamily="Wingdings"
-                                        Command="{Binding DataContext.YılaGit, ElementName=Window}"
-                                        CommandParameter="{Binding Mode=OneWay, XPath=Gun}"
-                                        ToolTip="TARİHİ GÖR" />
-                                    <Rectangle Width="72" Height="96"
+                                    <Button Width="72" Height="96"
                                         Margin="3,0"
-                                        RadiusX="10" RadiusY="10" ToolTipService.InitialShowDelay="500">
-                                        <Rectangle.Fill>
+                                        Command="{Binding DataContext.ResimGör, ElementName=Window}"
+                                        CommandParameter="{Binding Mode=OneWay, XPath=Resim}">
+                                        <Button.Template>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border Background="{TemplateBinding Background}"
+                                                    BorderBrush="OliveDrab" BorderThickness="2.5"
+                                                    CornerRadius="10" />
+                                            </ControlTemplate>
+                                        </Button.Template>
+                                        <Button.Background>
                                             <ImageBrush x:Name="Img" ImageSource="{Binding ConverterParameter=96, Converter={StaticResource Base64ImageConverter}, IsAsync=True, XPath=Resim}" />
-                                        </Rectangle.Fill>
-                                        <Rectangle.ContextMenu>
+                                        </Button.Background>
+                                        <Button.ContextMenu>
                                             <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Mode=Self}}">
                                                 <MenuItem Header="SAKLA" Command="{Binding ResimSakla, Source={StaticResource Data}}" CommandParameter="{Binding Mode=OneWay, XPath=Resim}" />
                                             </ContextMenu>
-                                        </Rectangle.ContextMenu>
-                                        <Rectangle.ToolTip>
+                                        </Button.ContextMenu>
+                                        <Button.ToolTip>
                                             <Image RenderOptions.BitmapScalingMode="Fant" Source="{Binding Converter={StaticResource Base64ImageConverter}, XPath=Resim}" />
-                                        </Rectangle.ToolTip>
-                                        <Rectangle.Style>
-                                            <Style TargetType="Rectangle">
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding ElementName=Img, Path=ImageSource}" Value="{x:Null}">
-                                                        <Setter Property="Visibility" Value="Collapsed" />
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Rectangle.Style>
-                                    </Rectangle>
-                                    <Button Content="è"
-                                        Background="Transparent" BorderBrush="Transparent"
-                                        FontFamily="Wingdings"
-                                        Command="{Binding DataContext.ResimGör, ElementName=Window}"
-                                        CommandParameter="{Binding Mode=OneWay, XPath=Resim}"
-                                        ToolTip="RESİM GÖR">
+                                        </Button.ToolTip>
                                         <Button.Style>
                                             <Style TargetType="Button">
                                                 <Style.Triggers>
@@ -276,7 +265,9 @@
                                                 </Style.Triggers>
                                             </Style>
                                         </TextBlock.Style>
-                                        <Run Text="{Binding Converter={StaticResource XmlDateConverter}, StringFormat=\{0:dd/MM/yyyy\}, XPath=Gun}" />
+                                        <Hyperlink Command="{Binding DataContext.YılaGit, ElementName=Window}" CommandParameter="{Binding Mode=OneWay, XPath=Gun}">
+                                            <Run Text="{Binding Converter={StaticResource XmlDateConverter}, StringFormat=\{0:dd/MM/yyyy\}, XPath=Gun}" />
+                                        </Hyperlink>
                                         <LineBreak />
                                         <Run Text="{Binding XPath=Aciklama}"
                                             Foreground="Green"
