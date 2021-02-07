@@ -225,7 +225,8 @@
                                     <Button Width="72" Height="96"
                                         Margin="3,0"
                                         Command="{Binding DataContext.ResimGör, ElementName=Window}"
-                                        CommandParameter="{Binding Mode=OneWay, XPath=Resim}">
+                                        CommandParameter="{Binding Mode=OneWay, XPath=Resim}"
+                                        Cursor="Hand">
                                         <Button.Template>
                                             <ControlTemplate TargetType="Button">
                                                 <Border Background="{TemplateBinding Background}"
@@ -242,7 +243,11 @@
                                             </ContextMenu>
                                         </Button.ContextMenu>
                                         <Button.ToolTip>
-                                            <Image RenderOptions.BitmapScalingMode="Fant" Source="{Binding Converter={StaticResource Base64ImageConverter}, XPath=Resim}" />
+                                            <ToolTip Padding="0">
+                                                <Border BorderBrush="OliveDrab" BorderThickness="2.5">
+                                                    <Image Source="{Binding Converter={StaticResource Base64ImageConverter}, XPath=Resim}" />
+                                                </Border>
+                                            </ToolTip>
                                         </Button.ToolTip>
                                         <Button.Style>
                                             <Style TargetType="Button">

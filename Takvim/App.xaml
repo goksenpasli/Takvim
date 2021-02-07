@@ -28,6 +28,21 @@
             <Storyboard x:Key="TimerColorAnimation" RepeatBehavior="Forever" Timeline.DesiredFrameRate="3">
                 <ColorAnimation Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)" From="Yellow" To="Red" Duration="00:00:01" />
             </Storyboard>
+            <ControlTemplate x:Key="Eye">
+                <Border Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
+                    <Border.Background>
+                        <DrawingBrush ice:Freeze="True" Stretch="Uniform">
+                            <DrawingBrush.Drawing>
+                                <DrawingGroup>
+                                    <DrawingGroup ClipGeometry="M 1.36121e-009,-2.563e-006L 32,-2.563e-006L 32,28.4459L 1.36121e-009,28.4459L 1.36121e-009,-2.563e-006 Z ">
+                                        <GeometryDrawing Brush="Blue" ice:Freeze="True" Geometry="M 31.6308,12.8691C 28.4983,7.55306 22.6561,4.00015 15.9999,4.00015C 9.34106,4.00015 3.50011,7.55562 0.369211,12.8691C -0.123024,13.7045 -0.123024,14.7415 0.369211,15.577C 3.50167,20.8928 9.3439,24.4458 15.9999,24.4458C 22.6589,24.4458 28.4998,20.8904 31.6308,15.5768C 32.1232,14.7414 32.1232,13.7045 31.6308,12.8691 Z M 15.9999,21.7789C 10.3023,21.7789 5.32824,18.7399 2.66654,14.2229C 5.11974,10.0599 9.53761,7.15211 14.6757,6.72215C 15.2198,7.28254 15.5555,8.0466 15.5555,8.88932C 15.5555,10.6077 14.1627,12.0006 12.4444,12.0006C 10.7262,12.0006 9.33323,10.6077 9.33323,8.88932L 9.33338,8.88704C 8.76634,9.94736 8.44434,11.1586 8.44434,12.4451C 8.44434,16.6182 11.8271,20.0011 15.9999,20.0011C 20.1729,20.0011 23.5555,16.6182 23.5555,12.4451C 23.5555,10.7211 22.9778,9.13224 22.0059,7.86071C 25.0947,9.14703 27.6672,11.3954 29.3333,14.2229C 26.6718,18.7399 21.6975,21.7789 15.9999,21.7789 Z " />
+                                    </DrawingGroup>
+                                </DrawingGroup>
+                            </DrawingBrush.Drawing>
+                        </DrawingBrush>
+                    </Border.Background>
+                </Border>
+            </ControlTemplate>
             <ControlTemplate x:Key="ListBoxItemControlTemplate" TargetType="{x:Type ListBoxItem}">
                 <ControlTemplate.Resources>
                     <Storyboard x:Key="StoryboardRotate" Timeline.DesiredFrameRate="30">

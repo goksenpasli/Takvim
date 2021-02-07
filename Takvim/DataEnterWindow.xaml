@@ -8,6 +8,7 @@
     d:DesignHeight="300" d:DesignWidth="450" Loaded="UserControl_Loaded" UseLayoutRounding="True"
     mc:Ignorable="d">
     <UserControl.Resources>
+        <local:NullableToBooleanConverter x:Key="NullableToBooleanConverter"/>
         <CollectionViewSource x:Key="FilteredCvs" Source="{StaticResource XmlData}" />
     </UserControl.Resources>
     <Microsoft_Windows_Themes:SystemDropShadowChrome>
@@ -67,11 +68,25 @@
                 <TextBox Text="{Binding GünNotAçıklama, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
                     Grid.RowSpan="2"
                     AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" />
-                <Image Grid.Column="1" Source="{Binding ResimData, Mode=OneWay, ConverterParameter=96, Converter={StaticResource WebpByteArrayToImageConverter}}" />
+                <Grid Grid.Column="1">
+                    <Image Source="{Binding ResimData, Mode=OneWay, ConverterParameter=96, Converter={StaticResource WebpByteArrayToImageConverter}}" />
+                    <ContentControl Width="16" Height="16"
+                        HorizontalAlignment="Left" VerticalAlignment="Top"
+                        Template="{StaticResource Eye}" IsEnabled="{Binding ResimData, Converter={StaticResource NullableToBooleanConverter}, Mode=OneWay}">
+                        <ContentControl.ToolTip>
+                            <Grid>
+                                <Image Source="{Binding ResimData, Mode=OneWay, Converter={StaticResource WebpByteArrayToImageConverter}}" />
+                                <Viewbox Width="200" Height="200">
+                                    <TextBlock Text="{Binding Boyut, StringFormat={}{0} KB}" Foreground="Red" />
+                                </Viewbox>
+                            </Grid>
+                        </ContentControl.ToolTip>
+                    </ContentControl>
+                </Grid>
                 <Slider Grid.Row="1" Grid.Column="1"
-                    AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="1" IsSnapToTickEnabled="True" IsTabStop="False"
-                    LargeChange="1" Maximum="100" Minimum="1" SmallChange="1"
-                    TickFrequency="1" ToolTip="WEBP RESİM YÜKLEME KALİTESİ"
+                    AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" IsTabStop="False" LargeChange="1"
+                    Maximum="100" Minimum="1" SmallChange="1" TickFrequency="1"
+                    ToolTip="WEBP RESİM YÜKLEME KALİTESİ 1 EN DÜŞÜK BOYUTTUR. DEĞERİ DEĞİŞTİRİP DOSYAYI TEKRAR YÜKLEYİP ÖNİZLEME GÖZÜNDEN BAKIN"
                     Value="{Binding WebpQuality, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 <UniformGrid Grid.Row="2" Grid.ColumnSpan="2" Columns="3">
                     <CheckBox Content="ÖNEMLİ Mİ"

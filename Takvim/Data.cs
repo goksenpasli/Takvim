@@ -19,6 +19,8 @@ namespace Takvim
 
         private bool ayTekrar;
 
+        private double boyut;
+
         private ObservableCollection<string> dosyalar;
 
         private double etkinlikSüresi;
@@ -51,7 +53,7 @@ namespace Takvim
         public Data()
         {
             Window verigirişwindow = null;
-            
+
             XmlVeriEkle = new RelayCommand(parameter =>
             {
                 WriteXmlRootData(MainViewModel.xmlpath);
@@ -102,6 +104,7 @@ namespace Takvim
                 {
                     ResimData = openFileDialog.FileName.WebpEncode(WebpQuality);
                     ResimUzantı = ".webp";
+                    Boyut = ResimData.Length / 1024;
                 }
             }, parameter => !string.IsNullOrWhiteSpace(GünNotAçıklama));
 
@@ -230,6 +233,20 @@ namespace Takvim
                 {
                     ayTekrar = value;
                     OnPropertyChanged(nameof(AyTekrar));
+                }
+            }
+        }
+
+        public double Boyut
+        {
+            get => boyut;
+
+            set
+            {
+                if (boyut != value)
+                {
+                    boyut = value;
+                    OnPropertyChanged(nameof(Boyut));
                 }
             }
         }
