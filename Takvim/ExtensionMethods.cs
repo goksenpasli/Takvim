@@ -123,11 +123,12 @@ namespace Takvim
                 image.StreamSource = memoryStream;
                 image.EndInit();
                 bitmap.Dispose();
-                GC.Collect();
                 if (!image.IsFrozen && image.CanFreeze)
                 {
                     image.Freeze();
                 }
+                memoryStream = null;
+                GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced);
                 return image;
             }
 

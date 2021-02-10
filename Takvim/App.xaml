@@ -28,6 +28,11 @@
             <Storyboard x:Key="TimerColorAnimation" RepeatBehavior="Forever" Timeline.DesiredFrameRate="3">
                 <ColorAnimation Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)" From="Yellow" To="Red" Duration="00:00:01" />
             </Storyboard>
+            <ControlTemplate x:Key="GreenToolTipControlTemplate" TargetType="{x:Type ToolTip}">
+                <Border BorderBrush="OliveDrab" BorderThickness="2.5">
+                    <ContentPresenter />
+                </Border>
+            </ControlTemplate>
             <ControlTemplate x:Key="Eye">
                 <Border Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
                     <Border.Background>
@@ -307,15 +312,17 @@
                                     </Style>
                                 </Run.Style>
                                 <Run.ToolTip>
-                                    <ListBox ItemsSource="{Binding Converter={StaticResource SelectedDateToDataListConverter}, Mode=OneWay}" ItemContainerStyle="{StaticResource ListBoxToolTipItemContainerStyle}">
-                                        <ListBox.ItemTemplate>
-                                            <DataTemplate>
-                                                <StackPanel Orientation="Horizontal">
-                                                    <TextBlock Text="{Binding XPath=Aciklama}" />
-                                                </StackPanel>
-                                            </DataTemplate>
-                                        </ListBox.ItemTemplate>
-                                    </ListBox>
+                                    <ToolTip Template="{StaticResource GreenToolTipControlTemplate}">
+                                        <ListBox ItemsSource="{Binding Converter={StaticResource SelectedDateToDataListConverter}, Mode=OneWay}" ItemContainerStyle="{StaticResource ListBoxToolTipItemContainerStyle}">
+                                            <ListBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="{Binding XPath=Aciklama}" />
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </ListBox.ItemTemplate>
+                                        </ListBox>
+                                    </ToolTip>
                                 </Run.ToolTip>
                             </Run>
                             <LineBreak />
@@ -375,16 +382,18 @@
                             </Style>
                         </TextBlock.Style>
                         <TextBlock.ToolTip>
-                            <ListBox ItemsSource="{Binding Converter={StaticResource AyTekrarDataConverter}, Mode=OneWay}">
-                                <ListBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <TextBlock>
-                                            <Run Text="{Binding GünNotAçıklama}" />
-                                            <Run Text="{Binding TamTarih, StringFormat=\{0:d\}}" Language="tr-tr" />
-                                        </TextBlock>
-                                    </DataTemplate>
-                                </ListBox.ItemTemplate>
-                            </ListBox>
+                            <ToolTip Template="{StaticResource GreenToolTipControlTemplate}">
+                                <ListBox ItemsSource="{Binding Converter={StaticResource AyTekrarDataConverter}, Mode=OneWay}">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock>
+                                                <Run Text="{Binding GünNotAçıklama}" />
+                                                <Run Text="{Binding TamTarih, StringFormat=\{0:d\}}" Language="tr-tr" />
+                                            </TextBlock>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                            </ToolTip>
                         </TextBlock.ToolTip>
                     </TextBlock>
                     <TextBlock Text="«"
@@ -402,30 +411,32 @@
                             </Style>
                         </TextBlock.Style>
                         <TextBlock.ToolTip>
-                            <ListBox ItemsSource="{Binding Günler, Source={StaticResource BilinenGünlerConverter}}" SelectedItem="{Binding Converter={StaticResource BilinenGünlerSeçiliConverter}, Mode=OneWay}">
-                                <ListBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <TextBlock>
-                                            <TextBlock.Text>
-                                                <MultiBinding StringFormat="{}{0}/{1}/{2} {3}">
-                                                    <Binding Path="Item2" />
-                                                    <Binding Path="Item1" />
-                                                    <Binding Path="DataContext.SeçiliYıl" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type Window}}" />
-                                                    <Binding Path="Item3" />
-                                                </MultiBinding>
-                                            </TextBlock.Text>
-                                        </TextBlock>
-                                    </DataTemplate>
-                                </ListBox.ItemTemplate>
-                                <ListBox.Style>
-                                    <Style TargetType="ListBox">
-                                        <Style.Resources>
-                                            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="GreenYellow" />
-                                            <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="GreenYellow" />
-                                        </Style.Resources>
-                                    </Style>
-                                </ListBox.Style>
-                            </ListBox>
+                            <ToolTip Template="{StaticResource GreenToolTipControlTemplate}">
+                                <ListBox ItemsSource="{Binding Günler, Source={StaticResource BilinenGünlerConverter}}" SelectedItem="{Binding Converter={StaticResource BilinenGünlerSeçiliConverter}, Mode=OneWay}">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock>
+                                                <TextBlock.Text>
+                                                    <MultiBinding StringFormat="{}{0}/{1}/{2} {3}">
+                                                        <Binding Path="Item2" />
+                                                        <Binding Path="Item1" />
+                                                        <Binding Path="DataContext.SeçiliYıl" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type Window}}" />
+                                                        <Binding Path="Item3" />
+                                                    </MultiBinding>
+                                                </TextBlock.Text>
+                                            </TextBlock>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                    <ListBox.Style>
+                                        <Style TargetType="ListBox">
+                                            <Style.Resources>
+                                                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="GreenYellow" />
+                                                <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="GreenYellow" />
+                                            </Style.Resources>
+                                        </Style>
+                                    </ListBox.Style>
+                                </ListBox>
+                            </ToolTip>
                         </TextBlock.ToolTip>
                     </TextBlock>
                 </Canvas>

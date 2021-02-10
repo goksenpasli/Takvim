@@ -249,10 +249,8 @@
                                             </ContextMenu>
                                         </Button.ContextMenu>
                                         <Button.ToolTip>
-                                            <ToolTip Padding="0">
-                                                <Border BorderBrush="OliveDrab" BorderThickness="2.5">
-                                                    <Image Source="{Binding Converter={StaticResource Base64ImageConverter}, XPath=Resim}" />
-                                                </Border>
+                                            <ToolTip Template="{StaticResource GreenToolTipControlTemplate}">
+                                                <Image Source="{Binding Converter={StaticResource Base64ImageConverter}, XPath=Resim}" />
                                             </ToolTip>
                                         </Button.ToolTip>
                                         <Button.Style>
