@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -170,6 +171,18 @@ namespace Takvim
                 }
             }, parameter => true);
 
+            CsvDosyasınaYaz = new RelayCommand(parameter =>
+            {
+                XDocument doc = XDocument.Load(MainViewModel.xmlpath);
+                string dosyaismi = Path.GetTempPath() + Guid.NewGuid() + ".csv";
+                string seperator = new CultureInfo(CultureInfo.CurrentCulture.Name).TextInfo.ListSeparator;
+                foreach (XElement item in doc.Root.Elements("Veri"))
+                {
+                    File.AppendAllText(dosyaismi, $"{item.Element("Gun")?.Value}{seperator}{item.Attribute("SaatBaslangic")?.Value}{seperator}{item.Element("Aciklama")?.Value}\n", Encoding.UTF8);
+                }
+                Process.Start(dosyaismi);
+            }, parameter => true);
+
             XmlVeriGüncelle = new RelayCommand(parameter =>
             {
                 if (parameter is XmlAttribute xmlattributeId)
@@ -270,6 +283,8 @@ namespace Takvim
         public ICommand Dosyalarİptal { get; }
 
         public ICommand DosyalarYükle { get; }
+
+        public ICommand CsvDosyasınaYaz { get; }
 
         public double EtkinlikSüresi
         {

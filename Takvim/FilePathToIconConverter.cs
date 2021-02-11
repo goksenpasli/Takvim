@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Globalization;
-using System.IO;
 using System.Windows.Data;
 
 namespace Takvim
@@ -12,6 +11,23 @@ namespace Takvim
             try
             {
                 return (value as string).IconCreate();
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
+    }
+
+    public class RegistryToIconConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            try
+            {
+                return (value as string).RegistryIconCreate();
             }
             catch (Exception)
             {
