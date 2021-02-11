@@ -106,7 +106,7 @@ namespace Takvim
                     ResimUzantı = ".webp";
                     Boyut = ResimData.Length / 1024;
                 }
-            }, parameter => !string.IsNullOrWhiteSpace(GünNotAçıklama) &&  !Environment.Is64BitProcess);
+            }, parameter => !string.IsNullOrWhiteSpace(GünNotAçıklama) && Environment.OSVersion.Version.Major > 5);
 
             DosyalarYükle = new RelayCommand(parameter =>
             {
