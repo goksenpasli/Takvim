@@ -7,6 +7,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/PresentationFramework.Aero,Version=4.0.0.0,Culture=neutral,PublicKeyToken=31bf3856ad364e35,processorArchitecture=MSIL;component/themes/Aero.NormalColor.xaml" />
+                <ResourceDictionary Source="/Takvim;component/Themes/Generic.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <local:Data x:Key="Data" />
             <local:AyTekrarDataConverter x:Key="AyTekrarDataConverter" />
@@ -539,6 +540,7 @@
                     </Canvas>
                 </Grid>
             </ControlTemplate>
+           
         </ResourceDictionary>
     </Application.Resources>
 </Application>

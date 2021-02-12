@@ -169,10 +169,10 @@
                                     <StackPanel.DataContext>
                                         <local:Data />
                                     </StackPanel.DataContext>
-                                    <local:MaskedTextBox Width="30"
+                                    <local:MaskedTextBox Width="45"
                                         IncludePrompt="False" Mask="00:00" PromptChar="_"
                                         Value="{Binding SaatBaşlangıç, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                                    <local:MaskedTextBox Width="20"
+                                    <local:MaskedTextBox Width="35"
                                         IncludePrompt="False" Mask="00" PromptChar="_"
                                         ValueType="{x:Type system:Double}"
                                         Value="{Binding EtkinlikSüresi, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
