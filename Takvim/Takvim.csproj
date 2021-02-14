@@ -67,6 +67,7 @@
     <Compile Include="AyTekrarConverter.cs" />
     <Compile Include="Base64ImageConverter.cs" />
     <Compile Include="BilinenGünlerConverter.cs" />
+    <Compile Include="BoolInverter.cs" />
     <Compile Include="BrushToColorConverter.cs" />
     <Compile Include="DateAnimationConverter.cs" />
     <Compile Include="DatePassedBooleanConverter.cs" />

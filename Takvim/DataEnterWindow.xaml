@@ -4,10 +4,10 @@
     xmlns:TwainControl="clr-namespace:TwainControl;assembly=TwainControl" xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:Takvim" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:system="clr-namespace:System;assembly=mscorlib"
-    Width="640" Height="520"
     Margin="2"
     d:DataContext="{d:DesignInstance Type={x:Type local:Data}}"
-    Loaded="UserControl_Loaded" Unloaded="UserControl_Unloaded" UseLayoutRounding="True"
+    d:DesignHeight="300" d:DesignWidth="420" Loaded="UserControl_Loaded" Unloaded="UserControl_Unloaded"
+    UseLayoutRounding="True"
     mc:Ignorable="d">
     <UserControl.Resources>
         <local:NullableToBooleanConverter x:Key="NullableToBooleanConverter" />
@@ -47,143 +47,162 @@
                     </Style.Triggers>
                 </Style>
             </GroupBox.Style>
-            <TabControl>
-                <TabItem Header="VERİ GİRİŞİ">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="1.5*" />
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-                        <TextBox Text="{Binding GünNotAçıklama, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
-                            Grid.RowSpan="2"
-                            AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" />
-                        <Grid Grid.Column="1">
-                            <Image Source="{Binding ResimData, ConverterParameter=96, Converter={StaticResource WebpByteArrayToImageConverter}, Mode=OneWay}" />
-                            <ContentControl IsEnabled="{Binding ResimData, Converter={StaticResource NullableToBooleanConverter}, Mode=OneWay}"
-                                Width="16" Height="16"
-                                HorizontalAlignment="Left" VerticalAlignment="Top"
-                                Template="{StaticResource Eye}">
-                                <ContentControl.ToolTip>
-                                    <ToolTip Template="{StaticResource GreenToolTipControlTemplate}">
-                                        <Grid>
-                                            <Image Source="{Binding ResimData, Converter={StaticResource WebpByteArrayToImageConverter}, Mode=OneWay}" />
-                                            <Viewbox Width="200" Height="200">
-                                                <TextBlock Text="{Binding Boyut, StringFormat=\{0\} KB}" Foreground="Red" />
-                                            </Viewbox>
-                                        </Grid>
-                                    </ToolTip>
-                                </ContentControl.ToolTip>
-                            </ContentControl>
-                        </Grid>
-                        <Slider Grid.Row="1" Grid.Column="1"
-                            AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" IsTabStop="False" LargeChange="1"
-                            Maximum="100" Minimum="1" SmallChange="1" TickFrequency="1"
-                            ToolTip="WEBP RESİM YÜKLEME KALİTESİ 1 EN DÜŞÜK BOYUTTUR. DEĞERİ DEĞİŞTİRİP DOSYAYI TEKRAR YÜKLEYİP ÖNİZLEME GÖZÜNDEN BAKIN"
-                            Value="{Binding WebpQuality, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                        <UniformGrid Grid.Row="2" Grid.ColumnSpan="2" Columns="3">
-                            <CheckBox Content="ÖNEMLİ Mİ"
-                                Foreground="Red"
-                                VerticalAlignment="Center"
-                                IsChecked="{Binding ÖnemliMi, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
-                            <CheckBox Content="AY TEKRAR"
-                                VerticalAlignment="Center"
-                                IsChecked="{Binding AyTekrar, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
-                                ToolTip="BU İŞARETLENİRSE HER AYIN AYNI GÜNÜNE İŞARET VERİLİR" />
-                            <ComboBox ItemsSource="{Binding Source={StaticResource Renkler}}"
-                                ItemContainerStyle="{StaticResource ComboBoxItemContainerStyle}"
-                                ItemTemplate="{StaticResource ComboBoxRectItemTemplate}"
-                                ItemsPanel="{StaticResource CbItemsPanelTemplate}"
-                                ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                                SelectedValue="{Binding VeriRenk, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
-                                SelectedValuePath="Name" ToolTip="Veri Renk" />
-                        </UniformGrid>
-                        <Slider Grid.Row="3" Grid.ColumnSpan="2"
-                            AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="1" IsSnapToTickEnabled="True" LargeChange="0.5"
-                            Maximum="99" Minimum="0" SmallChange="0.5" TickFrequency="0.5"
-                            ToolTip="ETKİNLİK SÜRESİ SAAT"
-                            Value="{Binding EtkinlikSüresi, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
-                        <local:MaskedTextBox x:Name="TbBaslangiç"
-                            Grid.Row="4" Grid.ColumnSpan="2"
-                            ClearButtonVisibility="Visible" IncludePrompt="False" Mask="00:00" PromptChar="_"
-                            Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
-                            Value="{Binding SaatBaşlangıç, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
-                        <Button Content="RESİM YÜKLE"
-                            Grid.Row="5" Grid.ColumnSpan="2"
-                            Command="{Binding ResimYükle, Mode=OneWay}">
-                            <Button.ContextMenu>
-                                <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Mode=Self}}">
-                                    <MenuItem Header="RESİM İPTAL" Command="{Binding Resimİptal}" />
-                                </ContextMenu>
-                            </Button.ContextMenu>
-                        </Button>
-                        <Button Grid.Row="6" Grid.ColumnSpan="2" Command="{Binding DosyalarYükle, Mode=OneWay}">
-                            <Button.ContextMenu>
-                                <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Mode=Self}}">
-                                    <MenuItem Header="DOSYALAR İPTAL" Command="{Binding Dosyalarİptal}" />
-                                </ContextMenu>
-                            </Button.ContextMenu>
-                            <TextBlock><Run Text="DOSYALAR YÜKLE" /><Run Text=" " /><Run Text="(LINK OLARAK)" Foreground="Red" /><Run Text=" " /><Run Text="{Binding Dosyalar.Count, Mode=OneWay, StringFormat=\{0\} DOSYA}" Foreground="Red" /></TextBlock>
-                        </Button>
-                        <Button Content="VERİYİ EKLE"
-                            Grid.Row="7" Grid.ColumnSpan="2"
-                            Command="{Binding XmlVeriEkle, Mode=OneWay}" />
-                        <ListBox Grid.Column="2" Grid.RowSpan="8"
-                            ItemsSource="{Binding Mode=OneWay, Source={StaticResource FilteredCvs}}"
-                            ItemContainerStyle="{StaticResource ListBoxToolTipItemContainerStyle}">
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <StackPanel>
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock FontSize="12" FontFamily="Segoe UI Black"><Hyperlink x:Name="Hyp" Command="{Binding DataContext.XmlVeriSil, ElementName=UserControl}" CommandParameter="{Binding XPath=@Id}">
-                                                    <Run Text="X" />
-                                                </Hyperlink></TextBlock>
-                                            <TextBlock><Run Text="{Binding XPath=@SaatBaslangic}" /><Run Text=" " /><Run Text="{Binding XPath=Aciklama}" /></TextBlock>
-                                            <ContentControl IsTabStop="False" Template="{Binding Mode=OneWay, Source={StaticResource TimePanel}}" />
-                                        </StackPanel>
-                                        <StackPanel Orientation="Horizontal">
-                                            <StackPanel.DataContext>
-                                                <local:Data />
-                                            </StackPanel.DataContext>
-                                            <local:MaskedTextBox Width="45"
-                                                IncludePrompt="False" Mask="00:00" PromptChar="_"
-                                                Value="{Binding SaatBaşlangıç, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                                            <local:MaskedTextBox Width="35"
-                                                IncludePrompt="False" Mask="00" PromptChar="_"
-                                                ValueType="{x:Type system:Double}"
-                                                Value="{Binding EtkinlikSüresi, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                                            <CheckBox Content="AY TEKRAR" VerticalAlignment="Center" IsChecked="{Binding AyTekrar}" />
-                                            <Button Content="P"
-                                                FontFamily="Wingdings 3"
-                                                Command="{Binding XmlVeriGüncelle, Mode=OneWay}"
-                                                CommandParameter="{Binding CommandParameter, ElementName=Hyp}"
-                                                ToolTip="GÜNCELLE" />
-                                        </StackPanel>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                            <ListBox.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <VirtualizingStackPanel />
-                                </ItemsPanelTemplate>
-                            </ListBox.ItemsPanel>
-                        </ListBox>
-                    </Grid>
-                </TabItem>
-                <TabItem Header="TARAYICI">
-                    <TwainControl:TwainCtrl PropertyChanged="TwainCtrl_PropertyChanged"/>
-                </TabItem>
-            </TabControl>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="1.5*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <TextBox Text="{Binding GünNotAçıklama, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
+                    Grid.RowSpan="2"
+                    AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" />
+                <Grid Grid.Column="1">
+                    <Image Source="{Binding ResimData, ConverterParameter=96, Converter={StaticResource WebpByteArrayToImageConverter}, Mode=OneWay}" />
+                    <ContentControl IsEnabled="{Binding ResimData, Converter={StaticResource NullableToBooleanConverter}, Mode=OneWay}"
+                        Width="16" Height="16"
+                        HorizontalAlignment="Left" VerticalAlignment="Top"
+                        Template="{StaticResource Eye}">
+                        <ContentControl.ToolTip>
+                            <ToolTip Template="{StaticResource GreenToolTipControlTemplate}">
+                                <Grid>
+                                    <Image Source="{Binding ResimData, Converter={StaticResource WebpByteArrayToImageConverter}, Mode=OneWay}" />
+                                    <Viewbox Width="200" Height="200">
+                                        <TextBlock Text="{Binding Boyut, StringFormat=\{0\} KB}" Foreground="Red" />
+                                    </Viewbox>
+                                </Grid>
+                            </ToolTip>
+                        </ContentControl.ToolTip>
+                    </ContentControl>
+                </Grid>
+                <Slider Grid.Row="1" Grid.Column="1"
+                    AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" IsTabStop="False" LargeChange="1"
+                    Maximum="100" Minimum="1" SmallChange="1" TickFrequency="1"
+                    ToolTip="WEBP RESİM YÜKLEME KALİTESİ 1 EN DÜŞÜK BOYUTTUR. DEĞERİ DEĞİŞTİRİP DOSYAYI TEKRAR YÜKLEYİP ÖNİZLEME GÖZÜNDEN BAKIN"
+                    Value="{Binding WebpQuality, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <UniformGrid Grid.Row="2" Grid.ColumnSpan="2"
+                    Columns="2" Rows="2">
+                    <CheckBox Content="ÖNEMLİ Mİ"
+                        Foreground="Red"
+                        VerticalAlignment="Center"
+                        IsChecked="{Binding ÖnemliMi, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
+                    <CheckBox Content="AY TEKRAR"
+                        VerticalAlignment="Center"
+                        IsChecked="{Binding AyTekrar, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
+                        ToolTip="BU İŞARETLENİRSE HER AYIN AYNI GÜNÜNE İŞARET VERİLİR" />
+                    <ComboBox ItemsSource="{Binding Source={StaticResource Renkler}}"
+                        ItemContainerStyle="{StaticResource ComboBoxItemContainerStyle}"
+                        ItemTemplate="{StaticResource ComboBoxRectItemTemplate}"
+                        ItemsPanel="{StaticResource CbItemsPanelTemplate}"
+                        ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                        SelectedValue="{Binding VeriRenk, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
+                        SelectedValuePath="Name" ToolTip="Veri Renk" />
+                    <ToggleButton Name="Tb" IsHitTestVisible="{Binding ElementName=Popup, Path=IsOpen, Mode=OneWay, Converter={local:BoolInverter}}">
+                        <ToggleButton.Template>
+                            <ControlTemplate TargetType="ToggleButton">
+                                <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                                    <Grid>
+                                        <TextBlock Text="TARAYICI" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                        <Popup x:Name="Popup"
+                                            AllowsTransparency="True"
+                                            IsOpen="{Binding IsChecked, ElementName=Tb}"
+                                            Placement="Right"
+                                            PlacementTarget="{Binding ElementName=Tb}"
+                                            PopupAnimation="Slide" StaysOpen="False">
+                                            <Microsoft_Windows_Themes:SystemDropShadowChrome>
+                                                <ScrollViewer Padding="2" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                                                    <TwainControl:TwainCtrl Width="540" Height="465"
+                                                        Background="White"
+                                                        PropertyChanged="TwainCtrl_PropertyChanged" />
+                                                </ScrollViewer>
+                                            </Microsoft_Windows_Themes:SystemDropShadowChrome>
+                                        </Popup>
+                                    </Grid>
+                                </Border>
+                            </ControlTemplate>
+                        </ToggleButton.Template>
+                    </ToggleButton>
+                </UniformGrid>
+                <Slider Grid.Row="3" Grid.ColumnSpan="2"
+                    AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="1" IsSnapToTickEnabled="True" LargeChange="0.5"
+                    Maximum="99" Minimum="0" SmallChange="0.5" TickFrequency="0.5"
+                    ToolTip="ETKİNLİK SÜRESİ SAAT"
+                    Value="{Binding EtkinlikSüresi, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
+                <local:MaskedTextBox x:Name="TbBaslangiç"
+                    Grid.Row="4" Grid.ColumnSpan="2"
+                    ClearButtonVisibility="Visible" IncludePrompt="False" Mask="00:00" PromptChar="_"
+                    Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
+                    Value="{Binding SaatBaşlangıç, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
+                <Button Content="RESİM YÜKLE"
+                    Grid.Row="5" Grid.ColumnSpan="2"
+                    Command="{Binding ResimYükle, Mode=OneWay}">
+                    <Button.ContextMenu>
+                        <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Mode=Self}}">
+                            <MenuItem Header="RESİM İPTAL" Command="{Binding Resimİptal}" />
+                        </ContextMenu>
+                    </Button.ContextMenu>
+                </Button>
+                <Button Grid.Row="6" Grid.ColumnSpan="2" Command="{Binding DosyalarYükle, Mode=OneWay}">
+                    <Button.ContextMenu>
+                        <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Mode=Self}}">
+                            <MenuItem Header="DOSYALAR İPTAL" Command="{Binding Dosyalarİptal}" />
+                        </ContextMenu>
+                    </Button.ContextMenu>
+                    <TextBlock><Run Text="DOSYALAR YÜKLE" /><Run Text=" " /><Run Text="(LINK OLARAK)" Foreground="Red" /><Run Text=" " /><Run Text="{Binding Dosyalar.Count, Mode=OneWay, StringFormat=\{0\} DOSYA}" Foreground="Red" /></TextBlock>
+                </Button>
+                <Button Content="VERİYİ EKLE"
+                    Grid.Row="7" Grid.ColumnSpan="2"
+                    Command="{Binding XmlVeriEkle, Mode=OneWay}" />
+                <ListBox Grid.Column="2" Grid.RowSpan="8"
+                    ItemsSource="{Binding Mode=OneWay, Source={StaticResource FilteredCvs}}"
+                    ItemContainerStyle="{StaticResource ListBoxToolTipItemContainerStyle}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock FontSize="12" FontFamily="Segoe UI Black"><Hyperlink x:Name="Hyp" Command="{Binding DataContext.XmlVeriSil, ElementName=UserControl}" CommandParameter="{Binding XPath=@Id}">
+                                            <Run Text="X" />
+                                        </Hyperlink></TextBlock>
+                                    <TextBlock><Run Text="{Binding XPath=@SaatBaslangic}" /><Run Text=" " /><Run Text="{Binding XPath=Aciklama}" /></TextBlock>
+                                    <ContentControl IsTabStop="False" Template="{Binding Mode=OneWay, Source={StaticResource TimePanel}}" />
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <StackPanel.DataContext>
+                                        <local:Data />
+                                    </StackPanel.DataContext>
+                                    <local:MaskedTextBox Width="45"
+                                        IncludePrompt="False" Mask="00:00" PromptChar="_"
+                                        Value="{Binding SaatBaşlangıç, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    <local:MaskedTextBox Width="35"
+                                        IncludePrompt="False" Mask="00" PromptChar="_"
+                                        ValueType="{x:Type system:Double}"
+                                        Value="{Binding EtkinlikSüresi, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    <CheckBox Content="AY TEKRAR" VerticalAlignment="Center" IsChecked="{Binding AyTekrar}" />
+                                    <Button Content="P"
+                                        FontFamily="Wingdings 3"
+                                        Command="{Binding XmlVeriGüncelle, Mode=OneWay}"
+                                        CommandParameter="{Binding CommandParameter, ElementName=Hyp}"
+                                        ToolTip="GÜNCELLE" />
+                                </StackPanel>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel />
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                </ListBox>
+            </Grid>
         </GroupBox>
     </Microsoft_Windows_Themes:SystemDropShadowChrome>
 </UserControl>
