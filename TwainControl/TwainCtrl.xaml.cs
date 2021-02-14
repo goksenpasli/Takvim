@@ -60,7 +60,11 @@ namespace TwainControl
                 }
             }, parameter => !Environment.Is64BitProcess);
 
-            Aktar = new RelayCommand<object>(parameter => SeçiliResim = parameter as BitmapFrame, parameter => true);
+            Aktar = new RelayCommand<object>(parameter =>
+            {
+                SeçiliResim = parameter as BitmapFrame;
+                OnPropertyChanged(nameof(SeçiliResim));
+            }, parameter => true);
 
             Kaydet = new RelayCommand<object>(parameter =>
             {
@@ -252,6 +256,7 @@ namespace TwainControl
             }
             catch (Exception)
             {
+                ArayüzEtkin = false;
             }
         }
     }

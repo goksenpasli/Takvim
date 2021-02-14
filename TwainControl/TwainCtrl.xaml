@@ -5,17 +5,13 @@
     d:DataContext="{d:DesignInstance Type=local:TwainCtrl}"
     d:DesignHeight="420" d:DesignWidth="600" Loaded="UserControl_Loaded" UseLayoutRounding="True"
     mc:Ignorable="d">
-    <UserControl.Resources>
-        <local:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-        <local:NullableToBooleanConverter x:Key="NullableToBooleanConverter" />
-    </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="230" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <GroupBox Header="KAYNAK SEÇ" Grid.Column="0">
-            <Grid IsEnabled="{Binding SeçiliTarayıcı, Converter={StaticResource NullableToBooleanConverter}}">
+            <Grid IsEnabled="{Binding ArayüzEtkin}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -28,7 +24,7 @@
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
-                <GroupBox Header="AYARLAR" Grid.Row="1" IsEnabled="{Binding ArayüzEtkin}">
+                <GroupBox Header="AYARLAR" Grid.Row="1">
                     <UniformGrid Columns="1">
                         <Slider x:Name="IntInpResolution"
                             AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" Maximum="600" Minimum="72"
