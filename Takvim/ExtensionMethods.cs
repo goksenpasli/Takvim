@@ -157,6 +157,23 @@ namespace Takvim
             }
             return bitmapsource;
         }
+
+        public static byte[] WebpEncode(this byte[] resim, int kalite)
+        {
+            try
+            {
+                using WebP webp = new WebP();
+                using MemoryStream ms = new MemoryStream(resim);
+                using System.Drawing.Bitmap bmp = System.Drawing.Image.FromStream(ms) as System.Drawing.Bitmap;
+                return webp.EncodeLossy(bmp, kalite);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "EBYS", MessageBoxButton.OK, MessageBoxImage.Error);
+                return null;
+            }
+        }
+
         public static byte[] WebpEncode(this string resimdosyayolu, int kalite)
         {
             try

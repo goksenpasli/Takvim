@@ -18,7 +18,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
                 </Grid.RowDefinitions>
                 <ComboBox Grid.Row="0" ItemsSource="{Binding Tarayıcılar}" SelectedItem="{Binding SeçiliTarayıcı, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                     <ComboBox.ItemTemplate>
@@ -63,9 +63,12 @@
                         <DataTemplate DataType="{x:Type BitmapFrame}">
                             <StackPanel>
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock ToolTip="KAYDET">
+                                    <TextBlock ToolTip="KAYDET ">
                                         <Hyperlink Click="HyperlinkSave_Click">
-                                            <Run Text="KAYDET" />
+                                            <Run Text="KAYDET " />
+                                        </Hyperlink>
+                                        <Hyperlink Click="HyperlinkAktar_Click">
+                                            <Run Text="AKTAR" />
                                         </Hyperlink>
                                     </TextBlock>
                                 </StackPanel>
@@ -73,17 +76,6 @@
                             </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
-                    <!--<i:Interaction.Triggers>
-                            <ei:DataTrigger Binding="{Binding Items.Count, ElementName=LbResimler, Mode=OneWay}" Comparison="GreaterThan" Value="0">
-                                <ei:ChangePropertyAction PropertyName="Visibility" />
-                            </ei:DataTrigger>
-                            <ei:DataTrigger Binding="{Binding Items.Count, ElementName=LbResimler, Mode=OneWay}" Value="0">
-                                <ei:ChangePropertyAction PropertyName="Visibility" Value="Collapsed" />
-                            </ei:DataTrigger>
-                        </i:Interaction.Triggers>
-                        <i:Interaction.Behaviors>
-                            <local:ListBoxMultipleSelectionBehavior SelectedItems="{Binding SeçiliResimler, ElementName=Window}" />
-                        </i:Interaction.Behaviors>-->
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
                             <VirtualizingStackPanel Orientation="Horizontal" />

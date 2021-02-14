@@ -26,7 +26,7 @@ namespace TwainControl
 
         private bool arayüzetkin = true;
 
-        private ObservableCollection<BitmapFrame> resimler;
+        private ObservableCollection<BitmapFrame> resimler = new ObservableCollection<BitmapFrame>();
 
         private string seçiliTarayıcı;
 
@@ -68,6 +68,20 @@ namespace TwainControl
             }
         }
 
+        public BitmapFrame SeçiliResim
+        {
+            get => seçiliResim;
+
+            set
+            {
+                if (seçiliResim != value)
+                {
+                    seçiliResim = value;
+                    OnPropertyChanged(nameof(SeçiliResim));
+                }
+            }
+        }
+
         public string SeçiliTarayıcı
         {
             get => seçiliTarayıcı;
@@ -95,6 +109,8 @@ namespace TwainControl
         }
 
         protected virtual void OnPropertyChanged(string propertyName = null) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
+        private void HyperlinkAktar_Click(object sender, RoutedEventArgs e) => SeçiliResim = (sender as Hyperlink)?.DataContext as BitmapFrame;
 
         private void HyperlinkSave_Click(object sender, RoutedEventArgs e)
         {
@@ -154,6 +170,7 @@ namespace TwainControl
         #region IDisposable Support
 
         private bool disposedValue;
+        private BitmapFrame seçiliResim;
 
         public void Dispose() => Dispose(true);
 
@@ -184,7 +201,6 @@ namespace TwainControl
                     SeçiliTarayıcı = twain.SourceNames[0];
                 }
 
-                Resimler = new ObservableCollection<BitmapFrame>();
                 twain.TransferImage += (s, args) =>
                 {
                     if (args.Image != null)
