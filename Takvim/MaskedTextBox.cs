@@ -25,7 +25,16 @@ namespace Takvim
 
         public static readonly DependencyProperty ValueTypeProperty = DependencyProperty.Register("ValueType", typeof(Type), typeof(MaskedTextBox), new UIPropertyMetadata(typeof(string), OnValueTypeChanged));
 
-        public static RoutedCommand Reset = new RoutedCommand();
+        public static readonly DependencyProperty ClearButtonVisibilityProperty = DependencyProperty.Register("ClearButtonVisibility", typeof(Visibility), typeof(MaskedTextBox), new PropertyMetadata(Visibility.Collapsed));
+
+        public Visibility ClearButtonVisibility
+        {
+            get => (Visibility)GetValue(ClearButtonVisibilityProperty);
+            set => SetValue(ClearButtonVisibilityProperty, value);
+        }
+
+        public ICommand Reset { get; } = new RoutedCommand();
+
         private bool _convertExceptionOccurred;
 
         private bool _isInitialized;

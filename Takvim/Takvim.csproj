@@ -70,6 +70,7 @@
     <Compile Include="BrushToColorConverter.cs" />
     <Compile Include="DateAnimationConverter.cs" />
     <Compile Include="DatePassedBooleanConverter.cs" />
+    <Compile Include="FileSelectorTextBox.cs" />
     <Compile Include="FloatingWindowControl.xaml.cs">
       <DependentUpon>FloatingWindowControl.xaml</DependentUpon>
     </Compile>
@@ -166,6 +167,12 @@
     <Content Include="libwebp_x86.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TwainControl\TwainControl.csproj">
+      <Project>{e18bdb1b-1d7c-4f60-85b1-53eae13074c4}</Project>
+      <Name>TwainControl</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
