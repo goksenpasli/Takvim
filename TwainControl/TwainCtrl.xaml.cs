@@ -40,7 +40,7 @@ namespace TwainControl
             InitializeComponent();
             DataContext = this;
 
-            ScanImage = new RelayCommand(parameter =>
+            ScanImage = new RelayCommand<object>(parameter =>
             {
                 ArayüzEtkin = false;
                 _settings = new ScanSettings
@@ -60,9 +60,9 @@ namespace TwainControl
                 }
             }, parameter => !Environment.Is64BitProcess);
 
-            Aktar = new RelayCommand(parameter => SeçiliResim = parameter as BitmapFrame, parameter => true);
+            Aktar = new RelayCommand<object>(parameter => SeçiliResim = parameter as BitmapFrame, parameter => true);
 
-            Kaydet = new RelayCommand(parameter =>
+            Kaydet = new RelayCommand<object>(parameter =>
             {
                 if (parameter is BitmapFrame resim)
                 {

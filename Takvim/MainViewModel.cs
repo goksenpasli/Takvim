@@ -113,22 +113,22 @@ namespace Takvim
 
             AyTakvimVerileriniOluştur(SeçiliAy);
 
-            YılGeri = new RelayCommand(parameter => SeçiliYıl--, parameter => SeçiliYıl > 1);
+            YılGeri = new RelayCommand<object>(parameter => SeçiliYıl--, parameter => SeçiliYıl > 1);
 
-            AyGeri = new RelayCommand(parameter => SeçiliAy--, parameter => SeçiliAy > 1);
+            AyGeri = new RelayCommand<object>(parameter => SeçiliAy--, parameter => SeçiliAy > 1);
 
-            Yılİleri = new RelayCommand(parameter => SeçiliYıl++, parameter => SeçiliYıl < 9999);
+            Yılİleri = new RelayCommand<object>(parameter => SeçiliYıl++, parameter => SeçiliYıl < 9999);
 
-            Ayİleri = new RelayCommand(parameter => SeçiliAy++, parameter => SeçiliAy < 12);
+            Ayİleri = new RelayCommand<object>(parameter => SeçiliAy++, parameter => SeçiliAy < 12);
 
-            SatırSütünSıfırla = new RelayCommand(parameter =>
+            SatırSütünSıfırla = new RelayCommand<object>(parameter =>
             {
                 SatırSayısı = 3;
                 SütünSayısı = 4;
                 Properties.Settings.Default.Save();
             }, parameter => SatırSayısı != 3 || SütünSayısı != 4);
 
-            YılaGit = new RelayCommand(parameter =>
+            YılaGit = new RelayCommand<object>(parameter =>
             {
                 if (parameter is XmlElement xmlElement)
                 {
@@ -139,7 +139,7 @@ namespace Takvim
 
             }, parameter => true);
 
-            ResimGör = new RelayCommand(parameter =>
+            ResimGör = new RelayCommand<object>(parameter =>
             {
                 if (parameter is XmlElement xmlElement)
                 {
@@ -152,13 +152,13 @@ namespace Takvim
 
             }, parameter => true);
 
-            AyarSıfırla = new RelayCommand(parameter =>
+            AyarSıfırla = new RelayCommand<object>(parameter =>
             {
                 Properties.Settings.Default.Reset();
                 MessageBox.Show("Ayarlar Varsayılana Çevrildi. Yeniden Başlatın.", "TAKVİM", MessageBoxButton.OK, MessageBoxImage.Exclamation);
             }, parameter => true);
 
-            EskiVerileriSil = new RelayCommand(parameter =>
+            EskiVerileriSil = new RelayCommand<object>(parameter =>
             {
                 if (MessageBox.Show($"{SeçiliYıl} yılına ait tüm kayıtları silmek istiyor musun? Dikkat bu işlem geri alınamaz.", "TAKVİM", MessageBoxButton.YesNo, MessageBoxImage.Exclamation, MessageBoxResult.No) == MessageBoxResult.Yes)
                 {
@@ -169,7 +169,7 @@ namespace Takvim
                 }
             }, parameter => SeçiliYıl < DateTime.Now.Year && File.Exists(xmlpath));
 
-            DuyurularPopupEkranıAç = new RelayCommand(parameter =>
+            DuyurularPopupEkranıAç = new RelayCommand<object>(parameter =>
             {
                 duyurularwindow = new Window
                 {
@@ -193,7 +193,7 @@ namespace Takvim
                 }
             }, parameter => true);
 
-            VeriAra = new RelayCommand(parameter => Cvs.Filter += (s, e) => e.Accepted = (e.Item as XmlNode)?["Aciklama"]?.InnerText.Contains(AramaMetin) == true, parameter => !string.IsNullOrWhiteSpace(AramaMetin));
+            VeriAra = new RelayCommand<object>(parameter => Cvs.Filter += (s, e) => e.Accepted = (e.Item as XmlNode)?["Aciklama"]?.InnerText.Contains(AramaMetin) == true, parameter => !string.IsNullOrWhiteSpace(AramaMetin));
 
             PropertyChanged += MainViewModel_PropertyChanged;
 

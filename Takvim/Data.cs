@@ -55,7 +55,7 @@ namespace Takvim
         {
             Window verigirişwindow = null;
 
-            XmlVeriEkle = new RelayCommand(parameter =>
+            XmlVeriEkle = new RelayCommand<object>(parameter =>
             {
                 WriteXmlRootData(MainViewModel.xmlpath);
                 XDocument xDocument = XDocument.Load(MainViewModel.xmlpath);
@@ -98,7 +98,7 @@ namespace Takvim
                 MainViewModel.xmlDataProvider.Refresh();
             }, parameter => !string.IsNullOrWhiteSpace(GünNotAçıklama) && DateTime.TryParseExact(SaatBaşlangıç, "H:m", new CultureInfo("tr-TR"), DateTimeStyles.None, out _));
 
-            ResimYükle = new RelayCommand(parameter =>
+            ResimYükle = new RelayCommand<object>(parameter =>
             {
                 OpenFileDialog openFileDialog = new OpenFileDialog { Multiselect = false, Filter = "Resim Dosyaları (*.jpg;*.jpeg;*.tif;*.tiff)|*.jpg;*.jpeg;*.tif;*.tiff)" };
                 if (openFileDialog.ShowDialog() == true)
@@ -109,7 +109,7 @@ namespace Takvim
                 }
             }, parameter => !string.IsNullOrWhiteSpace(GünNotAçıklama) && Environment.OSVersion.Version.Major > 5);
 
-            DosyalarYükle = new RelayCommand(parameter =>
+            DosyalarYükle = new RelayCommand<object>(parameter =>
             {
                 OpenFileDialog openFileDialog = new OpenFileDialog { Multiselect = true, Filter = "Tüm Dosyalar (*.*)|*.*" };
                 if (openFileDialog.ShowDialog() == true)
@@ -121,7 +121,7 @@ namespace Takvim
                 }
             }, parameter => !string.IsNullOrWhiteSpace(GünNotAçıklama));
 
-            ResimSakla = new RelayCommand(parameter =>
+            ResimSakla = new RelayCommand<object>(parameter =>
             {
                 if (parameter is XmlElement xmlElement)
                 {
@@ -143,7 +143,7 @@ namespace Takvim
             }, parameter => true);
 
 
-            PencereKapat = new RelayCommand(parameter =>
+            PencereKapat = new RelayCommand<object>(parameter =>
             {
                 if (parameter is Window window)
                 {
@@ -151,7 +151,7 @@ namespace Takvim
                 }
             }, parameter => true);
 
-            DosyaAç = new RelayCommand(parameter =>
+            DosyaAç = new RelayCommand<object>(parameter =>
             {
                 if (parameter is XmlAttribute xmlAttribute)
                 {
@@ -159,7 +159,7 @@ namespace Takvim
                 }
             }, parameter => parameter is XmlAttribute xmlAttribute && File.Exists(xmlAttribute.Value));
 
-            XmlVeriSil = new RelayCommand(parameter =>
+            XmlVeriSil = new RelayCommand<object>(parameter =>
             {
                 if (parameter is XmlAttribute Id && MessageBox.Show("Seçili kaydı silmek istiyor musun?", "TAKVİM", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
                 {
@@ -171,7 +171,7 @@ namespace Takvim
                 }
             }, parameter => true);
 
-            CsvDosyasınaYaz = new RelayCommand(parameter =>
+            CsvDosyasınaYaz = new RelayCommand<object>(parameter =>
             {
                 XDocument doc = XDocument.Load(MainViewModel.xmlpath);
                 string dosyaismi = Path.GetTempPath() + Guid.NewGuid() + ".csv";
@@ -183,7 +183,7 @@ namespace Takvim
                 Process.Start(dosyaismi);
             }, parameter => true);
 
-            XmlVeriGüncelle = new RelayCommand(parameter =>
+            XmlVeriGüncelle = new RelayCommand<object>(parameter =>
             {
                 if (parameter is XmlAttribute xmlattributeId)
                 {
@@ -196,11 +196,11 @@ namespace Takvim
                 }
             }, parameter => DateTime.TryParseExact(SaatBaşlangıç, "H:m", new CultureInfo("tr-TR"), DateTimeStyles.None, out _));
 
-            Dosyalarİptal = new RelayCommand(parameter => Dosyalar = null, parameter => Dosyalar?.Count > 0);
+            Dosyalarİptal = new RelayCommand<object>(parameter => Dosyalar = null, parameter => Dosyalar?.Count > 0);
 
-            Resimİptal = new RelayCommand(parameter => ResimData = null, parameter => ResimData?.Length > 0);
+            Resimİptal = new RelayCommand<object>(parameter => ResimData = null, parameter => ResimData?.Length > 0);
 
-            VeriEkleEkranı = new RelayCommand(parameter =>
+            VeriEkleEkranı = new RelayCommand<object>(parameter =>
             {
                 verigirişwindow = new Window
                 {
