@@ -31,7 +31,6 @@ namespace Takvim
                         dc.DrawImage(imagesource, new Rect(0, 0, pd.PrintableAreaWidth, pd.PrintableAreaHeight));
                     }
                     pd.PrintVisual(dv, "");
-                    imageSource = null;
                 }
             }, parameter => true);
         }
