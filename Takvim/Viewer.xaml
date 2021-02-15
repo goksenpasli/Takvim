@@ -26,9 +26,10 @@
                 </Image.LayoutTransform>
             </Image>
         </ScrollViewer>
-        <UniformGrid Grid.Row="1" Columns="2">
+        <UniformGrid Grid.Row="1" Columns="3">
             <Slider Maximum="10" Minimum="0.25" Value="{Binding Zoom}" />
             <Slider Maximum="360" Minimum="0" Value="{Binding Angle}" />
+            <Button Content="YAZDIR" Command="{Binding Yazdır}"/>
         </UniformGrid>
     </Grid>
 </Window>
