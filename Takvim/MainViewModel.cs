@@ -143,7 +143,7 @@ namespace Takvim
             {
                 if (parameter is XmlElement xmlElement)
                 {
-                    Viewer viewer = new Viewer(xmlElement.InnerText)
+                    using Viewer viewer = new Viewer(xmlElement.InnerText)
                     {
                         Owner = App.Current.MainWindow
                     };
@@ -193,7 +193,7 @@ namespace Takvim
                 }
             }, parameter => true);
 
-            VeriAra = new RelayCommand<object>(parameter => Cvs.Filter += (s, e) => e.Accepted = (e.Item as XmlNode)?["Aciklama"]?.InnerText.Contains(AramaMetin) == true, parameter => !string.IsNullOrWhiteSpace(AramaMetin));
+            VeriAra = new RelayCommand<object>(parameter => Cvs.Filter += (s, e) => e.Accepted = (e.Item as XmlNode)?["Aciklama"]?.InnerText.Contains(AramaMetin) == true || (e.Item as XmlNode)?.Attributes.GetNamedItem("Ocr")?.InnerText.Contains(AramaMetin) == true, parameter => !string.IsNullOrWhiteSpace(AramaMetin));
 
             PropertyChanged += MainViewModel_PropertyChanged;
 

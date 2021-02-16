@@ -34,6 +34,8 @@ namespace Takvim
 
         private int ıd;
 
+        private string ocrMetin;
+
         private short offset;
 
         private bool önemliMi;
@@ -72,6 +74,11 @@ namespace Takvim
                 if (ÖnemliMi)
                 {
                     parentElement.Add(new XAttribute("Onemli", ÖnemliMi.ToString().ToLower()));
+                }
+
+                if (OcrMetin != null)
+                {
+                    parentElement.Add(new XAttribute("Ocr", OcrMetin));
                 }
 
                 object[] xmlcontent = new object[3];
@@ -150,6 +157,9 @@ namespace Takvim
                     window.Close();
                 }
             }, parameter => true);
+
+
+            OcrUygula = new RelayCommand<object>(parameter => OcrMetin = (parameter as byte[]).WebpDecode().ToTiffJpegByteArray(ExtensionMethods.Format.Jpg).OcrYap(), parameter => true);
 
             DosyaAç = new RelayCommand<object>(parameter =>
             {
@@ -264,6 +274,8 @@ namespace Takvim
             }
         }
 
+        public ICommand CsvDosyasınaYaz { get; }
+
         public ICommand DosyaAç { get; }
 
         public ObservableCollection<string> Dosyalar
@@ -283,8 +295,6 @@ namespace Takvim
         public ICommand Dosyalarİptal { get; }
 
         public ICommand DosyalarYükle { get; }
-
-        public ICommand CsvDosyasınaYaz { get; }
 
         public double EtkinlikSüresi
         {
@@ -356,6 +366,20 @@ namespace Takvim
             }
         }
 
+        public string OcrMetin
+        {
+            get { return ocrMetin; }
+
+            set
+            {
+                if (ocrMetin != value)
+                {
+                    ocrMetin = value;
+                    OnPropertyChanged(nameof(OcrMetin));
+                }
+            }
+        }
+        public ICommand OcrUygula { get; }
         public short Offset
         {
             get => offset;

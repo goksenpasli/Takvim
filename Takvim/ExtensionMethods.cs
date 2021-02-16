@@ -14,6 +14,16 @@ namespace Takvim
     {
         private static readonly IntPtr hwnd = Process.GetCurrentProcess().Handle;
 
+        public enum Format
+        {
+            Tiff,
+
+            TiffRenkli,
+
+            Jpg,
+
+            Png
+        }
         public static System.Drawing.Bitmap BitmapChangeFormat(this System.Drawing.Bitmap bitmap, System.Drawing.Imaging.PixelFormat format) => bitmap.Clone(new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height), format);
 
         public static Brush ConvertToBrush(this System.Drawing.Color color) => new SolidColorBrush(Color.FromArgb(color.A, color.R, color.G, color.B));
@@ -134,6 +144,44 @@ namespace Takvim
 
             return null;
         }
+        public static byte[] ToTiffJpegByteArray(this BitmapSource bitmapsource, Format format)
+        {
+            using MemoryStream outStream = new MemoryStream();
+            switch (format)
+            {
+                case Format.TiffRenkli:
+                    {
+                        TiffBitmapEncoder encoder = new TiffBitmapEncoder { Compression = TiffCompressOption.Zip };
+                        encoder.Frames.Add(BitmapFrame.Create(bitmapsource));
+                        encoder.Save(outStream);
+                        return outStream.ToArray();
+                    }
+                case Format.Tiff:
+                    {
+                        TiffBitmapEncoder encoder = new TiffBitmapEncoder { Compression = TiffCompressOption.Ccitt4 };
+                        encoder.Frames.Add(BitmapFrame.Create(bitmapsource));
+                        encoder.Save(outStream);
+                        return outStream.ToArray();
+                    }
+                case Format.Jpg:
+                    {
+                        JpegBitmapEncoder encoder = new JpegBitmapEncoder { QualityLevel = 75 };
+                        encoder.Frames.Add(BitmapFrame.Create(bitmapsource));
+                        encoder.Save(outStream);
+                        return outStream.ToArray();
+                    }
+                case Format.Png:
+                    {
+                        PngBitmapEncoder encoder = new PngBitmapEncoder();
+                        encoder.Frames.Add(BitmapFrame.Create(bitmapsource));
+                        encoder.Save(outStream);
+                        return outStream.ToArray();
+                    }
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(format), format, null);
+            }
+        }
+
         public static BitmapSource WebpDecode(this byte[] rawWebp, double decodeheight = 0)
         {
             using WebP webp = new WebP();

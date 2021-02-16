@@ -182,9 +182,10 @@
                     <TextBlock><Run Text="DOSYALAR YÜKLE" /><Run Text=" " /><Run Text="(LINK OLARAK)" Foreground="Red" /><Run Text=" " /><Run Text="{Binding Dosyalar.Count, Mode=OneWay, StringFormat=\{0\} DOSYA}" Foreground="Red" /></TextBlock>
                 </Button>
                 <Button Content="VERİYİ EKLE"
-                    Grid.Row="7" Grid.ColumnSpan="2"
+                    Grid.Row="7" Grid.Column="2"
+                    Background="Green"
                     Command="{Binding XmlVeriEkle, Mode=OneWay}" />
-                <ListBox Grid.Column="2" Grid.RowSpan="8"
+                <ListBox Grid.Column="2" Grid.RowSpan="7"
                     ItemsSource="{Binding Mode=OneWay, Source={StaticResource FilteredCvs}}"
                     ItemContainerStyle="{StaticResource ListBoxToolTipItemContainerStyle}">
                     <ListBox.ItemTemplate>
@@ -224,6 +225,11 @@
                         </ItemsPanelTemplate>
                     </ListBox.ItemsPanel>
                 </ListBox>
+                <Button Content="OCR UYGULA"
+                    Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2"
+                    IsEnabled="{Binding ResimData, Converter={StaticResource NullableToBooleanConverter}, Mode=OneWay}"
+                    Command="{Binding OcrUygula}"
+                    CommandParameter="{Binding ResimData}" />
             </Grid>
         </GroupBox>
     </Microsoft_Windows_Themes:SystemDropShadowChrome>

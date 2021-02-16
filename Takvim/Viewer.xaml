@@ -13,10 +13,19 @@
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition />
             <RowDefinition Height="Auto" />
+            <RowDefinition />
         </Grid.RowDefinitions>
-        <ScrollViewer Grid.Row="0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+        <ToolBar Grid.Row="0" ToolBarTray.IsLocked="True">
+            <Slider Width="100"
+                Maximum="10" Minimum="0.25"
+                Value="{Binding Zoom}" />
+            <Slider Width="100"
+                Maximum="360" Minimum="0"
+                Value="{Binding Angle}" />
+            <Button Content="YAZDIR" Command="{Binding Yazdır}" />
+        </ToolBar>
+        <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
             <Image x:Name="Img" RenderOptions.BitmapScalingMode="Fant" RenderTransformOrigin="0.5,0.5">
                 <Image.LayoutTransform>
                     <TransformGroup ice:Freeze="True">
@@ -26,10 +35,6 @@
                 </Image.LayoutTransform>
             </Image>
         </ScrollViewer>
-        <UniformGrid Grid.Row="1" Columns="3">
-            <Slider Maximum="10" Minimum="0.25" Value="{Binding Zoom}" />
-            <Slider Maximum="360" Minimum="0" Value="{Binding Angle}" />
-            <Button Content="YAZDIR" Command="{Binding Yazdır}"/>
-        </UniformGrid>
+
     </Grid>
 </Window>
