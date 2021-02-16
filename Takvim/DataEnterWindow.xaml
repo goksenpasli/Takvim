@@ -55,7 +55,8 @@
                     <ColumnDefinition Width="1.5*" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
+                    <RowDefinition />
+                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -91,7 +92,7 @@
                     ToolTip="WEBP RESİM YÜKLEME KALİTESİ 1 EN DÜŞÜK BOYUTTUR. DEĞERİ DEĞİŞTİRİP DOSYAYI TEKRAR YÜKLEYİP ÖNİZLEME GÖZÜNDEN BAKIN"
                     Value="{Binding WebpQuality, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 <UniformGrid Grid.Row="2" Grid.ColumnSpan="2"
-                    Columns="2" Rows="2">
+                    Columns="3" Rows="1">
                     <CheckBox Content="ÖNEMLİ Mİ"
                         Foreground="Red"
                         VerticalAlignment="Center"
@@ -107,52 +108,7 @@
                         ScrollViewer.VerticalScrollBarVisibility="Disabled"
                         SelectedValue="{Binding VeriRenk, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
                         SelectedValuePath="Name" ToolTip="Veri Renk" />
-                    <ToggleButton Name="Tb">
-                        <ToggleButton.Template>
-                            <ControlTemplate TargetType="ToggleButton">
-                                <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
-                                    <Grid>
-                                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
-                                            <TextBlock Text="TARAYICI" />
-                                            <Path HorizontalAlignment="Center" VerticalAlignment="Center"
-                                                Data="M 0 0 L 4 4 L 8 0 Z" RenderTransformOrigin="0.5,0.5">
-                                                <Path.RenderTransform>
-                                                    <TransformGroup>
-                                                        <ScaleTransform />
-                                                        <SkewTransform />
-                                                        <RotateTransform Angle="-90" />
-                                                        <TranslateTransform />
-                                                    </TransformGroup>
-                                                </Path.RenderTransform>
-                                                <Path.Fill>
-                                                    <SolidColorBrush Color="{StaticResource GlyphColor}" />
-                                                </Path.Fill>
-                                            </Path>
-                                        </StackPanel>
-                                        <Popup x:Name="Popup"
-                                            AllowsTransparency="True"
-                                            IsOpen="{Binding IsChecked, ElementName=Tb}"
-                                            Placement="Right"
-                                            PlacementTarget="{Binding ElementName=Tb}"
-                                            PopupAnimation="Slide" StaysOpen="False">
-                                            <Microsoft_Windows_Themes:SystemDropShadowChrome>
-                                                <ScrollViewer Padding="2" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                                                    <TwainControl:TwainCtrl Width="540" Height="465"
-                                                        Background="White"
-                                                        PropertyChanged="TwainCtrl_PropertyChanged" />
-                                                </ScrollViewer>
-                                            </Microsoft_Windows_Themes:SystemDropShadowChrome>
-                                        </Popup>
-                                    </Grid>
-                                </Border>
-                                <ControlTemplate.Triggers>
-                                    <DataTrigger Binding="{Binding ElementName=Popup, Path=IsOpen, Mode=OneWay, Converter={local:BoolInverter}}" Value="true">
-                                        <Setter Property="IsHitTestVisible" Value="true" />
-                                    </DataTrigger>
-                                </ControlTemplate.Triggers>
-                            </ControlTemplate>
-                        </ToggleButton.Template>
-                    </ToggleButton>
+
                 </UniformGrid>
                 <Slider Grid.Row="3" Grid.ColumnSpan="2"
                     AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="1" IsSnapToTickEnabled="True" LargeChange="0.5"
@@ -182,10 +138,55 @@
                     <TextBlock><Run Text="DOSYALAR YÜKLE" /><Run Text=" " /><Run Text="(LINK OLARAK)" Foreground="Red" /><Run Text=" " /><Run Text="{Binding Dosyalar.Count, Mode=OneWay, StringFormat=\{0\} DOSYA}" Foreground="Red" /></TextBlock>
                 </Button>
                 <Button Content="VERİYİ EKLE"
-                    Grid.Row="7" Grid.Column="2"
-                    Background="Green"
+                    Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2"
                     Command="{Binding XmlVeriEkle, Mode=OneWay}" />
-                <ListBox Grid.Column="2" Grid.RowSpan="7"
+                <ToggleButton Name="Tb" Grid.Row="8" Grid.Column="2">
+                    <ToggleButton.Template>
+                        <ControlTemplate TargetType="ToggleButton">
+                            <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                                <Grid>
+                                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
+                                        <TextBlock Text="TARAYICI" />
+                                        <Path HorizontalAlignment="Center" VerticalAlignment="Center"
+                                            Data="M 0 0 L 4 4 L 8 0 Z" RenderTransformOrigin="0.5,0.5">
+                                            <Path.RenderTransform>
+                                                <TransformGroup>
+                                                    <ScaleTransform />
+                                                    <SkewTransform />
+                                                    <RotateTransform Angle="-90" />
+                                                    <TranslateTransform />
+                                                </TransformGroup>
+                                            </Path.RenderTransform>
+                                            <Path.Fill>
+                                                <SolidColorBrush Color="{StaticResource GlyphColor}" />
+                                            </Path.Fill>
+                                        </Path>
+                                    </StackPanel>
+                                    <Popup x:Name="Popup"
+                                        AllowsTransparency="True"
+                                        IsOpen="{Binding IsChecked, ElementName=Tb}"
+                                        Placement="Right"
+                                        PlacementTarget="{Binding ElementName=Tb}"
+                                        PopupAnimation="Slide" StaysOpen="False">
+                                        <Microsoft_Windows_Themes:SystemDropShadowChrome>
+                                            <ScrollViewer Padding="2" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                                                <TwainControl:TwainCtrl Width="540" Height="465"
+                                                    Background="White"
+                                                    PropertyChanged="TwainCtrl_PropertyChanged" />
+                                            </ScrollViewer>
+                                        </Microsoft_Windows_Themes:SystemDropShadowChrome>
+                                    </Popup>
+                                </Grid>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <DataTrigger Binding="{Binding ElementName=Popup, Path=IsOpen, Mode=OneWay, Converter={local:BoolInverter}}" Value="true">
+                                    <Setter Property="IsHitTestVisible" Value="true" />
+                                </DataTrigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </ToggleButton.Template>
+                </ToggleButton>
+                <ListBox Grid.Column="2" Grid.RowSpan="8"
                     ItemsSource="{Binding Mode=OneWay, Source={StaticResource FilteredCvs}}"
                     ItemContainerStyle="{StaticResource ListBoxToolTipItemContainerStyle}">
                     <ListBox.ItemTemplate>
@@ -225,11 +226,21 @@
                         </ItemsPanelTemplate>
                     </ListBox.ItemsPanel>
                 </ListBox>
-                <Button Content="OCR UYGULA"
-                    Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2"
+                <Button Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2"
                     IsEnabled="{Binding ResimData, Converter={StaticResource NullableToBooleanConverter}, Mode=OneWay}"
                     Command="{Binding OcrUygula}"
-                    CommandParameter="{Binding ResimData}" />
+                    CommandParameter="{Binding ResimData}">
+                    <Button.Content>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="OCR UYGULA" />
+                            <ProgressBar Width="96" IsIndeterminate="{Binding OcrSürüyor}" />
+                            <ContentControl IsEnabled="{Binding OcrMetin, Converter={StaticResource NullableToBooleanConverter}}"
+                                Width="16" Height="16"
+                                Template="{StaticResource Eye}"
+                                ToolTip="{Binding OcrMetin}" />
+                        </StackPanel>
+                    </Button.Content>
+                </Button>
             </Grid>
         </GroupBox>
     </Microsoft_Windows_Themes:SystemDropShadowChrome>

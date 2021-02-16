@@ -6,6 +6,8 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -36,6 +38,10 @@ namespace Takvim
 
         private string ocrMetin;
 
+        private bool ocrSürüyor;
+
+        private Task OcrTask;
+
         private short offset;
 
         private bool önemliMi;
@@ -53,61 +59,69 @@ namespace Takvim
         private int veriSayısı;
 
         private int webpQuality = 20;
+
         public Data()
         {
             Window verigirişwindow = null;
 
             XmlVeriEkle = new RelayCommand<object>(parameter =>
             {
-                WriteXmlRootData(MainViewModel.xmlpath);
-                XDocument xDocument = XDocument.Load(MainViewModel.xmlpath);
-                XElement parentElement = new XElement("Veri");
-                parentElement.Add(new XAttribute("Id", new Random().Next(1, int.MaxValue)));
-                parentElement.Add(new XAttribute("Saat", EtkinlikSüresi));
-                parentElement.Add(new XAttribute("SaatBaslangic", SaatBaşlangıç));
-                parentElement.Add(new XAttribute("AyTekrar", AyTekrar.ToString().ToLower()));
-
-                if (VeriRenk != null)
+                if (OcrTask.IsCompleted)
                 {
-                    parentElement.Add(new XAttribute("Renk", VeriRenk));
-                }
-                if (ÖnemliMi)
-                {
-                    parentElement.Add(new XAttribute("Onemli", ÖnemliMi.ToString().ToLower()));
-                }
+                    WriteXmlRootData(MainViewModel.xmlpath);
+                    XDocument xDocument = XDocument.Load(MainViewModel.xmlpath);
+                    XElement parentElement = new XElement("Veri");
+                    parentElement.Add(new XAttribute("Id", new Random().Next(1, int.MaxValue)));
+                    parentElement.Add(new XAttribute("Saat", EtkinlikSüresi));
+                    parentElement.Add(new XAttribute("SaatBaslangic", SaatBaşlangıç));
+                    parentElement.Add(new XAttribute("AyTekrar", AyTekrar.ToString().ToLower()));
 
-                if (OcrMetin != null)
-                {
-                    parentElement.Add(new XAttribute("Ocr", OcrMetin));
-                }
+                    if (VeriRenk != null)
+                    {
+                        parentElement.Add(new XAttribute("Renk", VeriRenk));
+                    }
+                    if (ÖnemliMi)
+                    {
+                        parentElement.Add(new XAttribute("Onemli", ÖnemliMi.ToString().ToLower()));
+                    }
 
-                object[] xmlcontent = new object[3];
-                xmlcontent[0] = new XElement("Gun", TamTarih);
-                xmlcontent[1] = new XElement("Aciklama", GünNotAçıklama);
-                if (ResimData != null && ResimUzantı != null)
-                {
-                    XElement xElement = new XElement("Resim", Convert.ToBase64String(ResimData));
-                    xElement.Add(new XAttribute("Ext", ResimUzantı));
-                    xmlcontent[2] = xElement;
-                }
+                    if (OcrMetin != null)
+                    {
+                        parentElement.Add(new XAttribute("Ocr", OcrMetin));
+                    }
 
-                if (Dosyalar != null)
-                {
-                    XElement xmlfiles = WriteFileElements(Dosyalar);
-                    parentElement.Add(xmlfiles);
-                }
+                    object[] xmlcontent = new object[3];
+                    xmlcontent[0] = new XElement("Gun", TamTarih);
+                    xmlcontent[1] = new XElement("Aciklama", GünNotAçıklama);
+                    if (ResimData != null && ResimUzantı != null)
+                    {
+                        XElement xElement = new XElement("Resim", Convert.ToBase64String(ResimData));
+                        xElement.Add(new XAttribute("Ext", ResimUzantı));
+                        xmlcontent[2] = xElement;
+                    }
 
-                parentElement.Add(xmlcontent);
-                xDocument.Element("Veriler")?.Add(parentElement);
-                xDocument.Save(MainViewModel.xmlpath);
-                VeriSayısı++;
-                verigirişwindow?.Close();
-                MainViewModel.xmlDataProvider.Refresh();
+                    if (Dosyalar != null)
+                    {
+                        XElement xmlfiles = WriteFileElements(Dosyalar);
+                        parentElement.Add(xmlfiles);
+                    }
+
+                    parentElement.Add(xmlcontent);
+                    xDocument.Element("Veriler")?.Add(parentElement);
+                    xDocument.Save(MainViewModel.xmlpath);
+                    VeriSayısı++;
+                    verigirişwindow?.Close();
+                    MainViewModel.xmlDataProvider.Refresh();
+                }
+                else
+                {
+                    MessageBox.Show("Ocr İşlemi Sürüyor Bitmesini Bekleyin.", "TAKVİM", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                }
             }, parameter => !string.IsNullOrWhiteSpace(GünNotAçıklama) && DateTime.TryParseExact(SaatBaşlangıç, "H:m", new CultureInfo("tr-TR"), DateTimeStyles.None, out _));
 
             ResimYükle = new RelayCommand<object>(parameter =>
             {
-                OpenFileDialog openFileDialog = new OpenFileDialog { Multiselect = false, Filter = "Resim Dosyaları (*.jpg;*.jpeg;*.tif;*.tiff)|*.jpg;*.jpeg;*.tif;*.tiff)" };
+                OpenFileDialog openFileDialog = new OpenFileDialog { Multiselect = false, Filter = "Resim Dosyaları (*.jpg;*.jpeg;*.tif;*.tiff;*.png)|*.jpg;*.jpeg;*.tif;*.tiff;*.png" };
                 if (openFileDialog.ShowDialog() == true)
                 {
                     ResimData = openFileDialog.FileName.WebpEncode(WebpQuality);
@@ -158,8 +172,15 @@ namespace Takvim
                 }
             }, parameter => true);
 
-
-            OcrUygula = new RelayCommand<object>(parameter => OcrMetin = (parameter as byte[]).WebpDecode().ToTiffJpegByteArray(ExtensionMethods.Format.Jpg).OcrYap(), parameter => true);
+            OcrUygula = new RelayCommand<object>(parameter =>
+            {
+                OcrTask = Task.Factory.StartNew(() =>
+                {
+                    OcrSürüyor = true;
+                    OcrMetin = (parameter as byte[]).WebpDecode().ToTiffJpegByteArray(ExtensionMethods.Format.Jpg).OcrYap();
+                    OcrSürüyor = false;
+                }, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default);
+            }, parameter => Environment.OSVersion.Version.Major > 5);
 
             DosyaAç = new RelayCommand<object>(parameter =>
             {
@@ -376,6 +397,20 @@ namespace Takvim
                 {
                     ocrMetin = value;
                     OnPropertyChanged(nameof(OcrMetin));
+                }
+            }
+        }
+
+        public bool OcrSürüyor
+        {
+            get { return ocrSürüyor; }
+
+            set
+            {
+                if (ocrSürüyor != value)
+                {
+                    ocrSürüyor = value;
+                    OnPropertyChanged(nameof(OcrSürüyor));
                 }
             }
         }
