@@ -113,6 +113,7 @@ namespace Takvim
                     VeriSayısı++;
                     verigirişwindow?.Close();
                     MainViewModel.xmlDataProvider.Refresh();
+                    CollectionViewSource.GetDefaultView((Application.Current.MainWindow.DataContext as MainViewModel)?.AyGünler).Refresh();
                 }
                 else
                 {
