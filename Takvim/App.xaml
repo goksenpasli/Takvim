@@ -445,7 +445,6 @@
                 <Setter Property="Margin" Value="1" />
                 <Setter Property="BorderThickness" Value="0.5" />
                 <Setter Property="BorderBrush" Value="#FF145CD6" />
-                <Setter Property="Template" Value="{StaticResource ListBoxItemControlTemplate}" />
                 <Style.Triggers>
                     <DataTrigger Binding="{Binding VeriSayısı, Converter={StaticResource IntBooleanZeroConverter}}" Value="true">
                         <DataTrigger.EnterActions>

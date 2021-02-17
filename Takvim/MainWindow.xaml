@@ -90,7 +90,12 @@
                         <TextBlock Text="YIL" VerticalAlignment="Center" />
                     </StackPanel>
                 </TabItem.Header>
-                <ListBox ItemsSource="{Binding Mode=OneWay, Source={StaticResource Günler}}" ItemContainerStyle="{StaticResource ListBoxItemContainerStyle}" ItemTemplate="{StaticResource ListBoxDataTemplate}">
+                <ListBox ItemsSource="{Binding Mode=OneWay, Source={StaticResource Günler}}" ItemTemplate="{StaticResource ListBoxDataTemplate}">
+                    <ListBox.ItemContainerStyle>
+                        <Style BasedOn="{StaticResource ListBoxItemContainerStyle}" TargetType="ListBoxItem">
+                            <Setter Property="Template" Value="{StaticResource ListBoxItemControlTemplate}" />
+                        </Style>
+                    </ListBox.ItemContainerStyle>
                     <ListBox.GroupStyle>
                         <GroupStyle>
                             <GroupStyle.Panel>
