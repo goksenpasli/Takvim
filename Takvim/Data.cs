@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Xml;
@@ -198,6 +199,7 @@ namespace Takvim
                     doc.Root.Elements("Veri").Where(z => z.Attribute("Id").Value == Id.Value).Remove();
                     doc.Save(MainViewModel.xmlpath);
                     MainViewModel.xmlDataProvider.Refresh();
+                    CollectionViewSource.GetDefaultView((Application.Current.MainWindow.DataContext as MainViewModel)?.AyGünler).Refresh();
                     VeriSayısı--;
                 }
             }, parameter => true);
