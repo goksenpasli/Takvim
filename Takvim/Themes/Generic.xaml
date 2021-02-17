@@ -13,12 +13,8 @@
                                 <ColumnDefinition />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
-                            <ScrollViewer x:Name="PART_ContentHost"
-                                Focusable="False" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden" />
-                            <Border Grid.Column="1"
-                                Visibility="{Binding ClearButtonVisibility, RelativeSource={RelativeSource TemplatedParent}}"
-                                Background="{TemplateBinding Background}"
-                                BorderThickness="{TemplateBinding BorderThickness}">
+                            <ScrollViewer x:Name="PART_ContentHost" Focusable="False" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden" />
+                            <Border Grid.Column="1" Visibility="{Binding ClearButtonVisibility, RelativeSource={RelativeSource TemplatedParent}}" Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}">
                                 <TextBlock FontWeight="Bold">
                                     <Hyperlink Command="{Binding Reset, RelativeSource={RelativeSource TemplatedParent}}">
                                         <Hyperlink.Inlines>

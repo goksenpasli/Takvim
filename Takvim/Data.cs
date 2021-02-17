@@ -66,7 +66,7 @@ namespace Takvim
 
             XmlVeriEkle = new RelayCommand<object>(parameter =>
             {
-                if (OcrTask.IsCompleted)
+                if (OcrTask?.Status != TaskStatus.Running)
                 {
                     WriteXmlRootData(MainViewModel.xmlpath);
                     XDocument xDocument = XDocument.Load(MainViewModel.xmlpath);
