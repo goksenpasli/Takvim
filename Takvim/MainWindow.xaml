@@ -83,53 +83,6 @@
             Command="{Binding SatırSütünSıfırla, Mode=OneWay}"
             IsTabStop="False" />
         <TabControl Grid.Row="0" Grid.Column="2" Grid.RowSpan="2">
-            <TabItem>
-                <TabItem.Header>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBox Text="{Binding SeçiliYıl, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" FontWeight="Bold" />
-                        <TextBlock Text="YIL" VerticalAlignment="Center" />
-                    </StackPanel>
-                </TabItem.Header>
-                <ListBox ItemsSource="{Binding Mode=OneWay, Source={StaticResource Günler}}" ItemTemplate="{StaticResource ListBoxDataTemplate}">
-                    <ListBox.ItemContainerStyle>
-                        <Style BasedOn="{StaticResource ListBoxItemContainerStyle}" TargetType="ListBoxItem">
-                            <Setter Property="Template" Value="{StaticResource ListBoxItemControlTemplate}" />
-                        </Style>
-                    </ListBox.ItemContainerStyle>
-                    <ListBox.GroupStyle>
-                        <GroupStyle>
-                            <GroupStyle.Panel>
-                                <ItemsPanelTemplate>
-                                    <UniformGrid Columns="{Binding SütünSayısı}" Rows="{Binding SatırSayısı}" />
-                                </ItemsPanelTemplate>
-                            </GroupStyle.Panel>
-                            <GroupStyle.ContainerStyle>
-                                <Style TargetType="GroupItem">
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="{x:Type GroupItem}">
-                                                <GroupBox Background="{Binding Name, Converter={StaticResource ŞuAnkiAyColorConverter}}" Margin="1">
-                                                    <GroupBox.Header>
-                                                        <TextBlock Text="{Binding Path=Name, Mode=OneWay}" FontWeight="Bold" TextAlignment="Center" />
-                                                    </GroupBox.Header>
-                                                    <Border Background="{Binding DataContext.GövdeRenk, ElementName=Window}">
-                                                        <ItemsPresenter />
-                                                    </Border>
-                                                </GroupBox>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </GroupStyle.ContainerStyle>
-                        </GroupStyle>
-                    </ListBox.GroupStyle>
-                    <ListBox.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <UniformGrid Columns="7" FirstColumn="{Binding Items/Offset}" />
-                        </ItemsPanelTemplate>
-                    </ListBox.ItemsPanel>
-                </ListBox>
-            </TabItem>
             <TabItem Header="AY">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -151,15 +104,11 @@
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
                                         <StackPanel Grid.Column="0" Margin="0,0,15,0" VerticalAlignment="Center">
-                                            <TextBlock FontSize="14">
-                                                <Hyperlink Command="{Binding VeriEkleEkranı}">
-                                                    <Hyperlink.Inlines>
-                                                        <Run Text="{Binding Gün}" />
-                                                        <LineBreak />
-                                                        <Run Text="{Binding GünAdı}" />
-                                                    </Hyperlink.Inlines>
-                                                </Hyperlink>
-                                            </TextBlock>
+                                            <TextBlock FontSize="14"><Hyperlink Command="{Binding VeriEkleEkranı}">
+                                                    <Run Text="{Binding Gün}" />
+                                                    <LineBreak />
+                                                    <Run Text="{Binding GünAdı}" />
+                                                </Hyperlink></TextBlock>
                                         </StackPanel>
                                         <ItemsControl Width="96" Height="96" VerticalAlignment="Center" ItemsSource="{Binding Converter={StaticResource SelectedDateToDataListConverter}, Mode=OneWay}">
                                             <ItemsControl.ItemTemplate>
@@ -189,7 +138,7 @@
                             </ListBox.ItemTemplate>
                             <ListBox.ItemsPanel>
                                 <ItemsPanelTemplate>
-                                    <UniformGrid Columns="7" FirstColumn="{Binding Path=AyGünler/Offset}" />
+                                    <UniformGrid Columns="7" FirstColumn="{Binding AyGünler/Offset}" />
                                 </ItemsPanelTemplate>
                             </ListBox.ItemsPanel>
                         </ListBox>
@@ -200,6 +149,53 @@
                         FontFamily="Wingdings"
                         ToolTip="SONRAKİ AY" />
                 </Grid>
+            </TabItem>
+            <TabItem>
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox Text="{Binding SeçiliYıl, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" HorizontalAlignment="Center" FontWeight="Bold" />
+                        <TextBlock Text="YIL" VerticalAlignment="Center" />
+                    </StackPanel>
+                </TabItem.Header>
+                <ListBox ItemsSource="{Binding Mode=OneWay, Source={StaticResource Günler}}" ItemTemplate="{StaticResource ListBoxDataTemplate}">
+                    <ListBox.ItemContainerStyle>
+                        <Style BasedOn="{StaticResource ListBoxItemContainerStyle}" TargetType="{x:Type ListBoxItem}">
+                            <Setter Property="Template" Value="{StaticResource ListBoxItemControlTemplate}" />
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                    <ListBox.GroupStyle>
+                        <GroupStyle>
+                            <GroupStyle.Panel>
+                                <ItemsPanelTemplate>
+                                    <UniformGrid Columns="{Binding SütünSayısı}" Rows="{Binding SatırSayısı}" />
+                                </ItemsPanelTemplate>
+                            </GroupStyle.Panel>
+                            <GroupStyle.ContainerStyle>
+                                <Style TargetType="{x:Type GroupItem}">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type GroupItem}">
+                                                <GroupBox Background="{Binding Name, Converter={StaticResource ŞuAnkiAyColorConverter}}" Margin="1">
+                                                    <GroupBox.Header>
+                                                        <TextBlock Text="{Binding Name, Mode=OneWay}" FontWeight="Bold" TextAlignment="Center" />
+                                                    </GroupBox.Header>
+                                                    <Border Background="{Binding DataContext.GövdeRenk, ElementName=Window}">
+                                                        <ItemsPresenter />
+                                                    </Border>
+                                                </GroupBox>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </GroupStyle.ContainerStyle>
+                        </GroupStyle>
+                    </ListBox.GroupStyle>
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Columns="7" FirstColumn="{Binding Items/Offset}" />
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                </ListBox>
             </TabItem>
         </TabControl>
         <Slider Grid.Row="2" Grid.Column="2"

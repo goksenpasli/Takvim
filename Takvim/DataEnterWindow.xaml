@@ -20,15 +20,10 @@
         <GroupBox>
             <GroupBox.Header>
                 <UniformGrid Columns="2">
-                    <TextBlock>
-                        <Run Text="VERİ GİR" />
-                        <Run Text="{Binding TamTarih, StringFormat=\{0:d\}}" Language="tr-tr" />
-                    </TextBlock>
-                    <TextBlock HorizontalAlignment="Right" FontSize="15" FontFamily="Segoe UI Black">
-                        <Hyperlink Command="{Binding PencereKapat}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}">
+                    <TextBlock><Run Text="VERİ GİR" /><Run Text=" " /><Run Text="{Binding TamTarih, StringFormat=\{0:d\}}" Language="tr-tr" /></TextBlock>
+                    <TextBlock HorizontalAlignment="Right" FontSize="15" FontFamily="Segoe UI Black"><Hyperlink Command="{Binding PencereKapat}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}">
                             <Run Text="X" />
-                        </Hyperlink>
-                    </TextBlock>
+                        </Hyperlink></TextBlock>
                 </UniformGrid>
             </GroupBox.Header>
             <GroupBox.Style>
@@ -106,19 +101,13 @@
                         ScrollViewer.VerticalScrollBarVisibility="Disabled"
                         SelectedValue="{Binding VeriRenk, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
                         SelectedValuePath="Name" ToolTip="Veri Renk" />
-
                 </UniformGrid>
                 <Slider Grid.Row="3" Grid.ColumnSpan="2"
                     AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="1" IsSnapToTickEnabled="True"
                     LargeChange="0.5" Maximum="99" Minimum="0"
                     SmallChange="0.5" TickFrequency="0.5" ToolTip="ETKİNLİK SÜRESİ SAAT"
                     Value="{Binding EtkinlikSüresi, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
-                <local:MaskedTextBox x:Name="TbBaslangiç"
-                    Grid.Row="4" Grid.ColumnSpan="2"
-                    ClearButtonVisibility="Visible" IncludePrompt="False" Mask="00:00"
-                    PromptChar="_"
-                    Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
-                    Value="{Binding SaatBaşlangıç, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
+                <local:TimePicker Grid.Row="4" Grid.ColumnSpan="2" TimeValue="{Binding SaatBaşlangıç, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
                 <Button Content="RESİM YÜKLE" Grid.Row="5" Grid.ColumnSpan="2" Command="{Binding ResimYükle, Mode=OneWay}">
                     <Button.ContextMenu>
                         <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Mode=Self}}">
@@ -134,12 +123,25 @@
                     </Button.ContextMenu>
                     <TextBlock><Run Text="DOSYALAR YÜKLE" /><Run Text=" " /><Run Text="(LINK OLARAK)" Foreground="Red" /><Run Text=" " /><Run Text="{Binding Dosyalar.Count, Mode=OneWay, StringFormat=\{0\} DOSYA}" Foreground="Red" /></TextBlock>
                 </Button>
+                <Button Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2"
+                    IsEnabled="{Binding ResimData, Converter={StaticResource NullableToBooleanConverter}, Mode=OneWay}"
+                    Command="{Binding OcrUygula}"
+                    CommandParameter="{Binding ResimData}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="OCR UYGULA" />
+                        <ProgressBar Width="96" IsIndeterminate="{Binding OcrSürüyor}" />
+                        <ContentControl IsEnabled="{Binding OcrMetin, Converter={StaticResource NullableToBooleanConverter}}"
+                            Width="16" Height="16"
+                            Template="{StaticResource Eye}"
+                            ToolTip="{Binding OcrMetin}" />
+                    </StackPanel>
+                </Button>
                 <Button Content="VERİYİ EKLE"
                     Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2"
                     Command="{Binding XmlVeriEkle, Mode=OneWay}" />
-                <ToggleButton Name="Tb" Grid.Row="8" Grid.Column="2">
+                <ToggleButton x:Name="Tb" Grid.Row="8" Grid.Column="2">
                     <ToggleButton.Template>
-                        <ControlTemplate TargetType="ToggleButton">
+                        <ControlTemplate TargetType="{x:Type ToggleButton}">
                             <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
                                 <Grid>
                                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
@@ -173,7 +175,7 @@
                                 </Grid>
                             </Border>
                             <ControlTemplate.Triggers>
-                                <DataTrigger Binding="{Binding ElementName=Popup, Path=IsOpen, Mode=OneWay, Converter={local:BoolInverter}}" Value="true">
+                                <DataTrigger Binding="{Binding IsOpen, Converter={local:BoolInverter}, ElementName=Popup, Mode=OneWay}" Value="true">
                                     <Setter Property="IsHitTestVisible" Value="true" />
                                 </DataTrigger>
                             </ControlTemplate.Triggers>
@@ -185,12 +187,10 @@
                         <DataTemplate>
                             <StackPanel>
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock FontSize="12" FontFamily="Segoe UI Black">
-                                        <Hyperlink x:Name="Hyp" Command="{Binding DataContext.XmlVeriSil, ElementName=UserControl}" CommandParameter="{Binding XPath=@Id}">
+                                    <TextBlock FontSize="12" FontFamily="Segoe UI Black"><Hyperlink x:Name="Hyp" Command="{Binding DataContext.XmlVeriSil, ElementName=UserControl}" CommandParameter="{Binding XPath=@Id}">
                                             <Run Text="X" />
                                         </Hyperlink></TextBlock>
-                                    <TextBlock>
-                                        <Run Text="{Binding XPath=@SaatBaslangic}" /><Run Text=" " /><Run Text="{Binding XPath=Aciklama}" /></TextBlock>
+                                    <TextBlock><Run Text="{Binding XPath=@SaatBaslangic}" /><Run Text=" " /><Run Text="{Binding XPath=Aciklama}" /></TextBlock>
                                     <ContentControl IsTabStop="False" Template="{Binding Mode=OneWay, Source={StaticResource TimePanel}}" />
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal">
@@ -220,21 +220,6 @@
                         </ItemsPanelTemplate>
                     </ListBox.ItemsPanel>
                 </ListBox>
-                <Button Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2"
-                    IsEnabled="{Binding ResimData, Converter={StaticResource NullableToBooleanConverter}, Mode=OneWay}"
-                    Command="{Binding OcrUygula}"
-                    CommandParameter="{Binding ResimData}">
-                    <Button.Content>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="OCR UYGULA" />
-                            <ProgressBar Width="96" IsIndeterminate="{Binding OcrSürüyor}" />
-                            <ContentControl IsEnabled="{Binding OcrMetin, Converter={StaticResource NullableToBooleanConverter}}"
-                                Width="16" Height="16"
-                                Template="{StaticResource Eye}"
-                                ToolTip="{Binding OcrMetin}" />
-                        </StackPanel>
-                    </Button.Content>
-                </Button>
             </Grid>
         </GroupBox>
     </Microsoft_Windows_Themes:SystemDropShadowChrome>

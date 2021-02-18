@@ -193,7 +193,7 @@ namespace Takvim
                 }
             }, parameter => true);
 
-            VeriAra = new RelayCommand<object>(parameter => Cvs.Filter += (s, e) => e.Accepted = (e.Item as XmlNode)?["Aciklama"]?.InnerText.Contains(AramaMetin) == true || (e.Item as XmlNode)?.Attributes.GetNamedItem("Ocr")?.InnerText.Contains(AramaMetin) == true, parameter => !string.IsNullOrWhiteSpace(AramaMetin));
+            VeriAra = new RelayCommand<object>(parameter => Cvs.Filter += (s, e) => e.Accepted = (e.Item as XmlNode)?["Aciklama"]?.InnerText.Contains(AramaMetin) == true || (e.Item as XmlNode)?.Attributes.GetNamedItem("Ocr")?.InnerText.Contains(AramaMetin, StringComparison.OrdinalIgnoreCase) == true, parameter => !string.IsNullOrWhiteSpace(AramaMetin));
 
             PropertyChanged += MainViewModel_PropertyChanged;
 
