@@ -126,7 +126,7 @@ namespace TwainControl
 
         public bool Adf
         {
-            get { return adf; }
+            get => adf;
             set
             {
                 if (adf != value)
@@ -154,7 +154,7 @@ namespace TwainControl
 
         public bool AutoRotate
         {
-            get { return autoRotate; }
+            get => autoRotate;
             set
             {
                 if (autoRotate != value)
@@ -167,7 +167,7 @@ namespace TwainControl
 
         public bool BorderDetect
         {
-            get { return borderDetect; }
+            get => borderDetect;
             set
             {
                 if (borderDetect != value)
@@ -180,7 +180,7 @@ namespace TwainControl
 
         public bool? Bw
         {
-            get { return bw; }
+            get => bw;
             set
             {
                 if (bw != value)
@@ -193,7 +193,7 @@ namespace TwainControl
 
         public double Çözünürlük
         {
-            get { return çözünürlük; }
+            get => çözünürlük;
             set
             {
                 if (çözünürlük != value)
@@ -206,7 +206,7 @@ namespace TwainControl
 
         public bool Deskew
         {
-            get { return deskew; }
+            get => deskew;
             set
             {
                 if (deskew != value)
@@ -219,7 +219,7 @@ namespace TwainControl
 
         public bool Duplex
         {
-            get { return duplex; }
+            get => duplex;
             set
             {
                 if (duplex != value)
@@ -232,7 +232,7 @@ namespace TwainControl
 
         public double Eşik
         {
-            get { return eşik; }
+            get => eşik;
             set
             {
                 if (eşik != value)
@@ -291,7 +291,7 @@ namespace TwainControl
 
         public bool SeperateSave
         {
-            get { return seperateSave; }
+            get => seperateSave;
 
             set
             {
@@ -305,7 +305,7 @@ namespace TwainControl
 
         public bool ShowProgress
         {
-            get { return showProgress; }
+            get => showProgress;
             set
             {
                 if (showProgress != value)
@@ -318,7 +318,7 @@ namespace TwainControl
 
         public bool ShowUi
         {
-            get { return showUi; }
+            get => showUi;
             set
             {
                 if (showUi != value)

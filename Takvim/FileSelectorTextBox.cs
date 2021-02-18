@@ -22,8 +22,8 @@ namespace Takvim
 
         public string FilePath
         {
-            get { return (string)GetValue(FilePathProperty); }
-            set { SetValue(FilePathProperty, value); }
+            get => (string)GetValue(FilePathProperty);
+            set => SetValue(FilePathProperty, value);
         }
 
         public static readonly DependencyProperty FilePathProperty = DependencyProperty.Register("FilePath", typeof(string), typeof(FileSelectorTextBox), new PropertyMetadata(null));

@@ -21,7 +21,8 @@
             <GroupBox.Header>
                 <UniformGrid Columns="2">
                     <TextBlock><Run Text="VERİ GİR" /><Run Text=" " /><Run Text="{Binding TamTarih, StringFormat=\{0:d\}}" Language="tr-tr" /></TextBlock>
-                    <TextBlock HorizontalAlignment="Right" FontSize="15" FontFamily="Segoe UI Black"><Hyperlink Command="{Binding PencereKapat}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}">
+                    <TextBlock HorizontalAlignment="Right" FontSize="15" FontFamily="Segoe UI Black">
+                        <Hyperlink Command="{Binding PencereKapat}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}">
                             <Run Text="X" />
                         </Hyperlink></TextBlock>
                 </UniformGrid>
@@ -187,19 +188,22 @@
                         <DataTemplate>
                             <StackPanel>
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock FontSize="12" FontFamily="Segoe UI Black"><Hyperlink x:Name="Hyp" Command="{Binding DataContext.XmlVeriSil, ElementName=UserControl}" CommandParameter="{Binding XPath=@Id}">
+                                    <TextBlock FontSize="12" FontFamily="Segoe UI Black">
+                                        <Hyperlink x:Name="Hyp" Command="{Binding DataContext.XmlVeriSil, ElementName=UserControl}" CommandParameter="{Binding XPath=@Id}">
                                             <Run Text="X" />
-                                        </Hyperlink></TextBlock>
-                                    <TextBlock><Run Text="{Binding XPath=@SaatBaslangic}" /><Run Text=" " /><Run Text="{Binding XPath=Aciklama}" /></TextBlock>
+                                        </Hyperlink>
+                                    </TextBlock>
+                                    <TextBlock>
+                                        <Run Text="{Binding XPath=@SaatBaslangic}" />
+                                        <Run Text="{Binding XPath=Aciklama}" />
+                                    </TextBlock>
                                     <ContentControl IsTabStop="False" Template="{Binding Mode=OneWay, Source={StaticResource TimePanel}}" />
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal">
                                     <StackPanel.DataContext>
                                         <local:Data />
                                     </StackPanel.DataContext>
-                                    <local:MaskedTextBox Width="45"
-                                        IncludePrompt="False" Mask="00:00" PromptChar="_"
-                                        Value="{Binding SaatBaşlangıç, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    <local:TimePicker TimeValue="{Binding SaatBaşlangıç, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
                                     <local:MaskedTextBox Width="35"
                                         IncludePrompt="False" Mask="00" PromptChar="_"
                                         ValueType="{x:Type system:Double}"

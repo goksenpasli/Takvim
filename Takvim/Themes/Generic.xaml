@@ -105,6 +105,11 @@
                                 <TextBlock Text="{Binding}" />
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
+                        <ComboBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <VirtualizingStackPanel />
+                            </ItemsPanelTemplate>
+                        </ComboBox.ItemsPanel>
                     </ComboBox>
                 </ControlTemplate>
             </Setter.Value>

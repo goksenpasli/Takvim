@@ -392,7 +392,7 @@ namespace Takvim
 
         public string OcrMetin
         {
-            get { return ocrMetin; }
+            get => ocrMetin;
 
             set
             {
@@ -406,7 +406,7 @@ namespace Takvim
 
         public bool OcrSürüyor
         {
-            get { return ocrSürüyor; }
+            get => ocrSürüyor;
 
             set
             {

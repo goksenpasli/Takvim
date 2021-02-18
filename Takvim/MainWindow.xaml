@@ -116,7 +116,7 @@
                                             <ItemsControl.ItemTemplate>
                                                 <DataTemplate>
                                                     <StackPanel Orientation="Horizontal">
-                                                        <Image Width="48" Height="48" Source="{Binding ConverterParameter=48, Converter={StaticResource Base64ImageConverter}, IsAsync=True, XPath=Resim}">
+                                                        <Image MaxWidth="48" MaxHeight="48" Source="{Binding ConverterParameter=48, Converter={StaticResource Base64ImageConverter}, IsAsync=True, XPath=Resim}">
                                                             <Image.ToolTip>
                                                                 <ToolTip Template="{StaticResource GreenToolTipControlTemplate}">
                                                                     <Image Source="{Binding Converter={StaticResource Base64ImageConverter}, XPath=Resim}" />
