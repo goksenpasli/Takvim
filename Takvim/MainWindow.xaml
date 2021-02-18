@@ -104,11 +104,13 @@
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
                                         <StackPanel Grid.Column="0" Margin="0,0,15,0" VerticalAlignment="Center">
-                                            <TextBlock FontSize="14"><Hyperlink Command="{Binding VeriEkleEkranı}">
+                                            <TextBlock FontSize="14">
+                                                <Hyperlink Command="{Binding VeriEkleEkranı}">
                                                     <Run Text="{Binding Gün}" />
                                                     <LineBreak />
                                                     <Run Text="{Binding GünAdı}" />
-                                                </Hyperlink></TextBlock>
+                                                </Hyperlink>
+                                            </TextBlock>
                                         </StackPanel>
                                         <ItemsControl Width="96" Height="96" VerticalAlignment="Center" ItemsSource="{Binding Converter={StaticResource SelectedDateToDataListConverter}, Mode=OneWay}">
                                             <ItemsControl.ItemTemplate>

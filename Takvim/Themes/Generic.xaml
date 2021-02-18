@@ -58,7 +58,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:TimePicker}">
-                    <ComboBox ItemsSource="{Binding Saatler, RelativeSource={RelativeSource TemplatedParent}}" IsEditable="True" SelectedItem="{Binding TimeValue, RelativeSource={RelativeSource TemplatedParent}}">
+                    <ComboBox Text="{Binding TimeValue, RelativeSource={RelativeSource TemplatedParent}}" ItemsSource="{Binding Saatler, RelativeSource={RelativeSource TemplatedParent}}" IsEditable="True">
                         <ComboBox.Template>
                             <ControlTemplate TargetType="{x:Type ComboBox}">
                                 <Grid>
