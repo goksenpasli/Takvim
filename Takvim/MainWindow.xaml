@@ -109,6 +109,15 @@
                                                     <Run Text="{Binding Gün}" />
                                                     <LineBreak />
                                                     <Run Text="{Binding GünAdı}" />
+                                                    <Hyperlink.Style>
+                                                        <Style TargetType="Hyperlink">
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding TamTarih, Converter={StaticResource DatePassedBooleanConverter}}" Value="true">
+                                                                    <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Hyperlink.Style>
                                                 </Hyperlink>
                                             </TextBlock>
                                         </StackPanel>
@@ -123,6 +132,11 @@
                                                                 </ToolTip>
                                                             </Image.ToolTip>
                                                         </Image>
+                                                        <TextBlock VerticalAlignment="Center" FontSize="12" FontFamily="Segoe UI Black">
+                                                            <Hyperlink x:Name="Hyp" Command="{Binding XmlVeriSil, Mode=OneWay, Source={StaticResource Data}}" CommandParameter="{Binding XPath=@Id}">
+                                                                <Run Text="X" />
+                                                            </Hyperlink>
+                                                        </TextBlock>
                                                         <TextBlock Text="{Binding XPath=Aciklama}" VerticalAlignment="Center" />
                                                     </StackPanel>
                                                 </DataTemplate>

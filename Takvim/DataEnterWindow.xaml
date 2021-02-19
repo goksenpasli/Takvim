@@ -20,11 +20,15 @@
         <GroupBox>
             <GroupBox.Header>
                 <UniformGrid Columns="2">
-                    <TextBlock><Run Text="VERİ GİR" /><Run Text=" " /><Run Text="{Binding TamTarih, StringFormat=\{0:d\}}" Language="tr-tr" /></TextBlock>
+                    <TextBlock>
+                        <Run Text="VERİ GİR" />
+                        <Run Text="{Binding TamTarih, StringFormat=\{0:d\}}" Language="tr-tr" />
+                    </TextBlock>
                     <TextBlock HorizontalAlignment="Right" FontSize="15" FontFamily="Segoe UI Black">
                         <Hyperlink Command="{Binding PencereKapat}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}">
                             <Run Text="X" />
-                        </Hyperlink></TextBlock>
+                        </Hyperlink>
+                    </TextBlock>
                 </UniformGrid>
             </GroupBox.Header>
             <GroupBox.Style>
@@ -108,7 +112,10 @@
                     LargeChange="0.5" Maximum="99" Minimum="0"
                     SmallChange="0.5" TickFrequency="0.5" ToolTip="ETKİNLİK SÜRESİ SAAT"
                     Value="{Binding EtkinlikSüresi, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
-                <local:TimePicker Grid.Row="4" Grid.ColumnSpan="2" TimeValue="{Binding SaatBaşlangıç, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
+                <local:TimePicker Grid.Row="4" Grid.ColumnSpan="2"
+                    ItemsSource="{Binding Saatler}"
+                    ClearButtonVisible="Visible"
+                    TimeValue="{Binding SaatBaşlangıç, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
                 <Button Content="RESİM YÜKLE" Grid.Row="5" Grid.ColumnSpan="2" Command="{Binding ResimYükle, Mode=OneWay}">
                     <Button.ContextMenu>
                         <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Mode=Self}}">
@@ -122,7 +129,11 @@
                             <MenuItem Header="DOSYALAR İPTAL" Command="{Binding Dosyalarİptal}" />
                         </ContextMenu>
                     </Button.ContextMenu>
-                    <TextBlock><Run Text="DOSYALAR YÜKLE" /><Run Text=" " /><Run Text="(LINK OLARAK)" Foreground="Red" /><Run Text=" " /><Run Text="{Binding Dosyalar.Count, Mode=OneWay, StringFormat=\{0\} DOSYA}" Foreground="Red" /></TextBlock>
+                    <TextBlock>
+                        <Run Text="DOSYALAR YÜKLE" />
+                        <Run Text="(LINK OLARAK)" Foreground="Red" />
+                        <Run Text="{Binding Dosyalar.Count, Mode=OneWay, StringFormat=\{0\} DOSYA}" Foreground="Red" />
+                    </TextBlock>
                 </Button>
                 <Button Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2"
                     IsEnabled="{Binding ResimData, Converter={StaticResource NullableToBooleanConverter}, Mode=OneWay}"
@@ -203,7 +214,7 @@
                                     <StackPanel.DataContext>
                                         <local:Data />
                                     </StackPanel.DataContext>
-                                    <local:TimePicker TimeValue="{Binding SaatBaşlangıç, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
+                                    <local:TimePicker ItemsSource="{Binding Saatler}" TimeValue="{Binding SaatBaşlangıç, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
                                     <local:MaskedTextBox Width="35"
                                         IncludePrompt="False" Mask="00" PromptChar="_"
                                         ValueType="{x:Type system:Double}"

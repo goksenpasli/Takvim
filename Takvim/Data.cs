@@ -61,6 +61,8 @@ namespace Takvim
 
         private int webpQuality = 20;
 
+        private ObservableCollection<string> saatler=new ObservableCollection<string>();
+
         public Data()
         {
             Window verigirişwindow = null;
@@ -418,6 +420,7 @@ namespace Takvim
             }
         }
         public ICommand OcrUygula { get; }
+
         public short Offset
         {
             get => offset;
@@ -551,6 +554,28 @@ namespace Takvim
                 }
             }
         }
+
+        public ObservableCollection<string> Saatler
+        {
+            get
+            {
+                for (DateTime i = DateTime.Today; i < DateTime.Today.AddDays(1); i = i.AddMinutes(30))
+                {
+                    saatler.Add(i.ToShortTimeString());
+                }
+                return saatler;
+            }
+
+            set
+            {
+                if (saatler != value)
+                {
+                    saatler = value;
+                    OnPropertyChanged(nameof(Saatler));
+                }
+            }
+        }
+
 
         public ICommand XmlVeriEkle { get; }
 

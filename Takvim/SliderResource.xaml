@@ -90,9 +90,9 @@
                                                 <Grid HorizontalAlignment="Center" VerticalAlignment="Center" UseLayoutRounding="True">
                                                     <Path x:Name="grip"
                                                         VerticalAlignment="Center"
+                                                        Stroke="#FFACACAC" StrokeThickness="1"
                                                         Data="M0,0C0,0 11,0 11,0 11,0 11,18 11,18 11,18 0,18 0,18 0,18 0,0 0,0z" Fill="#FFF0F0F0"
-                                                        SnapsToDevicePixels="True" Stretch="Fill" Stroke="#FFACACAC"
-                                                        StrokeThickness="1" UseLayoutRounding="True" />
+                                                        SnapsToDevicePixels="True" Stretch="Fill" UseLayoutRounding="True" />
                                                     <TextBlock Text="{Binding SütünSayısı}"
                                                         Foreground="Gray"
                                                         HorizontalAlignment="Center" VerticalAlignment="Stretch"
@@ -128,9 +128,9 @@
                                         <Grid HorizontalAlignment="Center" VerticalAlignment="Center" UseLayoutRounding="True">
                                             <Path x:Name="grip"
                                                 VerticalAlignment="Center"
+                                                Stroke="#FFACACAC" StrokeThickness="1"
                                                 Data="M0,6C0,6 5.5,0 5.5,0 5.5,0 11,6 11,6 11,6 11,18 11,18 11,18 0,18 0,18 0,18 0,6 0,6z" Fill="#FFF0F0F0"
-                                                SnapsToDevicePixels="True" Stretch="Fill" Stroke="#FFACACAC"
-                                                StrokeThickness="1" UseLayoutRounding="True" />
+                                                SnapsToDevicePixels="True" Stretch="Fill" UseLayoutRounding="True" />
                                         </Grid>
                                         <ControlTemplate.Triggers>
                                             <Trigger Property="IsMouseOver" Value="True">
@@ -159,9 +159,10 @@
                                         <Grid HorizontalAlignment="Center" VerticalAlignment="Center" UseLayoutRounding="True">
                                             <Path x:Name="grip"
                                                 VerticalAlignment="Center"
+                                                Stroke="#FFACACAC" StrokeThickness="1"
                                                 Data="M0,12C0,12 5.5,18 5.5,18 5.5,18 11,12 11,12 11,12 11,0 11,0 11,0 0,0 0,0 0,0 0,12 0,12z"
                                                 Fill="#FFF0F0F0" SnapsToDevicePixels="True" Stretch="Fill"
-                                                Stroke="#FFACACAC" StrokeThickness="1" UseLayoutRounding="True" />
+                                                UseLayoutRounding="True" />
                                         </Grid>
                                         <ControlTemplate.Triggers>
                                             <Trigger Property="IsMouseOver" Value="True">
@@ -283,8 +284,8 @@
                                                     <ControlTemplate TargetType="{x:Type Thumb}">
                                                         <Grid HorizontalAlignment="Center" VerticalAlignment="Center" UseLayoutRounding="True">
                                                             <Path x:Name="grip"
-                                                                Data="M0.5,0.5L18.5,0.5 18.5,11.5 0.5,11.5z" Fill="#FFF0F0F0" Stretch="Fill"
-                                                                Stroke="#FFACACAC" />
+                                                                Stroke="#FFACACAC"
+                                                                Data="M0.5,0.5L18.5,0.5 18.5,11.5 0.5,11.5z" Fill="#FFF0F0F0" Stretch="Fill" />
                                                             <TextBlock Text="{Binding SatırSayısı}"
                                                                 Foreground="Gray"
                                                                 HorizontalAlignment="Center" VerticalAlignment="Center"
@@ -319,8 +320,9 @@
                                             <ControlTemplate TargetType="{x:Type Thumb}">
                                                 <Grid HorizontalAlignment="Center" VerticalAlignment="Center" UseLayoutRounding="True">
                                                     <Path x:Name="grip"
+                                                        Stroke="#FFACACAC"
                                                         Data="M6,11C6,11 0,5.5 0,5.5 0,5.5 6,0 6,0 6,0 18,0 18,0 18,0 18,11 18,11 18,11 6,11 6,11z" Fill="#FFF0F0F0"
-                                                        Stretch="Fill" Stroke="#FFACACAC" />
+                                                        Stretch="Fill" />
                                                 </Grid>
                                                 <ControlTemplate.Triggers>
                                                     <Trigger Property="IsMouseOver" Value="True">
@@ -348,8 +350,9 @@
                                             <ControlTemplate TargetType="{x:Type Thumb}">
                                                 <Grid HorizontalAlignment="Center" VerticalAlignment="Center" UseLayoutRounding="True">
                                                     <Path x:Name="grip"
+                                                        Stroke="#FFACACAC"
                                                         Data="M12,11C12,11 18,5.5 18,5.5 18,5.5 12,0 12,0 12,0 0,0 0,0 0,0 0,11 0,11 0,11 12,11 12,11z"
-                                                        Fill="#FFF0F0F0" Stretch="Fill" Stroke="#FFACACAC" />
+                                                        Fill="#FFF0F0F0" Stretch="Fill" />
                                                 </Grid>
                                                 <ControlTemplate.Triggers>
                                                     <Trigger Property="IsMouseOver" Value="True">

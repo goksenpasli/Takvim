@@ -33,6 +33,5 @@
                 </Image.LayoutTransform>
             </Image>
         </ScrollViewer>
-
     </Grid>
 </Window>

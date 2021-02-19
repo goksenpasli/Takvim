@@ -15,9 +15,11 @@
                             </Grid.ColumnDefinitions>
                             <ScrollViewer x:Name="PART_ContentHost" Focusable="False" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden" />
                             <Border Grid.Column="1" Visibility="{Binding ClearButtonVisibility, RelativeSource={RelativeSource TemplatedParent}}" Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}">
-                                <TextBlock FontWeight="Bold"><Hyperlink Command="{Binding Reset, RelativeSource={RelativeSource TemplatedParent}}">
+                                <TextBlock FontWeight="Bold">
+                                    <Hyperlink Command="{Binding Reset, RelativeSource={RelativeSource TemplatedParent}}">
                                         <Run Text="X" />
-                                    </Hyperlink></TextBlock>
+                                    </Hyperlink>
+                                </TextBlock>
                             </Border>
                         </Grid>
                     </Border>
@@ -57,8 +59,15 @@
     <Style TargetType="{x:Type local:TimePicker}">
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type local:TimePicker}">
-                    <ComboBox Text="{Binding TimeValue, RelativeSource={RelativeSource TemplatedParent}}" ItemsSource="{Binding Saatler, RelativeSource={RelativeSource TemplatedParent}}" IsEditable="True">
+                <ControlTemplate TargetType="ComboBox">
+                    <ComboBox Text="{Binding TimeValue, RelativeSource={RelativeSource TemplatedParent}}"
+                        ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource TemplatedParent}}"
+                        IsEditable="True"
+                        ItemContainerStyle="{TemplateBinding ItemContainerStyle}"
+                        ItemContainerStyleSelector="{TemplateBinding ItemContainerStyleSelector}"
+                        ItemTemplate="{TemplateBinding ItemTemplate}"
+                        ItemTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                        ItemsPanel="{TemplateBinding ItemsPanel}">
                         <ComboBox.Template>
                             <ControlTemplate TargetType="{x:Type ComboBox}">
                                 <Grid>
@@ -91,25 +100,13 @@
                                         </Border>
                                     </Popup>
                                     <local:MaskedTextBox x:Name="PART_EditableTextBox"
-                                        IsEnabled="{TemplateBinding IsEnabled}"
-                                        IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource TemplatedParent}}"
                                         HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                         VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                        ClearButtonVisibility="Collapsed" IncludePrompt="False" Mask="00:00"
-                                        PromptChar="_" />
+                                        ClearButtonVisibility="{Binding ClearButtonVisible, RelativeSource={RelativeSource AncestorType=local:TimePicker}}"
+                                        IncludePrompt="False" Mask="00:00" PromptChar="_" />
                                 </Grid>
                             </ControlTemplate>
                         </ComboBox.Template>
-                        <ComboBox.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding}" />
-                            </DataTemplate>
-                        </ComboBox.ItemTemplate>
-                        <ComboBox.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <VirtualizingStackPanel />
-                            </ItemsPanelTemplate>
-                        </ComboBox.ItemsPanel>
                     </ComboBox>
                 </ControlTemplate>
             </Setter.Value>
