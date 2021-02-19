@@ -41,6 +41,9 @@
                     </DataTrigger>
                 </Style.Triggers>
             </Style>
+            <ControlTemplate x:Key="SimpleButtonTemplate" TargetType="{x:Type Button}">
+                <Border Background="{TemplateBinding Background}" BorderBrush="OliveDrab" BorderThickness="2.5" CornerRadius="10" />
+            </ControlTemplate>
         </ResourceDictionary>
     </Window.Resources>
     <Grid>
@@ -103,42 +106,54 @@
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
-                                        <StackPanel Grid.Column="0" Margin="0,0,15,0" VerticalAlignment="Center">
-                                            <TextBlock FontSize="14">
-                                                <Hyperlink Command="{Binding VeriEkleEkranı}">
-                                                    <Run Text="{Binding Gün}" />
-                                                    <LineBreak />
-                                                    <Run Text="{Binding GünAdı}" />
-                                                    <Hyperlink.Style>
-                                                        <Style TargetType="Hyperlink">
-                                                            <Style.Triggers>
-                                                                <DataTrigger Binding="{Binding TamTarih, Converter={StaticResource DatePassedBooleanConverter}}" Value="true">
-                                                                    <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
-                                                                </DataTrigger>
-                                                            </Style.Triggers>
-                                                        </Style>
-                                                    </Hyperlink.Style>
-                                                </Hyperlink>
-                                            </TextBlock>
-                                        </StackPanel>
-                                        <ItemsControl Width="96" Height="96" VerticalAlignment="Center" ItemsSource="{Binding Converter={StaticResource SelectedDateToDataListConverter}, Mode=OneWay}">
+                                        <TextBlock Margin="0,0,15,0" VerticalAlignment="Center" FontSize="14">
+                                            <Hyperlink Command="{Binding VeriEkleEkranı}">
+                                                <Run Text="{Binding Gün}" />
+                                                <LineBreak />
+                                                <Run Text="{Binding GünAdı}" />
+                                                <Hyperlink.Style>
+                                                    <Style TargetType="Hyperlink">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding TamTarih, Converter={StaticResource DatePassedBooleanConverter}}" Value="true">
+                                                                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Hyperlink.Style>
+                                            </Hyperlink>
+                                        </TextBlock>
+                                        <ItemsControl Width="115" Height="115" VerticalAlignment="Center" ItemsSource="{Binding Converter={StaticResource SelectedDateToDataListConverter}, Mode=OneWay}">
                                             <ItemsControl.ItemTemplate>
                                                 <DataTemplate>
-                                                    <StackPanel Orientation="Horizontal">
-                                                        <Image MaxWidth="48" MaxHeight="48" Source="{Binding ConverterParameter=48, Converter={StaticResource Base64ImageConverter}, IsAsync=True, XPath=Resim}">
+                                                    <Expander VerticalAlignment="Center">
+                                                        <Expander.Header>
+                                                            <TextBlock VerticalAlignment="Center">
+                                                                <Hyperlink x:Name="Hyp"
+                                                                    Command="{Binding XmlVeriSil, Mode=OneWay, Source={StaticResource Data}}"
+                                                                    CommandParameter="{Binding XPath=@Id}"
+                                                                    FontSize="12" FontFamily="Segoe UI Black">
+                                                                    <Run Text="X" />
+                                                                </Hyperlink>
+                                                                <Run Text="{Binding XPath=Aciklama}" />
+                                                            </TextBlock>
+                                                        </Expander.Header>
+                                                        <Image Width="48" Height="48" Source="{Binding ConverterParameter=48, Converter={StaticResource Base64ImageConverter}, IsAsync=True, XPath=Resim}">
                                                             <Image.ToolTip>
                                                                 <ToolTip Template="{StaticResource GreenToolTipControlTemplate}">
                                                                     <Image Source="{Binding Converter={StaticResource Base64ImageConverter}, XPath=Resim}" />
                                                                 </ToolTip>
                                                             </Image.ToolTip>
+                                                            <Image.Style>
+                                                                <Style TargetType="Image">
+                                                                    <Style.Triggers>
+                                                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Source}" Value="{x:Null}">
+                                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                                        </DataTrigger>
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                            </Image.Style>
                                                         </Image>
-                                                        <TextBlock VerticalAlignment="Center" FontSize="12" FontFamily="Segoe UI Black">
-                                                            <Hyperlink x:Name="Hyp" Command="{Binding XmlVeriSil, Mode=OneWay, Source={StaticResource Data}}" CommandParameter="{Binding XPath=@Id}">
-                                                                <Run Text="X" />
-                                                            </Hyperlink>
-                                                        </TextBlock>
-                                                        <TextBlock Text="{Binding XPath=Aciklama}" VerticalAlignment="Center" />
-                                                    </StackPanel>
+                                                    </Expander>
                                                 </DataTemplate>
                                             </ItemsControl.ItemTemplate>
                                             <ItemsControl.Template>
@@ -148,6 +163,11 @@
                                                     </ScrollViewer>
                                                 </ControlTemplate>
                                             </ItemsControl.Template>
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <VirtualizingStackPanel />
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
                                         </ItemsControl>
                                     </StackPanel>
                                 </DataTemplate>
@@ -262,12 +282,8 @@
                                         Margin="3,0"
                                         Command="{Binding DataContext.ResimGör, ElementName=Window}"
                                         CommandParameter="{Binding Mode=OneWay, XPath=Resim}"
-                                        Cursor="Hand">
-                                        <Button.Template>
-                                            <ControlTemplate TargetType="Button">
-                                                <Border Background="{TemplateBinding Background}" BorderBrush="OliveDrab" BorderThickness="2.5" CornerRadius="10" />
-                                            </ControlTemplate>
-                                        </Button.Template>
+                                        Cursor="Hand"
+                                        Template="{StaticResource SimpleButtonTemplate}">
                                         <Button.Background>
                                             <ImageBrush x:Name="Img" ImageSource="{Binding ConverterParameter=96, Converter={StaticResource Base64ImageConverter}, IsAsync=True, XPath=Resim}" />
                                         </Button.Background>
