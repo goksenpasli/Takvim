@@ -128,6 +128,16 @@
                                                     <Expander VerticalAlignment="Center">
                                                         <Expander.Header>
                                                             <TextBlock VerticalAlignment="Center">
+                                                                <TextBlock.Style>
+                                                                    <Style TargetType="TextBlock">
+                                                                        <Setter Property="Foreground" Value="Red" />
+                                                                        <Style.Triggers>
+                                                                            <DataTrigger Binding="{Binding XPath=Resim}" Value="{x:Null}">
+                                                                                <Setter Property="Foreground" Value="Black" />
+                                                                            </DataTrigger>
+                                                                        </Style.Triggers>
+                                                                    </Style>
+                                                                </TextBlock.Style>
                                                                 <Hyperlink x:Name="Hyp"
                                                                     Command="{Binding XmlVeriSil, Mode=OneWay, Source={StaticResource Data}}"
                                                                     CommandParameter="{Binding XPath=@Id}"
@@ -146,7 +156,7 @@
                                                             <Image.Style>
                                                                 <Style TargetType="Image">
                                                                     <Style.Triggers>
-                                                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Source}" Value="{x:Null}">
+                                                                        <DataTrigger Binding="{Binding XPath=Resim}" Value="{x:Null}">
                                                                             <Setter Property="Visibility" Value="Collapsed" />
                                                                         </DataTrigger>
                                                                     </Style.Triggers>
@@ -285,7 +295,7 @@
                                         Cursor="Hand"
                                         Template="{StaticResource SimpleButtonTemplate}">
                                         <Button.Background>
-                                            <ImageBrush x:Name="Img" ImageSource="{Binding ConverterParameter=96, Converter={StaticResource Base64ImageConverter}, IsAsync=True, XPath=Resim}" />
+                                            <ImageBrush ImageSource="{Binding ConverterParameter=96, Converter={StaticResource Base64ImageConverter}, FallbackValue={StaticResource EmptyImg}, IsAsync=True, XPath=Resim}" />
                                         </Button.Background>
                                         <Button.ContextMenu>
                                             <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Mode=Self}}">
@@ -300,7 +310,7 @@
                                         <Button.Style>
                                             <Style TargetType="Button">
                                                 <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding ElementName=Img, Path=ImageSource}" Value="{x:Null}">
+                                                    <DataTrigger Binding="{Binding XPath=Resim}" Value="{x:Null}">
                                                         <Setter Property="Visibility" Value="Collapsed" />
                                                     </DataTrigger>
                                                 </Style.Triggers>
@@ -312,7 +322,7 @@
                                             <Style TargetType="{x:Type TextBlock}">
                                                 <Setter Property="Width" Value="70" />
                                                 <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding ImageSource, ElementName=Img}" Value="{x:Null}">
+                                                    <DataTrigger Binding="{Binding XPath=Resim}" Value="{x:Null}">
                                                         <Setter Property="Width" Value="140" />
                                                     </DataTrigger>
                                                 </Style.Triggers>
