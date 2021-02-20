@@ -136,7 +136,6 @@ namespace Takvim
                     AnimasyonTarih = null;
                     AnimasyonTarih = DateTime.Parse(xmlElement.InnerText);
                 }
-
             }, parameter => true);
 
             ResimGör = new RelayCommand<object>(parameter =>
@@ -149,7 +148,6 @@ namespace Takvim
                     };
                     viewer.ShowDialog();
                 }
-
             }, parameter => true);
 
             AyarSıfırla = new RelayCommand<object>(parameter =>
@@ -198,7 +196,6 @@ namespace Takvim
             PropertyChanged += MainViewModel_PropertyChanged;
 
             Properties.Settings.Default.PropertyChanged += Properties_PropertyChanged;
-
         }
 
         public DateTime? AnimasyonTarih

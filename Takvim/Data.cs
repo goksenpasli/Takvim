@@ -134,18 +134,6 @@ namespace Takvim
                 }
             }, parameter => !string.IsNullOrWhiteSpace(GünNotAçıklama) && Environment.OSVersion.Version.Major > 5);
 
-            DosyalarYükle = new RelayCommand<object>(parameter =>
-            {
-                OpenFileDialog openFileDialog = new OpenFileDialog { Multiselect = true, Filter = "Tüm Dosyalar (*.*)|*.*" };
-                if (openFileDialog.ShowDialog() == true)
-                {
-                    foreach (string dosya in openFileDialog.FileNames)
-                    {
-                        Dosyalar.Add(dosya);
-                    }
-                }
-            }, parameter => !string.IsNullOrWhiteSpace(GünNotAçıklama));
-
             ResimSakla = new RelayCommand<object>(parameter =>
             {
                 if (parameter is XmlElement xmlElement)
@@ -166,7 +154,6 @@ namespace Takvim
                     }
                 }
             }, parameter => true);
-
 
             PencereKapat = new RelayCommand<object>(parameter =>
             {
@@ -231,8 +218,6 @@ namespace Takvim
                     MainViewModel.xmlDataProvider.Refresh();
                 }
             }, parameter => DateTime.TryParseExact(SaatBaşlangıç, "H:m", new CultureInfo("tr-TR"), DateTimeStyles.None, out _));
-
-            Dosyalarİptal = new RelayCommand<object>(parameter => Dosyalar = null, parameter => Dosyalar?.Count > 0);
 
             Resimİptal = new RelayCommand<object>(parameter => ResimData = null, parameter => ResimData?.Length > 0);
 
@@ -317,10 +302,6 @@ namespace Takvim
                 }
             }
         }
-
-        public ICommand Dosyalarİptal { get; }
-
-        public ICommand DosyalarYükle { get; }
 
         public double EtkinlikSüresi
         {
@@ -576,7 +557,6 @@ namespace Takvim
             }
         }
 
-
         public ICommand XmlVeriEkle { get; }
 
         public ICommand XmlVeriGüncelle { get; }
@@ -596,17 +576,6 @@ namespace Takvim
                 writer.WriteEndElement();
                 writer.Flush();
             }
-        }
-
-        private bool CheckFileSize(int size)
-        {
-            const int filelimit = 50 * 1024;
-            if (size > filelimit)
-            {
-                MessageBox.Show($"Resim Boyutu En Çok {filelimit / 1024} KB Olabilir.", "TAKVİM", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                return false;
-            }
-            return true;
         }
 
         private XElement UpdateAttribute(XmlAttribute xmlAttribute, string attributevalue, string updatedattributevalue, XDocument doc)

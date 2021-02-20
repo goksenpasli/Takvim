@@ -12,6 +12,7 @@
     Unloaded="UserControl_Unloaded" UseLayoutRounding="True"
     mc:Ignorable="d">
     <UserControl.Resources>
+        <local:StringNullableToBooleanConverter x:Key="StringNullableToBooleanConverter" />
         <Color x:Key="GlyphColor">#FF444444</Color>
         <local:NullableToBooleanConverter x:Key="NullableToBooleanConverter" />
         <CollectionViewSource x:Key="FilteredCvs" Source="{StaticResource XmlData}" />
@@ -123,18 +124,7 @@
                         </ContextMenu>
                     </Button.ContextMenu>
                 </Button>
-                <Button Grid.Row="6" Grid.ColumnSpan="2" Command="{Binding DosyalarYükle, Mode=OneWay}">
-                    <Button.ContextMenu>
-                        <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Mode=Self}}">
-                            <MenuItem Header="DOSYALAR İPTAL" Command="{Binding Dosyalarİptal}" />
-                        </ContextMenu>
-                    </Button.ContextMenu>
-                    <TextBlock>
-                        <Run Text="DOSYALAR YÜKLE" />
-                        <Run Text="(LINK OLARAK)" Foreground="Red" />
-                        <Run Text="{Binding Dosyalar.Count, Mode=OneWay, StringFormat=\{0\} DOSYA}" Foreground="Red" />
-                    </TextBlock>
-                </Button>
+                <local:FileSelectorTextBox Grid.Row="6" Grid.ColumnSpan="2" IsEnabled="{Binding GünNotAçıklama, Converter={StaticResource StringNullableToBooleanConverter}}" Dosyalar="{Binding Dosyalar, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
                 <Button Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2"
                     IsEnabled="{Binding ResimData, Converter={StaticResource NullableToBooleanConverter}, Mode=OneWay}"
                     Command="{Binding OcrUygula}"

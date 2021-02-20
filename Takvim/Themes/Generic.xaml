@@ -42,13 +42,13 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:FileSelectorTextBox}">
-                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                    <Border IsEnabled="{TemplateBinding IsEnabled}" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
-                            <TextBox Text="{Binding FilePath, RelativeSource={RelativeSource TemplatedParent}}" Grid.Column="0" IsReadOnly="{TemplateBinding IsReadOnly}" />
+                            <TextBox Text="{Binding FilePath, RelativeSource={RelativeSource TemplatedParent}}" Grid.Column="0" IsReadOnly="True" />
                             <Button Content="..." Grid.Column="1" Command="{Binding SelectFile, RelativeSource={RelativeSource TemplatedParent}}" />
                         </Grid>
                     </Border>

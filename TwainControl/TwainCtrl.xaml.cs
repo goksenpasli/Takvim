@@ -14,7 +14,6 @@ using TwainWpf.Wpf;
 
 namespace TwainControl
 {
-
     public partial class TwainCtrl : UserControl, INotifyPropertyChanged, IDisposable
     {
         private ScanSettings _settings;
@@ -117,9 +116,7 @@ namespace TwainControl
                         }
                     }
                 }
-
             }, parameter => true);
-
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

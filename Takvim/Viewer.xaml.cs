@@ -37,6 +37,5 @@ namespace Takvim
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) => Dispose(true);
-
     }
 }

@@ -1,21 +1,11 @@
 ﻿using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Takvim
 {
-
     public class FileSelectorTextBox : TextBox
     {
         public ICommand SelectFile { get; } = new RoutedCommand();
@@ -25,6 +15,14 @@ namespace Takvim
             get => (string)GetValue(FilePathProperty);
             set => SetValue(FilePathProperty, value);
         }
+
+        public ObservableCollection<string> Dosyalar
+        {
+            get { return (ObservableCollection<string>)GetValue(DosyalarProperty); }
+            set { SetValue(DosyalarProperty, value); }
+        }
+
+        public static readonly DependencyProperty DosyalarProperty = DependencyProperty.Register("Dosyalar", typeof(ObservableCollection<string>), typeof(FileSelectorTextBox), new PropertyMetadata(null));
 
         public static readonly DependencyProperty FilePathProperty = DependencyProperty.Register("FilePath", typeof(string), typeof(FileSelectorTextBox), new PropertyMetadata(null));
 
@@ -37,10 +35,20 @@ namespace Takvim
 
         private void SelectFileCommand(object sender, ExecutedRoutedEventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog { Multiselect = false, Filter = "Tüm Dosyalar (*.*)|*.*" };
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Multiselect = true,
+                Filter = "Tüm Dosyalar (*.*)|*.*"
+            };
+
             if (openFileDialog.ShowDialog() == true)
             {
-                FilePath = openFileDialog.FileName;
+                Dosyalar = new ObservableCollection<string>();
+                foreach (string item in openFileDialog.FileNames)
+                {
+                    Dosyalar.Add(item);
+                }
+                FilePath = Dosyalar.Count > 1 ? $"{Dosyalar.Count} Dosya Seçildi" : Dosyalar[0];
             }
         }
     }

@@ -111,6 +111,7 @@
                                                 <Run Text="{Binding Gün}" />
                                                 <LineBreak />
                                                 <Run Text="{Binding GünAdı}" />
+                                                <Run Text="{Binding ElementName=List, Path=ItemsSource.Count, Mode=OneWay}" FontSize="8" FontStyle="Italic" />
                                                 <Hyperlink.Style>
                                                     <Style TargetType="Hyperlink">
                                                         <Style.Triggers>
@@ -122,7 +123,10 @@
                                                 </Hyperlink.Style>
                                             </Hyperlink>
                                         </TextBlock>
-                                        <ItemsControl Width="115" Height="115" VerticalAlignment="Center" ItemsSource="{Binding Converter={StaticResource SelectedDateToDataListConverter}, Mode=OneWay}">
+                                        <ItemsControl x:Name="List"
+                                            Width="115" Height="115"
+                                            VerticalAlignment="Center"
+                                            ItemsSource="{Binding Converter={StaticResource SelectedDateToDataListConverter}, Mode=OneWay}">
                                             <ItemsControl.ItemTemplate>
                                                 <DataTemplate>
                                                     <Expander VerticalAlignment="Center">

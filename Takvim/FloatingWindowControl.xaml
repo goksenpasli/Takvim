@@ -28,7 +28,13 @@
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <Image Width="32" Height="32" Source="{Binding ResimData, ConverterParameter=96, Converter={StaticResource WebpByteArrayToImageConverter}}" />
+                                <Image Width="32" Height="32" Source="{Binding ResimData, ConverterParameter=96, Converter={StaticResource WebpByteArrayToImageConverter}}">
+                                    <Image.ToolTip>
+                                        <ToolTip Template="{StaticResource GreenToolTipControlTemplate}">
+                                            <Image Source="{Binding Converter={StaticResource WebpByteArrayToImageConverter}, Path=ResimData}" />
+                                        </ToolTip>
+                                    </Image.ToolTip>
+                                </Image>
                                 <TextBlock Height="32"
                                     Foreground="Red"
                                     VerticalAlignment="Center"
