@@ -132,7 +132,7 @@ namespace Takvim
                     ResimUzantı = ".webp";
                     Boyut = ResimData.Length / 1024;
                 }
-            }, parameter => !string.IsNullOrWhiteSpace(GünNotAçıklama) && Environment.OSVersion.Version.Major > 5);
+            }, parameter => Environment.OSVersion.Version.Major > 5);
 
             ResimSakla = new RelayCommand<object>(parameter =>
             {

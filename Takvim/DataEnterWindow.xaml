@@ -117,7 +117,10 @@
                     ItemsSource="{Binding Saatler}"
                     ClearButtonVisible="Visible"
                     TimeValue="{Binding SaatBaşlangıç, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
-                <Button Content="RESİM YÜKLE" Grid.Row="5" Grid.ColumnSpan="2" Command="{Binding ResimYükle, Mode=OneWay}">
+                <Button Content="RESİM YÜKLE"
+                    Grid.Row="5" Grid.ColumnSpan="2"
+                    IsEnabled="{Binding GünNotAçıklama, Converter={StaticResource StringNullableToBooleanConverter}}"
+                    Command="{Binding ResimYükle, Mode=OneWay}">
                     <Button.ContextMenu>
                         <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Mode=Self}}">
                             <MenuItem Header="RESİM İPTAL" Command="{Binding Resimİptal}" />
