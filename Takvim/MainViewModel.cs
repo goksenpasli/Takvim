@@ -579,34 +579,32 @@ namespace Takvim
 
         private ObservableCollection<Data> TakvimVerileriniOluştur(short SeçiliYıl)
         {
-            
             XmlNodeList xmlNodeList = xmlDataProvider.Document?.SelectNodes("/Veriler/Veri");
-            if (xmlNodeList != null)
+            Günler = new ObservableCollection<Data>();
+            for (int i = 1; i <= 12; i++)
             {
-                Günler = new ObservableCollection<Data>();
-                for (int i = 1; i <= 12; i++)
+                for (int j = 1; j <= 31; j++)
                 {
-                    for (int j = 1; j <= 31; j++)
+                    string tarih = $"{j}.{i}.{SeçiliYıl:0000}";
+                    if (DateTime.TryParse(tarih, out DateTime date))
                     {
-                        string tarih = $"{j}.{i}.{SeçiliYıl:0000}";
-                        if (DateTime.TryParse(tarih, out DateTime date))
+                        Data data = new Data
                         {
-                            Data data = new Data
-                            {
-                                GünAdı = date.ToString("ddd"),
-                                Gün = (short)date.Day,
-                                Ay = date.ToString("MMMM"),
-                                Offset = (short)date.DayOfWeek,
-                                TamTarih = date
-                            };
+                            GünAdı = date.ToString("ddd"),
+                            Gün = (short)date.Day,
+                            Ay = date.ToString("MMMM"),
+                            Offset = (short)date.DayOfWeek,
+                            TamTarih = date
+                        };
 
+                        if (xmlNodeList != null)
+                        {
                             foreach (XmlNode xn in from XmlNode xn in xmlNodeList where DateTime.Parse(xn["Gun"]?.InnerText) == data.TamTarih select xn)
                             {
                                 data.Id = Convert.ToInt32(xn.Attributes.GetNamedItem("Id").Value);
                             }
-
-                            Günler.Add(data);
                         }
+                        Günler.Add(data);
                     }
                 }
             }
