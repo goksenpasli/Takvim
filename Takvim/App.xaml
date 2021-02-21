@@ -447,16 +447,6 @@
                 <Setter Property="BorderThickness" Value="0.5" />
                 <Setter Property="BorderBrush" Value="#FF145CD6" />
                 <Style.Triggers>
-                    <DataTrigger Binding="{Binding VeriSayısı, Converter={StaticResource IntBooleanZeroConverter}}" Value="true">
-                        <DataTrigger.EnterActions>
-                            <BeginStoryboard x:Name="Sb" Storyboard="{StaticResource TimerColorAnimation}" />
-                        </DataTrigger.EnterActions>
-                    </DataTrigger>
-                    <DataTrigger Binding="{Binding VeriSayısı}" Value="0">
-                        <DataTrigger.EnterActions>
-                            <StopStoryboard BeginStoryboardName="Sb" />
-                        </DataTrigger.EnterActions>
-                    </DataTrigger>
                     <DataTrigger Binding="{Binding GünAdı}" Value="Cmt">
                         <Setter Property="Background" Value="{Binding DataContext.SeçiliRenkCmt, ElementName=Window}" />
                     </DataTrigger>
