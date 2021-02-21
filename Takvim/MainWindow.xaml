@@ -1,19 +1,14 @@
-﻿<Window
-    x:Class="Takvim.MainWindow"
+﻿<Window x:Class="Takvim.MainWindow" x:Name="Window"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:Takvim"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:Takvim"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:properties="clr-namespace:Takvim.Properties"
     xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
-    x:Name="Window"
     Title="TAKVİM"
-    Width="800"
-    Height="600"
+    Width="800" Height="600"
     d:DataContext="{d:DesignInstance Type=local:MainViewModel}"
-    UseLayoutRounding="True"
-    WindowState="Maximized"
+    UseLayoutRounding="True" WindowState="Maximized"
     mc:Ignorable="d">
     <Window.Resources>
         <ResourceDictionary>
@@ -30,20 +25,14 @@
                     <scm:SortDescription Direction="Descending" PropertyName="Gun" />
                 </CollectionViewSource.SortDescriptions>
             </CollectionViewSource>
-            <CollectionViewSource
-                x:Key="FilteredCvs"
-                Filter="CollectionViewSource_Filter"
-                Source="{StaticResource XmlData}" />
+            <CollectionViewSource x:Key="FilteredCvs" Filter="CollectionViewSource_Filter" Source="{StaticResource XmlData}" />
             <CollectionViewSource x:Key="Günler" Source="{Binding Günler}">
                 <CollectionViewSource.GroupDescriptions>
                     <PropertyGroupDescription PropertyName="Ay" />
                 </CollectionViewSource.GroupDescriptions>
             </CollectionViewSource>
             <local:ListBoxDatePassedVisibilityConverter x:Key="ListBoxDatePassedVisibilityConverter" />
-            <Style
-                x:Key="ComboboxFileStyle"
-                BasedOn="{StaticResource {x:Type ComboBox}}"
-                TargetType="ComboBox">
+            <Style x:Key="ComboboxFileStyle" BasedOn="{StaticResource {x:Type ComboBox}}" TargetType="ComboBox">
                 <Setter Property="BorderBrush" Value="Red" />
                 <Setter Property="BorderThickness" Value="2" />
                 <Style.Triggers>
@@ -53,11 +42,7 @@
                 </Style.Triggers>
             </Style>
             <ControlTemplate x:Key="SimpleButtonTemplate" TargetType="{x:Type Button}">
-                <Border
-                    Background="{TemplateBinding Background}"
-                    BorderBrush="OliveDrab"
-                    BorderThickness="2.5"
-                    CornerRadius="10" />
+                <Border Background="{TemplateBinding Background}" BorderBrush="{Binding XPath=@Renk, Converter={StaticResource StringToBrushConverter}}" BorderThickness="2.5" CornerRadius="10" />
             </ControlTemplate>
         </ResourceDictionary>
     </Window.Resources>
@@ -74,56 +59,33 @@
             <RowDefinition />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <ToggleButton
+        <ToggleButton Content="B"
             Grid.Column="1"
-            Content="B"
             IsChecked="{Binding BaşlangıçtaÇalışacak}"
-            IsTabStop="False"
-            ToolTip="Başlangıçta Çalıştır." />
-        <Grid
-            Grid.Row="0"
-            Grid.Column="3"
-            Margin="2,2,3,2">
+            IsTabStop="False" ToolTip="Başlangıçta Çalıştır." />
+        <Grid Grid.Row="0" Grid.Column="3" Margin="2,2,3,2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <TextBox Grid.Column="0" Text="{Binding AramaMetin, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-            <Button
-                Grid.Column="1"
-                Command="{Binding VeriAra, Mode=OneWay}"
-                CommandParameter="{Binding AramaMetin}"
-                Content="ARA" />
+            <TextBox Text="{Binding AramaMetin, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="0" />
+            <Button Content="ARA" Grid.Column="1" Command="{Binding VeriAra, Mode=OneWay}" CommandParameter="{Binding AramaMetin}" />
         </Grid>
-        <Button
-            Grid.Row="0"
-            Grid.RowSpan="3"
-            Grid.Column="0"
+        <Button Content="ç"
+            Grid.Row="0" Grid.Column="0" Grid.RowSpan="3"
             Command="{Binding YılGeri}"
-            Content="ç"
             FontFamily="Wingdings"
             ToolTip="ÖNCEKİ YIL" />
-        <Slider
-            Grid.Row="1"
-            Grid.Column="1"
-            IsDirectionReversed="True"
-            IsSnapToTickEnabled="True"
-            IsTabStop="False"
-            Maximum="12"
-            Minimum="1"
-            Orientation="Vertical"
+        <Slider Grid.Row="1" Grid.Column="1"
+            IsDirectionReversed="True" IsSnapToTickEnabled="True" IsTabStop="False"
+            Maximum="12" Minimum="1" Orientation="Vertical"
             Style="{StaticResource SliderStyle}"
             Value="{Binding SatırSayısı}" />
-        <Button
-            Grid.Row="2"
-            Grid.Column="1"
+        <Button Content="R"
+            Grid.Row="2" Grid.Column="1"
             Command="{Binding SatırSütünSıfırla, Mode=OneWay}"
-            Content="R"
             IsTabStop="False" />
-        <TabControl
-            Grid.Row="0"
-            Grid.RowSpan="2"
-            Grid.Column="2">
+        <TabControl Grid.Row="0" Grid.Column="2" Grid.RowSpan="2">
             <TabItem Header="AY">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -131,19 +93,14 @@
                         <ColumnDefinition />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-                    <Button
-                        Grid.Row="0"
-                        Grid.Column="0"
+                    <Button Content="ç"
+                        Grid.Row="0" Grid.Column="0"
                         Command="{Binding AyGeri}"
-                        Content="ç"
                         FontFamily="Wingdings"
                         ToolTip="ÖNCEKİ AY" />
                     <GroupBox Grid.Column="1" Background="{Binding AyGünler/Ay, Converter={StaticResource ŞuAnkiAyColorConverter}}">
                         <GroupBox.Header>
-                            <TextBlock
-                                FontWeight="Bold"
-                                Text="{Binding AyGünler/Ay}"
-                                TextAlignment="Center" />
+                            <TextBlock Text="{Binding AyGünler/Ay}" FontWeight="Bold" TextAlignment="Center" />
                         </GroupBox.Header>
                         <ListBox Background="{Binding DataContext.GövdeRenk, ElementName=Window}" ItemsSource="{Binding AyGünler}">
                             <ListBox.ItemContainerStyle>
@@ -165,10 +122,10 @@
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
-                                        <TextBlock
-                                            Margin="0,0,15,0"
-                                            VerticalAlignment="Center"
-                                            FontSize="14">
+                                        <StackPanel.InputBindings>
+                                            <MouseBinding Command="{Binding VeriEkleEkranı, Mode=OneWay}" MouseAction="LeftClick" />
+                                        </StackPanel.InputBindings>
+                                        <TextBlock Margin="0,0,5,0" VerticalAlignment="Center" FontSize="14">
                                             <Hyperlink Command="{Binding VeriEkleEkranı}">
                                                 <Run Text="{Binding Gün}" />
                                                 <LineBreak />
@@ -196,41 +153,37 @@
                                                 </Hyperlink.Style>
                                             </Hyperlink>
                                         </TextBlock>
-                                        <ListBox
-                                            Width="105"
-                                            Height="130"
-                                            VerticalAlignment="Center"
-                                            ItemsSource="{Binding Converter={StaticResource SelectedDateToDataListConverter}, Mode=OneWay}">
+                                        <ListBox Width="120" Height="130" VerticalAlignment="Center" ItemsSource="{Binding Converter={StaticResource SelectedDateToDataListConverter}, Mode=OneWay}">
                                             <ListBox.ItemTemplate>
                                                 <DataTemplate>
-                                                    <Expander VerticalAlignment="Center">
+                                                    <Expander BorderBrush="{Binding XPath=@Renk, Converter={StaticResource StringToBrushConverter}}" BorderThickness="2" VerticalAlignment="Center">
                                                         <Expander.Header>
-                                                            <TextBlock VerticalAlignment="Center">
-                                                                <TextBlock.Style>
-                                                                    <Style TargetType="TextBlock">
-                                                                        <Setter Property="Foreground" Value="Red" />
-                                                                        <Style.Triggers>
-                                                                            <DataTrigger Binding="{Binding XPath=Resim}" Value="{x:Null}">
-                                                                                <Setter Property="Foreground" Value="Black" />
-                                                                            </DataTrigger>
-                                                                        </Style.Triggers>
-                                                                    </Style>
-                                                                </TextBlock.Style>
-                                                                <Hyperlink
-                                                                    x:Name="Hyp"
-                                                                    Command="{Binding XmlVeriSil, Mode=OneWay, Source={StaticResource Data}}"
-                                                                    CommandParameter="{Binding XPath=@Id}"
-                                                                    FontFamily="Segoe UI Black"
-                                                                    FontSize="12">
-                                                                    <Run Text="X" />
-                                                                </Hyperlink>
-                                                                <Run Text="{Binding XPath=Aciklama}" />
-                                                            </TextBlock>
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <ContentControl IsTabStop="False" Template="{Binding Mode=OneWay, Source={StaticResource TimePanel}}" />
+                                                                <TextBlock VerticalAlignment="Center">
+                                                                    <TextBlock.Style>
+                                                                        <Style TargetType="TextBlock">
+                                                                            <Setter Property="Foreground" Value="Red" />
+                                                                            <Style.Triggers>
+                                                                                <DataTrigger Binding="{Binding XPath=Resim}" Value="{x:Null}">
+                                                                                    <Setter Property="Foreground" Value="Black" />
+                                                                                </DataTrigger>
+                                                                            </Style.Triggers>
+                                                                        </Style>
+                                                                    </TextBlock.Style>
+                                                                    <Hyperlink x:Name="Hyp"
+                                                                        Command="{Binding XmlVeriSil, Mode=OneWay, Source={StaticResource Data}}"
+                                                                        CommandParameter="{Binding XPath=@Id}"
+                                                                        FontSize="12" FontFamily="Segoe UI Black">
+                                                                        <Run Text="X" />
+                                                                    </Hyperlink>
+                                                                    <Run Text="{Binding XPath=@SaatBaslangic}" FontWeight="Bold" />
+                                                                    <LineBreak />
+                                                                    <Run Text="{Binding XPath=Aciklama}" />
+                                                                </TextBlock>
+                                                            </StackPanel>
                                                         </Expander.Header>
-                                                        <Image
-                                                            Width="48"
-                                                            Height="48"
-                                                            Source="{Binding ConverterParameter=48, Converter={StaticResource Base64ImageConverter}, IsAsync=True, XPath=Resim}">
+                                                        <Image Width="48" Height="48" Source="{Binding ConverterParameter=48, Converter={StaticResource Base64ImageConverter}, IsAsync=True, XPath=Resim}">
                                                             <Image.ToolTip>
                                                                 <ToolTip Template="{StaticResource GreenToolTipControlTemplate}">
                                                                     <Image Source="{Binding Converter={StaticResource Base64ImageConverter}, XPath=Resim}" />
@@ -265,11 +218,9 @@
                             </ListBox.ItemsPanel>
                         </ListBox>
                     </GroupBox>
-                    <Button
-                        Grid.Row="0"
-                        Grid.Column="2"
+                    <Button Content="è"
+                        Grid.Row="0" Grid.Column="2"
                         Command="{Binding Ayİleri}"
-                        Content="è"
                         FontFamily="Wingdings"
                         ToolTip="SONRAKİ AY" />
                 </Grid>
@@ -277,14 +228,11 @@
             <TabItem>
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <TextBox
-                            HorizontalAlignment="Center"
-                            FontWeight="Bold"
-                            Text="{Binding SeçiliYıl, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
-                        <TextBlock VerticalAlignment="Center" Text="YIL" />
+                        <TextBox Text="{Binding SeçiliYıl, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" HorizontalAlignment="Center" FontWeight="Bold" />
+                        <TextBlock Text="YIL" VerticalAlignment="Center" />
                     </StackPanel>
                 </TabItem.Header>
-                <ListBox ItemTemplate="{StaticResource ListBoxDataTemplate}" ItemsSource="{Binding Mode=OneWay, Source={StaticResource Günler}}">
+                <ListBox ItemsSource="{Binding Mode=OneWay, Source={StaticResource Günler}}" ItemTemplate="{StaticResource ListBoxDataTemplate}">
                     <ListBox.ItemContainerStyle>
                         <Style BasedOn="{StaticResource ListBoxItemContainerStyle}" TargetType="{x:Type ListBoxItem}">
                             <Setter Property="Template" Value="{StaticResource ListBoxItemControlTemplate}" />
@@ -314,12 +262,9 @@
                                     <Setter Property="Template">
                                         <Setter.Value>
                                             <ControlTemplate TargetType="{x:Type GroupItem}">
-                                                <GroupBox Margin="1" Background="{Binding Name, Converter={StaticResource ŞuAnkiAyColorConverter}}">
+                                                <GroupBox Background="{Binding Name, Converter={StaticResource ŞuAnkiAyColorConverter}}" Margin="1">
                                                     <GroupBox.Header>
-                                                        <TextBlock
-                                                            FontWeight="Bold"
-                                                            Text="{Binding Name, Mode=OneWay}"
-                                                            TextAlignment="Center" />
+                                                        <TextBlock Text="{Binding Name, Mode=OneWay}" FontWeight="Bold" TextAlignment="Center" />
                                                     </GroupBox.Header>
                                                     <Border Background="{Binding DataContext.GövdeRenk, ElementName=Window}">
                                                         <ItemsPresenter />
@@ -340,20 +285,13 @@
                 </ListBox>
             </TabItem>
         </TabControl>
-        <Slider
-            Grid.Row="2"
-            Grid.Column="2"
+        <Slider Grid.Row="2" Grid.Column="2"
             VerticalAlignment="Center"
-            IsSnapToTickEnabled="True"
-            IsTabStop="False"
-            Maximum="12"
+            IsSnapToTickEnabled="True" IsTabStop="False" Maximum="12"
             Minimum="1"
             Style="{StaticResource SliderStyle}"
             Value="{Binding SütünSayısı}" />
-        <Grid
-            Grid.Row="1"
-            Grid.RowSpan="2"
-            Grid.Column="3">
+        <Grid Grid.Row="1" Grid.Column="3" Grid.RowSpan="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="4*" />
                 <RowDefinition />
@@ -362,29 +300,17 @@
             <GroupBox Grid.Row="0" Margin="2">
                 <GroupBox.Header>
                     <StackPanel Orientation="Horizontal">
-                        <CheckBox
-                            VerticalAlignment="Center"
-                            IsChecked="{Binding TümListe}"
-                            ToolTip="Süresi Geçenleri Göster">
+                        <CheckBox VerticalAlignment="Center" IsChecked="{Binding TümListe}" ToolTip="Süresi Geçenleri Göster">
                             <CheckBox.Content>
-                                <TextBlock FontWeight="Bold" Text="TÜM LİSTE" />
+                                <TextBlock Text="TÜM LİSTE" FontWeight="Bold" />
                             </CheckBox.Content>
                         </CheckBox>
-                        <Button
-                            Command="{Binding CsvDosyasınaYaz, Mode=OneWay, Source={StaticResource Data}}"
-                            CommandParameter="{Binding Günler}"
-                            Tag=".csv">
-                            <Image
-                                Width="24"
-                                Height="24"
-                                Source="{Binding Path=Tag, RelativeSource={RelativeSource AncestorType=Button}, Converter={StaticResource RegistryToIconConverter}}" />
+                        <Button Command="{Binding CsvDosyasınaYaz, Mode=OneWay, Source={StaticResource Data}}" CommandParameter="{Binding Günler}" Tag=".csv">
+                            <Image Width="24" Height="24" Source="{Binding Path=Tag, RelativeSource={RelativeSource AncestorType=Button}, Converter={StaticResource RegistryToIconConverter}}" />
                         </Button>
                     </StackPanel>
                 </GroupBox.Header>
-                <ListBox
-                    Background="Transparent"
-                    ItemsSource="{Binding Mode=OneWay, Source={StaticResource Cvs}}"
-                    ScrollViewer.IsDeferredScrollingEnabled="True">
+                <ListBox Background="Transparent" ItemsSource="{Binding Mode=OneWay, Source={StaticResource Cvs}}" ScrollViewer.IsDeferredScrollingEnabled="True">
                     <ListBox.ItemContainerStyle>
                         <Style TargetType="{x:Type ListBoxItem}">
                             <Setter Property="BorderBrush" Value="Blue" />
@@ -402,24 +328,18 @@
                         <DataTemplate>
                             <StackPanel>
                                 <StackPanel Orientation="Horizontal">
-                                    <ContentControl IsTabStop="False" Template="{Binding Mode=OneWay, Source={StaticResource TimePanel}}" />
-                                    <Button
-                                        Width="72"
-                                        Height="96"
-                                        Margin="3,0"
+                                    <Button Width="72" Height="96" RenderOptions.BitmapScalingMode="NearestNeighbor"
+                                        Margin="0,0,3,0"
                                         Command="{Binding DataContext.ResimGör, ElementName=Window}"
-                                        CommandParameter="{Binding Mode=OneWay, XPath=Resim}"
+                                        CommandParameter="{Binding Mode=OneWay}"
                                         Cursor="Hand"
                                         Template="{StaticResource SimpleButtonTemplate}">
                                         <Button.Background>
-                                            <ImageBrush ImageSource="{Binding ConverterParameter=96, Converter={StaticResource Base64ImageConverter}, XPath=Resim}" />
+                                            <ImageBrush  ImageSource="{Binding ConverterParameter=96, Converter={StaticResource Base64ImageConverter}, XPath=Resim}" />
                                         </Button.Background>
                                         <Button.ContextMenu>
                                             <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Mode=Self}}">
-                                                <MenuItem
-                                                    Command="{Binding ResimSakla, Source={StaticResource Data}}"
-                                                    CommandParameter="{Binding Mode=OneWay, XPath=Resim}"
-                                                    Header="SAKLA" />
+                                                <MenuItem Header="SAKLA" Command="{Binding ResimSakla, Source={StaticResource Data}}" CommandParameter="{Binding Mode=OneWay, XPath=Resim}" />
                                             </ContextMenu>
                                         </Button.ContextMenu>
                                         <Button.ToolTip>
@@ -452,24 +372,14 @@
                                             <Run Text="{Binding Converter={StaticResource XmlDateConverter}, StringFormat=\{0:dd/MM/yyyy\}, XPath=Gun}" />
                                         </Hyperlink>
                                         <LineBreak />
-                                        <Run
-                                            FontWeight="Bold"
-                                            Foreground="Green"
-                                            Text="{Binding XPath=Aciklama}"
-                                            ToolTip="{Binding XPath=Aciklama}" />
+                                        <Run Text="{Binding XPath=Aciklama}" Foreground="Green" FontWeight="Bold" ToolTip="{Binding XPath=Aciklama}" />
                                     </TextBlock>
                                 </StackPanel>
-                                <ComboBox
-                                    FontWeight="Normal"
-                                    ItemsSource="{Binding XPath=Dosyalar/Dosya}"
-                                    Style="{StaticResource ComboboxFileStyle}">
+                                <ComboBox ItemsSource="{Binding XPath=Dosyalar/Dosya}" FontWeight="Normal" Style="{StaticResource ComboboxFileStyle}">
                                     <ComboBox.ItemTemplate>
                                         <DataTemplate>
                                             <StackPanel Orientation="Horizontal">
-                                                <Image
-                                                    Width="24"
-                                                    Height="24"
-                                                    Source="{Binding Converter={StaticResource FilePathToIconConverter}, XPath=@Yol}" />
+                                                <Image Width="24" Height="24" Source="{Binding Converter={StaticResource FilePathToIconConverter}, XPath=@Yol}" />
                                                 <TextBlock VerticalAlignment="Center">
                                                     <Hyperlink Command="{Binding DosyaAç, Mode=OneWay, Source={StaticResource Data}}" CommandParameter="{Binding XPath=@Yol}">
                                                         <Run Text="{Binding XPath=@Ad}" />
@@ -494,20 +404,16 @@
                     </ListBox.ItemsPanel>
                 </ListBox>
             </GroupBox>
-            <GroupBox
+            <GroupBox Header="BÜGÜNKÜ LİSTE"
                 Grid.Row="1"
-                Margin="2,0"
-                FontWeight="Bold"
                 Foreground="Red"
-                Header="BÜGÜNKÜ LİSTE">
+                Margin="2,0"
+                FontWeight="Bold">
                 <ListBox Background="Transparent" ItemsSource="{Binding Mode=OneWay, Source={StaticResource FilteredCvs}}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock
-                                    VerticalAlignment="Center"
-                                    FontFamily="Segoe UI Black"
-                                    FontSize="12">
+                                <TextBlock VerticalAlignment="Center" FontSize="12" FontFamily="Segoe UI Black">
                                     <Hyperlink Command="{Binding XmlVeriSil, Mode=OneWay, Source={StaticResource Data}}" CommandParameter="{Binding XPath=@Id}">
                                         <Hyperlink.Inlines>
                                             <Run Text="X" />
@@ -529,11 +435,7 @@
                     </ListBox.ItemsPanel>
                 </ListBox>
             </GroupBox>
-            <UniformGrid
-                Grid.Row="2"
-                Margin="2"
-                Columns="5"
-                Rows="2">
+            <UniformGrid Grid.Row="2" Margin="2" Columns="5" Rows="2">
                 <UniformGrid.Resources>
                     <Style BasedOn="{StaticResource {x:Type ComboBox}}" TargetType="ComboBox">
                         <Setter Property="ItemContainerStyle" Value="{StaticResource ComboBoxItemContainerStyle}" />
@@ -549,44 +451,22 @@
                 <ComboBox SelectedValue="{Binding ResmiTatilRenk, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ToolTip="Resmi Tatil Renk" />
                 <ComboBox SelectedValue="{Binding GövdeRenk, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ToolTip="Gövde Renk" />
                 <ComboBox SelectedValue="{Binding BayramTatilRenk, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ToolTip="Bayram Renk" />
-                <Slider
-                    VerticalAlignment="Center"
-                    AutoToolTipPlacement="TopLeft"
-                    IsSnapToTickEnabled="True"
-                    Maximum="20"
-                    Minimum="1"
-                    ToolTip="KONTROL ARALIĞI DAKİKA OLARAK"
+                <Slider VerticalAlignment="Center"
+                    AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" Maximum="20"
+                    Minimum="1" ToolTip="KONTROL ARALIĞI DAKİKA OLARAK"
                     Value="{Binding KontrolSüresi, Mode=TwoWay, Source={x:Static properties:Settings.Default}}" />
-                <Slider
-                    VerticalAlignment="Center"
-                    AutoToolTipPlacement="TopLeft"
-                    IsSnapToTickEnabled="True"
-                    Maximum="45"
-                    Minimum="5"
-                    ToolTip="EKRANDA GÖRÜNME SÜRESİ SANİYE OLARAK"
+                <Slider VerticalAlignment="Center"
+                    AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" Maximum="45"
+                    Minimum="5" ToolTip="EKRANDA GÖRÜNME SÜRESİ SANİYE OLARAK"
                     Value="{Binding PopupSüresi, Mode=TwoWay, Source={x:Static properties:Settings.Default}}" />
-                <CheckBox
-                    VerticalAlignment="Center"
-                    Content="HS"
-                    IsChecked="{Binding Path=HaftaSonlarıGizle, Mode=TwoWay, Source={x:Static properties:Settings.Default}}"
-                    ToolTip="HAFTA SONLARINI GİZLE" />
-                <Button
-                    Command="{Binding AyarSıfırla, Mode=OneWay}"
-                    Content="R"
-                    ToolTip="AYARLARI SIFIRLA" />
-                <Button
-                    Background="Red"
-                    Command="{Binding EskiVerileriSil, Mode=OneWay}"
-                    Content="SİL"
-                    ToolTip="TÜM ESKİ VERİLERİ SİL" />
+                <CheckBox Content="HS" VerticalAlignment="Center" IsChecked="{Binding Path=HaftaSonlarıGizle, Mode=TwoWay, Source={x:Static properties:Settings.Default}}" ToolTip="HAFTA SONLARINI GİZLE" />
+                <Button Content="R" Command="{Binding AyarSıfırla, Mode=OneWay}" ToolTip="AYARLARI SIFIRLA" />
+                <Button Content="SİL" Background="Red" Command="{Binding EskiVerileriSil, Mode=OneWay}" ToolTip="TÜM ESKİ VERİLERİ SİL" />
             </UniformGrid>
         </Grid>
-        <Button
-            Grid.Row="0"
-            Grid.RowSpan="3"
-            Grid.Column="4"
+        <Button Content="è"
+            Grid.Row="0" Grid.Column="4" Grid.RowSpan="3"
             Command="{Binding Yılİleri}"
-            Content="è"
             FontFamily="Wingdings"
             ToolTip="SONRAKİ YIL" />
     </Grid>

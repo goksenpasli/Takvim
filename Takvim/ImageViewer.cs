@@ -3,6 +3,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Xml;
 
 namespace Takvim
 {
@@ -12,25 +13,24 @@ namespace Takvim
 
         public ImageViewer()
         {
-        }
-
-        public ImageViewer(ImageSource imageSource) : this()
-        {
             Yazdır = new RelayCommand<object>(parameter =>
             {
-                PrintDialog pd = new PrintDialog();
-                DrawingVisual dv = new DrawingVisual();
-                if (pd.ShowDialog() == true)
+                if (parameter is BitmapSource imageSource)
                 {
-                    using (DrawingContext dc = dv.RenderOpen())
+                    PrintDialog pd = new PrintDialog();
+                    DrawingVisual dv = new DrawingVisual();
+                    if (pd.ShowDialog() == true)
                     {
-                        BitmapSource imagesource = imageSource.Width > imageSource.Height
-                            ? TwainControl.Picture.Resize((BitmapSource)imageSource, pd.PrintableAreaHeight, pd.PrintableAreaWidth, 90, 300, 300)
-                            : TwainControl.Picture.Resize((BitmapSource)imageSource, pd.PrintableAreaWidth, pd.PrintableAreaHeight, 0, 300, 300);
-                        imagesource.Freeze();
-                        dc.DrawImage(imagesource, new Rect(0, 0, pd.PrintableAreaWidth, pd.PrintableAreaHeight));
+                        using (DrawingContext dc = dv.RenderOpen())
+                        {
+                            BitmapSource imagesource = imageSource.Width > imageSource.Height
+                                ? TwainControl.Picture.Resize(imageSource, pd.PrintableAreaHeight, pd.PrintableAreaWidth, 90, 300, 300)
+                                : TwainControl.Picture.Resize(imageSource, pd.PrintableAreaWidth, pd.PrintableAreaHeight, 0, 300, 300);
+                            imagesource.Freeze();
+                            dc.DrawImage(imagesource, new Rect(0, 0, pd.PrintableAreaWidth, pd.PrintableAreaHeight));
+                        }
+                        pd.PrintVisual(dv, "");
                     }
-                    pd.PrintVisual(dv, "");
                 }
             }, parameter => true);
         }

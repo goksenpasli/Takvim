@@ -288,6 +288,9 @@
             </Style>
             <DataTemplate x:Key="ListBoxDataTemplate">
                 <Canvas Width="28" Height="28">
+                    <Canvas.InputBindings>
+                        <MouseBinding Command="{Binding VeriEkleEkranı, Mode=OneWay}" MouseAction="LeftClick" />
+                    </Canvas.InputBindings>
                     <TextBlock Canvas.Left="0" Width="28" Height="28" FontSize="10">
                         <Hyperlink Command="{Binding VeriEkleEkranı}">
                             <Hyperlink.Style>

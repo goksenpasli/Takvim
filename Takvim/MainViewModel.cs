@@ -138,7 +138,7 @@ namespace Takvim
             {
                 if (parameter is XmlElement xmlElement)
                 {
-                    using Viewer viewer = new Viewer(xmlElement.InnerText)
+                    using Viewer viewer = new Viewer(xmlElement)
                     {
                         Owner = App.Current.MainWindow
                     };
