@@ -68,6 +68,9 @@ namespace Takvim
         private short sütünSayısı = Properties.Settings.Default.Sütün;
 
         private ObservableCollection<Data> yaklaşanEtkinlikler;
+
+        private bool tümListe;
+
         public MainViewModel()
         {
             System.Windows.Forms.ContextMenu contextmenu = new System.Windows.Forms.ContextMenu();
@@ -191,7 +194,11 @@ namespace Takvim
                 }
             }, parameter => true);
 
-            VeriAra = new RelayCommand<object>(parameter => Cvs.Filter += (s, e) => e.Accepted = (e.Item as XmlNode)?["Aciklama"]?.InnerText.Contains(AramaMetin) == true || (e.Item as XmlNode)?.Attributes.GetNamedItem("Ocr")?.InnerText.Contains(AramaMetin, StringComparison.OrdinalIgnoreCase) == true, parameter => !string.IsNullOrWhiteSpace(AramaMetin));
+            VeriAra = new RelayCommand<object>(parameter =>
+            {
+                TümListe = true;
+                Cvs.Filter += (s, e) => e.Accepted = (e.Item as XmlNode)?["Aciklama"]?.InnerText.Contains(AramaMetin) == true || (e.Item as XmlNode)?.Attributes.GetNamedItem("Ocr")?.InnerText.Contains(AramaMetin, StringComparison.OrdinalIgnoreCase) == true;
+            }, parameter => !string.IsNullOrWhiteSpace(AramaMetin));
 
             PropertyChanged += MainViewModel_PropertyChanged;
 
@@ -222,6 +229,20 @@ namespace Takvim
                 {
                     aramaMetin = value;
                     OnPropertyChanged(nameof(AramaMetin));
+                }
+            }
+        }
+
+        public bool TümListe
+        {
+            get => tümListe;
+
+            set
+            {
+                if (tümListe != value)
+                {
+                    tümListe = value;
+                    OnPropertyChanged(nameof(TümListe));
                 }
             }
         }

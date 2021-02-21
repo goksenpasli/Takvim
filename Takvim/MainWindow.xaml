@@ -263,7 +263,7 @@
             <GroupBox Grid.Row="0" Margin="2">
                 <GroupBox.Header>
                     <StackPanel Orientation="Horizontal">
-                        <CheckBox x:Name="CbGeçmiş" VerticalAlignment="Center" ToolTip="Süresi Geçenleri Göster">
+                        <CheckBox VerticalAlignment="Center" IsChecked="{Binding TümListe}" ToolTip="Süresi Geçenleri Göster">
                             <CheckBox.Content>
                                 <TextBlock Text="TÜM LİSTE" FontWeight="Bold" />
                             </CheckBox.Content>
@@ -281,7 +281,7 @@
                                 <DataTrigger Binding="{Binding XPath=@Onemli}" Value="true">
                                     <Setter Property="Background" Value="Red" />
                                 </DataTrigger>
-                                <DataTrigger Binding="{Binding Path=IsChecked, ElementName=CbGeçmiş}" Value="false">
+                                <DataTrigger Binding="{Binding Path=DataContext.TümListe, ElementName=Window}" Value="false">
                                     <Setter Property="Visibility" Value="{Binding Converter={StaticResource ListBoxDatePassedVisibilityConverter}, Mode=OneWay}" />
                                 </DataTrigger>
                             </Style.Triggers>

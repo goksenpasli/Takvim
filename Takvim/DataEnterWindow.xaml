@@ -113,10 +113,7 @@
                     LargeChange="0.5" Maximum="99" Minimum="0"
                     SmallChange="0.5" TickFrequency="0.5" ToolTip="ETKİNLİK SÜRESİ SAAT"
                     Value="{Binding EtkinlikSüresi, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
-                <local:TimePicker Grid.Row="4" Grid.ColumnSpan="2"
-                    ItemsSource="{Binding Saatler}"
-                    ClearButtonVisible="Visible"
-                    TimeValue="{Binding SaatBaşlangıç, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
+                <local:TimePicker Grid.Row="4" Grid.ColumnSpan="2" ClearButtonVisible="Visible" TimeValue="{Binding SaatBaşlangıç, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
                 <Button Content="RESİM YÜKLE"
                     Grid.Row="5" Grid.ColumnSpan="2"
                     IsEnabled="{Binding GünNotAçıklama, Converter={StaticResource StringNullableToBooleanConverter}}"
@@ -129,12 +126,13 @@
                 </Button>
                 <local:FileSelectorTextBox Grid.Row="6" Grid.ColumnSpan="2" IsEnabled="{Binding GünNotAçıklama, Converter={StaticResource StringNullableToBooleanConverter}}" Dosyalar="{Binding Dosyalar, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
                 <Button Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2"
-                    IsEnabled="{Binding ResimData, Converter={StaticResource NullableToBooleanConverter}, Mode=OneWay}"
                     Command="{Binding OcrUygula}"
                     CommandParameter="{Binding ResimData}">
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="OCR UYGULA" />
-                        <ProgressBar Width="96" IsIndeterminate="{Binding OcrSürüyor}" />
+                        <Grid>
+                            <ProgressBar Width="96" IsIndeterminate="{Binding OcrSürüyor}" />
+                            <TextBlock Text="OCR UYGULA" HorizontalAlignment="Center" />
+                        </Grid>
                         <ContentControl IsEnabled="{Binding OcrMetin, Converter={StaticResource NullableToBooleanConverter}}"
                             Width="16" Height="16"
                             Template="{StaticResource Eye}"
@@ -207,7 +205,7 @@
                                     <StackPanel.DataContext>
                                         <local:Data />
                                     </StackPanel.DataContext>
-                                    <local:TimePicker ItemsSource="{Binding Saatler}" TimeValue="{Binding SaatBaşlangıç, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
+                                    <local:TimePicker TimeValue="{Binding SaatBaşlangıç, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
                                     <local:MaskedTextBox Width="35"
                                         IncludePrompt="False" Mask="00" PromptChar="_"
                                         ValueType="{x:Type system:Double}"

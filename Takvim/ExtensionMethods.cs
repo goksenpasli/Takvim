@@ -14,7 +14,7 @@ namespace Takvim
     {
         private static readonly IntPtr hwnd = Process.GetCurrentProcess().Handle;
 
-        public enum Format
+        internal enum Format
         {
             Tiff,
 
@@ -45,9 +45,10 @@ namespace Takvim
             {
                 try
                 {
-                    System.Drawing.Icon icon = System.Drawing.Icon.ExtractAssociatedIcon(filepath);
+                    using System.Drawing.Icon icon = System.Drawing.Icon.ExtractAssociatedIcon(filepath);
                     BitmapSource bitmapsource = Imaging.CreateBitmapSourceFromHIcon(icon.Handle, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
                     icon.Dispose();
+
                     if (bitmapsource.CanFreeze)
                     {
                         bitmapsource.Freeze();

@@ -61,8 +61,6 @@ namespace Takvim
 
         private int webpQuality = 20;
 
-        private ObservableCollection<string> saatler=new ObservableCollection<string>();
-
         public Data()
         {
             Window verigirişwindow = null;
@@ -171,7 +169,7 @@ namespace Takvim
                     OcrMetin = (parameter as byte[]).WebpDecode().ToTiffJpegByteArray(ExtensionMethods.Format.Jpg).OcrYap();
                     OcrSürüyor = false;
                 }, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default);
-            }, parameter => Environment.OSVersion.Version.Major > 5);
+            }, parameter => parameter is byte[] && !OcrSürüyor && Environment.OSVersion.Version.Major > 5);
 
             DosyaAç = new RelayCommand<object>(parameter =>
             {
@@ -532,27 +530,6 @@ namespace Takvim
                 {
                     webpQuality = value;
                     OnPropertyChanged(nameof(WebpQuality));
-                }
-            }
-        }
-
-        public ObservableCollection<string> Saatler
-        {
-            get
-            {
-                for (DateTime i = DateTime.Today; i < DateTime.Today.AddDays(1); i = i.AddMinutes(30))
-                {
-                    saatler.Add(i.ToShortTimeString());
-                }
-                return saatler;
-            }
-
-            set
-            {
-                if (saatler != value)
-                {
-                    saatler = value;
-                    OnPropertyChanged(nameof(Saatler));
                 }
             }
         }
