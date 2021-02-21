@@ -33,8 +33,6 @@ namespace Takvim
 
         private readonly CollectionViewSource Cvs = (CollectionViewSource)Application.Current.MainWindow.TryFindResource("Cvs");
 
-        private readonly XmlDocument xmldoc;
-
         private DateTime? animasyonTarih;
 
         private string aramaMetin;
@@ -106,11 +104,6 @@ namespace Takvim
 
             xmlDataProvider = (XmlDataProvider)Application.Current.TryFindResource("XmlData");
             xmlDataProvider.Source = new Uri(xmlpath);
-            xmldoc = new XmlDocument();
-            if (File.Exists(xmlpath))
-            {
-                xmldoc.Load(xmlpath);
-            }
 
             TakvimVerileriniOluştur(SeçiliYıl);
 
@@ -474,6 +467,7 @@ namespace Takvim
         }
 
         public ICommand YılaGit { get; }
+
         public ICommand YılGeri { get; }
 
         public ICommand Yılİleri { get; }
@@ -486,7 +480,7 @@ namespace Takvim
 
         private ObservableCollection<Data> AyTakvimVerileriniOluştur(short SeçiliAy)
         {
-            AyGünler = new ObservableCollection<Data>(Günler.Where(z => z.TamTarih.Month == SeçiliAy));
+            AyGünler = new ObservableCollection<Data>(Günler?.Where(z => z.TamTarih.Month == SeçiliAy));
             return AyGünler;
         }
 
@@ -585,33 +579,38 @@ namespace Takvim
 
         private ObservableCollection<Data> TakvimVerileriniOluştur(short SeçiliYıl)
         {
-            XmlNodeList xmlNodeList = xmldoc.SelectNodes("/Veriler/Veri");
-            Günler = new ObservableCollection<Data>();
-            for (int i = 1; i <= 12; i++)
+            
+            XmlNodeList xmlNodeList = xmlDataProvider.Document?.SelectNodes("/Veriler/Veri");
+            if (xmlNodeList != null)
             {
-                for (int j = 1; j <= 31; j++)
+                Günler = new ObservableCollection<Data>();
+                for (int i = 1; i <= 12; i++)
                 {
-                    string tarih = $"{j}.{i}.{SeçiliYıl:0000}";
-                    if (DateTime.TryParse(tarih, out DateTime date))
+                    for (int j = 1; j <= 31; j++)
                     {
-                        Data data = new Data
+                        string tarih = $"{j}.{i}.{SeçiliYıl:0000}";
+                        if (DateTime.TryParse(tarih, out DateTime date))
                         {
-                            GünAdı = date.ToString("ddd"),
-                            Gün = (short)date.Day,
-                            Ay = date.ToString("MMMM"),
-                            Offset = (short)date.DayOfWeek,
-                            TamTarih = date
-                        };
+                            Data data = new Data
+                            {
+                                GünAdı = date.ToString("ddd"),
+                                Gün = (short)date.Day,
+                                Ay = date.ToString("MMMM"),
+                                Offset = (short)date.DayOfWeek,
+                                TamTarih = date
+                            };
 
-                        foreach (XmlNode xn in from XmlNode xn in xmlNodeList where DateTime.Parse(xn["Gun"]?.InnerText) == data.TamTarih select xn)
-                        {
-                            data.Id = Convert.ToInt32(xn.Attributes.GetNamedItem("Id").Value);
+                            foreach (XmlNode xn in from XmlNode xn in xmlNodeList where DateTime.Parse(xn["Gun"]?.InnerText) == data.TamTarih select xn)
+                            {
+                                data.Id = Convert.ToInt32(xn.Attributes.GetNamedItem("Id").Value);
+                            }
+
+                            Günler.Add(data);
                         }
-
-                        Günler.Add(data);
                     }
                 }
             }
+
             return Günler;
         }
 

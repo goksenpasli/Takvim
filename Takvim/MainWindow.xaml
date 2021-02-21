@@ -123,11 +123,11 @@
                                                 </Hyperlink.Style>
                                             </Hyperlink>
                                         </TextBlock>
-                                        <ItemsControl x:Name="List"
-                                            Width="115" Height="115"
+                                        <ListBox x:Name="List"
+                                            Width="105" Height="130"
                                             VerticalAlignment="Center"
                                             ItemsSource="{Binding Converter={StaticResource SelectedDateToDataListConverter}, Mode=OneWay}">
-                                            <ItemsControl.ItemTemplate>
+                                            <ListBox.ItemTemplate>
                                                 <DataTemplate>
                                                     <Expander VerticalAlignment="Center">
                                                         <Expander.Header>
@@ -169,20 +169,13 @@
                                                         </Image>
                                                     </Expander>
                                                 </DataTemplate>
-                                            </ItemsControl.ItemTemplate>
-                                            <ItemsControl.Template>
-                                                <ControlTemplate>
-                                                    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                                                        <ItemsPresenter />
-                                                    </ScrollViewer>
-                                                </ControlTemplate>
-                                            </ItemsControl.Template>
-                                            <ItemsControl.ItemsPanel>
+                                            </ListBox.ItemTemplate>
+                                            <ListBox.ItemsPanel>
                                                 <ItemsPanelTemplate>
                                                     <VirtualizingStackPanel />
                                                 </ItemsPanelTemplate>
-                                            </ItemsControl.ItemsPanel>
-                                        </ItemsControl>
+                                            </ListBox.ItemsPanel>
+                                        </ListBox>
                                     </StackPanel>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
@@ -273,7 +266,7 @@
                         </Button>
                     </StackPanel>
                 </GroupBox.Header>
-                <ListBox Background="Transparent" ItemsSource="{Binding Mode=OneWay, Source={StaticResource Cvs}}">
+                <ListBox Background="Transparent" ItemsSource="{Binding Mode=OneWay, Source={StaticResource Cvs}}" ScrollViewer.IsDeferredScrollingEnabled="True">
                     <ListBox.ItemContainerStyle>
                         <Style TargetType="{x:Type ListBoxItem}">
                             <Setter Property="BorderBrush" Value="Blue" />
@@ -299,7 +292,7 @@
                                         Cursor="Hand"
                                         Template="{StaticResource SimpleButtonTemplate}">
                                         <Button.Background>
-                                            <ImageBrush ImageSource="{Binding ConverterParameter=96, Converter={StaticResource Base64ImageConverter}, FallbackValue={StaticResource EmptyImg}, IsAsync=True, XPath=Resim}" />
+                                            <ImageBrush ImageSource="{Binding ConverterParameter=96, Converter={StaticResource Base64ImageConverter}, XPath=Resim}" />
                                         </Button.Background>
                                         <Button.ContextMenu>
                                             <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Mode=Self}}">
