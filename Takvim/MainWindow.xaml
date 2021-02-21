@@ -121,37 +121,35 @@
                             </ListBox.ItemContainerStyle>
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
+                                    <StackPanel Background="Transparent"  Orientation="Horizontal">
                                         <StackPanel.InputBindings>
                                             <MouseBinding Command="{Binding VeriEkleEkranı, Mode=OneWay}" MouseAction="LeftClick" />
                                         </StackPanel.InputBindings>
                                         <TextBlock Margin="0,0,5,0" VerticalAlignment="Center" FontSize="14">
-                                            <Hyperlink Command="{Binding VeriEkleEkranı}">
-                                                <Run Text="{Binding Gün}" />
-                                                <LineBreak />
-                                                <Run Text="{Binding GünAdı}" />
-                                                <Run DataContext="{Binding Converter={StaticResource DateNoteCountConverter}, Mode=OneWay}" FontSize="8">
-                                                    <Run.Style>
-                                                        <Style TargetType="{x:Type Run}">
-                                                            <Setter Property="Text" Value="{Binding VeriSayısı}" />
-                                                            <Style.Triggers>
-                                                                <DataTrigger Binding="{Binding VeriSayısı}" Value="0">
-                                                                    <Setter Property="Text" Value="" />
-                                                                </DataTrigger>
-                                                            </Style.Triggers>
-                                                        </Style>
-                                                    </Run.Style>
-                                                </Run>
-                                                <Hyperlink.Style>
-                                                    <Style TargetType="Hyperlink">
+                                            <Run Text="{Binding Gün}" />
+                                            <LineBreak />
+                                            <Run Text="{Binding GünAdı}" />
+                                            <Run DataContext="{Binding Converter={StaticResource DateNoteCountConverter}, Mode=OneWay}" FontSize="8">
+                                                <Run.Style>
+                                                    <Style TargetType="{x:Type Run}">
+                                                        <Setter Property="Text" Value="{Binding VeriSayısı}" />
                                                         <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding TamTarih, Converter={StaticResource DatePassedBooleanConverter}}" Value="true">
-                                                                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+                                                            <DataTrigger Binding="{Binding VeriSayısı}" Value="0">
+                                                                <Setter Property="Text" Value="" />
                                                             </DataTrigger>
                                                         </Style.Triggers>
                                                     </Style>
-                                                </Hyperlink.Style>
-                                            </Hyperlink>
+                                                </Run.Style>
+                                            </Run>
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding TamTarih, Converter={StaticResource DatePassedBooleanConverter}}" Value="true">
+                                                            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
                                         </TextBlock>
                                         <ListBox Width="120" Height="130" VerticalAlignment="Center" ItemsSource="{Binding Converter={StaticResource SelectedDateToDataListConverter}, Mode=OneWay}">
                                             <ListBox.ItemTemplate>
@@ -328,14 +326,14 @@
                         <DataTemplate>
                             <StackPanel>
                                 <StackPanel Orientation="Horizontal">
-                                    <Button Width="72" Height="96" RenderOptions.BitmapScalingMode="NearestNeighbor"
+                                    <Button Width="72" Height="96"
                                         Margin="0,0,3,0"
                                         Command="{Binding DataContext.ResimGör, ElementName=Window}"
                                         CommandParameter="{Binding Mode=OneWay}"
-                                        Cursor="Hand"
+                                        Cursor="Hand" RenderOptions.BitmapScalingMode="NearestNeighbor"
                                         Template="{StaticResource SimpleButtonTemplate}">
                                         <Button.Background>
-                                            <ImageBrush  ImageSource="{Binding ConverterParameter=96, Converter={StaticResource Base64ImageConverter}, XPath=Resim}" />
+                                            <ImageBrush ImageSource="{Binding ConverterParameter=96, Converter={StaticResource Base64ImageConverter}, XPath=Resim}" />
                                         </Button.Background>
                                         <Button.ContextMenu>
                                             <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Mode=Self}}">

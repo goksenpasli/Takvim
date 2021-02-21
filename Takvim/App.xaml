@@ -287,50 +287,48 @@
                 </Setter>
             </Style>
             <DataTemplate x:Key="ListBoxDataTemplate">
-                <Canvas Width="28" Height="28">
+                <Canvas Width="28" Height="28" Background="Transparent">
                     <Canvas.InputBindings>
                         <MouseBinding Command="{Binding VeriEkleEkranı, Mode=OneWay}" MouseAction="LeftClick" />
                     </Canvas.InputBindings>
                     <TextBlock Canvas.Left="0" Width="28" Height="28" FontSize="10">
-                        <Hyperlink Command="{Binding VeriEkleEkranı}">
-                            <Hyperlink.Style>
-                                <Style TargetType="Hyperlink">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding TamTarih, Converter={StaticResource DatePassedBooleanConverter}}" Value="true">
+                                        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                        <Run Text="{Binding Gün}" />
+                        <Run DataContext="{Binding Converter={StaticResource DateNoteCountConverter}, Mode=OneWay}" FontSize="8">
+                            <Run.Style>
+                                <Style TargetType="{x:Type Run}">
+                                    <Setter Property="Text" Value="{Binding VeriSayısı}" />
                                     <Style.Triggers>
-                                        <DataTrigger Binding="{Binding TamTarih, Converter={StaticResource DatePassedBooleanConverter}}" Value="true">
-                                            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+                                        <DataTrigger Binding="{Binding VeriSayısı}" Value="0">
+                                            <Setter Property="Text" Value="" />
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
-                            </Hyperlink.Style>
-                            <Run Text="{Binding Gün}" />
-                            <Run DataContext="{Binding Converter={StaticResource DateNoteCountConverter}, Mode=OneWay}" FontSize="8">
-                                <Run.Style>
-                                    <Style TargetType="{x:Type Run}">
-                                        <Setter Property="Text" Value="{Binding VeriSayısı}" />
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding VeriSayısı}" Value="0">
-                                                <Setter Property="Text" Value="" />
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Run.Style>
-                                <Run.ToolTip>
-                                    <ToolTip Template="{StaticResource GreenToolTipControlTemplate}">
-                                        <ListBox ItemsSource="{Binding Converter={StaticResource SelectedDateToDataListConverter}, Mode=OneWay}" ItemContainerStyle="{StaticResource ListBoxToolTipItemContainerStyle}">
-                                            <ListBox.ItemTemplate>
-                                                <DataTemplate>
-                                                    <StackPanel Orientation="Horizontal">
-                                                        <TextBlock Text="{Binding XPath=Aciklama}" />
-                                                    </StackPanel>
-                                                </DataTemplate>
-                                            </ListBox.ItemTemplate>
-                                        </ListBox>
-                                    </ToolTip>
-                                </Run.ToolTip>
-                            </Run>
-                            <LineBreak />
-                            <Run Text="{Binding GünAdı}" />
-                        </Hyperlink>
+                            </Run.Style>
+                            <Run.ToolTip>
+                                <ToolTip Template="{StaticResource GreenToolTipControlTemplate}">
+                                    <ListBox ItemsSource="{Binding Converter={StaticResource SelectedDateToDataListConverter}, Mode=OneWay}" ItemContainerStyle="{StaticResource ListBoxToolTipItemContainerStyle}">
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="{Binding XPath=Aciklama}" />
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                    </ListBox>
+                                </ToolTip>
+                            </Run.ToolTip>
+                        </Run>
+                        <LineBreak />
+                        <Run Text="{Binding GünAdı}" />
                     </TextBlock>
                     <ContentControl Canvas.Top="0" Canvas.Right="0"
                         Width="16" Height="10"
