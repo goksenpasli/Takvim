@@ -45,7 +45,7 @@ namespace Takvim
 
         private string etkinlik;
 
-        private Data görünenEtkinlik;
+        private Data şuankigünData=new Data();
 
         private Brush gövdeRenk = Properties.Settings.Default.GövdeRenk.ConvertToBrush();
 
@@ -194,8 +194,9 @@ namespace Takvim
                 Cvs.Filter += (s, e) => e.Accepted = (e.Item as XmlNode)?["Aciklama"]?.InnerText.Contains(AramaMetin) == true || (e.Item as XmlNode)?.Attributes.GetNamedItem("Ocr")?.InnerText.Contains(AramaMetin, StringComparison.OrdinalIgnoreCase) == true;
             }, parameter => !string.IsNullOrWhiteSpace(AramaMetin));
 
-            PropertyChanged += MainViewModel_PropertyChanged;
+            ŞuAnkiGünData.TamTarih = DateTime.Today;
 
+            PropertyChanged += MainViewModel_PropertyChanged;
             Properties.Settings.Default.PropertyChanged += Properties_PropertyChanged;
         }
 
@@ -308,16 +309,16 @@ namespace Takvim
             }
         }
 
-        public Data GörünenEtkinlik
+        public Data ŞuAnkiGünData
         {
-            get => görünenEtkinlik;
+            get => şuankigünData;
 
             set
             {
-                if (görünenEtkinlik != value)
+                if (şuankigünData != value)
                 {
-                    görünenEtkinlik = value;
-                    OnPropertyChanged(nameof(GörünenEtkinlik));
+                    şuankigünData = value;
+                    OnPropertyChanged(nameof(ŞuAnkiGünData));
                 }
             }
         }
@@ -487,6 +488,7 @@ namespace Takvim
 
         private void MainViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
+
             if (e.PropertyName == "SütünSayısı")
             {
                 if (12 % SütünSayısı == 0)

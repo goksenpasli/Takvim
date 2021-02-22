@@ -204,9 +204,9 @@ namespace Takvim
                 {
                     foreach (XmlNode item in MainViewModel.xmlDataProvider.Document?.SelectNodes("/Veriler/Veri"))
                     {
-                        if (item.Attributes.GetNamedItem("Id").Value == Id.Value)
+                        if (item.Attributes["Id"].InnerText == Id.Value)
                         {
-                            item.ParentNode.RemoveAll();
+                            item.ParentNode.RemoveChild(item);
                         }
                     }
                     MainViewModel.xmlDataProvider.Document.Save(MainViewModel.xmlpath);
