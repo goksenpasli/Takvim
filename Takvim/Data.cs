@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,7 +12,6 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Xml;
-using System.Xml.Linq;
 
 namespace Takvim
 {
@@ -69,47 +67,68 @@ namespace Takvim
             {
                 if (OcrTask?.Status != TaskStatus.Running)
                 {
-                    WriteXmlRootData(MainViewModel.xmlpath);
-                    XDocument xDocument = XDocument.Load(MainViewModel.xmlpath);
-                    XElement parentElement = new XElement("Veri");
-                    parentElement.Add(new XAttribute("Id", new Random().Next(1, int.MaxValue)));
-                    parentElement.Add(new XAttribute("Saat", EtkinlikSüresi));
-                    parentElement.Add(new XAttribute("SaatBaslangic", SaatBaşlangıç));
-                    parentElement.Add(new XAttribute("AyTekrar", AyTekrar.ToString().ToLower()));
+                    XmlDocument document = MainViewModel.xmlDataProvider.Document;
+                    XmlNode rootNode = document.CreateElement("Veri");
+
+                    XmlAttribute Id = document.CreateAttribute("Id");
+                    Id.Value = new Random().Next(1, int.MaxValue).ToString();
+                    XmlAttribute Saat = document.CreateAttribute("Saat");
+                    Saat.Value = EtkinlikSüresi.ToString();
+                    XmlAttribute SaatBaslangic = document.CreateAttribute("SaatBaslangic");
+                    SaatBaslangic.Value = SaatBaşlangıç;
+                    XmlAttribute Tekrar = document.CreateAttribute("AyTekrar");
+                    Tekrar.Value = AyTekrar.ToString().ToLower();
+                    rootNode.Attributes.Append(Id);
+                    rootNode.Attributes.Append(Saat);
+                    rootNode.Attributes.Append(SaatBaslangic);
+                    rootNode.Attributes.Append(Tekrar);
 
                     if (VeriRenk != null)
                     {
-                        parentElement.Add(new XAttribute("Renk", VeriRenk));
+                        XmlAttribute Renk = document.CreateAttribute("Renk");
+                        Renk.Value = VeriRenk.ToString();
+                        rootNode.Attributes.Append(Renk);
                     }
                     if (ÖnemliMi)
                     {
-                        parentElement.Add(new XAttribute("Onemli", ÖnemliMi.ToString().ToLower()));
+                        XmlAttribute Onemli = document.CreateAttribute("Onemli");
+                        Onemli.Value = ÖnemliMi.ToString().ToLower();
+                        rootNode.Attributes.Append(Onemli);
                     }
 
                     if (OcrMetin != null)
                     {
-                        parentElement.Add(new XAttribute("Ocr", OcrMetin));
+                        XmlAttribute Ocr = document.CreateAttribute("Ocr");
+                        Ocr.Value = OcrMetin;
+                        rootNode.Attributes.Append(Ocr);
                     }
 
-                    object[] xmlcontent = new object[3];
-                    xmlcontent[0] = new XElement("Gun", TamTarih);
-                    xmlcontent[1] = new XElement("Aciklama", GünNotAçıklama);
+                    XmlNode Gun = document.CreateElement("Gun");
+                    Gun.InnerText = TamTarih.ToString("o");
+                    rootNode.AppendChild(Gun);
+
+                    XmlNode Aciklama = document.CreateElement("Aciklama");
+                    Aciklama.InnerText = GünNotAçıklama;
+                    rootNode.AppendChild(Aciklama);
+
                     if (ResimData != null && ResimUzantı != null)
                     {
-                        XElement xElement = new XElement("Resim", Convert.ToBase64String(ResimData));
-                        xElement.Add(new XAttribute("Ext", ResimUzantı));
-                        xmlcontent[2] = xElement;
+                        XmlNode Resim = document.CreateElement("Resim");
+                        rootNode.AppendChild(Resim);
+                        XmlAttribute ResimExt = document.CreateAttribute("Ext");
+                        ResimExt.Value = ResimUzantı;
+                        Resim.Attributes.Append(ResimExt);
+                        Resim.InnerText = Convert.ToBase64String(ResimData);
                     }
 
                     if (Dosyalar != null)
                     {
-                        XElement xmlfiles = WriteFileElements(Dosyalar);
-                        parentElement.Add(xmlfiles);
+                        XmlNode xmlnodeDosyalar = document.CreateElement("Dosyalar");
+                        rootNode.AppendChild(xmlnodeDosyalar);
+                        WriteFileListtoXml(document, xmlnodeDosyalar);
                     }
-
-                    parentElement.Add(xmlcontent);
-                    xDocument.Element("Veriler")?.Add(parentElement);
-                    xDocument.Save(MainViewModel.xmlpath);
+                    document.DocumentElement.AppendChild(rootNode);
+                    document.Save(MainViewModel.xmlpath);
                     VeriSayısı++;
                     verigirişwindow?.Close();
                     MainViewModel.xmlDataProvider.Refresh();
@@ -183,9 +202,14 @@ namespace Takvim
             {
                 if (parameter is XmlAttribute Id && MessageBox.Show("Seçili kaydı silmek istiyor musun?", "TAKVİM", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
                 {
-                    XDocument doc = XDocument.Load(MainViewModel.xmlpath);
-                    doc.Root.Elements("Veri").Where(z => z.Attribute("Id").Value == Id.Value).Remove();
-                    doc.Save(MainViewModel.xmlpath);
+                    foreach (XmlNode item in MainViewModel.xmlDataProvider.Document?.SelectNodes("/Veriler/Veri"))
+                    {
+                        if (item.Attributes.GetNamedItem("Id").Value == Id.Value)
+                        {
+                            item.ParentNode.RemoveAll();
+                        }
+                    }
+                    MainViewModel.xmlDataProvider.Document.Save(MainViewModel.xmlpath);
                     MainViewModel.xmlDataProvider.Refresh();
                     CollectionViewSource.GetDefaultView((Application.Current.MainWindow.DataContext as MainViewModel)?.AyGünler).Refresh();
                     VeriSayısı--;
@@ -194,12 +218,12 @@ namespace Takvim
 
             CsvDosyasınaYaz = new RelayCommand<object>(parameter =>
             {
-                XDocument doc = XDocument.Load(MainViewModel.xmlpath);
+                XmlDocument doc = MainViewModel.xmlDataProvider.Document;
                 string dosyaismi = Path.GetTempPath() + Guid.NewGuid() + ".csv";
                 string seperator = new CultureInfo(CultureInfo.CurrentCulture.Name).TextInfo.ListSeparator;
-                foreach (XElement item in doc.Root.Elements("Veri"))
+                foreach (XmlNode item in doc.SelectNodes("//Veriler/Veri"))
                 {
-                    File.AppendAllText(dosyaismi, $"{item.Element("Gun")?.Value}{seperator}{item.Attribute("SaatBaslangic")?.Value}{seperator}{item.Element("Aciklama")?.Value}\n", Encoding.UTF8);
+                    File.AppendAllText(dosyaismi, $"{item["Gun"]?.InnerText}{seperator}{item.Attributes["SaatBaslangic"]?.InnerText}{seperator}{item["Aciklama"]?.InnerText}\n", Encoding.UTF8);
                 }
                 Process.Start(dosyaismi);
             }, parameter => true);
@@ -208,12 +232,9 @@ namespace Takvim
             {
                 if (parameter is XmlAttribute xmlattributeId)
                 {
-                    XDocument doc = XDocument.Load(MainViewModel.xmlpath);
-                    UpdateAttribute(xmlattributeId, "SaatBaslangic", SaatBaşlangıç, doc);
-                    UpdateAttribute(xmlattributeId, "Saat", EtkinlikSüresi.ToString(), doc);
-                    UpdateAttribute(xmlattributeId, "AyTekrar", AyTekrar.ToString().ToLower(), doc);
-                    doc.Save(MainViewModel.xmlpath);
-                    MainViewModel.xmlDataProvider.Refresh();
+                    UpdateAttribute(xmlattributeId, "SaatBaslangic", SaatBaşlangıç);
+                    UpdateAttribute(xmlattributeId, "Saat", EtkinlikSüresi.ToString());
+                    UpdateAttribute(xmlattributeId, "AyTekrar", AyTekrar.ToString().ToLower());
                 }
             }, parameter => DateTime.TryParseExact(SaatBaşlangıç, "H:m", new CultureInfo("tr-TR"), DateTimeStyles.None, out _));
 
@@ -540,41 +561,35 @@ namespace Takvim
 
         public ICommand XmlVeriSil { get; }
 
-        private static void WriteXmlRootData(string xmlfilepath)
+        private void UpdateAttribute(XmlAttribute xmlAttribute, string attributevalue, string updatedattributevalue)
         {
-            if (!Directory.Exists(MainViewModel.xmldatasavefolder))
+            foreach (XmlNode item in MainViewModel.xmlDataProvider.Document?.SelectNodes("/Veriler/Veri"))
             {
-                Directory.CreateDirectory(MainViewModel.xmldatasavefolder);
+                if (item.Attributes.GetNamedItem("Id").Value == xmlAttribute.Value)
+                {
+                    item.Attributes.GetNamedItem(attributevalue).Value = updatedattributevalue;
+                }
             }
-            if (!File.Exists(xmlfilepath))
-            {
-                using XmlWriter writer = XmlWriter.Create(MainViewModel.xmlpath);
-                writer.WriteStartElement("Veriler");
-                writer.WriteEndElement();
-                writer.Flush();
-            }
+            MainViewModel.xmlDataProvider.Document.Save(MainViewModel.xmlpath);
+            MainViewModel.xmlDataProvider.Refresh();
         }
 
-        private XElement UpdateAttribute(XmlAttribute xmlAttribute, string attributevalue, string updatedattributevalue, XDocument doc)
+        private void WriteFileListtoXml(XmlDocument document, XmlNode xmlnodeDosyalar)
         {
-            XElement root = doc.Root.Elements("Veri").FirstOrDefault(z => z.Attribute("Id").Value == xmlAttribute.Value);
-            root.Attribute(attributevalue).Value = updatedattributevalue;
-            return root;
-        }
-
-        private XElement WriteFileElements(ObservableCollection<string> Dosyalar)
-        {
-            XElement xmlfiles = new XElement("Dosyalar");
             foreach (string dosya in Dosyalar)
             {
-                XElement file = new XElement("Dosya");
-                file.Add(new XAttribute("Yol", dosya));
-                file.Add(new XAttribute("Ad", Path.GetFileNameWithoutExtension(dosya)));
-                file.Add(new XAttribute("Ext", Path.GetExtension(dosya)));
-                xmlfiles.Add(file);
+                XmlNode Dosya = document.CreateElement("Dosya");
+                xmlnodeDosyalar.AppendChild(Dosya);
+                XmlAttribute Yol = document.CreateAttribute("Yol");
+                Yol.Value = dosya;
+                XmlAttribute Ext = document.CreateAttribute("Ext");
+                Ext.Value = Path.GetExtension(dosya);
+                XmlAttribute Ad = document.CreateAttribute("Ad");
+                Ad.Value = Path.GetFileNameWithoutExtension(dosya);
+                Dosya.Attributes.Append(Yol);
+                Dosya.Attributes.Append(Ext);
+                Dosya.Attributes.Append(Ad);
             }
-
-            return xmlfiles;
         }
     }
 }

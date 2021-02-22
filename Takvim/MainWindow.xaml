@@ -121,7 +121,7 @@
                             </ListBox.ItemContainerStyle>
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
-                                    <StackPanel Background="Transparent"  Orientation="Horizontal">
+                                    <StackPanel Background="Transparent" Orientation="Horizontal">
                                         <StackPanel.InputBindings>
                                             <MouseBinding Command="{Binding VeriEkleEkranı, Mode=OneWay}" MouseAction="LeftClick" />
                                         </StackPanel.InputBindings>

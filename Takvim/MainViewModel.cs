@@ -102,6 +102,7 @@ namespace Takvim
                  Application.Current.MainWindow.WindowState = AppWindowState;
              };
 
+            WriteXmlRootData(xmlpath);
             xmlDataProvider = (XmlDataProvider)Application.Current.TryFindResource("XmlData");
             xmlDataProvider.Source = new Uri(xmlpath);
 
@@ -638,6 +639,21 @@ namespace Takvim
                 }
             }
             return YaklaşanEtkinlikler;
+        }
+
+        private void WriteXmlRootData(string xmlfilepath)
+        {
+            if (!Directory.Exists(MainViewModel.xmldatasavefolder))
+            {
+                Directory.CreateDirectory(MainViewModel.xmldatasavefolder);
+            }
+            if (!File.Exists(xmlfilepath))
+            {
+                using XmlWriter writer = XmlWriter.Create(MainViewModel.xmlpath);
+                writer.WriteStartElement("Veriler");
+                writer.WriteEndElement();
+                writer.Flush();
+            }
         }
     }
 }
