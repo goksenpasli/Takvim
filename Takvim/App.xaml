@@ -602,9 +602,20 @@
                                         Background="Transparent"
                                         VerticalAlignment="Stretch"
                                         local:MovableControl.MoveData="True">
-                                        <TextBlock Text="B"
-                                            Foreground="Red"
+                                        <TextBlock x:Name="Tb"
+                                            Text="B"
                                             FontSize="18" FontFamily="Wingdings" FontWeight="Bold" />
+                                        <Canvas.Style>
+                                            <Style TargetType="Canvas">
+                                                <Setter Property="TextElement.Foreground" Value="Red" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding XPath=@Kilitli}" Value="true">
+                                                        <Setter Property="IsEnabled" Value="False" />
+                                                        <Setter Property="TextElement.Foreground" Value="Gray" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Canvas.Style>
                                     </Canvas>
                                     <Expander BorderBrush="{Binding Converter={StaticResource StringToBrushConverter}, XPath=@Renk}" BorderThickness="2" VerticalAlignment="Center">
                                         <Expander.Header>

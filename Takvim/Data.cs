@@ -58,6 +58,7 @@ namespace Takvim
         private int veriSayısı;
 
         private int webpQuality = 20;
+        private bool kilitliMi;
 
         public Data()
         {
@@ -94,6 +95,13 @@ namespace Takvim
                         XmlAttribute Onemli = document.CreateAttribute("Onemli");
                         Onemli.Value = ÖnemliMi.ToString().ToLower();
                         rootNode.Attributes.Append(Onemli);
+                    }
+
+                    if (KilitliMi)
+                    {
+                        XmlAttribute Kilitli = document.CreateAttribute("Kilitli");
+                        Kilitli.Value = KilitliMi.ToString().ToLower();
+                        rootNode.Attributes.Append(Kilitli);
                     }
 
                     if (OcrMetin != null)
@@ -448,6 +456,21 @@ namespace Takvim
                 }
             }
         }
+
+        public bool KilitliMi
+        {
+            get => kilitliMi;
+
+            set
+            {
+                if (kilitliMi != value)
+                {
+                    kilitliMi = value;
+                    OnPropertyChanged(nameof(KilitliMi));
+                }
+            }
+        }
+
         public ICommand PencereKapat { get; }
 
         public byte[] ResimData

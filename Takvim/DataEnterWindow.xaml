@@ -97,9 +97,10 @@
                     SmallChange="1" TickFrequency="1"
                     ToolTip="WEBP RESİM YÜKLEME KALİTESİ 1 EN DÜŞÜK BOYUTTUR. DEĞERİ DEĞİŞTİRİP DOSYAYI TEKRAR YÜKLEYİP ÖNİZLEME GÖZÜNDEN BAKIN"
                     Value="{Binding WebpQuality, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                <UniformGrid Grid.Row="2" Grid.ColumnSpan="2" Columns="3" Rows="1">
+                <UniformGrid Grid.Row="2" Grid.ColumnSpan="2" Columns="2" Rows="2">
                     <CheckBox Content="ÖNEMLİ Mİ" Foreground="Red" VerticalAlignment="Center" IsChecked="{Binding ÖnemliMi, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
                     <CheckBox Content="AY TEKRAR" VerticalAlignment="Center" IsChecked="{Binding AyTekrar, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" ToolTip="BU İŞARETLENİRSE HER AYIN AYNI GÜNÜNE İŞARET VERİLİR" />
+                    <CheckBox Content="KİLİTLİ Mİ" VerticalAlignment="Center" IsChecked="{Binding KilitliMi}" ToolTip="BU İŞARETLENİRSE TARİH KİLİTLENİR TAŞIMA YAPILMAZ" />
                     <ComboBox ItemsSource="{Binding Source={StaticResource Renkler}}"
                         ItemContainerStyle="{StaticResource ComboBoxItemContainerStyle}"
                         ItemTemplate="{StaticResource ComboBoxRectItemTemplate}"
