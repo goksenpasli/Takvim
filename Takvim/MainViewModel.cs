@@ -622,8 +622,8 @@ namespace Takvim
                 foreach (XmlNode xmlnode in xmlNodeCollection)
                 {
                     _ = DateTime.TryParseExact(xmlnode.Attributes.GetNamedItem("SaatBaslangic").Value, "H:m", new CultureInfo("tr-TR"), DateTimeStyles.None, out DateTime saat);
-                    bool yaklaşanetkinlik = DateTime.Parse(xmlnode["Gun"]?.InnerText) == DateTime.Today && saat > DateTime.Now && saat.AddHours(-1) < DateTime.Now;
-                    bool tekraretkinlik = DateTime.Today.Day == DateTime.Parse(xmlnode["Gun"]?.InnerText).Day && xmlnode.Attributes.GetNamedItem("AyTekrar")?.Value == "true" && saat > DateTime.Now && saat.AddHours(-1) < DateTime.Now;
+                    bool yaklaşanetkinlik = DateTime.Parse(xmlnode["Gun"]?.InnerText) == DateTime.Today && saat > DateTime.Now && saat.AddHours(-Properties.Settings.Default.UyarıSaatSüresi) < DateTime.Now;
+                    bool tekraretkinlik = DateTime.Today.Day == DateTime.Parse(xmlnode["Gun"]?.InnerText).Day && xmlnode.Attributes.GetNamedItem("AyTekrar")?.Value == "true" && saat > DateTime.Now && saat.AddHours(-Properties.Settings.Default.UyarıSaatSüresi) < DateTime.Now;
                     if (yaklaşanetkinlik || tekraretkinlik)
                     {
                         Data data = new Data
@@ -644,13 +644,13 @@ namespace Takvim
 
         private void WriteXmlRootData(string xmlfilepath)
         {
-            if (!Directory.Exists(MainViewModel.xmldatasavefolder))
+            if (!Directory.Exists(xmldatasavefolder))
             {
-                Directory.CreateDirectory(MainViewModel.xmldatasavefolder);
+                Directory.CreateDirectory(xmldatasavefolder);
             }
             if (!File.Exists(xmlfilepath))
             {
-                using XmlWriter writer = XmlWriter.Create(MainViewModel.xmlpath);
+                using XmlWriter writer = XmlWriter.Create(xmlpath);
                 writer.WriteStartElement("Veriler");
                 writer.WriteEndElement();
                 writer.Flush();

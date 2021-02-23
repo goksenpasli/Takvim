@@ -142,5 +142,17 @@ namespace Takvim.Properties {
                 this["HaftaSonlarıGizle"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int UyarıSaatSüresi {
+            get {
+                return ((int)(this["UyarıSaatSüresi"]));
+            }
+            set {
+                this["UyarıSaatSüresi"] = value;
+            }
+        }
     }
 }

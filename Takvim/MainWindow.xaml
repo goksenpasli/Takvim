@@ -236,53 +236,62 @@
                         <DataTemplate>
                             <StackPanel>
                                 <StackPanel Orientation="Horizontal">
-                                    <Button RenderOptions.BitmapScalingMode="NearestNeighbor" Cursor="Hand" CommandParameter="{Binding Mode=OneWay}" Command="{Binding DataContext.ResimGör, ElementName=Window}" Height="96" Margin="0,0,3,0" Template="{StaticResource SimpleButtonTemplate}" Width="72">
+                                    <Button Width="72" Height="96"
+                                        Margin="0,0,3,0"
+                                        Command="{Binding DataContext.ResimGör, ElementName=Window}"
+                                        CommandParameter="{Binding Mode=OneWay}"
+                                        Cursor="Hand" RenderOptions.BitmapScalingMode="NearestNeighbor"
+                                        Template="{StaticResource SimpleButtonTemplate}">
                                         <Button.Background>
-                                            <ImageBrush ImageSource="{Binding ConverterParameter=96, Converter={StaticResource Base64ImageConverter}, XPath=Resim}"/>
+                                            <ImageBrush ImageSource="{Binding ConverterParameter=96, Converter={StaticResource Base64ImageConverter}, XPath=Resim}" />
                                         </Button.Background>
                                         <Button.ContextMenu>
                                             <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Mode=Self}}">
-                                                <MenuItem CommandParameter="{Binding Mode=OneWay, XPath=Resim}" Command="{Binding ResimSakla, Source={StaticResource Data}}" Header="SAKLA"/>
+                                                <MenuItem Header="SAKLA" Command="{Binding ResimSakla, Source={StaticResource Data}}" CommandParameter="{Binding Mode=OneWay, XPath=Resim}" />
                                             </ContextMenu>
                                         </Button.ContextMenu>
                                         <Button.Style>
                                             <Style TargetType="{x:Type Button}">
                                                 <Style.Triggers>
                                                     <DataTrigger Binding="{Binding XPath=Resim}" Value="{x:Null}">
-                                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                                        <Setter Property="Visibility" Value="Collapsed" />
                                                     </DataTrigger>
                                                 </Style.Triggers>
                                             </Style>
                                         </Button.Style>
                                         <Button.ToolTip>
                                             <ToolTip Template="{StaticResource GreenToolTipControlTemplate}">
-                                                <Image Source="{Binding Converter={StaticResource Base64ImageConverter}, XPath=Resim}"/>
+                                                <Image Source="{Binding Converter={StaticResource Base64ImageConverter}, XPath=Resim}" />
                                             </ToolTip>
                                         </Button.ToolTip>
                                     </Button>
                                     <TextBlock TextWrapping="Wrap">
                                         <TextBlock.Style>
                                             <Style TargetType="{x:Type TextBlock}">
-                                                <Setter Property="Width" Value="70"/>
+                                                <Setter Property="Width" Value="70" />
                                                 <Style.Triggers>
                                                     <DataTrigger Binding="{Binding XPath=Resim}" Value="{x:Null}">
-                                                        <Setter Property="Width" Value="140"/>
+                                                        <Setter Property="Width" Value="140" />
                                                     </DataTrigger>
                                                 </Style.Triggers>
                                             </Style>
-                                        </TextBlock.Style><Hyperlink CommandParameter="{Binding Mode=OneWay, XPath=Gun}" Command="{Binding DataContext.YılaGit, ElementName=Window}"><Run Text="{Binding Converter={StaticResource XmlDateConverter}, StringFormat=\{0:dd/MM/yyyy\}, XPath=Gun}"/></Hyperlink><LineBreak/><Run Foreground="Green" FontWeight="Bold" Text="{Binding XPath=Aciklama}" ToolTip="{Binding XPath=Aciklama}"/></TextBlock>
+                                        </TextBlock.Style><Hyperlink Command="{Binding DataContext.YılaGit, ElementName=Window}" CommandParameter="{Binding Mode=OneWay, XPath=Gun}">
+                                            <Run Text="{Binding Converter={StaticResource XmlDateConverter}, StringFormat=\{0:dd/MM/yyyy\}, XPath=Gun}" />
+                                        </Hyperlink><LineBreak /><Run Text="{Binding XPath=Aciklama}" Foreground="Green" FontWeight="Bold" ToolTip="{Binding XPath=Aciklama}" /></TextBlock>
                                 </StackPanel>
-                                <ComboBox FontWeight="Normal" ItemsSource="{Binding XPath=Dosyalar/Dosya}" Style="{StaticResource ComboboxFileStyle}">
+                                <ComboBox ItemsSource="{Binding XPath=Dosyalar/Dosya}" FontWeight="Normal" Style="{StaticResource ComboboxFileStyle}">
                                     <ComboBox.ItemsPanel>
                                         <ItemsPanelTemplate>
-                                            <VirtualizingStackPanel/>
+                                            <VirtualizingStackPanel />
                                         </ItemsPanelTemplate>
                                     </ComboBox.ItemsPanel>
                                     <ComboBox.ItemTemplate>
                                         <DataTemplate>
                                             <StackPanel Orientation="Horizontal">
-                                                <Image Height="24" Source="{Binding Converter={StaticResource FilePathToIconConverter}, XPath=@Yol}" Width="24"/>
-                                                <TextBlock VerticalAlignment="Center"><Hyperlink CommandParameter="{Binding XPath=@Yol}" Command="{Binding DosyaAç, Mode=OneWay, Source={StaticResource Data}}"><Run Text="{Binding XPath=@Ad}"/></Hyperlink></TextBlock>
+                                                <Image Width="24" Height="24" Source="{Binding Converter={StaticResource FilePathToIconConverter}, XPath=@Yol}" />
+                                                <TextBlock VerticalAlignment="Center"><Hyperlink Command="{Binding DosyaAç, Mode=OneWay, Source={StaticResource Data}}" CommandParameter="{Binding XPath=@Yol}">
+                                                        <Run Text="{Binding XPath=@Ad}" />
+                                                    </Hyperlink></TextBlock>
                                             </StackPanel>
                                         </DataTemplate>
                                     </ComboBox.ItemTemplate>
@@ -310,7 +319,7 @@
                     </ListBox.ItemsPanel>
                 </ListBox>
             </GroupBox>
-            <UniformGrid Grid.Row="1" Margin="2" Columns="5" Rows="2">
+            <UniformGrid Grid.Row="1" Margin="2" Columns="4" Rows="3">
                 <UniformGrid.Resources>
                     <Style BasedOn="{StaticResource {x:Type ComboBox}}" TargetType="ComboBox">
                         <Setter Property="ItemContainerStyle" Value="{StaticResource ComboBoxItemContainerStyle}" />
@@ -327,13 +336,17 @@
                 <ComboBox SelectedValue="{Binding GövdeRenk, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ToolTip="Gövde Renk" />
                 <ComboBox SelectedValue="{Binding BayramTatilRenk, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ToolTip="Bayram Renk" />
                 <Slider VerticalAlignment="Center"
-                    AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" Maximum="20"
-                    Minimum="1" ToolTip="KONTROL ARALIĞI DAKİKA OLARAK"
+                    AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" Maximum="60"
+                    Minimum="1" ToolTip="UYARILARIN KONTROL ARALIĞI DAKİKA OLARAK"
                     Value="{Binding KontrolSüresi, Mode=TwoWay, Source={x:Static properties:Settings.Default}}" />
                 <Slider VerticalAlignment="Center"
-                    AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" Maximum="45"
-                    Minimum="5" ToolTip="EKRANDA GÖRÜNME SÜRESİ SANİYE OLARAK"
+                    AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" Maximum="60"
+                    Minimum="5" ToolTip="UYARILARIN EKRANDA GÖRÜNME SÜRESİ SANİYE OLARAK"
                     Value="{Binding PopupSüresi, Mode=TwoWay, Source={x:Static properties:Settings.Default}}" />
+                <Slider VerticalAlignment="Center"
+                    AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" Maximum="24"
+                    Minimum="1" ToolTip="UYARILER BELİRTİLEN SAAT ÖNCESİNDEN EKRANDA GÖRÜNMEYE BAŞLAR"
+                    Value="{Binding UyarıSaatSüresi, Mode=TwoWay, Source={x:Static properties:Settings.Default}}" />
                 <CheckBox Content="HS" VerticalAlignment="Center" IsChecked="{Binding Path=HaftaSonlarıGizle, Mode=TwoWay, Source={x:Static properties:Settings.Default}}" ToolTip="HAFTA SONLARINI GİZLE" />
                 <Button Content="R" Command="{Binding AyarSıfırla, Mode=OneWay}" ToolTip="AYARLARI SIFIRLA" />
                 <Button Content="SİL" Background="Red" Command="{Binding EskiVerileriSil, Mode=OneWay}" ToolTip="TÜM ESKİ VERİLERİ SİL" />
