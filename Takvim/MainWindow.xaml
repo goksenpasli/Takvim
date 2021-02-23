@@ -127,6 +127,7 @@
                         Grid.Row="0" Grid.Column="0"
                         Command="{Binding AyGeri}"
                         FontFamily="Wingdings"
+                        local:MovableControl.MoveData="True" AllowDrop="True" Tag="AyGeri"
                         ToolTip="ÖNCEKİ AY" />
                     <GroupBox Grid.Column="1" Background="{Binding AyGünler/Ay, Converter={StaticResource ŞuAnkiAyColorConverter}}">
                         <GroupBox.Header>
@@ -144,6 +145,7 @@
                         Grid.Row="0" Grid.Column="2"
                         Command="{Binding Ayİleri}"
                         FontFamily="Wingdings"
+                        local:MovableControl.MoveData="True" AllowDrop="True" Tag="Ayİleri"
                         ToolTip="SONRAKİ AY" />
                 </Grid>
             </TabItem>

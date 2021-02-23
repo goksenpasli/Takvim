@@ -25,6 +25,24 @@ namespace Takvim
             {
                 listBox.Drop += ListBox_Drop;
             }
+            if (d is Button backforwardmonthbutton)
+            {
+                backforwardmonthbutton.DragEnter += Button_DragEnter;
+            }
+        }
+
+        private static void Button_DragEnter(object sender, DragEventArgs e)
+        {
+            var dc = (sender as Button)?.DataContext as MainViewModel;
+            switch ((sender as Button)?.Tag.ToString())
+            {
+                case "Ayİleri":
+                    dc?.Ayİleri.Execute(null);
+                    break;
+                case "AyGeri":
+                    dc?.AyGeri.Execute(null);
+                    break;
+            }
         }
 
         private static void ListBox_Drop(object sender, DragEventArgs e)
