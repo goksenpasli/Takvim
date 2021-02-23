@@ -488,7 +488,6 @@ namespace Takvim
 
         private void MainViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-
             if (e.PropertyName == "SütünSayısı")
             {
                 if (12 % SütünSayısı == 0)

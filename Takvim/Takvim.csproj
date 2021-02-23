@@ -91,6 +91,7 @@
     <Compile Include="Converter\ListBoxDatePassedVisibilityConverter.cs" />
     <Compile Include="MaskedTextBox.cs" />
     <Compile Include="Converter\NullableToBooleanConverter.cs" />
+    <Compile Include="MovableControl.cs" />
     <Compile Include="Ocr.cs" />
     <Compile Include="Converter\RamadanDateToHolidayConverter.cs" />
     <Compile Include="Converter\RamadanDateToVisibilityConverter.cs" />
