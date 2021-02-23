@@ -4,13 +4,13 @@ using System.Windows.Data;
 
 namespace Takvim
 {
-    public class FilePathToIconConverter : IValueConverter
+    public class RegistryToIconConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             try
             {
-                return (value as string).IconCreate();
+                return (value as string).RegistryIconCreate();
             }
             catch (Exception)
             {

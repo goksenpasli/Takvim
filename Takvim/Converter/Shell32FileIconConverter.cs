@@ -1,18 +1,27 @@
 ﻿using System;
 using System.Globalization;
 using System.Windows.Data;
+using System.Windows.Media;
 
 namespace Takvim
 {
-    public class FilePathToIconConverter : IValueConverter
+
+    public class Shell32FileIconConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            try
+            if (parameter is string index)
             {
-                return (value as string).IconCreate();
+                try
+                {
+                    return ExtensionMethods.IconCreate($"{Environment.SystemDirectory}\\Shell32.dll", System.Convert.ToInt32(index));
+                }
+                catch (Exception)
+                {
+                    return null;
+                }
             }
-            catch (Exception)
+            else
             {
                 return null;
             }

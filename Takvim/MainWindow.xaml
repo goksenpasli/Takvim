@@ -15,22 +15,17 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="SliderResource.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            <Style x:Key="ComboboxFileStyle" BasedOn="{StaticResource {x:Type ComboBox}}" TargetType="ComboBox">
-                <Setter Property="BorderBrush" Value="Red" />
-                <Setter Property="BorderThickness" Value="2" />
-                <Style.Triggers>
-                    <DataTrigger Binding="{Binding XPath=Dosyalar/Dosya}" Value="{x:Null}">
-                        <Setter Property="BorderBrush" Value="#FF707070" />
-                    </DataTrigger>
-                </Style.Triggers>
-            </Style>
-
+            <local:Shell32FileIconConverter x:Key="Shell32FileIconConverter" />
             <CollectionViewSource x:Key="Cvs" Source="{StaticResource XmlData}">
                 <CollectionViewSource.SortDescriptions>
                     <scm:SortDescription Direction="Descending" PropertyName="Gun" />
                 </CollectionViewSource.SortDescriptions>
             </CollectionViewSource>
-            <CollectionViewSource x:Key="FilteredCvs" Filter="CollectionViewSource_Filter" Source="{StaticResource XmlData}" />
+            <CollectionViewSource x:Key="FilteredCvs" Filter="CollectionViewSource_Filter" Source="{StaticResource XmlData}">
+                <CollectionViewSource.SortDescriptions>
+                    <scm:SortDescription Direction="Ascending" PropertyName="@SaatBaslangic" />
+                </CollectionViewSource.SortDescriptions>
+            </CollectionViewSource>
             <CollectionViewSource x:Key="Günler" Source="{Binding Günler}">
                 <CollectionViewSource.GroupDescriptions>
                     <PropertyGroupDescription PropertyName="Ay" />
@@ -62,6 +57,15 @@
                     </Image>
                 </UniformGrid>
             </DataTemplate>
+            <Style x:Key="ComboboxFileStyle" BasedOn="{StaticResource {x:Type ComboBox}}" TargetType="{x:Type ComboBox}">
+                <Setter Property="BorderBrush" Value="Red" />
+                <Setter Property="BorderThickness" Value="2" />
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding XPath=Dosyalar/Dosya}" Value="{x:Null}">
+                        <Setter Property="BorderBrush" Value="#FF707070" />
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
         </ResourceDictionary>
     </Window.Resources>
     <Grid>
@@ -75,13 +79,8 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
-            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <ToggleButton Content="B"
-            Grid.Column="1"
-            IsChecked="{Binding BaşlangıçtaÇalışacak}"
-            IsTabStop="False" ToolTip="Başlangıçta Çalıştır." />
-        <Grid Grid.Row="0" Grid.Column="3" Margin="2,2,3,2">
+        <Grid Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="2" Margin="2,2,0,2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition Width="Auto" />
@@ -89,22 +88,16 @@
             <TextBox Text="{Binding AramaMetin, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="0" />
             <Button Content="ARA" Grid.Column="1" Command="{Binding VeriAra, Mode=OneWay}" CommandParameter="{Binding AramaMetin}" />
         </Grid>
+        <ToggleButton Grid.Column="0" IsChecked="{Binding BaşlangıçtaÇalışacak}" IsTabStop="False" ToolTip="Başlangıçta Çalıştır.">
+            <Image Width="16" Height="16" Source="{Binding ConverterParameter=24, Converter={StaticResource Shell32FileIconConverter}}" />
+        </ToggleButton>
         <Button Content="ç"
-            Grid.Row="0" Grid.Column="0" Grid.RowSpan="3"
+            Grid.Row="1" Grid.Column="0" Grid.RowSpan="3"
             Command="{Binding YılGeri}"
             FontFamily="Wingdings"
             ToolTip="ÖNCEKİ YIL" />
-        <Slider Grid.Row="1" Grid.Column="1"
-            IsDirectionReversed="True" IsSnapToTickEnabled="True" IsTabStop="False"
-            Maximum="12" Minimum="1" Orientation="Vertical"
-            Style="{StaticResource SliderStyle}"
-            Value="{Binding SatırSayısı}" />
-        <Button Content="R"
-            Grid.Row="2" Grid.Column="1"
-            Command="{Binding SatırSütünSıfırla, Mode=OneWay}"
-            IsTabStop="False" />
         <TabControl Grid.Row="0" Grid.Column="2" Grid.RowSpan="2">
-            <TabItem Header="GÜN">
+            <TabItem Header="BUGÜN">
                 <ListBox VerticalContentAlignment="Center" ItemsSource="{Binding Mode=OneWay, Source={StaticResource FilteredCvs}}" ItemContainerStyle="{StaticResource GünListBoxItemContainerStyle}" ItemTemplate="{StaticResource ListBoxGunDataTemplate}">
                     <ListBox.InputBindings>
                         <MouseBinding Command="{Binding ŞuAnkiGünData.VeriEkleEkranı, Mode=OneWay}" MouseAction="LeftClick" />
@@ -156,65 +149,84 @@
                         <TextBlock Text="YIL" VerticalAlignment="Center" />
                     </StackPanel>
                 </TabItem.Header>
-                <ListBox ItemsSource="{Binding Mode=OneWay, Source={StaticResource Günler}}" ItemTemplate="{StaticResource ListBoxDataTemplate}">
-                    <ListBox.ItemContainerStyle>
-                        <Style BasedOn="{StaticResource ListBoxItemContainerStyle}" TargetType="{x:Type ListBoxItem}">
-                            <Setter Property="Template" Value="{StaticResource ListBoxItemControlTemplate}" />
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding VeriSayısı, Converter={StaticResource IntBooleanZeroConverter}}" Value="true">
-                                    <DataTrigger.EnterActions>
-                                        <BeginStoryboard x:Name="Sb" Storyboard="{StaticResource TimerColorAnimation}" />
-                                    </DataTrigger.EnterActions>
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding VeriSayısı}" Value="0">
-                                    <DataTrigger.EnterActions>
-                                        <StopStoryboard BeginStoryboardName="Sb" />
-                                    </DataTrigger.EnterActions>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </ListBox.ItemContainerStyle>
-                    <ListBox.GroupStyle>
-                        <GroupStyle>
-                            <GroupStyle.Panel>
-                                <ItemsPanelTemplate>
-                                    <UniformGrid Columns="{Binding SütünSayısı}" Rows="{Binding SatırSayısı}" />
-                                </ItemsPanelTemplate>
-                            </GroupStyle.Panel>
-                            <GroupStyle.ContainerStyle>
-                                <Style TargetType="{x:Type GroupItem}">
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="{x:Type GroupItem}">
-                                                <GroupBox Background="{Binding Name, Converter={StaticResource ŞuAnkiAyColorConverter}}" Margin="1">
-                                                    <GroupBox.Header>
-                                                        <TextBlock Text="{Binding Name, Mode=OneWay}" FontWeight="Bold" TextAlignment="Center" />
-                                                    </GroupBox.Header>
-                                                    <Border Background="{Binding DataContext.GövdeRenk, ElementName=Window}">
-                                                        <ItemsPresenter />
-                                                    </Border>
-                                                </GroupBox>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </GroupStyle.ContainerStyle>
-                        </GroupStyle>
-                    </ListBox.GroupStyle>
-                    <ListBox.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <UniformGrid Columns="7" FirstColumn="{Binding Items/Offset}" />
-                        </ItemsPanelTemplate>
-                    </ListBox.ItemsPanel>
-                </ListBox>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Slider Grid.Row="0" Grid.Column="0"
+                        IsDirectionReversed="True" IsSnapToTickEnabled="True" IsTabStop="False"
+                        Maximum="12" Minimum="1" Orientation="Vertical"
+                        Style="{StaticResource SliderStyle}"
+                        Value="{Binding SatırSayısı}" />
+                    <Button Content="R"
+                        Grid.Row="1" Grid.Column="0"
+                        Command="{Binding SatırSütünSıfırla, Mode=OneWay}"
+                        IsTabStop="False" />
+                    <ListBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Mode=OneWay, Source={StaticResource Günler}}" ItemTemplate="{StaticResource ListBoxDataTemplate}">
+                        <ListBox.ItemContainerStyle>
+                            <Style BasedOn="{StaticResource ListBoxItemContainerStyle}" TargetType="{x:Type ListBoxItem}">
+                                <Setter Property="Template" Value="{StaticResource ListBoxItemControlTemplate}" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding VeriSayısı, Converter={StaticResource IntBooleanZeroConverter}}" Value="true">
+                                        <DataTrigger.EnterActions>
+                                            <BeginStoryboard x:Name="Sb" Storyboard="{StaticResource TimerColorAnimation}" />
+                                        </DataTrigger.EnterActions>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding VeriSayısı}" Value="0">
+                                        <DataTrigger.EnterActions>
+                                            <StopStoryboard BeginStoryboardName="Sb" />
+                                        </DataTrigger.EnterActions>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                        <ListBox.GroupStyle>
+                            <GroupStyle>
+                                <GroupStyle.Panel>
+                                    <ItemsPanelTemplate>
+                                        <UniformGrid Columns="{Binding SütünSayısı}" Rows="{Binding SatırSayısı}" />
+                                    </ItemsPanelTemplate>
+                                </GroupStyle.Panel>
+                                <GroupStyle.ContainerStyle>
+                                    <Style TargetType="{x:Type GroupItem}">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="{x:Type GroupItem}">
+                                                    <GroupBox Background="{Binding Name, Converter={StaticResource ŞuAnkiAyColorConverter}}" Margin="1">
+                                                        <GroupBox.Header>
+                                                            <TextBlock Text="{Binding Name, Mode=OneWay}" FontWeight="Bold" TextAlignment="Center" />
+                                                        </GroupBox.Header>
+                                                        <Border Background="{Binding DataContext.GövdeRenk, ElementName=Window}">
+                                                            <ItemsPresenter />
+                                                        </Border>
+                                                    </GroupBox>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </GroupStyle.ContainerStyle>
+                            </GroupStyle>
+                        </ListBox.GroupStyle>
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <UniformGrid Columns="7" FirstColumn="{Binding Items/Offset}" />
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                    </ListBox>
+                    <Slider Grid.Row="2" Grid.Column="2"
+                        VerticalAlignment="Center"
+                        IsSnapToTickEnabled="True" IsTabStop="False" Maximum="12"
+                        Minimum="1"
+                        Style="{StaticResource SliderStyle}"
+                        Value="{Binding SütünSayısı}" />
+                </Grid>
             </TabItem>
         </TabControl>
-        <Slider Grid.Row="2" Grid.Column="2"
-            VerticalAlignment="Center"
-            IsSnapToTickEnabled="True" IsTabStop="False" Maximum="12"
-            Minimum="1"
-            Style="{StaticResource SliderStyle}"
-            Value="{Binding SütünSayısı}" />
         <Grid Grid.Row="1" Grid.Column="3" Grid.RowSpan="2">
             <Grid.RowDefinitions>
                 <RowDefinition />
@@ -350,12 +362,19 @@
                     Minimum="1" ToolTip="UYARILER BELİRTİLEN SAAT ÖNCESİNDEN EKRANDA GÖRÜNMEYE BAŞLAR"
                     Value="{Binding UyarıSaatSüresi, Mode=TwoWay, Source={x:Static properties:Settings.Default}}" />
                 <CheckBox Content="HS" VerticalAlignment="Center" IsChecked="{Binding Path=HaftaSonlarıGizle, Mode=TwoWay, Source={x:Static properties:Settings.Default}}" ToolTip="HAFTA SONLARINI GİZLE" />
-                <Button Content="R" Command="{Binding AyarSıfırla, Mode=OneWay}" ToolTip="AYARLARI SIFIRLA" />
-                <Button Content="SİL" Background="Red" Command="{Binding EskiVerileriSil, Mode=OneWay}" ToolTip="TÜM ESKİ VERİLERİ SİL" />
+                <Button Command="{Binding AyarSıfırla, Mode=OneWay}" ToolTip="AYARLARI SIFIRLA">
+                    <Image Width="16" Height="16" Source="{Binding ConverterParameter=146, Converter={StaticResource Shell32FileIconConverter}}" />
+                </Button>
+                <Button Command="{Binding EskiVerileriSil, Mode=OneWay}" ToolTip="TÜM ESKİ VERİLERİ SİL">
+                    <Image Width="16" Height="16" Source="{Binding ConverterParameter=131, Converter={StaticResource Shell32FileIconConverter}}" />
+                </Button>
+                <Button Command="{Binding Hakkında, Mode=OneWay}">
+                    <Image Width="16" Height="16" Source="{Binding ConverterParameter=14, Converter={StaticResource Shell32FileIconConverter}}" />
+                </Button>
             </UniformGrid>
         </Grid>
         <Button Content="è"
-            Grid.Row="0" Grid.Column="4" Grid.RowSpan="3"
+            Grid.Row="1" Grid.Column="4" Grid.RowSpan="3"
             Command="{Binding Yılİleri}"
             FontFamily="Wingdings"
             ToolTip="SONRAKİ YIL" />

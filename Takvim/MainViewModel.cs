@@ -12,6 +12,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Xml;
 using System.Xml.Linq;
 
@@ -193,6 +194,8 @@ namespace Takvim
                 TümListe = true;
                 Cvs.Filter += (s, e) => e.Accepted = (e.Item as XmlNode)?["Aciklama"]?.InnerText.Contains(AramaMetin) == true || (e.Item as XmlNode)?.Attributes.GetNamedItem("Ocr")?.InnerText.Contains(AramaMetin, StringComparison.OrdinalIgnoreCase) == true;
             }, parameter => !string.IsNullOrWhiteSpace(AramaMetin));
+                     
+            Hakkında = new RelayCommand<object>(parameter => Process.Start("https://github.com/goksenpasli"), parameter => true);
 
             ŞuAnkiGünData.TamTarih = DateTime.Today;
 
@@ -382,6 +385,8 @@ namespace Takvim
         }
 
         public ICommand SatırSütünSıfırla { get; }
+
+        public ICommand Hakkında { get; }
 
         public short SeçiliAy
         {

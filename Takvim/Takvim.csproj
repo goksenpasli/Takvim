@@ -76,6 +76,8 @@
     <Compile Include="Converter\BrushToColorConverter.cs" />
     <Compile Include="Converter\DateAnimationConverter.cs" />
     <Compile Include="Converter\DatePassedBooleanConverter.cs" />
+    <Compile Include="Converter\RegistryToIconConverter.cs" />
+    <Compile Include="Converter\Shell32FileIconConverter.cs" />
     <Compile Include="Converter\StringNullableToBooleanConverter.cs" />
     <Compile Include="CursorHelper.cs" />
     <Compile Include="FileSelectorTextBox.cs" />
