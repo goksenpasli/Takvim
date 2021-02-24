@@ -95,7 +95,7 @@
             Command="{Binding YılGeri}"
             FontFamily="Wingdings"
             ToolTip="ÖNCEKİ YIL" />
-        <TabControl Grid.Row="0" Grid.Column="2" Grid.RowSpan="2" SelectedIndex="{Binding Path=VarsayılanTakvim, Mode=TwoWay, Source={x:Static properties:Settings.Default}}">
+        <TabControl Grid.Row="0" Grid.Column="2" Grid.RowSpan="2" SelectedIndex="{Binding Path=VarsayılanTakvim, Mode=OneWay, Source={x:Static properties:Settings.Default}}">
             <TabItem Header="BUGÜN">
                 <ListBox VerticalContentAlignment="Center" ItemsSource="{Binding Mode=OneWay, Source={StaticResource FilteredCvs}}" ItemContainerStyle="{StaticResource GünListBoxItemContainerStyle}" ItemTemplate="{StaticResource ListBoxGunDataTemplate}">
                     <ListBox.InputBindings>
