@@ -154,5 +154,17 @@ namespace Takvim.Properties {
                 this["UyarıSaatSüresi"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int VarsayılanTakvim {
+            get {
+                return ((int)(this["VarsayılanTakvim"]));
+            }
+            set {
+                this["VarsayılanTakvim"] = value;
+            }
+        }
     }
 }

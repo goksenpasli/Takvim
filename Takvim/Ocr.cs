@@ -19,12 +19,12 @@ namespace Takvim
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, "EBYS", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    MessageBox.Show(ex.Message, "TAKVİM", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                     return string.Empty;
                 }
             }
 
-            MessageBox.Show("Tesseract Engine Klasörünü Kontrol Edin.", "EBYS", MessageBoxButton.OK, MessageBoxImage.Error);
+            MessageBox.Show("Tesseract Engine Klasörünü Kontrol Edin.", "TAKVİM", MessageBoxButton.OK, MessageBoxImage.Error);
             return string.Empty;
         }
 

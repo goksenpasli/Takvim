@@ -558,7 +558,7 @@ namespace Takvim
 
         private void Properties_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "KontrolSüresi" || e.PropertyName == "PopupSüresi" || e.PropertyName == "HaftaSonlarıGizle" || e.PropertyName == "UyarıSaatSüresi")
+            if (e.PropertyName == "KontrolSüresi" || e.PropertyName == "PopupSüresi" || e.PropertyName == "HaftaSonlarıGizle" || e.PropertyName == "UyarıSaatSüresi" || e.PropertyName == "VarsayılanTakvim")
             {
                 Properties.Settings.Default.Save();
             }
