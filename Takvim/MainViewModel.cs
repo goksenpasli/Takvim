@@ -12,7 +12,6 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Xml;
 using System.Xml.Linq;
 
@@ -46,7 +45,7 @@ namespace Takvim
 
         private string etkinlik;
 
-        private Data şuankigünData=new Data();
+        private Data şuankigünData = new Data();
 
         private Brush gövdeRenk = Properties.Settings.Default.GövdeRenk.ConvertToBrush();
 
@@ -194,7 +193,7 @@ namespace Takvim
                 TümListe = true;
                 Cvs.Filter += (s, e) => e.Accepted = (e.Item as XmlNode)?["Aciklama"]?.InnerText.Contains(AramaMetin) == true || (e.Item as XmlNode)?.Attributes.GetNamedItem("Ocr")?.InnerText.Contains(AramaMetin, StringComparison.OrdinalIgnoreCase) == true;
             }, parameter => !string.IsNullOrWhiteSpace(AramaMetin));
-                     
+
             Hakkında = new RelayCommand<object>(parameter => Process.Start("https://github.com/goksenpasli"), parameter => true);
 
             ŞuAnkiGünData.TamTarih = DateTime.Today;
@@ -559,7 +558,7 @@ namespace Takvim
 
         private void Properties_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "KontrolSüresi" || e.PropertyName == "PopupSüresi" || e.PropertyName == "HaftaSonlarıGizle")
+            if (e.PropertyName == "KontrolSüresi" || e.PropertyName == "PopupSüresi" || e.PropertyName == "HaftaSonlarıGizle" || e.PropertyName == "UyarıSaatSüresi")
             {
                 Properties.Settings.Default.Save();
             }
@@ -627,14 +626,15 @@ namespace Takvim
                 foreach (XmlNode xmlnode in xmlNodeCollection)
                 {
                     _ = DateTime.TryParseExact(xmlnode.Attributes.GetNamedItem("SaatBaslangic").Value, "H:m", new CultureInfo("tr-TR"), DateTimeStyles.None, out DateTime saat);
-                    bool yaklaşanetkinlik = DateTime.Parse(xmlnode["Gun"]?.InnerText) == DateTime.Today && saat > DateTime.Now && saat.AddHours(-Properties.Settings.Default.UyarıSaatSüresi) < DateTime.Now;
-                    bool tekraretkinlik = DateTime.Today.Day == DateTime.Parse(xmlnode["Gun"]?.InnerText).Day && xmlnode.Attributes.GetNamedItem("AyTekrar")?.Value == "true" && saat > DateTime.Now && saat.AddHours(-Properties.Settings.Default.UyarıSaatSüresi) < DateTime.Now;
+                    bool yaklaşanetkinlik = DateTime.Parse(xmlnode["Gun"]?.InnerText) == DateTime.Today && saat > DateTime.Now && saat.AddHours(-Properties.Settings.Default.UyarıSaatSüresi) < DateTime.Now && xmlnode.Attributes.GetNamedItem("Okundu")?.Value != "true";
+                    bool tekraretkinlik = DateTime.Today.Day == DateTime.Parse(xmlnode["Gun"]?.InnerText).Day && xmlnode.Attributes.GetNamedItem("AyTekrar")?.Value == "true" && saat > DateTime.Now && saat.AddHours(-Properties.Settings.Default.UyarıSaatSüresi) < DateTime.Now && xmlnode.Attributes.GetNamedItem("Okundu")?.Value != "true";
                     if (yaklaşanetkinlik || tekraretkinlik)
                     {
                         Data data = new Data
                         {
                             GünNotAçıklama = xmlnode["Aciklama"]?.InnerText,
-                            TamTarih = saat
+                            TamTarih = saat,
+                            Id = Convert.ToInt32(xmlnode.Attributes.GetNamedItem("Id")?.Value)
                         };
                         if (xmlnode["Resim"] != null)
                         {

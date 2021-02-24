@@ -28,6 +28,29 @@
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
+                                <ToggleButton Width="24" Height="24"
+                                    Command="{Binding Okunduİşaretle}"
+                                    CommandParameter="{Binding Id}"
+                                    Cursor="Hand" ToolTip="BİR DAHA GÖSTERME">
+                                    <ToggleButton.Style>
+                                        <Style TargetType="ToggleButton">
+                                            <Setter Property="Content">
+                                                <Setter.Value>
+                                                    <Image Source="{Binding Converter={StaticResource Shell32FileIconConverter}, ConverterParameter=144}" />
+                                                </Setter.Value>
+                                            </Setter>
+                                            <Style.Triggers>
+                                                <Trigger Property="IsChecked" Value="True">
+                                                    <Setter Property="Content">
+                                                        <Setter.Value>
+                                                            <Image Source="{Binding Converter={StaticResource Shell32FileIconConverter}, ConverterParameter=47}" />
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </ToggleButton.Style>
+                                </ToggleButton>
                                 <Image Width="32" Height="32" Source="{Binding ResimData, ConverterParameter=96, Converter={StaticResource WebpByteArrayToImageConverter}}">
                                     <Image.ToolTip>
                                         <ToolTip Template="{StaticResource GreenToolTipControlTemplate}">

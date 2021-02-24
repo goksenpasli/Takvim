@@ -58,6 +58,7 @@ namespace Takvim
         private int veriSayısı;
 
         private int webpQuality = 20;
+
         private bool kilitliMi;
 
         public Data()
@@ -103,6 +104,10 @@ namespace Takvim
                         Kilitli.Value = KilitliMi.ToString().ToLower();
                         rootNode.Attributes.Append(Kilitli);
                     }
+
+                    XmlAttribute Okundu = document.CreateAttribute("Okundu");
+                    Okundu.Value = "false";
+                    rootNode.Attributes.Append(Okundu);
 
                     if (OcrMetin != null)
                     {
@@ -248,6 +253,14 @@ namespace Takvim
 
             Resimİptal = new RelayCommand<object>(parameter => ResimData = null, parameter => ResimData?.Length > 0);
 
+            Okunduİşaretle = new RelayCommand<object>(parameter =>
+            {
+                if (parameter is int id)
+                {
+                    UpdateAttribute(id, "Okundu", "true");
+                }
+            }, parameter => true);
+
             VeriEkleEkranı = new RelayCommand<object>(parameter =>
             {
                 verigirişwindow = new Window
@@ -313,6 +326,8 @@ namespace Takvim
         }
 
         public ICommand CsvDosyasınaYaz { get; }
+
+        public ICommand Okunduİşaretle { get; }
 
         public ICommand DosyaAç { get; }
 
@@ -589,6 +604,19 @@ namespace Takvim
             foreach (XmlNode item in MainViewModel.xmlDataProvider.Document?.SelectNodes("/Veriler/Veri"))
             {
                 if (item.Attributes.GetNamedItem("Id").Value == xmlAttribute.Value)
+                {
+                    item.Attributes.GetNamedItem(attributevalue).Value = updatedattributevalue;
+                }
+            }
+            MainViewModel.xmlDataProvider.Document.Save(MainViewModel.xmlpath);
+            MainViewModel.xmlDataProvider.Refresh();
+        }
+
+        private void UpdateAttribute(int id, string attributevalue, string updatedattributevalue)
+        {
+            foreach (XmlNode item in MainViewModel.xmlDataProvider.Document?.SelectNodes("/Veriler/Veri"))
+            {
+                if (item.Attributes.GetNamedItem("Id").Value == id.ToString())
                 {
                     item.Attributes.GetNamedItem(attributevalue).Value = updatedattributevalue;
                 }

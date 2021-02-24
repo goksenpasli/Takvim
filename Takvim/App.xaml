@@ -11,6 +11,7 @@
                 <ResourceDictionary Source="/Takvim;component/Themes/Generic.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <local:Data x:Key="Data" />
+            <local:Shell32FileIconConverter x:Key="Shell32FileIconConverter" />
             <local:RegistryToIconConverter x:Key="RegistryToIconConverter" />
             <local:FilePathToIconConverter x:Key="FilePathToIconConverter" />
             <local:ŞuAnkiAyColorConverter x:Key="ŞuAnkiAyColorConverter" />
