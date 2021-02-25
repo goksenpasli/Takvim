@@ -212,6 +212,13 @@
                                         ValueType="{x:Type system:Double}"
                                         Value="{Binding EtkinlikSüresi, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                     <CheckBox Content="AY TEKRAR" VerticalAlignment="Center" IsChecked="{Binding AyTekrar}" />
+                                    <ComboBox ItemsSource="{Binding Source={StaticResource Renkler}}"
+                                        ItemContainerStyle="{StaticResource ComboBoxItemContainerStyle}"
+                                        ItemTemplate="{StaticResource ComboBoxRectItemTemplate}"
+                                        ItemsPanel="{StaticResource CbItemsPanelTemplate}"
+                                        ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                                        SelectedValue="{Binding VeriRenk, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
+                                        SelectedValuePath="Name" ToolTip="Veri Renk" />
                                     <Button Content="P"
                                         Command="{Binding XmlVeriGüncelle, Mode=OneWay}"
                                         CommandParameter="{Binding CommandParameter, ElementName=Hyp}"
