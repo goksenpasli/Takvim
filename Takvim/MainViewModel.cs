@@ -198,6 +198,14 @@ namespace Takvim
 
             ŞuAnkiGünData.TamTarih = DateTime.Today;
 
+            VeritabanıAç = new RelayCommand<object>(parameter =>
+            {
+                if (MessageBox.Show("Veritabanı dosyasını düzenlemek istiyor musun? Dikkat yanlış düzenleme programın açılmamasına neden olabilir. Devam edilsin mi?", "TAKVİM", MessageBoxButton.YesNo, MessageBoxImage.Exclamation, MessageBoxResult.No) == MessageBoxResult.Yes)
+                {
+                    Process.Start(xmlpath);
+                }
+            }, parameter => true);
+
             PropertyChanged += MainViewModel_PropertyChanged;
             Properties.Settings.Default.PropertyChanged += Properties_PropertyChanged;
         }
@@ -245,6 +253,8 @@ namespace Takvim
         }
 
         public ICommand AyarSıfırla { get; }
+
+        public ICommand VeritabanıAç { get; }
 
         public ICommand AyGeri { get; }
 

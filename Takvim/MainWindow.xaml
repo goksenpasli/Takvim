@@ -260,7 +260,7 @@
                                         </Button.Background>
                                         <Button.ContextMenu>
                                             <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Mode=Self}}">
-                                                <MenuItem Header="SAKLA" Command="{Binding ResimSakla, Source={StaticResource Data}}" CommandParameter="{Binding Mode=OneWay, XPath=Resim}" />
+                                                <MenuItem Header="SAKLA" Command="{Binding ResimSakla, Source={StaticResource Data}}" CommandParameter="{Binding Mode=OneWay}" />
                                             </ContextMenu>
                                         </Button.ContextMenu>
                                         <Button.Style>
@@ -374,6 +374,9 @@
                 </Button>
                 <Button Command="{Binding EskiVerileriSil, Mode=OneWay}" ToolTip="TÜM ESKİ VERİLERİ SİL">
                     <Image Width="16" Height="16" Source="{Binding ConverterParameter=131, Converter={StaticResource Shell32FileIconConverter}}" />
+                </Button>
+                <Button Command="{Binding VeritabanıAç, Mode=OneWay}" ToolTip="XML VERİTABANINI AÇ">
+                    <Image Width="16" Height="16" Source="{Binding ConverterParameter=72, Converter={StaticResource Shell32FileIconConverter}}" />
                 </Button>
             </UniformGrid>
         </Grid>

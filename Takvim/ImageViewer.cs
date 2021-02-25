@@ -23,6 +23,7 @@ namespace Takvim
 
         public ImageViewer(XmlElement xmldata)
         {
+            Xmldata = xmldata;
             Yazdır = new RelayCommand<object>(parameter =>
             {
                 if (parameter is BitmapSource imageSource)
@@ -107,5 +108,7 @@ namespace Takvim
                 }
             }
         }
+
+        public XmlElement Xmldata { get; set; }
     }
 }

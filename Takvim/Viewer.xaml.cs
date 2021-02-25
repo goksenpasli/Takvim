@@ -26,6 +26,7 @@ namespace Takvim
                 {
                     (DataContext as ImageViewer).Resim = null;
                     (DataContext as ImageViewer).OcrMetin = null;
+                    (DataContext as ImageViewer).Xmldata = null;
                 }
 
                 disposedValue = true;

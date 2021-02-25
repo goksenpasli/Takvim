@@ -171,13 +171,13 @@ namespace Takvim
                     SaveFileDialog saveFileDialog = new SaveFileDialog
                     {
                         Title = "SAKLA",
-                        Filter = "Resim Dosyaları (*.webp)|*.webp)",
+                        Filter = "Resim Dosyaları (*.webp)|*.webp",
                         FileName = xmlElement.PreviousSibling?.InnerText + xmlElement.GetAttribute("Ext")
                     };
 
                     if (saveFileDialog.ShowDialog() == true)
                     {
-                        byte[] bytes = Convert.FromBase64String(xmlElement.InnerText);
+                        byte[] bytes = Convert.FromBase64String(xmlElement["Resim"].InnerText);
                         using FileStream imageFile = new FileStream(saveFileDialog.FileName, FileMode.Create);
                         imageFile.Write(bytes, 0, bytes.Length);
                         imageFile.Flush();
