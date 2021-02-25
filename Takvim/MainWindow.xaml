@@ -47,7 +47,7 @@
                         <Run Text="{Binding XPath=@SaatBaslangic}" FontWeight="Bold" />
                         <Run Text="{Binding XPath=Aciklama}" />
                     </TextBlock>
-                    <Image Width="72" Height="72" HorizontalAlignment="Right" Source="{Binding ConverterParameter=72, Converter={StaticResource Base64ImageConverter}, IsAsync=True, XPath=Resim}">
+                    <Image MaxWidth="72" MaxHeight="72" HorizontalAlignment="Right" Source="{Binding ConverterParameter=72, Converter={StaticResource Base64ImageConverter}, IsAsync=True, XPath=Resim}">
                         <Image.ToolTip>
                             <ToolTip Template="{StaticResource GreenToolTipControlTemplate}">
                                 <Image Source="{Binding Converter={StaticResource Base64ImageConverter}, XPath=Resim}" />

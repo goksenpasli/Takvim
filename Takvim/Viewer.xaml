@@ -25,10 +25,16 @@
         <ToolBar Grid.Row="0" Grid.ColumnSpan="2" ToolBarTray.IsLocked="True">
             <Slider Width="100" Maximum="10" Minimum="0.25" Value="{Binding Zoom}" />
             <Slider Width="100" Maximum="360" Minimum="0" Value="{Binding Angle}" />
-            <Button Content="YAZDIR" Command="{Binding Yazdır}" CommandParameter="{Binding ElementName=Img, Path=Source}" />
+            <Button Content="YAZDIR" Command="{Binding Yazdır}" CommandParameter="{Binding Path=Resim}" />
+            <Button Command="{Binding OcrUygula}">
+                <Grid>
+                    <ProgressBar Width="96" Background="{x:Null}" BorderBrush="{x:Null}" IsIndeterminate="{Binding OcrSürüyor}" />
+                    <TextBlock Text="OCR UYGULA" HorizontalAlignment="Center" />
+                </Grid>
+            </Button>
         </ToolBar>
         <ScrollViewer Grid.Row="1" Grid.Column="0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-            <Image x:Name="Img" RenderOptions.BitmapScalingMode="Fant" RenderTransformOrigin="0.5,0.5">
+            <Image RenderOptions.BitmapScalingMode="Fant" RenderTransformOrigin="0.5,0.5" Source="{Binding Resim}">
                 <Image.LayoutTransform>
                     <TransformGroup ice:Freeze="True">
                         <ScaleTransform ice:Freeze="True" ScaleX="{Binding Zoom}" ScaleY="{Binding Zoom}" />
@@ -37,8 +43,7 @@
                 </Image.LayoutTransform>
             </Image>
         </ScrollViewer>
-        <TextBox x:Name="Tb"
-            Text="{Binding XPath=@Ocr}"
+        <TextBox Text="{Binding Path=OcrMetin}"
             Grid.Row="2" Grid.Column="1"
             Width="200"
             HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
@@ -46,7 +51,7 @@
                 <Style TargetType="TextBox">
                     <Setter Property="Visibility" Value="Visible" />
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding XPath=@Ocr}" Value="{x:Null}">
+                        <DataTrigger Binding="{Binding Path=OcrMetin}" Value="">
                             <Setter Property="Visibility" Value="Collapsed" />
                         </DataTrigger>
                     </Style.Triggers>

@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Globalization;
 using System.Windows;
-using System.Windows.Media.Imaging;
 using System.Xml;
 
 namespace Takvim
@@ -10,17 +8,9 @@ namespace Takvim
     {
         private bool disposedValue;
 
-        public Viewer()
-        {
-            InitializeComponent();
-            DataContext = new ImageViewer();
-        }
+        public Viewer() => InitializeComponent();
 
-        public Viewer(XmlElement xmldata) : this()
-        {
-            Img.Source = (BitmapSource)new Base64ImageConverter().Convert(xmldata["Resim"].InnerText, null, null, CultureInfo.CurrentCulture);
-            Tb.DataContext = xmldata;
-        }
+        public Viewer(XmlElement xmldata) : this() => DataContext = new ImageViewer(xmldata);
 
         public void Dispose()
         {
@@ -34,8 +24,8 @@ namespace Takvim
             {
                 if (disposing)
                 {
-                    Img.Source = null;
-                    Tb.DataContext = null;
+                    (DataContext as ImageViewer).Resim = null;
+                    (DataContext as ImageViewer).OcrMetin = null;
                 }
 
                 disposedValue = true;

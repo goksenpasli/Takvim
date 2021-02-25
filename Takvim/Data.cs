@@ -201,7 +201,7 @@ namespace Takvim
                     OcrMetin = (parameter as byte[]).WebpDecode().ToTiffJpegByteArray(ExtensionMethods.Format.Jpg).OcrYap();
                     OcrSürüyor = false;
                 }, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default);
-            }, parameter => parameter is byte[] && !OcrSürüyor && Environment.OSVersion.Version.Major > 5);
+            }, parameter => parameter is byte[] && !OcrSürüyor && Environment.OSVersion.Version.Major > 5 && Directory.Exists(Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) + @"\tessdata"));
 
             DosyaAç = new RelayCommand<object>(parameter =>
             {

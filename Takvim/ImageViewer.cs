@@ -1,4 +1,10 @@
-﻿using System.Windows;
+﻿using System;
+using System.Diagnostics;
+using System.Globalization;
+using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -7,11 +13,15 @@ using System.Xml;
 
 namespace Takvim
 {
-    public class ImageViewer : InpcBase
+    public class ImageViewer :Data
     {
-        public ICommand Yazdır { get; }
+        private double angle;
 
-        public ImageViewer()
+        private BitmapSource resim;
+
+        private double zoom = 1;
+
+        public ImageViewer(XmlElement xmldata)
         {
             Yazdır = new RelayCommand<object>(parameter =>
             {
@@ -33,11 +43,25 @@ namespace Takvim
                     }
                 }
             }, parameter => true);
+
+            OcrUygula = new RelayCommand<object>(parameter =>
+            {
+                Task.Factory.StartNew(() =>
+                {
+                    OcrSürüyor = true;
+                    OcrMetin = Resim.ToTiffJpegByteArray(ExtensionMethods.Format.Jpg).OcrYap();
+                    OcrSürüyor = false;
+                    Application.Current.Dispatcher.BeginInvoke((Action)(() =>
+                    {
+                        xmldata.SetAttribute("Ocr", OcrMetin);
+                        MainViewModel.xmlDataProvider.Document.Save(MainViewModel.xmlpath);
+                    }));
+                }, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default);
+            }, parameter => Environment.OSVersion.Version.Major > 5 && Directory.Exists(Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) + @"\tessdata"));
+
+            Resim = (BitmapSource)new Base64ImageConverter().Convert(xmldata["Resim"].InnerText, null, null, CultureInfo.CurrentCulture);
+            OcrMetin = xmldata.GetAttribute("Ocr");
         }
-
-        private double angle;
-
-        private double zoom = 1;
 
         public double Angle
         {
@@ -53,6 +77,23 @@ namespace Takvim
             }
         }
 
+        public new ICommand OcrUygula { get; }
+
+        public BitmapSource Resim
+        {
+            get => resim;
+
+            set
+            {
+                if (resim != value)
+                {
+                    resim = value;
+                    OnPropertyChanged(nameof(Resim));
+                }
+            }
+        }
+
+        public ICommand Yazdır { get; }
         public double Zoom
         {
             get => zoom;
