@@ -69,10 +69,7 @@
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="40*" />
-            <ColumnDefinition Width="7*" />
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -87,15 +84,7 @@
             <TextBox Text="{Binding AramaMetin, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="0" />
             <Button Content="ARA" Grid.Column="1" Command="{Binding VeriAra, Mode=OneWay}" CommandParameter="{Binding AramaMetin}" />
         </Grid>
-        <ToggleButton Grid.Column="0" IsChecked="{Binding BaşlangıçtaÇalışacak}" IsTabStop="False" ToolTip="Başlangıçta Çalıştır.">
-            <Image Width="16" Height="16" Source="{Binding ConverterParameter=24, Converter={StaticResource Shell32FileIconConverter}}" />
-        </ToggleButton>
-        <Button Content="ç"
-            Grid.Row="1" Grid.Column="0" Grid.RowSpan="3"
-            Command="{Binding YılGeri}"
-            FontFamily="Wingdings"
-            ToolTip="ÖNCEKİ YIL" />
-        <TabControl Grid.Row="0" Grid.Column="2" Grid.RowSpan="2" SelectedIndex="{Binding Path=VarsayılanTakvim, Mode=OneWay, Source={x:Static properties:Settings.Default}}">
+        <TabControl Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" SelectedIndex="{Binding Path=VarsayılanTakvim, Mode=OneWay, Source={x:Static properties:Settings.Default}}">
             <TabItem Header="BUGÜN">
                 <ListBox VerticalContentAlignment="Center" ItemsSource="{Binding Mode=OneWay, Source={StaticResource FilteredCvs}}" ItemContainerStyle="{StaticResource GünListBoxItemContainerStyle}" ItemTemplate="{StaticResource ListBoxGunDataTemplate}">
                     <ListBox.InputBindings>
@@ -144,7 +133,17 @@
             <TabItem>
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
+                        <Button Content="ç"
+                            Grid.Row="1" Grid.Column="0" Grid.RowSpan="3"
+                            Command="{Binding YılGeri}"
+                            FontFamily="Wingdings"
+                            ToolTip="ÖNCEKİ YIL" />
                         <TextBox Text="{Binding SeçiliYıl, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" HorizontalAlignment="Center" FontWeight="Bold" />
+                        <Button Content="è"
+                            Grid.Row="1" Grid.Column="4" Grid.RowSpan="3"
+                            Command="{Binding Yılİleri}"
+                            FontFamily="Wingdings"
+                            ToolTip="SONRAKİ YIL" />
                         <TextBlock Text="YIL" VerticalAlignment="Center" />
                     </StackPanel>
                 </TabItem.Header>
@@ -169,6 +168,8 @@
                     <ListBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Mode=OneWay, Source={StaticResource Günler}}" ItemTemplate="{StaticResource ListBoxDataTemplate}">
                         <ListBox.ItemContainerStyle>
                             <Style BasedOn="{StaticResource ListBoxItemContainerStyle}" TargetType="{x:Type ListBoxItem}">
+                                <Setter Property="BorderThickness" Value="0.5" />
+                                <Setter Property="BorderBrush" Value="#FF145CD6" />
                                 <Setter Property="Template" Value="{StaticResource ListBoxItemControlTemplate}" />
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding VeriSayısı, Converter={StaticResource IntBooleanZeroConverter}}" Value="true">
@@ -185,30 +186,12 @@
                             </Style>
                         </ListBox.ItemContainerStyle>
                         <ListBox.GroupStyle>
-                            <GroupStyle>
+                            <GroupStyle ContainerStyle="{StaticResource ListBoxYılGroupStyle}">
                                 <GroupStyle.Panel>
                                     <ItemsPanelTemplate>
                                         <UniformGrid Columns="{Binding SütünSayısı}" Rows="{Binding SatırSayısı}" />
                                     </ItemsPanelTemplate>
                                 </GroupStyle.Panel>
-                                <GroupStyle.ContainerStyle>
-                                    <Style TargetType="{x:Type GroupItem}">
-                                        <Setter Property="Template">
-                                            <Setter.Value>
-                                                <ControlTemplate TargetType="{x:Type GroupItem}">
-                                                    <GroupBox Background="{Binding Name, Converter={StaticResource ŞuAnkiAyColorConverter}}" Margin="1">
-                                                        <GroupBox.Header>
-                                                            <TextBlock Text="{Binding Name, Mode=OneWay}" FontWeight="Bold" TextAlignment="Center" />
-                                                        </GroupBox.Header>
-                                                        <Border Background="{Binding DataContext.GövdeRenk, ElementName=Window}">
-                                                            <ItemsPresenter />
-                                                        </Border>
-                                                    </GroupBox>
-                                                </ControlTemplate>
-                                            </Setter.Value>
-                                        </Setter>
-                                    </Style>
-                                </GroupStyle.ContainerStyle>
                             </GroupStyle>
                         </ListBox.GroupStyle>
                         <ListBox.ItemsPanel>
@@ -375,15 +358,14 @@
                 <Button Command="{Binding EskiVerileriSil, Mode=OneWay}" ToolTip="TÜM ESKİ VERİLERİ SİL">
                     <Image Width="16" Height="16" Source="{Binding ConverterParameter=131, Converter={StaticResource Shell32FileIconConverter}}" />
                 </Button>
+                <ToggleButton Grid.Column="0" IsChecked="{Binding BaşlangıçtaÇalışacak}" IsTabStop="False" ToolTip="Başlangıçta Çalıştır.">
+                    <Image Width="16" Height="16" Source="{Binding ConverterParameter=24, Converter={StaticResource Shell32FileIconConverter}}" />
+                </ToggleButton>
                 <Button Command="{Binding VeritabanıAç, Mode=OneWay}" ToolTip="XML VERİTABANINI AÇ">
                     <Image Width="16" Height="16" Source="{Binding ConverterParameter=72, Converter={StaticResource Shell32FileIconConverter}}" />
                 </Button>
             </UniformGrid>
         </Grid>
-        <Button Content="è"
-            Grid.Row="1" Grid.Column="4" Grid.RowSpan="3"
-            Command="{Binding Yılİleri}"
-            FontFamily="Wingdings"
-            ToolTip="SONRAKİ YIL" />
+
     </Grid>
 </Window>

@@ -84,7 +84,7 @@
                     BorderBrush="{TemplateBinding BorderBrush}"
                     BorderThickness="{TemplateBinding BorderThickness}"
                     Padding="{TemplateBinding Padding}"
-                    RenderTransformOrigin="0.5,0.5" SnapsToDevicePixels="True">
+                    CornerRadius="1" RenderTransformOrigin="0.5,0.5" SnapsToDevicePixels="True">
                     <Border.RenderTransform>
                         <TransformGroup>
                             <ScaleTransform />
@@ -297,11 +297,11 @@
                 </Setter>
             </Style>
             <DataTemplate x:Key="ListBoxDataTemplate">
-                <Canvas Width="28" Height="28" Background="Transparent">
+                <Canvas Width="30" Height="30" Background="Transparent">
                     <Canvas.InputBindings>
                         <MouseBinding Command="{Binding VeriEkleEkranı, Mode=OneWay}" MouseAction="LeftClick" />
                     </Canvas.InputBindings>
-                    <TextBlock Canvas.Left="0" Width="28" Height="28" FontSize="10">
+                    <TextBlock Canvas.Left="0" Width="30" Height="30" FontSize="10">
                         <TextBlock.Style>
                             <Style TargetType="TextBlock">
                                 <Style.Triggers>
@@ -339,8 +339,74 @@
                         </Run>
                         <LineBreak />
                         <Run Text="{Binding GünAdı}" />
+                        <Run Foreground="Blue" FontSize="6" FontFamily="Segoe UI Symbol">
+                            <Run.Style>
+                                <Style TargetType="Run">
+                                    <Setter Property="Text" Value="" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Converter={StaticResource BilinenGünlerConverter}, Mode=OneWay}" Value="true">
+                                            <Setter Property="Text" Value="◆" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Run.Style>
+                            <Run.ToolTip>
+                                <ToolTip Template="{StaticResource GreenToolTipControlTemplate}">
+                                    <ListBox ItemsSource="{Binding Günler, Source={StaticResource BilinenGünlerConverter}}" SelectedItem="{Binding Converter={StaticResource BilinenGünlerSeçiliConverter}, Mode=OneWay}">
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock>
+                                                    <TextBlock.Text>
+                                                        <MultiBinding StringFormat="{}{0}/{1}/{2} {3}">
+                                                            <Binding Path="Item2" />
+                                                            <Binding Path="Item1" />
+                                                            <Binding Path="DataContext.SeçiliYıl" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type Window}}" />
+                                                            <Binding Path="Item3" />
+                                                        </MultiBinding>
+                                                    </TextBlock.Text>
+                                                </TextBlock>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                        <ListBox.Style>
+                                            <Style TargetType="ListBox">
+                                                <Style.Resources>
+                                                    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="GreenYellow" />
+                                                    <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="GreenYellow" />
+                                                </Style.Resources>
+                                            </Style>
+                                        </ListBox.Style>
+                                    </ListBox>
+                                </ToolTip>
+                            </Run.ToolTip>
+                        </Run>
+                        <Run Foreground="DarkMagenta" DataContext="{Binding Converter={StaticResource AyTekrarConverter}, Mode=OneWay}" FontSize="6" FontFamily="Segoe UI Symbol">
+                            <Run.Style>
+                                <Style TargetType="Run">
+                                    <Setter Property="Text" Value="" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding AyTekrar, Mode=OneWay}" Value="true">
+                                            <Setter Property="Text" Value="◆" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Run.Style>
+                            <Run.ToolTip>
+                                <ToolTip Template="{StaticResource GreenToolTipControlTemplate}">
+                                    <ListBox ItemsSource="{Binding Converter={StaticResource AyTekrarDataConverter}, Mode=OneWay}">
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock>
+                                                    <Run Text="{Binding GünNotAçıklama}" />
+                                                    <Run Text="{Binding TamTarih, StringFormat=\{0:d\}}" Language="tr-tr" />
+                                                </TextBlock>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                    </ListBox>
+                                </ToolTip>
+                            </Run.ToolTip>
+                        </Run>
                     </TextBlock>
-                    <ContentControl Canvas.Top="0" Canvas.Right="0"
+                    <ContentControl Canvas.Top="0" Canvas.Right="-4"
                         Width="16" Height="10"
                         IsTabStop="False" RenderTransformOrigin="0.5,0.5">
                         <ContentControl.Style>
@@ -354,7 +420,7 @@
                             </Style>
                         </ContentControl.Style>
                     </ContentControl>
-                    <ContentControl Canvas.Right="0" Canvas.Bottom="7"
+                    <ContentControl Canvas.Right="-4" Canvas.Bottom="7"
                         Width="8" Height="10"
                         IsTabStop="False" RenderTransformOrigin="0.5,0.5">
                         <ContentControl.Style>
@@ -377,86 +443,11 @@
                             </Style>
                         </ContentControl.Style>
                     </ContentControl>
-                    <TextBlock Text="s"
-                        Canvas.Right="-3" Canvas.Bottom="-3"
-                        Foreground="DarkMagenta"
-                        DataContext="{Binding Converter={StaticResource AyTekrarConverter}, Mode=OneWay}"
-                        FontFamily="Wingdings">
-                        <TextBlock.Style>
-                            <Style TargetType="TextBlock">
-                                <Setter Property="Visibility" Value="Collapsed" />
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding AyTekrar, Mode=OneWay}" Value="true">
-                                        <Setter Property="Visibility" Value="Visible" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </TextBlock.Style>
-                        <TextBlock.ToolTip>
-                            <ToolTip Template="{StaticResource GreenToolTipControlTemplate}">
-                                <ListBox ItemsSource="{Binding Converter={StaticResource AyTekrarDataConverter}, Mode=OneWay}">
-                                    <ListBox.ItemTemplate>
-                                        <DataTemplate>
-                                            <TextBlock>
-                                                <Run Text="{Binding GünNotAçıklama}" />
-                                                <Run Text="{Binding TamTarih, StringFormat=\{0:d\}}" Language="tr-tr" />
-                                            </TextBlock>
-                                        </DataTemplate>
-                                    </ListBox.ItemTemplate>
-                                </ListBox>
-                            </ToolTip>
-                        </TextBlock.ToolTip>
-                    </TextBlock>
-                    <TextBlock Text="«"
-                        Canvas.Right="0" Canvas.Bottom="0"
-                        Foreground="Blue"
-                        FontSize="8" FontFamily="Wingdings">
-                        <TextBlock.Style>
-                            <Style TargetType="TextBlock">
-                                <Setter Property="Visibility" Value="Collapsed" />
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding Converter={StaticResource BilinenGünlerConverter}, Mode=OneWay}" Value="true">
-                                        <Setter Property="Visibility" Value="Visible" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </TextBlock.Style>
-                        <TextBlock.ToolTip>
-                            <ToolTip Template="{StaticResource GreenToolTipControlTemplate}">
-                                <ListBox ItemsSource="{Binding Günler, Source={StaticResource BilinenGünlerConverter}}" SelectedItem="{Binding Converter={StaticResource BilinenGünlerSeçiliConverter}, Mode=OneWay}">
-                                    <ListBox.ItemTemplate>
-                                        <DataTemplate>
-                                            <TextBlock>
-                                                <TextBlock.Text>
-                                                    <MultiBinding StringFormat="{}{0}/{1}/{2} {3}">
-                                                        <Binding Path="Item2" />
-                                                        <Binding Path="Item1" />
-                                                        <Binding Path="DataContext.SeçiliYıl" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type Window}}" />
-                                                        <Binding Path="Item3" />
-                                                    </MultiBinding>
-                                                </TextBlock.Text>
-                                            </TextBlock>
-                                        </DataTemplate>
-                                    </ListBox.ItemTemplate>
-                                    <ListBox.Style>
-                                        <Style TargetType="ListBox">
-                                            <Style.Resources>
-                                                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="GreenYellow" />
-                                                <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="GreenYellow" />
-                                            </Style.Resources>
-                                        </Style>
-                                    </ListBox.Style>
-                                </ListBox>
-                            </ToolTip>
-                        </TextBlock.ToolTip>
-                    </TextBlock>
                 </Canvas>
             </DataTemplate>
             <Style x:Key="ListBoxItemContainerStyle" TargetType="{x:Type ListBoxItem}">
                 <Setter Property="IsTabStop" Value="False" />
                 <Setter Property="Margin" Value="1" />
-                <Setter Property="BorderThickness" Value="0.5" />
-                <Setter Property="BorderBrush" Value="#FF145CD6" />
                 <Style.Triggers>
                     <DataTrigger Binding="{Binding GünAdı}" Value="Cmt">
                         <Setter Property="Background" Value="{Binding DataContext.SeçiliRenkCmt, ElementName=Window}" />
@@ -609,6 +600,7 @@
                                         <Canvas.Style>
                                             <Style TargetType="Canvas">
                                                 <Setter Property="TextElement.Foreground" Value="Red" />
+                                                <Setter Property="Cursor" Value="SizeAll" />
                                                 <Style.Triggers>
                                                     <DataTrigger Binding="{Binding XPath=@Kilitli}" Value="true">
                                                         <Setter Property="IsEnabled" Value="False" />
@@ -666,6 +658,22 @@
                     </ListBox>
                 </StackPanel>
             </DataTemplate>
+            <Style x:Key="ListBoxYılGroupStyle" TargetType="{x:Type GroupItem}">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type GroupItem}">
+                            <GroupBox Background="{Binding Name, Converter={StaticResource ŞuAnkiAyColorConverter}}" Margin="1">
+                                <GroupBox.Header>
+                                    <TextBlock Text="{Binding Name, Mode=OneWay}" FontWeight="Bold" TextAlignment="Center" />
+                                </GroupBox.Header>
+                                <Border Background="{Binding DataContext.GövdeRenk, ElementName=Window}">
+                                    <ItemsPresenter />
+                                </Border>
+                            </GroupBox>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
