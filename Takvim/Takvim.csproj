@@ -69,6 +69,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ContentToggleButton.cs" />
     <Compile Include="Converter\AyTekrarConverter.cs" />
     <Compile Include="Converter\Base64ImageConverter.cs" />
     <Compile Include="Converter\BilinenGünlerConverter.cs" />

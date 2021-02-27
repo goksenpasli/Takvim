@@ -143,49 +143,12 @@
                 <Button Content="VERİYİ EKLE"
                     Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2"
                     Command="{Binding XmlVeriEkle, Mode=OneWay}" />
-                <ToggleButton x:Name="Tb" Grid.Row="8" Grid.Column="2">
-                    <ToggleButton.Template>
-                        <ControlTemplate TargetType="{x:Type ToggleButton}">
-                            <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
-                                <Grid>
-                                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
-                                        <TextBlock Text="TARAYICI" />
-                                        <Path HorizontalAlignment="Center" VerticalAlignment="Center" Data="M 0 0 L 4 4 L 8 0 Z" RenderTransformOrigin="0.5,0.5">
-                                            <Path.Fill>
-                                                <SolidColorBrush Color="{StaticResource GlyphColor}" />
-                                            </Path.Fill>
-                                            <Path.RenderTransform>
-                                                <TransformGroup>
-                                                    <ScaleTransform />
-                                                    <SkewTransform />
-                                                    <RotateTransform Angle="-90" />
-                                                    <TranslateTransform />
-                                                </TransformGroup>
-                                            </Path.RenderTransform>
-                                        </Path>
-                                    </StackPanel>
-                                    <Popup x:Name="Popup"
-                                        AllowsTransparency="True"
-                                        IsOpen="{Binding IsChecked, ElementName=Tb}"
-                                        Placement="Right"
-                                        PlacementTarget="{Binding ElementName=Tb}"
-                                        PopupAnimation="Slide" StaysOpen="False">
-                                        <Microsoft_Windows_Themes:SystemDropShadowChrome>
-                                            <ScrollViewer Padding="2" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                                                <TwainControl:TwainCtrl Width="540" Height="465" Background="White" PropertyChanged="TwainCtrl_PropertyChanged" />
-                                            </ScrollViewer>
-                                        </Microsoft_Windows_Themes:SystemDropShadowChrome>
-                                    </Popup>
-                                </Grid>
-                            </Border>
-                            <ControlTemplate.Triggers>
-                                <DataTrigger Binding="{Binding IsOpen, Converter={local:BoolInverter}, ElementName=Popup, Mode=OneWay}" Value="true">
-                                    <Setter Property="IsHitTestVisible" Value="true" />
-                                </DataTrigger>
-                            </ControlTemplate.Triggers>
-                        </ControlTemplate>
-                    </ToggleButton.Template>
-                </ToggleButton>
+                <local:ContentToggleButton Grid.Row="8" Grid.Column="2" Template="{StaticResource ToggleButtonControlTemplate}" ToolTip="TARAYICI">
+                    <local:ContentToggleButton.OverContent>
+                        <Image Width="16" Height="16" Source="{Binding ConverterParameter=139, Converter={StaticResource Shell32FileIconConverter}}" />
+                    </local:ContentToggleButton.OverContent>
+                    <TwainControl:TwainCtrl Width="540" Height="465" Background="White" PropertyChanged="TwainCtrl_PropertyChanged" />
+                </local:ContentToggleButton>
                 <ListBox Grid.Column="2" Grid.RowSpan="8" ItemsSource="{Binding Mode=OneWay, Source={StaticResource FilteredCvs}}" ItemContainerStyle="{StaticResource ListBoxToolTipItemContainerStyle}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>

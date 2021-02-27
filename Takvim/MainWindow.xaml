@@ -364,11 +364,14 @@
                 <Button Command="{Binding VeritabanıAç, Mode=OneWay}" ToolTip="XML VERİTABANINI AÇ">
                     <Image Width="16" Height="16" Source="{Binding ConverterParameter=72, Converter={StaticResource Shell32FileIconConverter}}" />
                 </Button>
-                <ToggleButton Template="{StaticResource ToggleButtonControlTemplate}" ToolTip="Ezan Vakitleri">
+                <local:ContentToggleButton Template="{StaticResource ToggleButtonControlTemplate}" ToolTip="Ezan Vakitleri">
+                    <local:ContentToggleButton.OverContent>
+                        <Image Width="16" Height="16" Source="{Binding ConverterParameter=167, Converter={StaticResource Shell32FileIconConverter}}" />
+                    </local:ContentToggleButton.OverContent>
                     <GroupBox Header="EZAN VAKİTLERİ">
                         <local:PrayerTimeControl />
                     </GroupBox>
-                </ToggleButton>
+                </local:ContentToggleButton>
             </UniformGrid>
         </Grid>
 

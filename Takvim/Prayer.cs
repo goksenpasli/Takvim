@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Windows;
 using System.Windows.Data;
 using System.Xml;
 
 namespace Takvim
 {
-
     public class Prayer : InpcBase
     {
         private string akşam;
@@ -170,24 +170,31 @@ namespace Takvim
         {
             if (e.PropertyName == "CityID")
             {
-                XmlDataProvider.Source = new Uri($"https://www.namazvakti.com/XML.php?cityID={CityID}");
-                List = new ObservableCollection<Prayer>();
-                Şehir = XmlDataProvider.Document?.SelectNodes("/cityinfo").Cast<XmlNode>().FirstOrDefault()?.Attributes.GetNamedItem("cityNameTR").Value;
-                string yıl = DateTime.Now.Year.ToString();
-                foreach (XmlNode item in XmlDataProvider.Document?.SelectNodes("/cityinfo/prayertimes"))
+                try
                 {
-                    Prayer data = new Prayer()
+                    XmlDataProvider.Source = new Uri($"https://www.namazvakti.com/XML.php?cityID={CityID}");
+                    List = new ObservableCollection<Prayer>();
+                    Şehir = XmlDataProvider.Document?.SelectNodes("/cityinfo").Cast<XmlNode>().FirstOrDefault()?.Attributes.GetNamedItem("cityNameTR").Value;
+                    string yıl = DateTime.Now.Year.ToString();
+                    foreach (XmlNode item in XmlDataProvider.Document?.SelectNodes("/cityinfo/prayertimes"))
                     {
-                        Tarih = DateTime.Parse(item.Attributes.GetNamedItem("day").Value + "/" + item.Attributes.GetNamedItem("month").Value + "/" + yıl),
-                        Sabah = item.InnerText.Split('\t')[0],
-                        Öğle = item.InnerText.Split('\t')[5],
-                        İkindi = item.InnerText.Split('\t')[6],
-                        Akşam = item.InnerText.Split('\t')[9],
-                        Yatsı = item.InnerText.Split('\t')[11]
-                    };
-                    List.Add(data);
+                        Prayer data = new Prayer()
+                        {
+                            Tarih = DateTime.Parse(item.Attributes.GetNamedItem("day").Value + "/" + item.Attributes.GetNamedItem("month").Value + "/" + yıl),
+                            Sabah = item.InnerText.Split('\t')[0],
+                            Öğle = item.InnerText.Split('\t')[5],
+                            İkindi = item.InnerText.Split('\t')[6],
+                            Akşam = item.InnerText.Split('\t')[9],
+                            Yatsı = item.InnerText.Split('\t')[11]
+                        };
+                        List.Add(data);
+                    }
+                    XmlDataProvider.Source = null;
                 }
-                XmlDataProvider.Source = null;
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "TAKVİM", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
     }
