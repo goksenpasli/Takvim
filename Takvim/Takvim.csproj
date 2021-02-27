@@ -79,6 +79,7 @@
     <Compile Include="Converter\RegistryToIconConverter.cs" />
     <Compile Include="Converter\Shell32FileIconConverter.cs" />
     <Compile Include="Converter\StringNullableToBooleanConverter.cs" />
+    <Compile Include="Converter\XmlIntValueToPlakaConverter.cs" />
     <Compile Include="CursorHelper.cs" />
     <Compile Include="FileSelectorTextBox.cs" />
     <Compile Include="FloatingWindowControl.xaml.cs">
@@ -98,6 +99,10 @@
     <Compile Include="Ocr.cs" />
     <Compile Include="Converter\RamadanDateToHolidayConverter.cs" />
     <Compile Include="Converter\RamadanDateToVisibilityConverter.cs" />
+    <Compile Include="Prayer.cs" />
+    <Compile Include="PrayerTimeControl.xaml.cs">
+      <DependentUpon>PrayerTimeControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="RelayCommand.cs" />
     <Compile Include="Converter\IntBooleanZeroConverter.cs" />
     <Compile Include="Converter\SelectedDateToDataListConverter.cs" />
@@ -135,6 +140,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="PrayerTimeControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SliderResource.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
