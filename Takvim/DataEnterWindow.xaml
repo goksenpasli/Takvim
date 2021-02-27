@@ -143,10 +143,7 @@
                 <Button Content="VERİYİ EKLE"
                     Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2"
                     Command="{Binding XmlVeriEkle, Mode=OneWay}" />
-                <local:ContentToggleButton Grid.Row="8" Grid.Column="2" Template="{StaticResource ToggleButtonControlTemplate}" ToolTip="TARAYICI">
-                    <local:ContentToggleButton.OverContent>
-                        <Image Width="16" Height="16" Source="{Binding ConverterParameter=139, Converter={StaticResource Shell32FileIconConverter}}" />
-                    </local:ContentToggleButton.OverContent>
+                <local:ContentToggleButton Grid.Row="8" Grid.Column="2" OverContent="TARAYICI" >
                     <TwainControl:TwainCtrl Width="540" Height="465" Background="White" PropertyChanged="TwainCtrl_PropertyChanged" />
                 </local:ContentToggleButton>
                 <ListBox Grid.Column="2" Grid.RowSpan="8" ItemsSource="{Binding Mode=OneWay, Source={StaticResource FilteredCvs}}" ItemContainerStyle="{StaticResource ListBoxToolTipItemContainerStyle}">

@@ -271,27 +271,42 @@
                                                     </DataTrigger>
                                                 </Style.Triggers>
                                             </Style>
-                                        </TextBlock.Style><Hyperlink Command="{Binding DataContext.YılaGit, ElementName=Window}" CommandParameter="{Binding Mode=OneWay, XPath=Gun}">
+                                        </TextBlock.Style>
+                                        <Hyperlink Command="{Binding DataContext.YılaGit, ElementName=Window}" CommandParameter="{Binding Mode=OneWay, XPath=Gun}">
                                             <Run Text="{Binding Converter={StaticResource XmlDateConverter}, StringFormat=\{0:dd/MM/yyyy\}, XPath=Gun}" />
-                                        </Hyperlink><LineBreak /><Run Text="{Binding XPath=Aciklama}" Foreground="Green" FontWeight="Bold" ToolTip="{Binding XPath=Aciklama}" /></TextBlock>
+                                        </Hyperlink>
+                                        <LineBreak />
+                                        <Run Text="{Binding XPath=Aciklama}" Foreground="Green" FontWeight="Bold" ToolTip="{Binding XPath=Aciklama}" />
+                                    </TextBlock>
                                 </StackPanel>
-                                <ComboBox ItemsSource="{Binding XPath=Dosyalar/Dosya}" FontWeight="Normal" Style="{StaticResource ComboboxFileStyle}">
-                                    <ComboBox.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <VirtualizingStackPanel />
-                                        </ItemsPanelTemplate>
-                                    </ComboBox.ItemsPanel>
-                                    <ComboBox.ItemTemplate>
-                                        <DataTemplate>
-                                            <StackPanel Orientation="Horizontal">
-                                                <Image Width="24" Height="24" Source="{Binding Converter={StaticResource FilePathToIconConverter}, XPath=@Yol}" />
-                                                <TextBlock VerticalAlignment="Center"><Hyperlink Command="{Binding DosyaAç, Mode=OneWay, Source={StaticResource Data}}" CommandParameter="{Binding XPath=@Yol}">
-                                                        <Run Text="{Binding XPath=@Ad}" />
-                                                    </Hyperlink></TextBlock>
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </ComboBox.ItemTemplate>
-                                </ComboBox>
+                                <local:ContentToggleButton OverContent="DOSYALAR">
+                                    <local:ContentToggleButton.Style>
+                                        <Style BasedOn="{StaticResource {x:Type local:ContentToggleButton}}" TargetType="local:ContentToggleButton">
+                                            <Setter Property="BorderBrush" Value="Red" />
+                                            <Setter Property="BorderThickness" Value="2" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding XPath=Dosyalar/Dosya}" Value="{x:Null}">
+                                                    <Setter Property="BorderBrush" Value="#FF707070" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </local:ContentToggleButton.Style>
+                                    <GroupBox Header="{Binding OverContent, RelativeSource={RelativeSource AncestorType=local:ContentToggleButton}}" Width="200" Height="200">
+                                        <ListBox ItemsSource="{Binding XPath=Dosyalar/Dosya}" FontWeight="Normal">
+                                            <ListBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <Image Width="24" Height="24" Source="{Binding Converter={StaticResource FilePathToIconConverter}, XPath=@Yol}" />
+                                                        <TextBlock VerticalAlignment="Center">
+                                                            <Hyperlink Command="{Binding DosyaAç, Mode=OneWay, Source={StaticResource Data}}" CommandParameter="{Binding XPath=@Yol}">
+                                                                <Run Text="{Binding XPath=@Ad}" />
+                                                            </Hyperlink></TextBlock>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </ListBox.ItemTemplate>
+                                        </ListBox>
+                                    </GroupBox>
+                                </local:ContentToggleButton>
                             </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
@@ -364,7 +379,7 @@
                 <Button Command="{Binding VeritabanıAç, Mode=OneWay}" ToolTip="XML VERİTABANINI AÇ">
                     <Image Width="16" Height="16" Source="{Binding ConverterParameter=72, Converter={StaticResource Shell32FileIconConverter}}" />
                 </Button>
-                <local:ContentToggleButton Template="{StaticResource ToggleButtonControlTemplate}" ToolTip="Ezan Vakitleri">
+                <local:ContentToggleButton ToolTip="Ezan Vakitleri">
                     <local:ContentToggleButton.OverContent>
                         <Image Width="16" Height="16" Source="{Binding ConverterParameter=167, Converter={StaticResource Shell32FileIconConverter}}" />
                     </local:ContentToggleButton.OverContent>

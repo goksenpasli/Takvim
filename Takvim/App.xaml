@@ -2,7 +2,6 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero"
-    xmlns:TwainControl="clr-namespace:TwainControl;assembly=TwainControl"
     xmlns:ice="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
     xmlns:local="clr-namespace:Takvim" xmlns:properties="clr-namespace:Takvim.Properties"
     Exit="Application_Exit" Startup="Application_Startup">
@@ -609,7 +608,11 @@
                                                         CommandParameter="{Binding XPath=@Id}"
                                                         FontSize="12" FontFamily="Segoe UI Black">
                                                         <Run Text="X" />
-                                                    </Hyperlink><Run Text=" " /><Run Text="{Binding XPath=@SaatBaslangic}" /><LineBreak /><Run Text="{Binding XPath=Aciklama}" /></TextBlock>
+                                                    </Hyperlink>
+                                                    <Run Text="{Binding XPath=@SaatBaslangic}" />
+                                                    <LineBreak />
+                                                    <Run Text="{Binding XPath=Aciklama}" />
+                                                </TextBlock>
                                             </StackPanel>
                                         </Expander.Header>
                                         <Image Width="48" Height="48" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="{Binding ConverterParameter=48, Converter={StaticResource Base64ImageConverter}, IsAsync=True, XPath=Resim}">
@@ -651,29 +654,6 @@
                     </Setter.Value>
                 </Setter>
             </Style>
-            <ControlTemplate x:Key="ToggleButtonControlTemplate" TargetType="{x:Type local:ContentToggleButton}">
-                <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
-                    <Grid>
-                        <ContentPresenter Content="{TemplateBinding OverContent}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
-                        <Popup x:Name="Popup"
-                            AllowsTransparency="True"
-                            IsOpen="{Binding IsChecked, RelativeSource={RelativeSource AncestorType=ToggleButton}}"
-                            PlacementTarget="{Binding RelativeSource={RelativeSource AncestorType=ToggleButton}}"
-                            PopupAnimation="Slide" StaysOpen="False">
-                            <Themes:SystemDropShadowChrome>
-                                <ScrollViewer Padding="2" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                                    <ContentPresenter Content="{TemplateBinding Content}" />
-                                </ScrollViewer>
-                            </Themes:SystemDropShadowChrome>
-                        </Popup>
-                    </Grid>
-                </Border>
-                <ControlTemplate.Triggers>
-                    <DataTrigger Binding="{Binding IsOpen, Converter={local:BoolInverter}, ElementName=Popup, Mode=OneWay}" Value="true">
-                        <Setter Property="IsHitTestVisible" Value="true" />
-                    </DataTrigger>
-                </ControlTemplate.Triggers>
-            </ControlTemplate>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

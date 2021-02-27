@@ -12,5 +12,7 @@ namespace Takvim
         }
 
         public static readonly DependencyProperty OverContentProperty = DependencyProperty.Register("OverContent", typeof(object), typeof(ContentToggleButton), new PropertyMetadata(null));
+
+        public override string ToString() => OverContent.ToString();
     }
 }
