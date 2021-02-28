@@ -14,6 +14,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Xml;
 using System.Xml.Linq;
+using Winforms = System.Windows.Forms;
 
 namespace Takvim
 {
@@ -23,7 +24,7 @@ namespace Takvim
 
         public static readonly string xmlpath = Path.GetDirectoryName(ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.PerUserRoamingAndLocal).FilePath) + @"\Data.xml";
 
-        public static System.Windows.Forms.NotifyIcon AppNotifyIcon;
+        public static Winforms.NotifyIcon AppNotifyIcon;
 
         public static WindowState AppWindowState = WindowState.Maximized;
 
@@ -71,14 +72,14 @@ namespace Takvim
 
         public MainViewModel()
         {
-            System.Windows.Forms.ContextMenu contextmenu = new System.Windows.Forms.ContextMenu();
-            System.Windows.Forms.MenuItem menuitem = new System.Windows.Forms.MenuItem
+            Winforms.ContextMenu contextmenu = new Winforms.ContextMenu();
+            Winforms.MenuItem menuitem = new Winforms.MenuItem
             {
                 Index = 0,
                 Text = "VERİ EKLE"
             };
             contextmenu.MenuItems.Add(menuitem);
-            AppNotifyIcon = new System.Windows.Forms.NotifyIcon
+            AppNotifyIcon = new Winforms.NotifyIcon
             {
                 BalloonTipText = "Uygulama Sistem Tepsisine Gönderildi.",
                 BalloonTipTitle = "TAKVİM",

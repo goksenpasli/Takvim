@@ -632,7 +632,7 @@
                                             </Image.Style>
                                             <Image.ToolTip>
                                                 <ToolTip Template="{StaticResource GreenToolTipControlTemplate}">
-                                                    <Image Source="{Binding Converter={StaticResource Base64ImageConverter}, XPath=Resim}" />
+                                                    <Image Source="{Binding Converter={StaticResource Base64ImageConverter}, ConverterParameter=600, XPath=Resim}" />
                                                 </ToolTip>
                                             </Image.ToolTip>
                                         </Image>

@@ -84,7 +84,7 @@
                         <ContentControl.ToolTip>
                             <ToolTip Template="{StaticResource GreenToolTipControlTemplate}">
                                 <Grid>
-                                    <Image Source="{Binding ResimData, Converter={StaticResource WebpByteArrayToImageConverter}, Mode=OneWay}" />
+                                    <Image Source="{Binding ResimData, Converter={StaticResource WebpByteArrayToImageConverter}, ConverterParameter=600, Mode=OneWay}" />
                                     <Viewbox Width="200" Height="200">
                                         <TextBlock Text="{Binding Boyut, StringFormat=\{0\} KB}" Foreground="Red" />
                                     </Viewbox>
