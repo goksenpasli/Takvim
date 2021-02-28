@@ -15,8 +15,7 @@
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="5*" />
-            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -33,6 +32,18 @@
                     <TextBlock Text="OCR UYGULA" HorizontalAlignment="Center" />
                 </Grid>
             </Button>
+            <local:ContentToggleButton Background="{x:Null}" BorderBrush="{x:Null}">
+                <local:ContentToggleButton.OverContent>
+                    <Image Width="16" Height="16" Source="{Binding ConverterParameter=70, Converter={StaticResource Shell32FileIconConverter}}" />
+                </local:ContentToggleButton.OverContent>
+                <GroupBox Header="OCR">
+                    <TextBox Text="{Binding Path=OcrMetin}"
+                        Grid.Row="2" Grid.Column="1"
+                        IsReadOnly="True"
+                        Width="300" Height="300"
+                        HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" />
+                </GroupBox>
+            </local:ContentToggleButton>
         </ToolBar>
         <ScrollViewer Grid.Row="1" Grid.Column="0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
             <Image RenderOptions.BitmapScalingMode="Fant" RenderTransformOrigin="0.5,0.5" Source="{Binding Resim}">
@@ -44,20 +55,5 @@
                 </Image.LayoutTransform>
             </Image>
         </ScrollViewer>
-        <TextBox Text="{Binding Path=OcrMetin}"
-            Grid.Row="2" Grid.Column="1"
-            Width="200"
-            HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-            <TextBox.Style>
-                <Style TargetType="TextBox">
-                    <Setter Property="Visibility" Value="Visible" />
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding Path=OcrMetin}" Value="">
-                            <Setter Property="Visibility" Value="Collapsed" />
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </TextBox.Style>
-        </TextBox>
     </Grid>
 </Window>

@@ -309,7 +309,8 @@
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
-                        </TextBlock.Style><Run Text="{Binding Gün}" /><Run Text=" " /><Run DataContext="{Binding Converter={StaticResource DateNoteCountConverter}, Mode=OneWay}" FontSize="8">
+                        </TextBlock.Style><Run Text="{Binding Gün}" />
+                        <Run DataContext="{Binding Converter={StaticResource DateNoteCountConverter}, Mode=OneWay}" FontSize="8">
                             <Run.Style>
                                 <Style TargetType="{x:Type Run}">
                                     <Setter Property="Text" Value="{Binding VeriSayısı}" />
@@ -331,7 +332,8 @@
                                     </ListBox>
                                 </ToolTip>
                             </Run.ToolTip>
-                        </Run><LineBreak /><Run Text="{Binding GünAdı}" /><Run Text=" " /><Run Foreground="Blue" FontSize="6" FontFamily="Segoe UI Symbol">
+                        </Run><LineBreak /><Run Text="{Binding GünAdı}" />
+                        <Run Foreground="Blue" FontSize="6" FontFamily="Segoe UI Symbol">
                             <Run.Style>
                                 <Style TargetType="{x:Type Run}">
                                     <Setter Property="Text" Value="" />
@@ -386,7 +388,10 @@
                                     <ListBox ItemsSource="{Binding Converter={StaticResource AyTekrarDataConverter}, Mode=OneWay}">
                                         <ListBox.ItemTemplate>
                                             <DataTemplate>
-                                                <TextBlock><Run Text="{Binding GünNotAçıklama}" /><Run Text=" " /><Run Text="{Binding TamTarih, StringFormat=\{0:d\}}" Language="tr-tr" /></TextBlock>
+                                                <TextBlock>
+                                                <Run Text="{Binding GünNotAçıklama}" />
+                                                <Run Text="{Binding TamTarih, StringFormat=\{0:d\}}" Language="tr-tr" />
+                                                </TextBlock>
                                             </DataTemplate>
                                         </ListBox.ItemTemplate>
                                     </ListBox>
@@ -615,7 +620,7 @@
                                                 </TextBlock>
                                             </StackPanel>
                                         </Expander.Header>
-                                        <Image Width="48" Height="48" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="{Binding ConverterParameter=48, Converter={StaticResource Base64ImageConverter}, IsAsync=True, XPath=Resim}">
+                                        <Image Width="48" Height="48" Source="{Binding ConverterParameter=48, Converter={StaticResource Base64ImageConverter}, IsAsync=True, XPath=Resim}">
                                             <Image.Style>
                                                 <Style TargetType="{x:Type Image}">
                                                     <Style.Triggers>

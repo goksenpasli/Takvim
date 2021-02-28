@@ -468,6 +468,7 @@ namespace Takvim
         }
 
         public ICommand VeriAra { get; }
+
         public ObservableCollection<Data> YaklaşanEtkinlikler
         {
             get => yaklaşanEtkinlikler;
@@ -550,6 +551,7 @@ namespace Takvim
 
             if (e.PropertyName == "AramaMetin" && string.IsNullOrWhiteSpace(AramaMetin))
             {
+                TümListe = false;
                 Cvs.View.Filter = null;
             }
 
@@ -568,7 +570,7 @@ namespace Takvim
 
         private void Properties_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "KontrolSüresi" || e.PropertyName == "PopupSüresi" || e.PropertyName == "HaftaSonlarıGizle" || e.PropertyName == "UyarıSaatSüresi" || e.PropertyName == "VarsayılanTakvim")
+            if (e.PropertyName == "KontrolSüresi" || e.PropertyName == "PopupSüresi" || e.PropertyName == "HaftaSonlarıGizle" || e.PropertyName == "UyarıSaatSüresi" || e.PropertyName == "VarsayılanTakvim" || e.PropertyName == "AyarlarGörünür")
             {
                 Properties.Settings.Default.Save();
             }

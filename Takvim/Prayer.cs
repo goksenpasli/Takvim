@@ -181,7 +181,7 @@ namespace Takvim
                         Prayer data = new Prayer()
                         {
                             Tarih = DateTime.Parse(item.Attributes.GetNamedItem("day").Value + "/" + item.Attributes.GetNamedItem("month").Value + "/" + yıl),
-                            Sabah = item.InnerText.Split('\t')[0],
+                            Sabah = item.InnerText.Split('\t')[2],
                             Öğle = item.InnerText.Split('\t')[5],
                             İkindi = item.InnerText.Split('\t')[6],
                             Akşam = item.InnerText.Split('\t')[9],

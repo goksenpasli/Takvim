@@ -31,8 +31,12 @@
                 </CollectionViewSource.GroupDescriptions>
             </CollectionViewSource>
             <DataTemplate x:Key="ListBoxGunDataTemplate">
-                <UniformGrid Columns="2" Rows="1">
-                    <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="20">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="20">
                         <TextBlock.Style>
                             <Style TargetType="{x:Type TextBlock}">
                                 <Style.Triggers>
@@ -47,14 +51,14 @@
                         <Run Text="{Binding XPath=@SaatBaslangic}" FontWeight="Bold" />
                         <Run Text="{Binding XPath=Aciklama}" />
                     </TextBlock>
-                    <Image MaxWidth="72" MaxHeight="72" HorizontalAlignment="Right" Source="{Binding ConverterParameter=72, Converter={StaticResource Base64ImageConverter}, IsAsync=True, XPath=Resim}">
+                    <Image Grid.Column="1" MaxWidth="72" MaxHeight="72" Source="{Binding ConverterParameter=72, Converter={StaticResource Base64ImageConverter}, IsAsync=True, XPath=Resim}">
                         <Image.ToolTip>
                             <ToolTip Template="{StaticResource GreenToolTipControlTemplate}">
                                 <Image Source="{Binding Converter={StaticResource Base64ImageConverter}, XPath=Resim}" />
                             </ToolTip>
                         </Image.ToolTip>
                     </Image>
-                </UniformGrid>
+                </Grid>
             </DataTemplate>
             <Style x:Key="ComboboxFileStyle" BasedOn="{StaticResource {x:Type ComboBox}}" TargetType="{x:Type ComboBox}">
                 <Setter Property="BorderBrush" Value="Red" />
@@ -69,14 +73,14 @@
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="40*" />
+            <ColumnDefinition Width="*" />
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="2" Margin="2,2,0,2">
+        <Grid Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="2" Margin="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition Width="Auto" />
@@ -88,7 +92,7 @@
             <TabItem Header="BUGÜN">
                 <ListBox VerticalContentAlignment="Center" ItemsSource="{Binding Mode=OneWay, Source={StaticResource FilteredCvs}}" ItemContainerStyle="{StaticResource GünListBoxItemContainerStyle}" ItemTemplate="{StaticResource ListBoxGunDataTemplate}">
                     <ListBox.InputBindings>
-                        <MouseBinding Command="{Binding ŞuAnkiGünData.VeriEkleEkranı, Mode=OneWay}" MouseAction="LeftClick" />
+                        <MouseBinding Command="{Binding ŞuAnkiGünData.VeriEkleEkranı, Mode=OneWay}" MouseAction="LeftDoubleClick" />
                     </ListBox.InputBindings>
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
@@ -236,7 +240,7 @@
                                         Margin="0,0,3,0"
                                         Command="{Binding DataContext.ResimGör, ElementName=Window}"
                                         CommandParameter="{Binding Mode=OneWay}"
-                                        Cursor="Hand" RenderOptions.BitmapScalingMode="NearestNeighbor"
+                                        Cursor="Hand"
                                         Template="{StaticResource SimpleButtonTemplate}">
                                         <Button.Background>
                                             <ImageBrush ImageSource="{Binding ConverterParameter=96, Converter={StaticResource Base64ImageConverter}, XPath=Resim}" />
@@ -330,64 +334,70 @@
                     </ListBox.ItemsPanel>
                 </ListBox>
             </GroupBox>
-            <UniformGrid Grid.Row="1" Margin="2" Columns="4" Rows="4">
-                <UniformGrid.Resources>
-                    <Style x:Key="CbColorBaseStyle" BasedOn="{StaticResource {x:Type ComboBox}}" TargetType="ComboBox">
-                        <Setter Property="ItemContainerStyle" Value="{StaticResource ComboBoxItemContainerStyle}" />
-                        <Setter Property="ItemTemplate" Value="{StaticResource ComboBoxRectItemTemplate}" />
-                        <Setter Property="ItemsPanel" Value="{StaticResource CbItemsPanelTemplate}" />
-                        <Setter Property="ItemsSource" Value="{Binding Source={StaticResource Renkler}}" />
-                        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Disabled" />
-                        <Setter Property="SelectedValuePath" Value="Name" />
-                    </Style>
-                </UniformGrid.Resources>
-                <ComboBox SelectedValue="{Binding SeçiliRenkCmt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource CbColorBaseStyle}" ToolTip="Cumartesi Renk" />
-                <ComboBox SelectedValue="{Binding SeçiliRenkPaz, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource CbColorBaseStyle}" ToolTip="Pazar Renk" />
-                <ComboBox SelectedValue="{Binding ResmiTatilRenk, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource CbColorBaseStyle}" ToolTip="Resmi Tatil Renk" />
-                <ComboBox SelectedValue="{Binding GövdeRenk, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource CbColorBaseStyle}" ToolTip="Gövde Renk" />
-                <ComboBox SelectedValue="{Binding BayramTatilRenk, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource CbColorBaseStyle}" ToolTip="Bayram Renk" />
-                <ComboBox SelectedIndex="{Binding Path=VarsayılanTakvim, Mode=TwoWay, Source={x:Static properties:Settings.Default}}" ToolTip="Varsayılan Takvim Görünümü">
-                    <ComboBoxItem Content="BUGÜN" />
-                    <ComboBoxItem Content="AY" />
-                    <ComboBoxItem Content="YIL" />
-                </ComboBox>
-                <Slider VerticalAlignment="Center"
-                    AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" Maximum="60"
-                    Minimum="1" ToolTip="UYARILARIN KONTROL ARALIĞI DAKİKA OLARAK"
-                    Value="{Binding KontrolSüresi, Mode=TwoWay, Source={x:Static properties:Settings.Default}}" />
-                <Slider VerticalAlignment="Center"
-                    AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" Maximum="60"
-                    Minimum="5" ToolTip="UYARILARIN EKRANDA GÖRÜNME SÜRESİ SANİYE OLARAK"
-                    Value="{Binding PopupSüresi, Mode=TwoWay, Source={x:Static properties:Settings.Default}}" />
-                <Slider VerticalAlignment="Center"
-                    AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" Maximum="24"
-                    Minimum="1" ToolTip="UYARILAR BELİRTİLEN SAAT ÖNCESİNDEN EKRANDA GÖRÜNMEYE BAŞLAR"
-                    Value="{Binding UyarıSaatSüresi, Mode=TwoWay, Source={x:Static properties:Settings.Default}}" />
-                <CheckBox Content="HS" VerticalAlignment="Center" IsChecked="{Binding Path=HaftaSonlarıGizle, Mode=TwoWay, Source={x:Static properties:Settings.Default}}" ToolTip="HAFTA SONLARINI GİZLE" />
-                <Button Command="{Binding AyarSıfırla, Mode=OneWay}" ToolTip="AYARLARI SIFIRLA">
-                    <Image Width="16" Height="16" Source="{Binding ConverterParameter=146, Converter={StaticResource Shell32FileIconConverter}}" />
-                </Button>
-                <Button Command="{Binding Hakkında, Mode=OneWay}">
-                    <Image Width="16" Height="16" Source="{Binding ConverterParameter=14, Converter={StaticResource Shell32FileIconConverter}}" />
-                </Button>
-                <Button Command="{Binding EskiVerileriSil, Mode=OneWay}" ToolTip="TÜM ESKİ VERİLERİ SİL">
-                    <Image Width="16" Height="16" Source="{Binding ConverterParameter=131, Converter={StaticResource Shell32FileIconConverter}}" />
-                </Button>
-                <ToggleButton Grid.Column="0" IsChecked="{Binding BaşlangıçtaÇalışacak}" IsTabStop="False" ToolTip="Başlangıçta Çalıştır.">
-                    <Image Width="16" Height="16" Source="{Binding ConverterParameter=24, Converter={StaticResource Shell32FileIconConverter}}" />
-                </ToggleButton>
-                <Button Command="{Binding VeritabanıAç, Mode=OneWay}" ToolTip="XML VERİTABANINI AÇ">
-                    <Image Width="16" Height="16" Source="{Binding ConverterParameter=72, Converter={StaticResource Shell32FileIconConverter}}" />
-                </Button>
-                <local:ContentToggleButton ToolTip="Ezan Vakitleri">
-                    <local:ContentToggleButton.OverContent>
-                        <Image Width="16" Height="16" Source="{Binding ConverterParameter=167, Converter={StaticResource Shell32FileIconConverter}}" />
-                    </local:ContentToggleButton.OverContent>
-                    <GroupBox Header="EZAN VAKİTLERİ">
-                        <local:PrayerTimeControl />
-                    </GroupBox>
-                </local:ContentToggleButton>
-            </UniformGrid>
+            <Expander Header="AYARLAR"
+                Grid.Row="1"
+                BorderBrush="Black"
+                Margin="2"
+                IsExpanded="{Binding Path=AyarlarGörünür, Mode=TwoWay, Source={x:Static properties:Settings.Default}}">
+                <UniformGrid Columns="4" Rows="4">
+                    <UniformGrid.Resources>
+                        <Style x:Key="CbColorBaseStyle" BasedOn="{StaticResource {x:Type ComboBox}}" TargetType="ComboBox">
+                            <Setter Property="ItemContainerStyle" Value="{StaticResource ComboBoxItemContainerStyle}" />
+                            <Setter Property="ItemTemplate" Value="{StaticResource ComboBoxRectItemTemplate}" />
+                            <Setter Property="ItemsPanel" Value="{StaticResource CbItemsPanelTemplate}" />
+                            <Setter Property="ItemsSource" Value="{Binding Source={StaticResource Renkler}}" />
+                            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Disabled" />
+                            <Setter Property="SelectedValuePath" Value="Name" />
+                        </Style>
+                    </UniformGrid.Resources>
+                    <ComboBox SelectedValue="{Binding SeçiliRenkCmt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource CbColorBaseStyle}" ToolTip="Cumartesi Renk" />
+                    <ComboBox SelectedValue="{Binding SeçiliRenkPaz, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource CbColorBaseStyle}" ToolTip="Pazar Renk" />
+                    <ComboBox SelectedValue="{Binding ResmiTatilRenk, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource CbColorBaseStyle}" ToolTip="Resmi Tatil Renk" />
+                    <ComboBox SelectedValue="{Binding GövdeRenk, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource CbColorBaseStyle}" ToolTip="Gövde Renk" />
+                    <ComboBox SelectedValue="{Binding BayramTatilRenk, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource CbColorBaseStyle}" ToolTip="Bayram Renk" />
+                    <ComboBox SelectedIndex="{Binding Path=VarsayılanTakvim, Mode=TwoWay, Source={x:Static properties:Settings.Default}}" ToolTip="Varsayılan Takvim Görünümü">
+                        <ComboBoxItem Content="BUGÜN" />
+                        <ComboBoxItem Content="AY" />
+                        <ComboBoxItem Content="YIL" />
+                    </ComboBox>
+                    <Slider VerticalAlignment="Center"
+                        AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" Maximum="60"
+                        Minimum="1" ToolTip="UYARILARIN KONTROL ARALIĞI DAKİKA OLARAK"
+                        Value="{Binding KontrolSüresi, Mode=TwoWay, Source={x:Static properties:Settings.Default}}" />
+                    <Slider VerticalAlignment="Center"
+                        AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" Maximum="60"
+                        Minimum="5" ToolTip="UYARILARIN EKRANDA GÖRÜNME SÜRESİ SANİYE OLARAK"
+                        Value="{Binding PopupSüresi, Mode=TwoWay, Source={x:Static properties:Settings.Default}}" />
+                    <Slider VerticalAlignment="Center"
+                        AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" Maximum="24"
+                        Minimum="1" ToolTip="UYARILAR BELİRTİLEN SAAT ÖNCESİNDEN EKRANDA GÖRÜNMEYE BAŞLAR"
+                        Value="{Binding UyarıSaatSüresi, Mode=TwoWay, Source={x:Static properties:Settings.Default}}" />
+                    <CheckBox Content="HS" VerticalAlignment="Center" IsChecked="{Binding Path=HaftaSonlarıGizle, Mode=TwoWay, Source={x:Static properties:Settings.Default}}" ToolTip="HAFTA SONLARINI GİZLE" />
+                    <Button Command="{Binding AyarSıfırla, Mode=OneWay}" ToolTip="AYARLARI SIFIRLA">
+                        <Image Width="16" Height="16" Source="{Binding ConverterParameter=146, Converter={StaticResource Shell32FileIconConverter}}" />
+                    </Button>
+                    <Button Command="{Binding Hakkında, Mode=OneWay}">
+                        <Image Width="16" Height="16" Source="{Binding ConverterParameter=14, Converter={StaticResource Shell32FileIconConverter}}" />
+                    </Button>
+                    <Button Command="{Binding EskiVerileriSil, Mode=OneWay}" ToolTip="TÜM ESKİ VERİLERİ SİL">
+                        <Image Width="16" Height="16" Source="{Binding ConverterParameter=131, Converter={StaticResource Shell32FileIconConverter}}" />
+                    </Button>
+                    <ToggleButton Grid.Column="0" IsChecked="{Binding BaşlangıçtaÇalışacak}" IsTabStop="False" ToolTip="Başlangıçta Çalıştır.">
+                        <Image Width="16" Height="16" Source="{Binding ConverterParameter=24, Converter={StaticResource Shell32FileIconConverter}}" />
+                    </ToggleButton>
+                    <Button Command="{Binding VeritabanıAç, Mode=OneWay}" ToolTip="XML VERİTABANINI AÇ">
+                        <Image Width="16" Height="16" Source="{Binding ConverterParameter=72, Converter={StaticResource Shell32FileIconConverter}}" />
+                    </Button>
+                    <local:ContentToggleButton ToolTip="Ezan Vakitleri">
+                        <local:ContentToggleButton.OverContent>
+                            <Image Width="16" Height="16" Source="{Binding ConverterParameter=167, Converter={StaticResource Shell32FileIconConverter}}" />
+                        </local:ContentToggleButton.OverContent>
+                        <GroupBox Header="EZAN VAKİTLERİ">
+                            <local:PrayerTimeControl />
+                        </GroupBox>
+                    </local:ContentToggleButton>
+                </UniformGrid>
+            </Expander>
         </Grid>
 
     </Grid>

@@ -91,6 +91,13 @@
     <Compile Include="ExtensionMethods.cs" />
     <Compile Include="Converter\FeastoftheSacrificeDateToHolidayConverter.cs" />
     <Compile Include="Converter\FilePathToIconConverter.cs" />
+    <Compile Include="iCalNET\CalendarParameter.cs" />
+    <Compile Include="iCalNET\CalendarParameters.cs" />
+    <Compile Include="iCalNET\ContentLine.cs" />
+    <Compile Include="iCalNET\ContentLineParameter.cs" />
+    <Compile Include="iCalNET\ContentLineParameters.cs" />
+    <Compile Include="iCalNET\vCalendar.cs" />
+    <Compile Include="iCalNET\vEvent.cs" />
     <Compile Include="ImageViewer.cs" />
     <Compile Include="InpcBase.cs" />
     <Compile Include="Converter\ListBoxDatePassedVisibilityConverter.cs" />

@@ -60,6 +60,7 @@
                     <ColumnDefinition Width="5*" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
                     <RowDefinition />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -70,10 +71,11 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
+                <Button Content="ICAL TAKVİM EKLE" Command="{Binding IcalEkle}" />
                 <TextBox Text="{Binding GünNotAçıklama, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
-                    Grid.RowSpan="2"
+                    Grid.Row="1" Grid.RowSpan="2"
                     AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" />
-                <Grid Grid.Column="1">
+                <Grid Grid.Row="0" Grid.Column="1" Grid.RowSpan="2">
                     <Image Source="{Binding ResimData, ConverterParameter=96, Converter={StaticResource WebpByteArrayToImageConverter}, Mode=OneWay}" />
                     <ContentControl IsEnabled="{Binding ResimData, Converter={StaticResource NullableToBooleanConverter}, Mode=OneWay}"
                         Width="16" Height="16"
@@ -91,13 +93,13 @@
                         </ContentControl.ToolTip>
                     </ContentControl>
                 </Grid>
-                <Slider Grid.Row="1" Grid.Column="1"
+                <Slider Grid.Row="2" Grid.Column="1"
                     AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" IsTabStop="False"
                     LargeChange="1" Maximum="100" Minimum="1"
                     SmallChange="1" TickFrequency="1"
                     ToolTip="WEBP RESİM YÜKLEME KALİTESİ 1 EN DÜŞÜK BOYUTTUR. DEĞERİ DEĞİŞTİRİP DOSYAYI TEKRAR YÜKLEYİP ÖNİZLEME GÖZÜNDEN BAKIN"
                     Value="{Binding WebpQuality, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                <UniformGrid Grid.Row="2" Grid.ColumnSpan="2" Columns="2" Rows="2">
+                <UniformGrid Grid.Row="3" Grid.ColumnSpan="2" Columns="2" Rows="2">
                     <CheckBox Content="ÖNEMLİ Mİ" Foreground="Red" VerticalAlignment="Center" IsChecked="{Binding ÖnemliMi, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
                     <CheckBox Content="AY TEKRAR" VerticalAlignment="Center" IsChecked="{Binding AyTekrar, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" ToolTip="BU İŞARETLENİRSE HER AYIN AYNI GÜNÜNE İŞARET VERİLİR" />
                     <CheckBox Content="KİLİTLİ Mİ" VerticalAlignment="Center" IsChecked="{Binding KilitliMi}" ToolTip="BU İŞARETLENİRSE TARİH KİLİTLENİR TAŞIMA YAPILMAZ" />
@@ -109,14 +111,14 @@
                         SelectedValue="{Binding VeriRenk, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
                         SelectedValuePath="Name" ToolTip="Veri Renk" />
                 </UniformGrid>
-                <Slider Grid.Row="3" Grid.ColumnSpan="2"
+                <Slider Grid.Row="4" Grid.ColumnSpan="2"
                     AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="1" IsSnapToTickEnabled="True"
                     LargeChange="0.5" Maximum="99" Minimum="0"
                     SmallChange="0.5" TickFrequency="0.5" ToolTip="ETKİNLİK SÜRESİ SAAT"
                     Value="{Binding EtkinlikSüresi, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
-                <local:TimePicker Grid.Row="4" Grid.ColumnSpan="2" ClearButtonVisible="Visible" TimeValue="{Binding SaatBaşlangıç, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
+                <local:TimePicker Grid.Row="5" Grid.ColumnSpan="2" ClearButtonVisible="Visible" TimeValue="{Binding SaatBaşlangıç, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
                 <Button Content="RESİM YÜKLE"
-                    Grid.Row="5" Grid.ColumnSpan="2"
+                    Grid.Row="6" Grid.ColumnSpan="2"
                     IsEnabled="{Binding GünNotAçıklama, Converter={StaticResource StringNullableToBooleanConverter}}"
                     Command="{Binding ResimYükle, Mode=OneWay}">
                     <Button.ContextMenu>
@@ -125,8 +127,8 @@
                         </ContextMenu>
                     </Button.ContextMenu>
                 </Button>
-                <local:FileSelectorTextBox Grid.Row="6" Grid.ColumnSpan="2" IsEnabled="{Binding GünNotAçıklama, Converter={StaticResource StringNullableToBooleanConverter}}" Dosyalar="{Binding Dosyalar, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
-                <Button Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2"
+                <local:FileSelectorTextBox Grid.Row="7" Grid.ColumnSpan="2" IsEnabled="{Binding GünNotAçıklama, Converter={StaticResource StringNullableToBooleanConverter}}" Dosyalar="{Binding Dosyalar, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
+                <Button Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2"
                     Command="{Binding OcrUygula}"
                     CommandParameter="{Binding ResimData}">
                     <StackPanel Orientation="Horizontal">
@@ -141,12 +143,14 @@
                     </StackPanel>
                 </Button>
                 <Button Content="VERİYİ EKLE"
-                    Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2"
+                    Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="2"
                     Command="{Binding XmlVeriEkle, Mode=OneWay}" />
-                <local:ContentToggleButton Grid.Row="8" Grid.Column="2" OverContent="TARAYICI" >
+                <local:ContentToggleButton Grid.Row="9" Grid.Column="2" OverContent="TARAYICI">
                     <TwainControl:TwainCtrl Width="540" Height="465" Background="White" PropertyChanged="TwainCtrl_PropertyChanged" />
                 </local:ContentToggleButton>
-                <ListBox Grid.Column="2" Grid.RowSpan="8" ItemsSource="{Binding Mode=OneWay, Source={StaticResource FilteredCvs}}" ItemContainerStyle="{StaticResource ListBoxToolTipItemContainerStyle}">
+                <ListBox Grid.Row="0" Grid.Column="2" Grid.RowSpan="9"
+                    ItemsSource="{Binding Mode=OneWay, Source={StaticResource FilteredCvs}}"
+                    ItemContainerStyle="{StaticResource ListBoxToolTipItemContainerStyle}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel>

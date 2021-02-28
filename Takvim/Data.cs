@@ -1,4 +1,5 @@
-﻿using Microsoft.Win32;
+﻿using iCalNET.Model;
+using Microsoft.Win32;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -260,6 +261,40 @@ namespace Takvim
                 }
             }, parameter => true);
 
+            IcalEkle = new RelayCommand<object>(parameter =>
+            {
+                OpenFileDialog openFileDialog = new OpenFileDialog { Multiselect = false, Filter = "Ical File (*.ics)|*.ics" };
+                if (openFileDialog.ShowDialog() == true)
+                {
+                    try
+                    {
+                        vCalendar vcalendar = new vCalendar(File.ReadAllText(openFileDialog.FileName));
+                        foreach (vEvent data in vcalendar.vEvents)
+                        {
+                            foreach (System.Collections.Generic.KeyValuePair<string, ContentLine> item in data.ContentLines)
+                            {
+                                if (item.Key == "SUMMARY")
+                                {
+                                    GünNotAçıklama = item.Value.Value;
+                                }
+
+                                if (item.Key == "DTSTART")
+                                {
+                                    TamTarih = DateTime.ParseExact(item.Value.Value.Substring(0, 8), "yyyyMMdd", CultureInfo.CurrentCulture);
+                                }
+                            }
+                            XmlVeriEkle.Execute(null);
+                        }
+                        TamTarih = DateTime.Today;
+                        MessageBox.Show("Takvim Verileri Eklendi.", "TAKVİM", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, "TAKVİM", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
+            }, parameter => true);
+
             VeriEkleEkranı = new RelayCommand<object>(parameter =>
             {
                 verigirişwindow = new Window
@@ -329,6 +364,8 @@ namespace Takvim
         public ICommand Okunduİşaretle { get; }
 
         public ICommand DosyaAç { get; }
+
+        public ICommand IcalEkle { get; }
 
         public ObservableCollection<string> Dosyalar
         {

@@ -166,5 +166,17 @@ namespace Takvim.Properties {
                 this["VarsayılanTakvim"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool AyarlarGörünür {
+            get {
+                return ((bool)(this["AyarlarGörünür"]));
+            }
+            set {
+                this["AyarlarGörünür"] = value;
+            }
+        }
     }
 }
