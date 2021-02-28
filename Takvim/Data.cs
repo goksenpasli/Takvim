@@ -280,6 +280,10 @@ namespace Takvim
 
                                 if (item.Key == "DTSTART")
                                 {
+                                    if (item.Value.Value.Length > 8)
+                                    {
+                                        SaatBaşlangıç = item.Value.Value.Substring(9, 2) + ":" + item.Value.Value.Substring(11, 2);
+                                    }
                                     TamTarih = DateTime.ParseExact(item.Value.Value.Substring(0, 8), "yyyyMMdd", CultureInfo.CurrentCulture);
                                 }
                             }
