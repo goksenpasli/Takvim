@@ -140,7 +140,6 @@ namespace Takvim
                     image.Freeze();
                 }
                 memoryStream = null;
-                GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced);
                 return image;
             }
 
@@ -205,6 +204,7 @@ namespace Takvim
             {
                 bitmapsource.Freeze();
             }
+            GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced);
             return bitmapsource;
         }
 

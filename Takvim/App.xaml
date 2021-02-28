@@ -72,11 +72,11 @@
                     <Storyboard x:Key="GrowListItem" AutoReverse="True" Timeline.DesiredFrameRate="30">
                         <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Bd" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)">
                             <EasingDoubleKeyFrame KeyTime="0" Value="1" />
-                            <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="3" />
+                            <EasingDoubleKeyFrame KeyTime="0:0:0.6" Value="4" />
                         </DoubleAnimationUsingKeyFrames>
                         <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Bd" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)">
                             <EasingDoubleKeyFrame KeyTime="0" Value="1" />
-                            <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="3" />
+                            <EasingDoubleKeyFrame KeyTime="0:0:0.6" Value="4" />
                         </DoubleAnimationUsingKeyFrames>
                     </Storyboard>
                 </ControlTemplate.Resources>
@@ -309,7 +309,8 @@
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
-                        </TextBlock.Style><Run Text="{Binding Gün}" />
+                        </TextBlock.Style>
+                        <Run Text="{Binding Gün}" />
                         <Run DataContext="{Binding Converter={StaticResource DateNoteCountConverter}, Mode=OneWay}" FontSize="8">
                             <Run.Style>
                                 <Style TargetType="{x:Type Run}">
@@ -389,8 +390,8 @@
                                         <ListBox.ItemTemplate>
                                             <DataTemplate>
                                                 <TextBlock>
-                                                <Run Text="{Binding GünNotAçıklama}" />
-                                                <Run Text="{Binding TamTarih, StringFormat=\{0:d\}}" Language="tr-tr" />
+                                                    <Run Text="{Binding GünNotAçıklama}" />
+                                                    <Run Text="{Binding TamTarih, StringFormat=\{0:d\}}" Language="tr-tr" />
                                                 </TextBlock>
                                             </DataTemplate>
                                         </ListBox.ItemTemplate>
