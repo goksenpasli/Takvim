@@ -10,9 +10,6 @@
     Closing="Window_Closing" ShowInTaskbar="True" UseLayoutRounding="True"
     WindowStartupLocation="CenterScreen" WindowState="Maximized"
     mc:Ignorable="d">
-    <Window.Resources>
-        <local:Base64ImageConverter x:Key="Base64ImageConverter" />
-    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
