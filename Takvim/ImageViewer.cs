@@ -13,7 +13,7 @@ using System.Xml;
 
 namespace Takvim
 {
-    public class ImageViewer :Data
+    public class ImageViewer : Data
     {
         private double angle;
 
@@ -95,6 +95,7 @@ namespace Takvim
         }
 
         public ICommand Yazdır { get; }
+
         public double Zoom
         {
             get => zoom;

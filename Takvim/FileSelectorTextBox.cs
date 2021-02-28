@@ -47,7 +47,7 @@ namespace Takvim
         private void RemoveFileCommand(object sender, ExecutedRoutedEventArgs e)
         {
             Dosyalar.Remove(e.Parameter as string);
-            FilePath = Dosyalar.Count==0 ? "Dosya Seçilmedi" : $"{Dosyalar.Count} Dosya Seçildi";
+            FilePath = Dosyalar.Count == 0 ? "Dosya Seçilmedi" : $"{Dosyalar.Count} Dosya Seçildi";
         }
 
         private void SelectFileCommand(object sender, ExecutedRoutedEventArgs e)

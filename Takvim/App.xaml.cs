@@ -87,6 +87,7 @@ namespace Takvim
                 };
             };
         }
+
         private void MainWindow_StateChanged(object sender, EventArgs e)
         {
             MainWindow mainWindow = sender as MainWindow;

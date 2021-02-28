@@ -482,6 +482,7 @@ namespace Takvim
                 }
             }
         }
+
         public ICommand OcrUygula { get; }
 
         public short Offset
@@ -623,6 +624,7 @@ namespace Takvim
         public int WebpQuality
         {
             get => webpQuality;
+
             set
             {
                 if (webpQuality != value)

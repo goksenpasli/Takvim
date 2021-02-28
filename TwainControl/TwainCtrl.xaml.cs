@@ -110,6 +110,7 @@ namespace TwainControl
                                         }
                                 }
                                 break;
+
                             case 2:
                                 File.WriteAllBytes(saveFileDialog.FileName, resim.ToTiffJpegByteArray(Picture.Format.Jpg));
                                 break;
@@ -124,6 +125,7 @@ namespace TwainControl
         public bool Adf
         {
             get => adf;
+
             set
             {
                 if (adf != value)
@@ -139,6 +141,7 @@ namespace TwainControl
         public bool ArayüzEtkin
         {
             get => arayüzetkin;
+
             set
             {
                 if (arayüzetkin != value)
@@ -152,6 +155,7 @@ namespace TwainControl
         public bool AutoRotate
         {
             get => autoRotate;
+
             set
             {
                 if (autoRotate != value)
@@ -165,6 +169,7 @@ namespace TwainControl
         public bool BorderDetect
         {
             get => borderDetect;
+
             set
             {
                 if (borderDetect != value)
@@ -178,6 +183,7 @@ namespace TwainControl
         public bool? Bw
         {
             get => bw;
+
             set
             {
                 if (bw != value)
@@ -191,6 +197,7 @@ namespace TwainControl
         public double Çözünürlük
         {
             get => çözünürlük;
+
             set
             {
                 if (çözünürlük != value)
@@ -204,6 +211,7 @@ namespace TwainControl
         public bool Deskew
         {
             get => deskew;
+
             set
             {
                 if (deskew != value)
@@ -217,6 +225,7 @@ namespace TwainControl
         public bool Duplex
         {
             get => duplex;
+
             set
             {
                 if (duplex != value)
@@ -230,6 +239,7 @@ namespace TwainControl
         public double Eşik
         {
             get => eşik;
+
             set
             {
                 if (eşik != value)
@@ -245,6 +255,7 @@ namespace TwainControl
         public ObservableCollection<BitmapFrame> Resimler
         {
             get => resimler;
+
             set
             {
                 if (resimler != value)
@@ -276,6 +287,7 @@ namespace TwainControl
         public string SeçiliTarayıcı
         {
             get => seçiliTarayıcı;
+
             set
             {
                 if (seçiliTarayıcı != value)
@@ -303,6 +315,7 @@ namespace TwainControl
         public bool ShowProgress
         {
             get => showProgress;
+
             set
             {
                 if (showProgress != value)
@@ -316,6 +329,7 @@ namespace TwainControl
         public bool ShowUi
         {
             get => showUi;
+
             set
             {
                 if (showUi != value)
@@ -329,6 +343,7 @@ namespace TwainControl
         public IList<string> Tarayıcılar
         {
             get => tarayıcılar;
+
             set
             {
                 if (tarayıcılar != value)
@@ -338,6 +353,7 @@ namespace TwainControl
                 }
             }
         }
+
         protected virtual void OnPropertyChanged(string propertyName = null) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
         #region IDisposable Support

@@ -7,6 +7,7 @@ namespace TwainControl
     public class RelayCommand<T> : ICommand
     {
         private readonly Predicate<T> _canExecute;
+
         private readonly Action<T> _execute;
 
         public RelayCommand(Action<T> execute)

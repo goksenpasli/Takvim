@@ -1,9 +1,9 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Xml;
-using System.ComponentModel;
-using System.Windows;
 
 namespace Takvim
 {
@@ -41,7 +41,7 @@ namespace Takvim
         {
             if (e.PropertyName == "SeçiliResim" && DataContext is Data data)
             {
-                data.ResimData = TwainControl.Picture.ToTiffJpegByteArray((sender as TwainControl.TwainCtrl)?.SeçiliResim, TwainControl.Picture.Format.Jpg).WebpEncode(data.WebpQuality);
+                data.ResimData = ((sender as TwainControl.TwainCtrl)?.SeçiliResim).ToTiffJpegByteArray(ExtensionMethods.Format.Jpg).WebpEncode(data.WebpQuality);
                 data.ResimUzantı = ".webp";
                 data.Boyut = data.ResimData.Length / 1024;
             }

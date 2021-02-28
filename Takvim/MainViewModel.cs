@@ -287,6 +287,7 @@ namespace Takvim
                 }
             }
         }
+
         public Brush BayramTatilRenk
         {
             get => bayramTatilRenk;
@@ -575,6 +576,7 @@ namespace Takvim
                 Properties.Settings.Default.Save();
             }
         }
+
         private void SetRegistryValue(bool isChecked)
         {
             try

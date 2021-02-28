@@ -42,6 +42,7 @@ namespace Takvim
         public string Akşam
         {
             get => akşam;
+
             set
             {
                 if (akşam != value)
@@ -71,6 +72,7 @@ namespace Takvim
         public string İkindi
         {
             get => ikindi;
+
             set
             {
                 if (ikindi != value)
@@ -156,6 +158,7 @@ namespace Takvim
         public string Yatsı
         {
             get => yatsı;
+
             set
             {
                 if (yatsı != value)

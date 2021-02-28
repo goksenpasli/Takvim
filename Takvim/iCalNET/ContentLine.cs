@@ -1,19 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+﻿using System.Text.RegularExpressions;
 
 namespace iCalNET.Model
 {
     public class ContentLine
     {
         private const string ContentLineContentPattern = "(.+?)((;.+?)*):(.+)";
+
         private const RegexOptions ContentLineContentRegexOptions = RegexOptions.Singleline;
 
         public string Name { get; set; }
+
         public string Value { get; set; }
+
         public ContentLineParameters Parameters { get; set; }
 
         public ContentLine(string source)
@@ -29,9 +27,7 @@ namespace iCalNET.Model
         public static string UnfoldAndUnescape(string s)
         {
             string unfold = Regex.Replace(s, "(\\r\\n )", "");
-            string unescaped = Regex.Unescape(unfold);
-            return unescaped;
+            return Regex.Unescape(unfold);
         }
-
     }
 }

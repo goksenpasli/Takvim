@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace iCalNET.Model
 {
@@ -19,7 +15,6 @@ namespace iCalNET.Model
                 ContentLineParameter contentLineParameter = new ContentLineParameter(match.Groups[1].ToString());
                 this[contentLineParameter.Name] = contentLineParameter;
             }
-        }   
-
+        }
     }
 }

@@ -27,6 +27,7 @@ namespace Takvim
             get => (Visibility)GetValue(ClearButtonVisibleProperty);
             set => SetValue(ClearButtonVisibleProperty, value);
         }
+
         public int Interval
         {
             get => (int)GetValue(IntervalProperty);

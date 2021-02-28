@@ -24,6 +24,7 @@ namespace Takvim
 
             Png
         }
+
         public static System.Drawing.Bitmap BitmapChangeFormat(this System.Drawing.Bitmap bitmap, System.Drawing.Imaging.PixelFormat format) => bitmap.Clone(new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height), format);
 
         public static Brush ConvertToBrush(this System.Drawing.Color color) => new SolidColorBrush(Color.FromArgb(color.A, color.R, color.G, color.B));
@@ -116,6 +117,7 @@ namespace Takvim
 
             return null;
         }
+
         public static BitmapSource ToBitmapImage(this System.Drawing.Image bitmap, System.Drawing.Imaging.ImageFormat format, double decodeheight = 0)
         {
             if (bitmap != null)
@@ -145,6 +147,7 @@ namespace Takvim
 
             return null;
         }
+
         public static byte[] ToTiffJpegByteArray(this BitmapSource bitmapsource, Format format)
         {
             using MemoryStream outStream = new MemoryStream();

@@ -497,6 +497,7 @@ namespace Takvim
         private void RemoveTextToEnd(int startPosition) => RemoveText(startPosition, Text.Length - startPosition);
 
         private void ResetCommand(object sender, ExecutedRoutedEventArgs e) => Value = null;
+
         private void SyncTextAndValueProperties(DependencyProperty p, object newValue)
         {
             //prevents recursive syncing properties

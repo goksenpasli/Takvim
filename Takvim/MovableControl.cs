@@ -60,6 +60,7 @@ namespace Takvim
                 case "Ayİleri":
                     dc?.Ayİleri.Execute(null);
                     break;
+
                 case "AyGeri":
                     dc?.AyGeri.Execute(null);
                     break;
