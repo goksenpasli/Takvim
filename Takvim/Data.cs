@@ -100,12 +100,9 @@ namespace Takvim
                         rootNode.Attributes.Append(Onemli);
                     }
 
-                    if (AyTekrar)
-                    {
-                        XmlAttribute TekrarGun = document.CreateAttribute("TekrarGun");
-                        TekrarGun.Value = AyTekrarGun.ToString();
-                        rootNode.Attributes.Append(TekrarGun);
-                    }
+                    XmlAttribute TekrarGun = document.CreateAttribute("TekrarGun");
+                    TekrarGun.Value = AyTekrarGun.ToString();
+                    rootNode.Attributes.Append(TekrarGun);
 
                     if (KilitliMi)
                     {
@@ -257,7 +254,8 @@ namespace Takvim
                     UpdateAttribute(xmlattributeId, "SaatBaslangic", SaatBaşlangıç);
                     UpdateAttribute(xmlattributeId, "Saat", EtkinlikSüresi.ToString());
                     UpdateAttribute(xmlattributeId, "AyTekrar", AyTekrar.ToString().ToLower());
-                    UpdateAttribute(xmlattributeId, "Renk", VeriRenk.ToString());
+                    UpdateAttribute(xmlattributeId, "Renk",  VeriRenk == null ? Brushes.Transparent.ToString() : VeriRenk.ToString());
+                    UpdateAttribute(xmlattributeId, "TekrarGun", AyTekrarGun.ToString());
                 }
             }, parameter => DateTime.TryParseExact(SaatBaşlangıç, "H:m", new CultureInfo("tr-TR"), DateTimeStyles.None, out _));
 
