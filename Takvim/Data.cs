@@ -62,6 +62,8 @@ namespace Takvim
 
         private bool kilitliMi;
 
+        private double ayTekrarGun;
+
         public Data()
         {
             Window verigirişwindow = null;
@@ -81,6 +83,7 @@ namespace Takvim
                     SaatBaslangic.Value = SaatBaşlangıç;
                     XmlAttribute Tekrar = document.CreateAttribute("AyTekrar");
                     Tekrar.Value = AyTekrar.ToString().ToLower();
+
                     rootNode.Attributes.Append(Id);
                     rootNode.Attributes.Append(Saat);
                     rootNode.Attributes.Append(SaatBaslangic);
@@ -95,6 +98,13 @@ namespace Takvim
                         XmlAttribute Onemli = document.CreateAttribute("Onemli");
                         Onemli.Value = ÖnemliMi.ToString().ToLower();
                         rootNode.Attributes.Append(Onemli);
+                    }
+
+                    if (AyTekrar)
+                    {
+                        XmlAttribute TekrarGun = document.CreateAttribute("TekrarGun");
+                        TekrarGun.Value = AyTekrarGun.ToString();
+                        rootNode.Attributes.Append(TekrarGun);
                     }
 
                     if (KilitliMi)
@@ -174,7 +184,7 @@ namespace Takvim
                         FileName = xmlElement.PreviousSibling?.InnerText + xmlElement.GetAttribute("Ext")
                     };
 
-                    if (saveFileDialog.ShowDialog() == true)
+                    if (saveFileDialog.ShowDialog() == true && xmlElement["Resim"].InnerText != null)
                     {
                         byte[] bytes = Convert.FromBase64String(xmlElement["Resim"].InnerText);
                         using FileStream imageFile = new FileStream(saveFileDialog.FileName, FileMode.Create);
@@ -278,6 +288,16 @@ namespace Takvim
                                     GünNotAçıklama = item.Value.Value;
                                 }
 
+                                if (item.Key == "RRULE" && item.Value.Value.Contains("MONTHLY"))
+                                {
+                                    AyTekrar = true;
+                                    string aytekrardata = item.Value.Value.Split(';')?[1];
+                                    if (aytekrardata?.Contains("BYMONTHDAY") == true)
+                                    {
+                                        AyTekrarGun = Convert.ToDouble(aytekrardata?.Split('=')?[1]);
+                                    }
+                                }
+
                                 if (item.Key == "DTSTART")
                                 {
                                     if (item.Value.Value.Length > 8)
@@ -306,7 +326,7 @@ namespace Takvim
                     Title = TamTarih.ToString("dd MMMM yyyy dddd"),
                     Content = new DataEnterWindow(),
                     DataContext = this,
-                    Width = 424,
+                    Width = 504,
                     AllowsTransparency = true,
                     WindowStyle = WindowStyle.None,
                     Height = 304,
@@ -345,6 +365,20 @@ namespace Takvim
                 {
                     ayTekrar = value;
                     OnPropertyChanged(nameof(AyTekrar));
+                }
+            }
+        }
+
+        public double AyTekrarGun
+        {
+            get => ayTekrarGun;
+
+            set
+            {
+                if (ayTekrarGun != value)
+                {
+                    ayTekrarGun = value;
+                    OnPropertyChanged(nameof(AyTekrarGun));
                 }
             }
         }

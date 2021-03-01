@@ -36,7 +36,9 @@
                         <ColumnDefinition />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="20">
+                    <TextBlock Grid.Column="0"
+                        HorizontalAlignment="Left" VerticalAlignment="Center"
+                        FontSize="20">
                         <TextBlock.Style>
                             <Style TargetType="{x:Type TextBlock}">
                                 <Style.Triggers>
@@ -46,13 +48,18 @@
                                 </Style.Triggers>
                             </Style>
                         </TextBlock.Style>
-                        <Hyperlink x:Name="Hyp" Command="{Binding XmlVeriSil, Mode=OneWay, Source={StaticResource Data}}" CommandParameter="{Binding XPath=@Id}" FontFamily="Segoe UI Black">
+                        <Hyperlink x:Name="Hyp"
+                            Command="{Binding XmlVeriSil, Mode=OneWay, Source={StaticResource Data}}"
+                            CommandParameter="{Binding XPath=@Id}"
+                            FontFamily="Segoe UI Black">
                             <Run Text="X" />
                         </Hyperlink>
                         <Run Text="{Binding XPath=@SaatBaslangic}" FontWeight="Bold" />
                         <Run Text="{Binding XPath=Aciklama}" />
                     </TextBlock>
-                    <Image Grid.Column="1" MaxWidth="72" MaxHeight="72" Source="{Binding ConverterParameter=96, Converter={StaticResource Base64ImageConverter}, XPath=Resim}">
+                    <Image Grid.Column="1"
+                        MaxWidth="72" MaxHeight="72"
+                        Source="{Binding ConverterParameter=96, Converter={StaticResource Base64ImageConverter}, XPath=Resim}">
                         <Image.ToolTip>
                             <ToolTip Template="{StaticResource GreenToolTipControlTemplate}">
                                 <Image Source="{Binding Converter={StaticResource Base64ImageConverter}, ConverterParameter=600, XPath=Resim}" />
@@ -81,15 +88,20 @@
             <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="2" Margin="2">
+        <Grid Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="2"
+            Margin="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <TextBox Text="{Binding AramaMetin, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="0" />
-            <Button Content="ARA" Grid.Column="1" Command="{Binding VeriAra, Mode=OneWay}" CommandParameter="{Binding AramaMetin}" />
+            <Button Content="ARA"
+                Grid.Column="1"
+                Command="{Binding VeriAra, Mode=OneWay}"
+                CommandParameter="{Binding AramaMetin}" />
         </Grid>
-        <TabControl Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" SelectedIndex="{Binding Path=VarsayılanTakvim, Mode=OneWay, Source={x:Static properties:Settings.Default}}">
+        <TabControl Grid.Row="0" Grid.Column="0" Grid.RowSpan="2"
+            SelectedIndex="{Binding Path=VarsayılanTakvim, Mode=OneWay, Source={x:Static properties:Settings.Default}}">
             <TabItem Header="BUGÜN">
                 <ListBox VerticalContentAlignment="Center"
                     ItemsSource="{Binding Mode=OneWay, Source={StaticResource FilteredCvs}}"
@@ -117,8 +129,7 @@
                         Grid.Row="0" Grid.Column="0"
                         Command="{Binding AyGeri}"
                         FontFamily="Wingdings"
-                        local:MovableControl.MoveData="True" AllowDrop="True" Tag="AyGeri"
-                        ToolTip="ÖNCEKİ AY" />
+                        local:MovableControl.MoveData="True" AllowDrop="True" Tag="AyGeri" ToolTip="ÖNCEKİ AY" />
                     <GroupBox Grid.Column="1" Background="{Binding AyGünler/Ay, Converter={StaticResource ŞuAnkiAyColorConverter}}">
                         <GroupBox.Header>
                             <TextBlock Text="{Binding AyGünler/Ay}" FontWeight="Bold" TextAlignment="Center" />
@@ -135,8 +146,7 @@
                         Grid.Row="0" Grid.Column="2"
                         Command="{Binding Ayİleri}"
                         FontFamily="Wingdings"
-                        local:MovableControl.MoveData="True" AllowDrop="True" Tag="Ayİleri"
-                        ToolTip="SONRAKİ AY" />
+                        local:MovableControl.MoveData="True" AllowDrop="True" Tag="Ayİleri" ToolTip="SONRAKİ AY" />
                 </Grid>
             </TabItem>
             <TabItem>
@@ -166,15 +176,18 @@
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
                     <Slider Grid.Row="0" Grid.Column="0"
-                        IsDirectionReversed="True" IsSnapToTickEnabled="True" IsTabStop="False"
-                        Maximum="12" Minimum="1" Orientation="Vertical"
+                        IsDirectionReversed="True" IsSnapToTickEnabled="True" IsTabStop="False" Maximum="12"
+                        Minimum="1" Orientation="Vertical"
                         Style="{StaticResource SliderStyle}"
                         Value="{Binding SatırSayısı}" />
                     <Button Content="R"
                         Grid.Row="1" Grid.Column="0"
                         Command="{Binding SatırSütünSıfırla, Mode=OneWay}"
                         IsTabStop="False" />
-                    <ListBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Mode=OneWay, Source={StaticResource Günler}}" ItemTemplate="{StaticResource ListBoxDataTemplate}">
+                    <ListBox Grid.Row="0" Grid.Column="1"
+                        ItemsSource="{Binding Mode=OneWay, Source={StaticResource Günler}}"
+                        IsSynchronizedWithCurrentItem="False"
+                        ItemTemplate="{StaticResource ListBoxDataTemplate}">
                         <ListBox.ItemContainerStyle>
                             <Style BasedOn="{StaticResource ListBoxItemContainerStyle}" TargetType="{x:Type ListBoxItem}">
                                 <Setter Property="BorderThickness" Value="0.5" />
@@ -211,8 +224,7 @@
                     </ListBox>
                     <Slider Grid.Row="2" Grid.Column="2"
                         VerticalAlignment="Center"
-                        IsSnapToTickEnabled="True" IsTabStop="False" Maximum="12"
-                        Minimum="1"
+                        IsSnapToTickEnabled="True" IsTabStop="False" Maximum="12" Minimum="1"
                         Style="{StaticResource SliderStyle}"
                         Value="{Binding SütünSayısı}" />
                 </Grid>
@@ -236,7 +248,9 @@
                         </Button>
                     </StackPanel>
                 </GroupBox.Header>
-                <ListBox Background="Transparent" ItemsSource="{Binding Mode=OneWay, Source={StaticResource Cvs}}" ScrollViewer.IsDeferredScrollingEnabled="True">
+                <ListBox Background="Transparent"
+                    ItemsSource="{Binding Mode=OneWay, Source={StaticResource Cvs}}"
+                    IsSynchronizedWithCurrentItem="False" ScrollViewer.IsDeferredScrollingEnabled="True">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel>
@@ -259,7 +273,10 @@
                                         <Run Text="{Binding Converter={StaticResource XmlDateConverter}, StringFormat=\{0:dd/MM/yyyy\}, XPath=Gun}" />
                                     </Hyperlink>
                                     <LineBreak />
-                                    <Run Text="{Binding XPath=Aciklama}" Foreground="Green" FontWeight="Bold" ToolTip="{Binding XPath=Aciklama}" />
+                                    <Run Text="{Binding XPath=Aciklama}"
+                                        Foreground="Green"
+                                        FontWeight="Bold"
+                                        ToolTip="{Binding XPath=Aciklama}" />
                                 </TextBlock>
                                 <local:ContentToggleButton OverContent="DOSYALAR">
                                     <local:ContentToggleButton.Style>
@@ -282,7 +299,8 @@
                                                         <TextBlock VerticalAlignment="Center">
                                                             <Hyperlink Command="{Binding DosyaAç, Mode=OneWay, Source={StaticResource Data}}" CommandParameter="{Binding XPath=@Yol}">
                                                                 <Run Text="{Binding XPath=@Ad}" />
-                                                            </Hyperlink></TextBlock>
+                                                            </Hyperlink>
+                                                        </TextBlock>
                                                     </StackPanel>
                                                 </DataTemplate>
                                             </ListBox.ItemTemplate>
@@ -339,18 +357,21 @@
                         <ComboBoxItem Content="YIL" />
                     </ComboBox>
                     <Slider VerticalAlignment="Center"
-                        AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" Maximum="60"
-                        Minimum="1" ToolTip="UYARILARIN KONTROL ARALIĞI DAKİKA OLARAK"
+                        AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" Maximum="60" Minimum="1"
+                        ToolTip="UYARILARIN KONTROL ARALIĞI DAKİKA OLARAK"
                         Value="{Binding KontrolSüresi, Mode=TwoWay, Source={x:Static properties:Settings.Default}}" />
                     <Slider VerticalAlignment="Center"
-                        AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" Maximum="60"
-                        Minimum="5" ToolTip="UYARILARIN EKRANDA GÖRÜNME SÜRESİ SANİYE OLARAK"
+                        AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" Maximum="60" Minimum="5"
+                        ToolTip="UYARILARIN EKRANDA GÖRÜNME SÜRESİ SANİYE OLARAK"
                         Value="{Binding PopupSüresi, Mode=TwoWay, Source={x:Static properties:Settings.Default}}" />
                     <Slider VerticalAlignment="Center"
-                        AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" Maximum="24"
-                        Minimum="1" ToolTip="UYARILAR BELİRTİLEN SAAT ÖNCESİNDEN EKRANDA GÖRÜNMEYE BAŞLAR"
+                        AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" Maximum="24" Minimum="1"
+                        ToolTip="UYARILAR BELİRTİLEN SAAT ÖNCESİNDEN EKRANDA GÖRÜNMEYE BAŞLAR"
                         Value="{Binding UyarıSaatSüresi, Mode=TwoWay, Source={x:Static properties:Settings.Default}}" />
-                    <CheckBox Content="HS" VerticalAlignment="Center" IsChecked="{Binding Path=HaftaSonlarıGizle, Mode=TwoWay, Source={x:Static properties:Settings.Default}}" ToolTip="HAFTA SONLARINI GİZLE" />
+                    <CheckBox Content="HS"
+                        VerticalAlignment="Center"
+                        IsChecked="{Binding Path=HaftaSonlarıGizle, Mode=TwoWay, Source={x:Static properties:Settings.Default}}"
+                        ToolTip="HAFTA SONLARINI GİZLE" />
                     <Button Command="{Binding AyarSıfırla, Mode=OneWay}" ToolTip="AYARLARI SIFIRLA">
                         <Image Width="16" Height="16" Source="{Binding ConverterParameter=146, Converter={StaticResource Shell32FileIconConverter}}" />
                     </Button>
@@ -360,7 +381,9 @@
                     <Button Command="{Binding EskiVerileriSil, Mode=OneWay}" ToolTip="TÜM ESKİ VERİLERİ SİL">
                         <Image Width="16" Height="16" Source="{Binding ConverterParameter=131, Converter={StaticResource Shell32FileIconConverter}}" />
                     </Button>
-                    <ToggleButton Grid.Column="0" IsChecked="{Binding BaşlangıçtaÇalışacak}" IsTabStop="False" ToolTip="Başlangıçta Çalıştır.">
+                    <ToggleButton Grid.Column="0"
+                        IsChecked="{Binding BaşlangıçtaÇalışacak}"
+                        IsTabStop="False" ToolTip="Başlangıçta Çalıştır.">
                         <Image Width="16" Height="16" Source="{Binding ConverterParameter=24, Converter={StaticResource Shell32FileIconConverter}}" />
                     </ToggleButton>
                     <Button Command="{Binding VeritabanıAç, Mode=OneWay}" ToolTip="XML VERİTABANINI AÇ">

@@ -71,6 +71,7 @@
     </ApplicationDefinition>
     <Compile Include="ContentToggleButton.cs" />
     <Compile Include="Converter\AyTekrarConverter.cs" />
+    <Compile Include="Converter\AyTekrarDataConverter.cs" />
     <Compile Include="Converter\Base64ImageConverter.cs" />
     <Compile Include="Converter\BilinenGünlerConverter.cs" />
     <Compile Include="Converter\BoolInverter.cs" />

@@ -38,7 +38,10 @@
                                 Background="#FFE7EAEA" BorderBrush="#FFD6D6D6" BorderThickness="1"
                                 Margin="5,0" VerticalAlignment="Center">
                                 <Canvas Margin="-6,-1">
-                                    <Rectangle x:Name="PART_SelectionRange" Visibility="Hidden" Height="4" Fill="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
+                                    <Rectangle x:Name="PART_SelectionRange"
+                                        Visibility="Hidden"
+                                        Height="4"
+                                        Fill="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
                                 </Canvas>
                             </Border>
                             <Track x:Name="PART_Track" Grid.Row="1">
@@ -161,8 +164,7 @@
                                                 VerticalAlignment="Center"
                                                 Stroke="#FFACACAC" StrokeThickness="1"
                                                 Data="M0,12C0,12 5.5,18 5.5,18 5.5,18 11,12 11,12 11,12 11,0 11,0 11,0 0,0 0,0 0,0 0,12 0,12z"
-                                                Fill="#FFF0F0F0" SnapsToDevicePixels="True" Stretch="Fill"
-                                                UseLayoutRounding="True" />
+                                                Fill="#FFF0F0F0" SnapsToDevicePixels="True" Stretch="Fill" UseLayoutRounding="True" />
                                         </Grid>
                                         <ControlTemplate.Triggers>
                                             <Trigger Property="IsMouseOver" Value="True">
@@ -233,7 +235,10 @@
                                         Background="#FFE7EAEA" BorderBrush="#FFD6D6D6" BorderThickness="1"
                                         Margin="0,5" HorizontalAlignment="Center">
                                         <Canvas Margin="-1,-6">
-                                            <Rectangle x:Name="PART_SelectionRange" Visibility="Hidden" Width="4" Fill="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
+                                            <Rectangle x:Name="PART_SelectionRange"
+                                                Visibility="Hidden"
+                                                Width="4"
+                                                Fill="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
                                         </Canvas>
                                     </Border>
                                     <Track x:Name="PART_Track" Grid.Column="1">

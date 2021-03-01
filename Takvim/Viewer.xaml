@@ -7,8 +7,8 @@
     Title="Dahili Gösterici"
     Width="800" Height="578"
     d:DataContext="{d:DesignInstance Type=local:ImageViewer}"
-    Closing="Window_Closing" ShowInTaskbar="True" UseLayoutRounding="True"
-    WindowStartupLocation="CenterScreen" WindowState="Maximized"
+    Closing="Window_Closing" ShowInTaskbar="True" UseLayoutRounding="True" WindowStartupLocation="CenterScreen"
+    WindowState="Maximized"
     mc:Ignorable="d">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -19,13 +19,20 @@
             <RowDefinition />
         </Grid.RowDefinitions>
         <ToolBar Grid.Row="0" Grid.ColumnSpan="2" ToolBarTray.IsLocked="True">
-            <Slider Width="100" Maximum="10" Minimum="0.25" Value="{Binding Zoom}" />
-            <Slider Width="100" Maximum="360" Minimum="0" Value="{Binding Angle}" />
+            <Slider Width="100"
+                Maximum="10" Minimum="0.25"
+                Value="{Binding Zoom}" />
+            <Slider Width="100"
+                Maximum="360" Minimum="0"
+                Value="{Binding Angle}" />
             <Button Content="RESİM SAKLA" Command="{Binding ResimSakla}" CommandParameter="{Binding Xmldata}" />
             <Button Content="RESİM YAZDIR" Command="{Binding Yazdır}" CommandParameter="{Binding Path=Resim}" />
             <Button Command="{Binding OcrUygula}">
                 <Grid>
-                    <ProgressBar Width="80" Background="{x:Null}" BorderBrush="{x:Null}" IsIndeterminate="{Binding OcrSürüyor}" />
+                    <ProgressBar Width="80"
+                        Background="{x:Null}"
+                        BorderBrush="{x:Null}"
+                        IsIndeterminate="{Binding OcrSürüyor}" />
                     <TextBlock Text="OCR UYGULA" HorizontalAlignment="Center" />
                 </Grid>
             </Button>
@@ -42,7 +49,8 @@
                 </GroupBox>
             </local:ContentToggleButton>
         </ToolBar>
-        <ScrollViewer Grid.Row="1" Grid.Column="0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+        <ScrollViewer Grid.Row="1" Grid.Column="0"
+            HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
             <Image RenderOptions.BitmapScalingMode="Fant" RenderTransformOrigin="0.5,0.5" Source="{Binding Resim}">
                 <Image.LayoutTransform>
                     <TransformGroup ice:Freeze="True">

@@ -7,22 +7,32 @@ using System.Xml;
 
 namespace Takvim
 {
-    public class AyTekrarConverter : IValueConverter
+    public class AyTekrarDataConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is Data data && MainViewModel.xmlDataProvider?.Data is ICollection<XmlNode> xmlNode)
             {
+                List<Data> TekrarGünlerVerileri = new List<Data>();
+
                 foreach (XmlNode item in xmlNode.Where(z => z.Attributes["AyTekrar"]?.InnerText == "true"))
                 {
                     int.TryParse(item.Attributes["TekrarGun"]?.InnerText, out int tekrargün);
                     if (data.TamTarih.Day == tekrargün && data.TamTarih > DateTime.Today)
                     {
-                        data.AyTekrar = true;
-                        return data;
+                        Data veri = new Data
+                        {
+                            GünNotAçıklama = item["Aciklama"]?.InnerText,
+                            TamTarih = DateTime.Parse(item["Gun"]?.InnerText)
+                        };
+                        if (item["Resim"]?.InnerText != null)
+                        {
+                            veri.ResimData = System.Convert.FromBase64String(item["Resim"]?.InnerText);
+                        }
+                        TekrarGünlerVerileri.Add(veri);
                     }
                 }
-                return null;
+                return TekrarGünlerVerileri;
             }
             else
             {

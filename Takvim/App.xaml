@@ -35,7 +35,8 @@
             <local:SelectedDateToDataListConverter x:Key="SelectedDateToDataListConverter" />
             <local:WebpByteArrayToImageConverter x:Key="WebpByteArrayToImageConverter" />
             <Storyboard x:Key="TimerColorAnimation" RepeatBehavior="Forever" Timeline.DesiredFrameRate="3">
-                <ColorAnimation Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)" From="Yellow" To="Red" Duration="00:00:01" />
+                <ColorAnimation Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)" From="Yellow" To="Red"
+                    Duration="00:00:01" />
             </Storyboard>
             <ControlTemplate x:Key="GreenToolTipControlTemplate" TargetType="{x:Type ToolTip}">
                 <Border BorderBrush="OliveDrab" BorderThickness="2.5">
@@ -43,7 +44,10 @@
                 </Border>
             </ControlTemplate>
             <ControlTemplate x:Key="SimpleButtonTemplate" TargetType="{x:Type Button}">
-                <Border Background="{TemplateBinding Background}" BorderBrush="{Binding Converter={StaticResource StringToBrushConverter}, XPath=@Renk}" BorderThickness="2.5" CornerRadius="10" />
+                <Border Background="{TemplateBinding Background}"
+                    BorderBrush="{Binding Converter={StaticResource StringToBrushConverter}, XPath=@Renk}"
+                    BorderThickness="2.5"
+                    CornerRadius="10" />
             </ControlTemplate>
             <ControlTemplate x:Key="Eye">
                 <Border Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
@@ -175,11 +179,11 @@
             <ControlTemplate x:Key="Kurban">
                 <Viewbox>
                     <Canvas Width="28.000" Height="29.900">
-                        <Path Stroke="Black" StrokeEndLineCap="Round" StrokeLineJoin="Round"
-                            StrokeStartLineCap="Round" StrokeThickness="2.0"
+                        <Path Stroke="Black" StrokeEndLineCap="Round" StrokeLineJoin="Round" StrokeStartLineCap="Round"
+                            StrokeThickness="2.0"
                             Data="F1 M 27.000,17.300 C 27.000,14.700 25.600,12.400 23.400,11.200 C 24.900,9.200 26.000,6.800 26.000,4.000 C 26.000,3.000 26.000,2.000 25.500,1.000 L 25.500,1.100 C 24.300,5.900 19.900,9.000 14.900,9.000 L 13.100,9.000 C 8.100,9.000 3.600,5.900 2.500,1.100 L 2.500,1.000 C 2.000,2.000 2.000,3.000 2.000,4.000 C 2.000,6.800 3.100,9.200 4.600,11.300 C 2.400,12.500 1.000,14.700 1.000,17.300 C 2.600,17.300 4.100,16.700 5.300,15.800 L 6.400,24.800 C 6.700,27.200 8.700,28.900 11.100,28.900 L 16.900,28.900 C 19.300,28.900 21.300,27.100 21.600,24.800 L 22.700,15.800 C 23.900,16.800 25.400,17.300 27.000,17.300 Z" />
-                        <Path Stroke="Black" StrokeEndLineCap="Round" StrokeLineJoin="Round"
-                            StrokeStartLineCap="Round" StrokeThickness="2.0"
+                        <Path Stroke="Black" StrokeEndLineCap="Round" StrokeLineJoin="Round" StrokeStartLineCap="Round"
+                            StrokeThickness="2.0"
                             Data="F1 M 7.000,23.000 L 21.000,23.000" />
                     </Canvas>
                 </Viewbox>
@@ -225,7 +229,8 @@
                     ToolTip="{Binding Name}" />
             </DataTemplate>
             <ItemsPanelTemplate x:Key="CbItemsPanelTemplate">
-                <WrapPanel Width="300" Height="350" IsItemsHost="True" Orientation="Horizontal" />
+                <WrapPanel Width="300" Height="350"
+                    IsItemsHost="True" Orientation="Horizontal" />
             </ItemsPanelTemplate>
             <Style x:Key="ComboBoxItemContainerStyle" TargetType="{x:Type ComboBoxItem}">
                 <Style.Triggers>
@@ -299,7 +304,9 @@
                     <Canvas.InputBindings>
                         <MouseBinding Command="{Binding VeriEkleEkranı, Mode=OneWay}" MouseAction="LeftClick" />
                     </Canvas.InputBindings>
-                    <TextBlock Canvas.Left="0" Width="30" Height="30" FontSize="10">
+                    <TextBlock Canvas.Left="0"
+                        Width="30" Height="30"
+                        FontSize="10">
                         <TextBlock.Style>
                             <Style TargetType="{x:Type TextBlock}">
                                 <Style.Triggers>
@@ -332,7 +339,9 @@
                                     </ListBox>
                                 </ToolTip>
                             </Run.ToolTip>
-                        </Run><LineBreak /><Run Text="{Binding GünAdı}" />
+                        </Run>
+                        <LineBreak />
+                        <Run Text="{Binding GünAdı}" />
                         <Run Foreground="Blue" FontSize="6" FontFamily="Segoe UI Symbol">
                             <Run.Style>
                                 <Style TargetType="{x:Type Run}">
@@ -372,13 +381,16 @@
                                     </ListBox>
                                 </ToolTip>
                             </Run.ToolTip>
-                        </Run><Run Text=" " /><Run Foreground="DarkMagenta" DataContext="{Binding Converter={StaticResource AyTekrarConverter}, Mode=OneWay}" FontSize="6" FontFamily="Segoe UI Symbol">
+                        </Run>
+                        <Run Foreground="Blue"
+                            DataContext="{Binding Converter={StaticResource AyTekrarConverter}, Mode=OneWay}"
+                            FontSize="7" FontWeight="Bold">
                             <Run.Style>
                                 <Style TargetType="{x:Type Run}">
                                     <Setter Property="Text" Value="" />
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding AyTekrar, Mode=OneWay}" Value="true">
-                                            <Setter Property="Text" Value="◆" />
+                                            <Setter Property="Text" Value="T" />
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
@@ -388,16 +400,20 @@
                                     <ListBox ItemsSource="{Binding Converter={StaticResource AyTekrarDataConverter}, Mode=OneWay}">
                                         <ListBox.ItemTemplate>
                                             <DataTemplate>
-                                                <TextBlock>
-                                                    <Run Text="{Binding GünNotAçıklama}" />
-                                                    <Run Text="{Binding TamTarih, StringFormat=\{0:d\}}" Language="tr-tr" />
-                                                </TextBlock>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Image MaxWidth="48" MaxHeight="48" Source="{Binding ResimData, ConverterParameter=48, Converter={StaticResource WebpByteArrayToImageConverter}, Mode=OneWay}" />
+                                                    <TextBlock VerticalAlignment="Center">
+                                                        <Run Text="{Binding GünNotAçıklama}" />
+                                                        <Run Text="{Binding TamTarih, StringFormat=\{0:d\}}" Language="tr-tr" />
+                                                    </TextBlock>
+                                                </StackPanel>
                                             </DataTemplate>
                                         </ListBox.ItemTemplate>
                                     </ListBox>
                                 </ToolTip>
                             </Run.ToolTip>
-                        </Run></TextBlock>
+                        </Run>
+                    </TextBlock>
                     <ContentControl Canvas.Top="0" Canvas.Right="-4"
                         Width="16" Height="10"
                         IsTabStop="False" RenderTransformOrigin="0.5,0.5">
@@ -489,7 +505,8 @@
                         RenderTransformOrigin="0.5,0.5" UseLayoutRounding="True">
                         <Canvas.ToolTip>
                             <ToolTip Foreground="{x:Null}" Background="{x:Null}" BorderBrush="{x:Null}">
-                                <Border Background="Red" BorderBrush="White" BorderThickness="1" Padding="4">
+                                <Border Background="Red" BorderBrush="White" BorderThickness="1"
+                                    Padding="4">
                                     <TextBlock Text="{Binding AdornedElement.(Validation.Errors)/ErrorContent, Mode=OneWay}" Foreground="White" />
                                 </Border>
                             </ToolTip>
@@ -563,7 +580,11 @@
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
-                        </TextBlock.Style><Run Text="{Binding Gün}" /><LineBreak /><Run Text="{Binding GünAdı}" /></TextBlock>
+                        </TextBlock.Style>
+                        <Run Text="{Binding Gün}" />
+                        <LineBreak />
+                        <Run Text="{Binding GünAdı}" />
+                    </TextBlock>
                     <ListBox Width="120" Height="130"
                         VerticalAlignment="Center"
                         ItemsSource="{Binding Converter={StaticResource SelectedDateToDataListConverter}, Mode=OneWay}"
@@ -608,7 +629,8 @@
                                                                 </DataTrigger>
                                                             </Style.Triggers>
                                                         </Style>
-                                                    </TextBlock.Style><Hyperlink x:Name="Hyp"
+                                                    </TextBlock.Style>
+                                                    <Hyperlink x:Name="Hyp"
                                                         Command="{Binding XmlVeriSil, Mode=OneWay, Source={StaticResource Data}}"
                                                         CommandParameter="{Binding XPath=@Id}"
                                                         FontSize="12" FontFamily="Segoe UI Black">
