@@ -135,7 +135,7 @@
                     Value="{Binding EtkinlikSüresi, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
                 <local:TimePicker Grid.Row="5" Grid.ColumnSpan="2"
                     ClearButtonVisible="Visible"
-                    TimeValue="{Binding SaatBaşlangıç, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
+                    TimeValue="{Binding SaatBaşlangıç, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
                 <Button Content="RESİM YÜKLE"
                     Grid.Row="6" Grid.ColumnSpan="2"
                     IsEnabled="{Binding GünNotAçıklama, Converter={StaticResource StringNullableToBooleanConverter}}"
@@ -173,6 +173,7 @@
                 </local:ContentToggleButton>
                 <ListBox Grid.Row="0" Grid.Column="2" Grid.RowSpan="9"
                     ItemsSource="{Binding Mode=OneWay, Source={StaticResource FilteredCvs}}"
+                    IsSynchronizedWithCurrentItem="False"
                     ItemContainerStyle="{StaticResource ListBoxToolTipItemContainerStyle}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
@@ -193,7 +194,7 @@
                                     <StackPanel.DataContext>
                                         <local:Data />
                                     </StackPanel.DataContext>
-                                    <local:TimePicker TimeValue="{Binding SaatBaşlangıç, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
+                                    <local:TimePicker TimeValue="{Binding SaatBaşlangıç, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
                                     <local:MaskedTextBox Width="35"
                                         IncludePrompt="False" Mask="00" PromptChar="_"
                                         ValueType="{x:Type system:Double}"

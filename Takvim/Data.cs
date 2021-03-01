@@ -2,6 +2,7 @@
 using Microsoft.Win32;
 using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
@@ -16,7 +17,7 @@ using System.Xml;
 
 namespace Takvim
 {
-    public class Data : InpcBase
+    public class Data : InpcBase, IDataErrorInfo
     {
         private string ay;
 
@@ -254,7 +255,7 @@ namespace Takvim
                     UpdateAttribute(xmlattributeId, "SaatBaslangic", SaatBaşlangıç);
                     UpdateAttribute(xmlattributeId, "Saat", EtkinlikSüresi.ToString());
                     UpdateAttribute(xmlattributeId, "AyTekrar", AyTekrar.ToString().ToLower());
-                    UpdateAttribute(xmlattributeId, "Renk",  VeriRenk == null ? Brushes.Transparent.ToString() : VeriRenk.ToString());
+                    UpdateAttribute(xmlattributeId, "Renk", VeriRenk == null ? Brushes.Transparent.ToString() : VeriRenk.ToString());
                     UpdateAttribute(xmlattributeId, "TekrarGun", AyTekrarGun.ToString());
                 }
             }, parameter => DateTime.TryParseExact(SaatBaşlangıç, "H:m", new CultureInfo("tr-TR"), DateTimeStyles.None, out _));
@@ -338,6 +339,13 @@ namespace Takvim
                 verigirişwindow.ShowDialog();
             }, parameter => true);
         }
+
+        public string this[string columnName] =>
+            columnName switch
+            {
+                "SaatBaşlangıç" when string.IsNullOrWhiteSpace(SaatBaşlangıç) || SaatBaşlangıç == "__:__" => "Başlangıç Saatini Boş Bırakmayın.",
+                _ => null
+            };
 
         public string Ay
         {
@@ -672,6 +680,8 @@ namespace Takvim
         public ICommand XmlVeriGüncelle { get; }
 
         public ICommand XmlVeriSil { get; }
+
+        public string Error => string.Empty;
 
         private void UpdateAttribute(XmlAttribute xmlAttribute, string attributevalue, string updatedattributevalue)
         {
