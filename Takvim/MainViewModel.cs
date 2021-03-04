@@ -136,7 +136,7 @@ namespace Takvim
                 }
             }, parameter => true);
 
-            ResimGör = new RelayCommand<object>(parameter =>
+            DosyaGör = new RelayCommand<object>(parameter =>
             {
                 if (parameter is XmlElement xmlElement)
                 {
@@ -365,7 +365,7 @@ namespace Takvim
             }
         }
 
-        public ICommand ResimGör { get; }
+        public ICommand DosyaGör { get; }
 
         public Brush ResmiTatilRenk
         {

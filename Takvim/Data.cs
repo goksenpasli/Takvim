@@ -64,6 +64,8 @@ namespace Takvim
         private bool kilitliMi;
 
         private double ayTekrarGun;
+        private byte[] pdfData;
+        private string pdfUzantı;
 
         public Data()
         {
@@ -141,6 +143,16 @@ namespace Takvim
                         Resim.InnerText = Convert.ToBase64String(ResimData);
                     }
 
+                    if (PdfData != null && PdfUzantı != null)
+                    {
+                        XmlNode Pdf = document.CreateElement("Pdf");
+                        rootNode.AppendChild(Pdf);
+                        XmlAttribute PdfExt = document.CreateAttribute("Ext");
+                        PdfExt.Value = PdfUzantı;
+                        Pdf.Attributes.Append(PdfExt);
+                        Pdf.InnerText = Convert.ToBase64String(PdfData);
+                    }
+
                     if (Dosyalar != null)
                     {
                         XmlNode xmlnodeDosyalar = document.CreateElement("Dosyalar");
@@ -158,7 +170,7 @@ namespace Takvim
                 {
                     MessageBox.Show("Ocr İşlemi Sürüyor Bitmesini Bekleyin.", "TAKVİM", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                 }
-            }, parameter => !string.IsNullOrWhiteSpace(GünNotAçıklama) && DateTime.TryParseExact(SaatBaşlangıç, "H:m", new CultureInfo("tr-TR"), DateTimeStyles.None, out _));
+            }, parameter => VeriRenk != null && !string.IsNullOrWhiteSpace(GünNotAçıklama) && DateTime.TryParseExact(SaatBaşlangıç, "H:m", new CultureInfo("tr-TR"), DateTimeStyles.None, out _));
 
             ResimYükle = new RelayCommand<object>(parameter =>
             {
@@ -168,6 +180,16 @@ namespace Takvim
                     ResimData = openFileDialog.FileName.WebpEncode(WebpQuality);
                     ResimUzantı = ".webp";
                     Boyut = ResimData.Length / 1024;
+                }
+            }, parameter => Environment.OSVersion.Version.Major > 5);
+
+            PdfYükle = new RelayCommand<object>(parameter =>
+            {
+                OpenFileDialog openFileDialog = new OpenFileDialog { Multiselect = false, Filter = "Pdf Dosyaları (*.pdf)|*.pdf" };
+                if (openFileDialog.ShowDialog() == true)
+                {
+                    PdfData = File.ReadAllBytes(openFileDialog.FileName);
+                    PdfUzantı = ".pdf";
                 }
             }, parameter => Environment.OSVersion.Version.Major > 5);
 
@@ -262,6 +284,8 @@ namespace Takvim
 
             Resimİptal = new RelayCommand<object>(parameter => ResimData = null, parameter => ResimData?.Length > 0);
 
+            Pdfİptal = new RelayCommand<object>(parameter => PdfData = null, parameter => PdfData?.Length > 0);
+
             Okunduİşaretle = new RelayCommand<object>(parameter =>
             {
                 if (parameter is int id)
@@ -344,6 +368,8 @@ namespace Takvim
             columnName switch
             {
                 "SaatBaşlangıç" when string.IsNullOrWhiteSpace(SaatBaşlangıç) || SaatBaşlangıç == "__:__" => "Başlangıç Saatini Boş Bırakmayın.",
+                "GünNotAçıklama" when string.IsNullOrWhiteSpace(GünNotAçıklama) => "Açıklamayı Boş Bırakmayın.",
+                "VeriRenk" when VeriRenk == null => "Açıklamayı Boş Bırakmayın.",
                 _ => null
             };
 
@@ -410,6 +436,10 @@ namespace Takvim
         public ICommand DosyaAç { get; }
 
         public ICommand IcalEkle { get; }
+
+        public ICommand Pdfİptal { get; }
+
+        public ICommand PdfYükle { get; }
 
         public ObservableCollection<string> Dosyalar
         {
@@ -579,6 +609,34 @@ namespace Takvim
                 {
                     resimData = value;
                     OnPropertyChanged(nameof(ResimData));
+                }
+            }
+        }
+
+        public byte[] PdfData
+        {
+            get => pdfData;
+
+            set
+            {
+                if (pdfData != value)
+                {
+                    pdfData = value;
+                    OnPropertyChanged(nameof(PdfData));
+                }
+            }
+        }
+
+        public string PdfUzantı
+        {
+            get => pdfUzantı;
+
+            set
+            {
+                if (pdfUzantı != value)
+                {
+                    pdfUzantı = value;
+                    OnPropertyChanged(nameof(PdfUzantı));
                 }
             }
         }

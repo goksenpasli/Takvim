@@ -28,6 +28,7 @@ namespace Takvim
         private string yatsı;
 
         private DateTime yılınGünü;
+        private string imsak;
 
         public Prayer()
         {
@@ -111,6 +112,20 @@ namespace Takvim
             }
         }
 
+        public string İmsak
+        {
+            get => imsak;
+
+            set
+            {
+                if (imsak != value)
+                {
+                    imsak = value;
+                    OnPropertyChanged(nameof(İmsak));
+                }
+            }
+        }
+
         public string Sabah
         {
             get => sabah;
@@ -184,6 +199,7 @@ namespace Takvim
                         Prayer data = new Prayer()
                         {
                             Tarih = DateTime.Parse(item.Attributes.GetNamedItem("day").Value + "/" + item.Attributes.GetNamedItem("month").Value + "/" + yıl),
+                            İmsak = item.InnerText.Split('\t')[0],
                             Sabah = item.InnerText.Split('\t')[2],
                             Öğle = item.InnerText.Split('\t')[5],
                             İkindi = item.InnerText.Split('\t')[6],

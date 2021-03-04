@@ -33,6 +33,7 @@
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="GÜN" DisplayMemberBinding="{Binding Tarih, StringFormat=\{0:dd/MM/yyyy\}}" />
+                        <GridViewColumn Header="İMSAK" DisplayMemberBinding="{Binding İmsak}" />
                         <GridViewColumn Header="SABAH" DisplayMemberBinding="{Binding Sabah}" />
                         <GridViewColumn Header="ÖĞLE" DisplayMemberBinding="{Binding Öğle}" />
                         <GridViewColumn Header="İKİNDİ" DisplayMemberBinding="{Binding İkindi}" />
