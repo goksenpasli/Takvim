@@ -46,27 +46,26 @@ namespace Takvim
 
         private static class NativeMethods
         {
-            [DllImport("user32.dll")]
+            [DllImport("user32.dll", CharSet = CharSet.None, ExactSpelling = false)]
             public static extern SafeIconHandle CreateIconIndirect(ref IconInfo icon);
 
-            [DllImport("user32.dll")]
+            [DllImport("user32.dll", CharSet = CharSet.None, ExactSpelling = false)]
             public static extern bool DestroyIcon(IntPtr hIcon);
 
-            [DllImport("user32.dll")]
-            [return: MarshalAs(UnmanagedType.Bool)]
+            [DllImport("user32.dll", CharSet = CharSet.None, ExactSpelling = false)]
             public static extern bool GetIconInfo(IntPtr hIcon, ref IconInfo pIconInfo);
 
             public struct IconInfo
             {
                 public bool fIcon;
 
-                public IntPtr hbmColor;
-
-                public IntPtr hbmMask;
-
                 public int xHotspot;
 
                 public int yHotspot;
+
+                public IntPtr hbmMask;
+
+                public IntPtr hbmColor;
             }
         }
 
