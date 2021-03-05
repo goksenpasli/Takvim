@@ -13,10 +13,7 @@ namespace Takvim
 
         public static readonly DependencyProperty TimeValueProperty = DependencyProperty.Register("TimeValue", typeof(string), typeof(TimePicker), new PropertyMetadata(null));
 
-        static TimePicker()
-        {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(TimePicker), new FrameworkPropertyMetadata(typeof(TimePicker)));
-        }
+        static TimePicker() => DefaultStyleKeyProperty.OverrideMetadata(typeof(TimePicker), new FrameworkPropertyMetadata(typeof(TimePicker)));
 
         public TimePicker() => GenerateTime(Interval);
 
@@ -54,7 +51,7 @@ namespace Takvim
         private static bool IsValidInterval(object value)
         {
             int v = (int)value;
-            return v > 0 && v <= 1440;
+            return v is > 0 and <= 1440;
         }
     }
 }

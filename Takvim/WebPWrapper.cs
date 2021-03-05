@@ -83,7 +83,7 @@ namespace Takvim
             VP8StatusCode result;
             try
             {
-                WebPDecoderConfig config = new WebPDecoderConfig();
+                WebPDecoderConfig config = new();
                 if (UnsafeNativeMethods.WebPInitDecoderConfig(ref config) == 0)
                 {
                     throw new Exception("WebPInitDecoderConfig failed. Wrong version?");
@@ -183,7 +183,7 @@ namespace Takvim
             BitmapData bmpData = null;
             try
             {
-                WebPDecoderConfig config = new WebPDecoderConfig();
+                WebPDecoderConfig config = new();
                 if (UnsafeNativeMethods.WebPInitDecoderConfig(ref config) == 0)
                 {
                     throw new Exception("WebPInitDecoderConfig failed. Wrong version?");
@@ -239,7 +239,7 @@ namespace Takvim
             BitmapData bmpData = null;
             try
             {
-                WebPDecoderConfig config = new WebPDecoderConfig();
+                WebPDecoderConfig config = new();
                 if (UnsafeNativeMethods.WebPInitDecoderConfig(ref config) == 0)
                 {
                     throw new Exception("WebPInitDecoderConfig failed. Wrong version?");
@@ -345,7 +345,7 @@ namespace Takvim
                 throw new NotSupportedException("Bitmap's dimension is too large. Max is " + WEBP_MAX_DIMENSION + "x" + WEBP_MAX_DIMENSION + " pixels.");
             }
 
-            if (bmp.PixelFormat != PixelFormat.Format24bppRgb && bmp.PixelFormat != PixelFormat.Format32bppArgb)
+            if (bmp.PixelFormat is not PixelFormat.Format24bppRgb and not PixelFormat.Format32bppArgb)
             {
                 throw new NotSupportedException("Sadece 24 ve 32 bit resim desteklenir.");
             }
@@ -389,7 +389,7 @@ namespace Takvim
 
         public byte[] EncodeLossless(Bitmap bmp, int speed)
         {
-            WebPConfig config = new WebPConfig();
+            WebPConfig config = new();
             if (UnsafeNativeMethods.WebPConfigInit(ref config, WebPPreset.WEBP_PRESET_DEFAULT, (speed + 1) * 10) == 0)
             {
                 throw new Exception("Can´t config preset");
@@ -434,7 +434,7 @@ namespace Takvim
                 throw new NotSupportedException("Bitmap's dimension is too large. Max is " + WEBP_MAX_DIMENSION + "x" + WEBP_MAX_DIMENSION + " pixels.");
             }
 
-            if (bmp.PixelFormat != PixelFormat.Format24bppRgb && bmp.PixelFormat != PixelFormat.Format32bppArgb)
+            if (bmp.PixelFormat is not PixelFormat.Format24bppRgb and not PixelFormat.Format32bppArgb)
             {
                 throw new NotSupportedException("Sadece 24 ve 32 bit resim desteklenir.");
             }
@@ -483,7 +483,7 @@ namespace Takvim
 
         public byte[] EncodeLossy(Bitmap bmp, int quality, int speed, bool info = false)
         {
-            WebPConfig config = new WebPConfig();
+            WebPConfig config = new();
             if (UnsafeNativeMethods.WebPConfigInit(ref config, WebPPreset.WEBP_PRESET_DEFAULT, 75) == 0)
             {
                 throw new Exception("Can´t config preset");
@@ -524,7 +524,7 @@ namespace Takvim
                 throw new Exception("This dll version not suport EncodeNearLossless");
             }
 
-            WebPConfig config = new WebPConfig();
+            WebPConfig config = new();
             if (UnsafeNativeMethods.WebPConfigInit(ref config, WebPPreset.WEBP_PRESET_DEFAULT, (speed + 1) * 10) == 0)
             {
                 throw new Exception("Can´t config preset");
@@ -569,7 +569,7 @@ namespace Takvim
             try
             {
                 IntPtr ptrRawWebP = pinnedWebP.AddrOfPinnedObject();
-                WebPBitstreamFeatures features = new WebPBitstreamFeatures();
+                WebPBitstreamFeatures features = new();
                 result = UnsafeNativeMethods.WebPGetFeatures(ptrRawWebP, rawWebP.Length, ref features);
                 if (result != 0)
                 {
@@ -602,8 +602,8 @@ namespace Takvim
 
         public float[] GetPictureDistortion(Bitmap source, Bitmap reference, int metric_type)
         {
-            WebPPicture wpicSource = new WebPPicture();
-            WebPPicture wpicReference = new WebPPicture();
+            WebPPicture wpicSource = new();
+            WebPPicture wpicReference = new();
             BitmapData sourceBmpData = null;
             BitmapData referenceBmpData = null;
             float[] result = new float[5];
@@ -748,11 +748,11 @@ namespace Takvim
         {
             byte[] rawWebP = null;
             byte[] dataWebp = null;
-            WebPPicture wpic = new WebPPicture();
+            WebPPicture wpic = new();
             BitmapData bmpData = null;
-            WebPAuxStats stats = new WebPAuxStats();
+            WebPAuxStats stats = new();
             IntPtr ptrStats = IntPtr.Zero;
-            GCHandle pinnedArrayHandle = new GCHandle();
+            GCHandle pinnedArrayHandle = new();
             int dataWebpSize;
             try
             {
@@ -771,7 +771,7 @@ namespace Takvim
                     throw new NotSupportedException("Bitmap's dimension is too large. Max is " + WEBP_MAX_DIMENSION + "x" + WEBP_MAX_DIMENSION + " pixels.");
                 }
 
-                if (bmp.PixelFormat != PixelFormat.Format24bppRgb && bmp.PixelFormat != PixelFormat.Format32bppArgb)
+                if (bmp.PixelFormat is not PixelFormat.Format24bppRgb and not PixelFormat.Format32bppArgb)
                 {
                     throw new NotSupportedException("Sadece 24 ve 32 bit resim desteklenir.");
                 }

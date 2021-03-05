@@ -8,8 +8,6 @@ namespace Takvim
 {
     public class GünTatilConverter : IValueConverter
     {
-        public List<Tuple<short, short, string, bool>> Tatiller { get; }
-
         public GünTatilConverter()
         {
             Tatiller = new List<Tuple<short, short, string, bool>>
@@ -24,6 +22,8 @@ namespace Takvim
                 new Tuple<short, short, string, bool>(10, 29, "Cumhuriyet Bayramı", true)
             };
         }
+
+        public List<Tuple<short, short, string, bool>> Tatiller { get; }
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

@@ -33,10 +33,6 @@ namespace Takvim
             }
         }
 
-        private void UserControl_Loaded(object sender, RoutedEventArgs e) => (TryFindResource("FilteredCvs") as CollectionViewSource).Filter += (s, e) => e.Accepted = DateTime.Parse((e.Item as XmlNode)?["Gun"]?.InnerText) == (DataContext as Data)?.TamTarih;
-
-        private void UserControl_Unloaded(object sender, RoutedEventArgs e) => Dispose(true);
-
         private void TwainCtrl_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "SeçiliResim" && DataContext is Data data)
@@ -46,5 +42,9 @@ namespace Takvim
                 data.Boyut = data.ResimData.Length / 1024;
             }
         }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e) => (TryFindResource("FilteredCvs") as CollectionViewSource).Filter += (s, e) => e.Accepted = DateTime.Parse((e.Item as XmlNode)?["Gun"]?.InnerText) == (DataContext as Data)?.TamTarih;
+
+        private void UserControl_Unloaded(object sender, RoutedEventArgs e) => Dispose(true);
     }
 }

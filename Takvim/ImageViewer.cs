@@ -20,7 +20,6 @@ namespace Takvim
         private BitmapSource resim;
 
         private double zoom = 1;
-        private int ındex;
 
         public ImageViewer(XmlElement xmldata)
         {
@@ -29,8 +28,8 @@ namespace Takvim
             {
                 if (parameter is BitmapSource imageSource)
                 {
-                    PrintDialog pd = new PrintDialog();
-                    DrawingVisual dv = new DrawingVisual();
+                    PrintDialog pd = new();
+                    DrawingVisual dv = new();
                     if (pd.ShowDialog() == true)
                     {
                         using (DrawingContext dc = dv.RenderOpen())
@@ -96,6 +95,8 @@ namespace Takvim
             }
         }
 
+        public XmlElement Xmldata { get; set; }
+
         public ICommand Yazdır { get; }
 
         public double Zoom
@@ -111,7 +112,5 @@ namespace Takvim
                 }
             }
         }
-
-        public XmlElement Xmldata { get; set; }
     }
 }

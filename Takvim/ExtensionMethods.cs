@@ -1,5 +1,4 @@
-﻿using Microsoft.Win32;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -7,6 +6,7 @@ using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Microsoft.Win32;
 
 namespace Takvim
 {
@@ -26,6 +26,8 @@ namespace Takvim
         }
 
         public static System.Drawing.Bitmap BitmapChangeFormat(this System.Drawing.Bitmap bitmap, System.Drawing.Imaging.PixelFormat format) => bitmap.Clone(new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height), format);
+
+        public static bool Contains(this string source, string toCheck, StringComparison comp) => source?.IndexOf(toCheck, comp) >= 0;
 
         public static Brush ConvertToBrush(this System.Drawing.Color color) => new SolidColorBrush(Color.FromArgb(color.A, color.R, color.G, color.B));
 
@@ -62,6 +64,26 @@ namespace Takvim
                     return null;
                 }
             }
+            return null;
+        }
+
+        public static BitmapSource IconCreate(this string filepath, int iconindex)
+        {
+            if (filepath != null)
+            {
+                string defaultIcon = filepath;
+                IntPtr hIcon = hwnd.ExtractIcon(defaultIcon, iconindex);
+                if (hIcon != IntPtr.Zero)
+                {
+                    BitmapSource icon = Imaging.CreateBitmapSourceFromHIcon(hIcon, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+                    hIcon.DestroyIcon();
+                    icon.Freeze();
+                    return icon;
+                }
+
+                hIcon.DestroyIcon();
+            }
+
             return null;
         }
 
@@ -122,10 +144,10 @@ namespace Takvim
         {
             if (bitmap != null)
             {
-                MemoryStream memoryStream = new MemoryStream();
+                MemoryStream memoryStream = new();
                 bitmap.Save(memoryStream, format);
                 memoryStream.Position = 0;
-                BitmapImage image = new BitmapImage();
+                BitmapImage image = new();
                 image.BeginInit();
                 if (decodeheight != 0)
                 {
@@ -150,33 +172,33 @@ namespace Takvim
 
         public static byte[] ToTiffJpegByteArray(this BitmapSource bitmapsource, Format format)
         {
-            using MemoryStream outStream = new MemoryStream();
+            using MemoryStream outStream = new();
             switch (format)
             {
                 case Format.TiffRenkli:
                     {
-                        TiffBitmapEncoder encoder = new TiffBitmapEncoder { Compression = TiffCompressOption.Zip };
+                        TiffBitmapEncoder encoder = new() { Compression = TiffCompressOption.Zip };
                         encoder.Frames.Add(BitmapFrame.Create(bitmapsource));
                         encoder.Save(outStream);
                         return outStream.ToArray();
                     }
                 case Format.Tiff:
                     {
-                        TiffBitmapEncoder encoder = new TiffBitmapEncoder { Compression = TiffCompressOption.Ccitt4 };
+                        TiffBitmapEncoder encoder = new() { Compression = TiffCompressOption.Ccitt4 };
                         encoder.Frames.Add(BitmapFrame.Create(bitmapsource));
                         encoder.Save(outStream);
                         return outStream.ToArray();
                     }
                 case Format.Jpg:
                     {
-                        JpegBitmapEncoder encoder = new JpegBitmapEncoder { QualityLevel = 75 };
+                        JpegBitmapEncoder encoder = new() { QualityLevel = 75 };
                         encoder.Frames.Add(BitmapFrame.Create(bitmapsource));
                         encoder.Save(outStream);
                         return outStream.ToArray();
                     }
                 case Format.Png:
                     {
-                        PngBitmapEncoder encoder = new PngBitmapEncoder();
+                        PngBitmapEncoder encoder = new();
                         encoder.Frames.Add(BitmapFrame.Create(bitmapsource));
                         encoder.Save(outStream);
                         return outStream.ToArray();
@@ -188,8 +210,8 @@ namespace Takvim
 
         public static BitmapSource WebpDecode(this byte[] rawWebp, double decodeheight = 0)
         {
-            using WebP webp = new WebP();
-            WebPDecoderOptions options = new WebPDecoderOptions { use_threads = 1 };
+            using WebP webp = new();
+            WebPDecoderOptions options = new() { use_threads = 1 };
             using System.Drawing.Bitmap bmp = webp.Decode(rawWebp, options);
             BitmapSource bitmapsource = null;
 
@@ -215,8 +237,8 @@ namespace Takvim
         {
             try
             {
-                using WebP webp = new WebP();
-                using MemoryStream ms = new MemoryStream(resim);
+                using WebP webp = new();
+                using MemoryStream ms = new(resim);
                 using System.Drawing.Bitmap bmp = System.Drawing.Image.FromStream(ms) as System.Drawing.Bitmap;
                 return webp.EncodeLossy(bmp, kalite);
             }
@@ -231,37 +253,15 @@ namespace Takvim
         {
             try
             {
-                using WebP webp = new WebP();
-                using System.Drawing.Bitmap bmp = new System.Drawing.Bitmap(resimdosyayolu);
-                return bmp.PixelFormat == System.Drawing.Imaging.PixelFormat.Format24bppRgb || bmp.PixelFormat == System.Drawing.Imaging.PixelFormat.Format32bppArgb ? webp.EncodeLossy(bmp, kalite) : webp.EncodeLossy(bmp.BitmapChangeFormat(System.Drawing.Imaging.PixelFormat.Format24bppRgb), kalite);
+                using WebP webp = new();
+                using System.Drawing.Bitmap bmp = new(resimdosyayolu);
+                return bmp.PixelFormat is System.Drawing.Imaging.PixelFormat.Format24bppRgb or System.Drawing.Imaging.PixelFormat.Format32bppArgb ? webp.EncodeLossy(bmp, kalite) : webp.EncodeLossy(bmp.BitmapChangeFormat(System.Drawing.Imaging.PixelFormat.Format24bppRgb), kalite);
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "EBYS", MessageBoxButton.OK, MessageBoxImage.Error);
                 return null;
             }
-        }
-
-        public static bool Contains(this string source, string toCheck, StringComparison comp) => source?.IndexOf(toCheck, comp) >= 0;
-
-        public static BitmapSource IconCreate(this string filepath, int iconindex)
-        {
-            if (filepath != null)
-            {
-                string defaultIcon = filepath;
-                IntPtr hIcon = hwnd.ExtractIcon(defaultIcon, iconindex);
-                if (hIcon != IntPtr.Zero)
-                {
-                    BitmapSource icon = Imaging.CreateBitmapSourceFromHIcon(hIcon, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
-                    hIcon.DestroyIcon();
-                    icon.Freeze();
-                    return icon;
-                }
-
-                hIcon.DestroyIcon();
-            }
-
-            return null;
         }
     }
 }

@@ -37,7 +37,7 @@ namespace Takvim
 
             try
             {
-                using TesseractEngine engine = new TesseractEngine("./tessdata", "tur", EngineMode.LstmOnly);
+                using TesseractEngine engine = new("./tessdata", "tur", EngineMode.LstmOnly);
                 switch (Path.GetExtension(dosya).ToLower())
                 {
                     case ".tif":
@@ -70,7 +70,7 @@ namespace Takvim
 
         private static string GetOcr(byte[] dosya)
         {
-            using TesseractEngine engine = new TesseractEngine("./tessdata", "tur", EngineMode.LstmOnly);
+            using TesseractEngine engine = new("./tessdata", "tur", EngineMode.LstmOnly);
             using Pix pixImage = Pix.LoadFromMemory(dosya);
             using Page page = engine.Process(pixImage);
             return page.GetText();

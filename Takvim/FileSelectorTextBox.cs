@@ -1,21 +1,25 @@
-﻿using Microsoft.Win32;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Microsoft.Win32;
 
 namespace Takvim
 {
     public class FileSelectorTextBox : TextBox
     {
-        public ICommand SelectFile { get; } = new RoutedCommand();
+        public static readonly DependencyProperty DosyalarProperty = DependencyProperty.Register("Dosyalar", typeof(ObservableCollection<string>), typeof(FileSelectorTextBox), new PropertyMetadata(null));
 
-        public ICommand RemoveItem { get; } = new RoutedCommand();
+        public static readonly DependencyProperty FileListPanelVisibilityProperty = DependencyProperty.Register("FileListPanelVisibility", typeof(Visibility), typeof(FileSelectorTextBox), new PropertyMetadata(Visibility.Visible));
 
-        public string FilePath
+        public static readonly DependencyProperty FilePathProperty = DependencyProperty.Register("FilePath", typeof(string), typeof(FileSelectorTextBox), new PropertyMetadata(null));
+
+        static FileSelectorTextBox() => DefaultStyleKeyProperty.OverrideMetadata(typeof(FileSelectorTextBox), new FrameworkPropertyMetadata(typeof(FileSelectorTextBox)));
+
+        public FileSelectorTextBox()
         {
-            get => (string)GetValue(FilePathProperty);
-            set => SetValue(FilePathProperty, value);
+            CommandBindings.Add(new CommandBinding(SelectFile, SelectFileCommand));
+            CommandBindings.Add(new CommandBinding(RemoveItem, RemoveFileCommand));
         }
 
         public ObservableCollection<string> Dosyalar
@@ -30,19 +34,15 @@ namespace Takvim
             set { SetValue(FileListPanelVisibilityProperty, value); }
         }
 
-        public static readonly DependencyProperty FileListPanelVisibilityProperty = DependencyProperty.Register("FileListPanelVisibility", typeof(Visibility), typeof(FileSelectorTextBox), new PropertyMetadata(Visibility.Visible));
-
-        public static readonly DependencyProperty DosyalarProperty = DependencyProperty.Register("Dosyalar", typeof(ObservableCollection<string>), typeof(FileSelectorTextBox), new PropertyMetadata(null));
-
-        public static readonly DependencyProperty FilePathProperty = DependencyProperty.Register("FilePath", typeof(string), typeof(FileSelectorTextBox), new PropertyMetadata(null));
-
-        static FileSelectorTextBox() => DefaultStyleKeyProperty.OverrideMetadata(typeof(FileSelectorTextBox), new FrameworkPropertyMetadata(typeof(FileSelectorTextBox)));
-
-        public FileSelectorTextBox()
+        public string FilePath
         {
-            CommandBindings.Add(new CommandBinding(SelectFile, SelectFileCommand));
-            CommandBindings.Add(new CommandBinding(RemoveItem, RemoveFileCommand));
+            get => (string)GetValue(FilePathProperty);
+            set => SetValue(FilePathProperty, value);
         }
+
+        public ICommand RemoveItem { get; } = new RoutedCommand();
+
+        public ICommand SelectFile { get; } = new RoutedCommand();
 
         private void RemoveFileCommand(object sender, ExecutedRoutedEventArgs e)
         {
@@ -52,7 +52,7 @@ namespace Takvim
 
         private void SelectFileCommand(object sender, ExecutedRoutedEventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog
+            OpenFileDialog openFileDialog = new()
             {
                 Multiselect = true,
                 Filter = "Tüm Dosyalar (*.*)|*.*"

@@ -5,15 +5,13 @@ namespace iCalNET.Model
 {
     public class vEvent
     {
-        private const string vEventContentPattern = "BEGIN:VEVENT\\r\\n(.+)\\r\\nEND:VEVENT";
-
-        private const RegexOptions vEventContentRegexOptions = RegexOptions.Singleline;
-
         private const string ContentLinePattern = "(.+?):(.+?)(?=\\r\\n[A-Z]|$)";
 
         private const RegexOptions ContentLineTRegexOptions = RegexOptions.Singleline;
 
-        public Dictionary<string, ContentLine> ContentLines { get; set; }
+        private const string vEventContentPattern = "BEGIN:VEVENT\\r\\n(.+)\\r\\nEND:VEVENT";
+
+        private const RegexOptions vEventContentRegexOptions = RegexOptions.Singleline;
 
         public vEvent(string source)
         {
@@ -24,9 +22,11 @@ namespace iCalNET.Model
             foreach (Match match in matches)
             {
                 string contentLineString = match.Groups[0].ToString();
-                ContentLine contentLine = new ContentLine(contentLineString);
+                ContentLine contentLine = new(contentLineString);
                 ContentLines[contentLine.Name] = contentLine;
             }
         }
+
+        public Dictionary<string, ContentLine> ContentLines { get; set; }
     }
 }

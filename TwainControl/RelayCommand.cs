@@ -28,14 +28,14 @@ namespace TwainControl
             _canExecute = canExecute;
         }
 
-        [DebuggerStepThrough]
-        public bool CanExecute(object parameter) => _canExecute == null || _canExecute((T)parameter);
-
         public event EventHandler CanExecuteChanged
         {
             add { CommandManager.RequerySuggested += value; }
             remove { CommandManager.RequerySuggested -= value; }
         }
+
+        [DebuggerStepThrough]
+        public bool CanExecute(object parameter) => _canExecute == null || _canExecute((T)parameter);
 
         public void Execute(object parameter) => _execute((T)parameter);
     }

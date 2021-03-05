@@ -13,7 +13,7 @@ namespace Takvim
     {
         private const string AppId = "7cf5ff9d-1479-436b-a0a2-954d4a72190a";
 
-        private readonly Semaphore instancesAllowed = new Semaphore(1, 1, AppId);
+        private readonly Semaphore instancesAllowed = new(1, 1, AppId);
 
         private bool WasRunning { get; }
 
@@ -29,7 +29,7 @@ namespace Takvim
         {
             if (instancesAllowed.WaitOne(1000))
             {
-                MainWindow mainWindow = new MainWindow();
+                MainWindow mainWindow = new();
                 mainWindow.Closing += MainWindow_Closing;
                 mainWindow.IsVisibleChanged += MainWindow_IsVisibleChanged;
                 mainWindow.StateChanged += MainWindow_StateChanged;
@@ -66,7 +66,7 @@ namespace Takvim
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            DispatcherTimer timer = new DispatcherTimer
+            DispatcherTimer timer = new()
             {
                 Interval = new TimeSpan(0, Settings.Default.KontrolSüresi, 0)
             };
@@ -75,7 +75,7 @@ namespace Takvim
             {
                 MainWindow mainWindow = sender as MainWindow;
                 (mainWindow.DataContext as MainViewModel)?.DuyurularPopupEkranıAç.Execute(null);
-                DispatcherTimer visibilitytimer = new DispatcherTimer
+                DispatcherTimer visibilitytimer = new()
                 {
                     Interval = new TimeSpan(0, 0, Settings.Default.PopupSüresi)
                 };

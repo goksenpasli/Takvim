@@ -8,8 +8,6 @@ namespace Takvim
 {
     public class BilinenGünlerConverter : IValueConverter
     {
-        public List<Tuple<short, short, string>> Günler { get; }
-
         public BilinenGünlerConverter()
         {
             Günler = new List<Tuple<short, short, string>>
@@ -22,6 +20,8 @@ namespace Takvim
                 new Tuple<short, short, string>(11, 10, "Atatürk’ün Ölüm Günü")
             };
         }
+
+        public List<Tuple<short, short, string>> Günler { get; }
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => value is Data data && Günler.Any(z => z.Item1 == data.TamTarih.Month && z.Item2 == data.TamTarih.Day);
 

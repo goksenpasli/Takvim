@@ -1,5 +1,4 @@
-﻿using Microsoft.Win32;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -14,6 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Xml;
 using System.Xml.Linq;
+using Microsoft.Win32;
 using Winforms = System.Windows.Forms;
 
 namespace Takvim
@@ -46,8 +46,6 @@ namespace Takvim
 
         private string etkinlik;
 
-        private Data şuankigünData = new Data();
-
         private Brush gövdeRenk = Properties.Settings.Default.GövdeRenk.ConvertToBrush();
 
         private ObservableCollection<Data> günler;
@@ -66,14 +64,16 @@ namespace Takvim
 
         private short sütünSayısı = Properties.Settings.Default.Sütün;
 
-        private ObservableCollection<Data> yaklaşanEtkinlikler;
+        private Data şuankigünData = new();
 
         private bool tümListe;
 
+        private ObservableCollection<Data> yaklaşanEtkinlikler;
+
         public MainViewModel()
         {
-            Winforms.ContextMenu contextmenu = new Winforms.ContextMenu();
-            Winforms.MenuItem menuitem = new Winforms.MenuItem
+            Winforms.ContextMenu contextmenu = new();
+            Winforms.MenuItem menuitem = new()
             {
                 Index = 0,
                 Text = "VERİ EKLE"
@@ -90,7 +90,7 @@ namespace Takvim
 
             menuitem.Click += (s, e) =>
             {
-                Data data = new Data
+                Data data = new()
                 {
                     TamTarih = DateTime.Today
                 };
@@ -140,9 +140,9 @@ namespace Takvim
             {
                 if (parameter is XmlElement xmlElement)
                 {
-                    using Viewer viewer = new Viewer(xmlElement)
+                    using Viewer viewer = new(xmlElement)
                     {
-                        Owner = App.Current.MainWindow
+                        Owner = Application.Current.MainWindow
                     };
                     viewer.ShowDialog();
                 }
@@ -158,10 +158,10 @@ namespace Takvim
             {
                 if (MessageBox.Show($"{SeçiliYıl} yılına ait tüm kayıtları silmek istiyor musun? Dikkat bu işlem geri alınamaz.", "TAKVİM", MessageBoxButton.YesNo, MessageBoxImage.Exclamation, MessageBoxResult.No) == MessageBoxResult.Yes)
                 {
-                    XDocument doc = XDocument.Load(MainViewModel.xmlpath);
+                    XDocument doc = XDocument.Load(xmlpath);
                     doc.Root.Elements("Veri").Where(z => DateTime.Parse(z.Element("Gun").Value).Year == SeçiliYıl).Remove();
-                    doc.Save(MainViewModel.xmlpath);
-                    MainViewModel.xmlDataProvider.Refresh();
+                    doc.Save(xmlpath);
+                    xmlDataProvider.Refresh();
                 }
             }, parameter => SeçiliYıl < DateTime.Now.Year && File.Exists(xmlpath));
 
@@ -239,23 +239,7 @@ namespace Takvim
             }
         }
 
-        public bool TümListe
-        {
-            get => tümListe;
-
-            set
-            {
-                if (tümListe != value)
-                {
-                    tümListe = value;
-                    OnPropertyChanged(nameof(TümListe));
-                }
-            }
-        }
-
         public ICommand AyarSıfırla { get; }
-
-        public ICommand VeritabanıAç { get; }
 
         public ICommand AyGeri { get; }
 
@@ -303,6 +287,8 @@ namespace Takvim
             }
         }
 
+        public ICommand DosyaGör { get; }
+
         public ICommand DuyurularPopupEkranıAç { get; }
 
         public string Error => string.Empty;
@@ -319,20 +305,6 @@ namespace Takvim
                 {
                     etkinlik = value;
                     OnPropertyChanged(nameof(Etkinlik));
-                }
-            }
-        }
-
-        public Data ŞuAnkiGünData
-        {
-            get => şuankigünData;
-
-            set
-            {
-                if (şuankigünData != value)
-                {
-                    şuankigünData = value;
-                    OnPropertyChanged(nameof(ŞuAnkiGünData));
                 }
             }
         }
@@ -365,7 +337,7 @@ namespace Takvim
             }
         }
 
-        public ICommand DosyaGör { get; }
+        public ICommand Hakkında { get; }
 
         public Brush ResmiTatilRenk
         {
@@ -396,8 +368,6 @@ namespace Takvim
         }
 
         public ICommand SatırSütünSıfırla { get; }
-
-        public ICommand Hakkında { get; }
 
         public short SeçiliAy
         {
@@ -469,7 +439,37 @@ namespace Takvim
             }
         }
 
+        public Data ŞuAnkiGünData
+        {
+            get => şuankigünData;
+
+            set
+            {
+                if (şuankigünData != value)
+                {
+                    şuankigünData = value;
+                    OnPropertyChanged(nameof(ŞuAnkiGünData));
+                }
+            }
+        }
+
+        public bool TümListe
+        {
+            get => tümListe;
+
+            set
+            {
+                if (tümListe != value)
+                {
+                    tümListe = value;
+                    OnPropertyChanged(nameof(TümListe));
+                }
+            }
+        }
+
         public ICommand VeriAra { get; }
+
+        public ICommand VeritabanıAç { get; }
 
         public ObservableCollection<Data> YaklaşanEtkinlikler
         {
@@ -493,7 +493,7 @@ namespace Takvim
 
         public string this[string columnName] => columnName switch
         {
-            "SeçiliYıl" when SeçiliYıl <= 0 || SeçiliYıl > 9999 => "Seçili Yıl 1-9999 Aralığındadır.",
+            "SeçiliYıl" when SeçiliYıl is <= 0 or > 9999 => "Seçili Yıl 1-9999 Aralığındadır.",
             _ => null
         };
 
@@ -541,7 +541,7 @@ namespace Takvim
                 AyTakvimVerileriniOluştur(SeçiliAy);
             }
 
-            if (e.PropertyName == "SeçiliRenkPaz" || e.PropertyName == "GövdeRenk" || e.PropertyName == "SeçiliRenkCmt" || e.PropertyName == "ResmiTatilRenk" || e.PropertyName == "BayramTatilRenk")
+            if (e.PropertyName is "SeçiliRenkPaz" or "GövdeRenk" or "SeçiliRenkCmt" or "ResmiTatilRenk" or "BayramTatilRenk")
             {
                 Properties.Settings.Default.PazRenk = SeçiliRenkPaz.ConvertToColor();
                 Properties.Settings.Default.CmtRenk = SeçiliRenkCmt.ConvertToColor();
@@ -572,7 +572,7 @@ namespace Takvim
 
         private void Properties_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "KontrolSüresi" || e.PropertyName == "PopupSüresi" || e.PropertyName == "HaftaSonlarıGizle" || e.PropertyName == "UyarıSaatSüresi" || e.PropertyName == "VarsayılanTakvim" || e.PropertyName == "AyarlarGörünür")
+            if (e.PropertyName is "KontrolSüresi" or "PopupSüresi" or "HaftaSonlarıGizle" or "UyarıSaatSüresi" or "VarsayılanTakvim" or "AyarlarGörünür")
             {
                 Properties.Settings.Default.Save();
             }
@@ -609,7 +609,7 @@ namespace Takvim
                     string tarih = $"{j}.{i}.{SeçiliYıl:0000}";
                     if (DateTime.TryParse(tarih, out DateTime date))
                     {
-                        Data data = new Data
+                        Data data = new()
                         {
                             GünAdı = date.ToString("ddd"),
                             Gün = (short)date.Day,
@@ -633,6 +633,21 @@ namespace Takvim
             return Günler;
         }
 
+        private void WriteXmlRootData(string xmlfilepath)
+        {
+            if (!Directory.Exists(xmldatasavefolder))
+            {
+                Directory.CreateDirectory(xmldatasavefolder);
+            }
+            if (!File.Exists(xmlfilepath))
+            {
+                using XmlWriter writer = XmlWriter.Create(xmlpath);
+                writer.WriteStartElement("Veriler");
+                writer.WriteEndElement();
+                writer.Flush();
+            }
+        }
+
         private ObservableCollection<Data> YaklaşanEtkinlikleriAl()
         {
             YaklaşanEtkinlikler = new ObservableCollection<Data>();
@@ -645,7 +660,7 @@ namespace Takvim
                     bool tekraretkinlik = DateTime.Today.Day == DateTime.Parse(xmlnode["Gun"]?.InnerText).Day && xmlnode.Attributes.GetNamedItem("AyTekrar")?.Value == "true" && saat > DateTime.Now && saat.AddHours(-Properties.Settings.Default.UyarıSaatSüresi) < DateTime.Now;
                     if (yaklaşanetkinlik || tekraretkinlik)
                     {
-                        Data data = new Data
+                        Data data = new()
                         {
                             GünNotAçıklama = xmlnode["Aciklama"]?.InnerText,
                             TamTarih = saat,
@@ -660,21 +675,6 @@ namespace Takvim
                 }
             }
             return YaklaşanEtkinlikler;
-        }
-
-        private void WriteXmlRootData(string xmlfilepath)
-        {
-            if (!Directory.Exists(xmldatasavefolder))
-            {
-                Directory.CreateDirectory(xmldatasavefolder);
-            }
-            if (!File.Exists(xmlfilepath))
-            {
-                using XmlWriter writer = XmlWriter.Create(xmlpath);
-                writer.WriteStartElement("Veriler");
-                writer.WriteEndElement();
-                writer.Flush();
-            }
         }
     }
 }

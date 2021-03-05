@@ -9,10 +9,6 @@ namespace iCalNET.Model
 
         private const string ValueListPattern = "([^,]+)(?=,|$)";
 
-        public string Name { get; set; }
-
-        public List<string> Values { get; set; } = new List<string>();
-
         public ContentLineParameter(string source)
         {
             Match match = Regex.Match(source, NameValuePattern);
@@ -24,5 +20,9 @@ namespace iCalNET.Model
                 Values.Add(paramMatch.Groups[1].ToString().Trim());
             }
         }
+
+        public string Name { get; set; }
+
+        public List<string> Values { get; set; } = new List<string>();
     }
 }

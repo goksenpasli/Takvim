@@ -5,19 +5,13 @@ namespace iCalNET.Model
 {
     public class vCalendar
     {
-        private const string CalendarParameterPattern = "BEGIN:VCALENDAR\\r\\n(.+?)\\r\\nBEGIN:VEVENT";
-
-        private const RegexOptions CalendarParameterRegexOptions = RegexOptions.Singleline;
-
         public const string vEventPattern = "(BEGIN:VEVENT.+?END:VEVENT)";
 
         public const RegexOptions vEventRegexOptions = RegexOptions.Singleline;
 
-        public string Source { get; set; }
+        private const string CalendarParameterPattern = "BEGIN:VCALENDAR\\r\\n(.+?)\\r\\nBEGIN:VEVENT";
 
-        public CalendarParameters Parameters { get; set; }
-
-        public List<vEvent> vEvents { get; set; } = new List<vEvent>();
+        private const RegexOptions CalendarParameterRegexOptions = RegexOptions.Singleline;
 
         public vCalendar(string source)
         {
@@ -31,5 +25,11 @@ namespace iCalNET.Model
                 vEvents.Add(new vEvent(vEventString));
             }
         }
+
+        public CalendarParameters Parameters { get; set; }
+
+        public string Source { get; set; }
+
+        public List<vEvent> vEvents { get; set; } = new List<vEvent>();
     }
 }

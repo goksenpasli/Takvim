@@ -7,13 +7,13 @@ namespace Takvim
 {
     public class RamadanDateToVisibilityConverter : IValueConverter
     {
-        public HijriCalendar HijriCalendar { get; }
-
         public RamadanDateToVisibilityConverter()
         {
             HijriCalendar = new HijriCalendar();
             HijriCalendar.HijriAdjustment--;
         }
+
+        public HijriCalendar HijriCalendar { get; }
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => (value is DateTime date && date > HijriCalendar.MinSupportedDateTime) ? (HijriCalendar.GetMonth(date) == 9) ? Visibility.Visible : Visibility.Collapsed : Visibility.Collapsed;
 

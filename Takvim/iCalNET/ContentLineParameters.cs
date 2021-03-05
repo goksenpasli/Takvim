@@ -12,7 +12,7 @@ namespace iCalNET.Model
             MatchCollection matches = Regex.Matches(source, ParameterPattern);
             foreach (Match match in matches)
             {
-                ContentLineParameter contentLineParameter = new ContentLineParameter(match.Groups[1].ToString());
+                ContentLineParameter contentLineParameter = new(match.Groups[1].ToString());
                 this[contentLineParameter.Name] = contentLineParameter;
             }
         }

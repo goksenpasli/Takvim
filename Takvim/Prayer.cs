@@ -17,6 +17,8 @@ namespace Takvim
 
         private string ikindi;
 
+        private string imsak;
+
         private ObservableCollection<Prayer> list;
 
         private string öğle;
@@ -28,7 +30,6 @@ namespace Takvim
         private string yatsı;
 
         private DateTime yılınGünü;
-        private string imsak;
 
         public Prayer()
         {
@@ -84,6 +85,20 @@ namespace Takvim
             }
         }
 
+        public string İmsak
+        {
+            get => imsak;
+
+            set
+            {
+                if (imsak != value)
+                {
+                    imsak = value;
+                    OnPropertyChanged(nameof(İmsak));
+                }
+            }
+        }
+
         public ObservableCollection<Prayer> List
         {
             get => list;
@@ -108,20 +123,6 @@ namespace Takvim
                 {
                     öğle = value;
                     OnPropertyChanged(nameof(Öğle));
-                }
-            }
-        }
-
-        public string İmsak
-        {
-            get => imsak;
-
-            set
-            {
-                if (imsak != value)
-                {
-                    imsak = value;
-                    OnPropertyChanged(nameof(İmsak));
                 }
             }
         }
@@ -196,7 +197,7 @@ namespace Takvim
                     string yıl = DateTime.Now.Year.ToString();
                     foreach (XmlNode item in XmlDataProvider.Document?.SelectNodes("/cityinfo/prayertimes"))
                     {
-                        Prayer data = new Prayer()
+                        Prayer data = new()
                         {
                             Tarih = DateTime.Parse(item.Attributes.GetNamedItem("day").Value + "/" + item.Attributes.GetNamedItem("month").Value + "/" + yıl),
                             İmsak = item.InnerText.Split('\t')[0],

@@ -9,6 +9,8 @@ namespace Takvim
 {
     public class MaskedTextBox : TextBox
     {
+        public static readonly DependencyProperty ClearButtonVisibilityProperty = DependencyProperty.Register("ClearButtonVisibility", typeof(Visibility), typeof(MaskedTextBox), new PropertyMetadata(Visibility.Collapsed));
+
         public static readonly DependencyProperty IncludeLiteralsProperty = DependencyProperty.Register("IncludeLiterals", typeof(bool), typeof(MaskedTextBox), new UIPropertyMetadata(true, OnIncludeLiteralsPropertyChanged));
 
         public static readonly DependencyProperty IncludePromptProperty = DependencyProperty.Register("IncludePrompt", typeof(bool), typeof(MaskedTextBox), new UIPropertyMetadata(false, OnIncludePromptPropertyChanged));
@@ -24,16 +26,6 @@ namespace Takvim
         public static readonly DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(object), typeof(MaskedTextBox), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnValueChanged));
 
         public static readonly DependencyProperty ValueTypeProperty = DependencyProperty.Register("ValueType", typeof(Type), typeof(MaskedTextBox), new UIPropertyMetadata(typeof(string), OnValueTypeChanged));
-
-        public static readonly DependencyProperty ClearButtonVisibilityProperty = DependencyProperty.Register("ClearButtonVisibility", typeof(Visibility), typeof(MaskedTextBox), new PropertyMetadata(Visibility.Collapsed));
-
-        public Visibility ClearButtonVisibility
-        {
-            get => (Visibility)GetValue(ClearButtonVisibilityProperty);
-            set => SetValue(ClearButtonVisibilityProperty, value);
-        }
-
-        public ICommand Reset { get; } = new RoutedCommand();
 
         private bool _convertExceptionOccurred;
 
@@ -55,6 +47,12 @@ namespace Takvim
 
         public event RoutedPropertyChangedEventHandler<object> ValueChanged { add => AddHandler(ValueChangedEvent, value); remove => RemoveHandler(ValueChangedEvent, value); }
 
+        public Visibility ClearButtonVisibility
+        {
+            get => (Visibility)GetValue(ClearButtonVisibilityProperty);
+            set => SetValue(ClearButtonVisibilityProperty, value);
+        }
+
         public bool IncludeLiterals { get => (bool)GetValue(IncludeLiteralsProperty); set => SetValue(IncludeLiteralsProperty, value); }
 
         public bool IncludePrompt { get => (bool)GetValue(IncludePromptProperty); set => SetValue(IncludePromptProperty, value); }
@@ -62,6 +60,8 @@ namespace Takvim
         public string Mask { get => (string)GetValue(MaskProperty); set => SetValue(MaskProperty, value); }
 
         public char PromptChar { get => (char)GetValue(PromptCharProperty); set => SetValue(PromptCharProperty, value); }
+
+        public ICommand Reset { get; } = new RoutedCommand();
 
         public bool SelectAllOnGotFocus { get => (bool)GetValue(SelectAllOnGotFocusProperty); set => SetValue(SelectAllOnGotFocusProperty, value); }
 
@@ -150,7 +150,7 @@ namespace Takvim
                 SyncTextAndValueProperties(ValueProperty, newValue);
             }
 
-            RoutedPropertyChangedEventArgs<object> args = new RoutedPropertyChangedEventArgs<object>(oldValue, newValue) { RoutedEvent = ValueChangedEvent };
+            RoutedPropertyChangedEventArgs<object> args = new(oldValue, newValue) { RoutedEvent = ValueChangedEvent };
             RaiseEvent(args);
         }
 
@@ -277,7 +277,7 @@ namespace Takvim
         {
             ModifierKeys modifiers = Keyboard.Modifiers;
             bool handled = true;
-            if (modifiers == ModifierKeys.None || modifiers == ModifierKeys.Shift)
+            if (modifiers is ModifierKeys.None or ModifierKeys.Shift)
             {
                 if (!RemoveSelectedText())
                 {
@@ -385,7 +385,7 @@ namespace Takvim
 
                 e.Handled = true;
             }
-            else if (e.Key == Key.Return || e.Key == Key.Enter)
+            else if (e.Key is Key.Return or Key.Enter)
             {
                 if (!IsReadOnly && AcceptsReturn)
                 {

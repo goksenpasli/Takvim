@@ -4,8 +4,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:TwainControl"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DataContext="{d:DesignInstance Type=local:TwainCtrl}"
-    d:DesignHeight="420" d:DesignWidth="600" Loaded="UserControl_Loaded"
-    UseLayoutRounding="True"
+    d:DesignHeight="420" d:DesignWidth="600" Loaded="UserControl_Loaded" UseLayoutRounding="True"
     mc:Ignorable="d">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -28,15 +27,17 @@
                 </ComboBox>
                 <GroupBox Header="AYARLAR" Grid.Row="1">
                     <UniformGrid Columns="1">
-                        <Slider AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" Maximum="600"
-                            Minimum="72" SmallChange="1" Ticks="72,96,120,150,200,300,450,600"
-                            ToolTip="ÇÖZÜNÜRLÜK"
+                        <Slider AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" Maximum="600" Minimum="72"
+                            SmallChange="1" Ticks="72,96,120,150,200,300,450,600" ToolTip="ÇÖZÜNÜRLÜK"
                             Value="{Binding Çözünürlük, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                        <Slider AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" Maximum="255"
-                            Minimum="1" SmallChange="1" ToolTip="SİYAH BEYAZ EŞİK DEĞERİ"
+                        <Slider AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" Maximum="255" Minimum="1"
+                            SmallChange="1" ToolTip="SİYAH BEYAZ EŞİK DEĞERİ"
                             Value="{Binding Eşik, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         <CheckBox Content="BESLEYİCİ" IsChecked="{Binding Adf}" />
-                        <CheckBox Content="SİYAH BEYAZ TARA" IsChecked="{Binding Bw}" IsThreeState="True" ToolTip="İşaretli: Siyah Beyaz(En Az Boyut)&#xA;İşaretsiz: Renkli(En Çok Boyut)&#xA;Yarısı İşaretli: Gri(Orta Boyut)" />
+                        <CheckBox Content="SİYAH BEYAZ TARA"
+                            IsChecked="{Binding Bw}"
+                            IsThreeState="True"
+                            ToolTip="İşaretli: Siyah Beyaz(En Az Boyut)&#xA;İşaretsiz: Renkli(En Çok Boyut)&#xA;Yarısı İşaretli: Gri(Orta Boyut)" />
                         <CheckBox Content="İKİ YÖNLÜ TARAMA" IsChecked="{Binding Duplex}" />
                         <CheckBox Content="EĞRİLİK DÜZELT" IsChecked="{Binding Deskew}" />
                         <CheckBox Content="ARAYÜZ GÖSTER" IsChecked="{Binding ShowUi}" />
@@ -47,7 +48,10 @@
                         <Button Content="TARA" Command="{Binding ScanImage}" />
                     </UniformGrid>
                 </GroupBox>
-                <ListBox x:Name="LbResimler" Grid.Row="2" ItemsSource="{Binding Resimler, Mode=OneWay}" SelectionMode="Extended">
+                <ListBox x:Name="LbResimler"
+                    Grid.Row="2"
+                    ItemsSource="{Binding Resimler, Mode=OneWay}"
+                    SelectionMode="Extended">
                     <ListBox.ItemTemplate>
                         <DataTemplate DataType="{x:Type BitmapFrame}">
                             <StackPanel>

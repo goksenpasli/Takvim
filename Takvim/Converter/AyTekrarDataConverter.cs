@@ -13,14 +13,14 @@ namespace Takvim
         {
             if (value is Data data && MainViewModel.xmlDataProvider?.Data is ICollection<XmlNode> xmlNode)
             {
-                List<Data> TekrarGünlerVerileri = new List<Data>();
+                List<Data> TekrarGünlerVerileri = new();
 
                 foreach (XmlNode item in xmlNode.Where(z => z.Attributes["AyTekrar"]?.InnerText == "true"))
                 {
                     int.TryParse(item.Attributes["TekrarGun"]?.InnerText, out int tekrargün);
                     if (data.TamTarih.Day == tekrargün && data.TamTarih > DateTime.Today)
                     {
-                        Data veri = new Data
+                        Data veri = new()
                         {
                             GünNotAçıklama = item["Aciklama"]?.InnerText,
                             TamTarih = DateTime.Parse(item["Gun"]?.InnerText)

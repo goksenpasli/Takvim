@@ -182,7 +182,7 @@
                         Background="White"
                         PropertyChanged="TwainCtrl_PropertyChanged" />
                 </local:ContentToggleButton>
-                <ListBox Grid.Row="0" Grid.Column="2" Grid.RowSpan="9"
+                <ListBox Grid.Row="0" Grid.Column="2" Grid.RowSpan="10"
                     ItemsSource="{Binding Mode=OneWay, Source={StaticResource FilteredCvs}}"
                     IsSynchronizedWithCurrentItem="False"
                     ItemContainerStyle="{StaticResource ListBoxToolTipItemContainerStyle}">
