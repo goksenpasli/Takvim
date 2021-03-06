@@ -30,7 +30,7 @@ namespace Takvim
 
             ResimYükle = new RelayCommand<object>(parameter =>
             {
-                if (parameter is Data data)
+                if (parameter is Data data && Player.Source is not null)
                 {
                     using MemoryStream ms = new();
                     JpegBitmapEncoder encoder = new();
