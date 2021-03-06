@@ -47,12 +47,15 @@
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
-                        </TextBlock.Style><Hyperlink x:Name="Hyp"
+                        </TextBlock.Style>
+                        <Hyperlink x:Name="Hyp"
                             Command="{Binding XmlVeriSil, Mode=OneWay, Source={StaticResource Data}}"
                             CommandParameter="{Binding XPath=@Id}"
                             FontFamily="Segoe UI Black">
                             <Run Text="X" />
-                        </Hyperlink><Run Text=" " /><Run Text="{Binding XPath=@SaatBaslangic}" FontWeight="Bold" /><Run Text=" " /><Run Text="{Binding XPath=Aciklama}" /></TextBlock>
+                        </Hyperlink>
+                        <Run Text="{Binding XPath=@SaatBaslangic}" FontWeight="Bold" />
+                        <Run Text="{Binding XPath=Aciklama}" /></TextBlock>
                     <Image Grid.Column="1"
                         MaxWidth="72" MaxHeight="72"
                         Source="{Binding ConverterParameter=96, Converter={StaticResource Base64ImageConverter}, XPath=Resim}">
@@ -130,7 +133,10 @@
                         <GroupBox.Header>
                             <TextBlock Text="{Binding AyGünler/Ay}" FontWeight="Bold" TextAlignment="Center" />
                         </GroupBox.Header>
-                        <ListBox Background="{Binding DataContext.GövdeRenk, ElementName=Window}" ItemsSource="{Binding AyGünler}" ItemTemplate="{StaticResource ListBoxAyDataTemplate}">
+                        <ListBox Background="{Binding DataContext.GövdeRenk, ElementName=Window}"
+                            ItemsSource="{Binding AyGünler}"
+                            ItemTemplate="{StaticResource ListBoxAyDataTemplate}"
+                            SelectedIndex="{Binding SeçiliGün}">
                             <ListBox.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <UniformGrid Columns="7" FirstColumn="{Binding AyGünler/Offset}" />
@@ -153,7 +159,7 @@
                             Command="{Binding YılGeri}"
                             FontFamily="Wingdings"
                             ToolTip="ÖNCEKİ YIL" />
-                        <TextBox Text="{Binding SeçiliYıl, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" HorizontalAlignment="Center" FontWeight="Bold" />
+                        <TextBox Text="{Binding SeçiliYıl, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" HorizontalAlignment="Center" FontWeight="Bold" />
                         <Button Content="è"
                             Grid.Row="1" Grid.Column="4" Grid.RowSpan="3"
                             Command="{Binding Yılİleri}"
@@ -234,9 +240,11 @@
             <GroupBox Grid.Row="0" Margin="2">
                 <GroupBox.Header>
                     <StackPanel Orientation="Horizontal">
-                        <CheckBox VerticalAlignment="Center" IsChecked="{Binding TümListe}" ToolTip="Süresi Geçenleri Göster">
-                            <TextBlock Text="TÜM LİSTE" FontWeight="Bold" />
-                        </CheckBox>
+                        <CheckBox Content="TÜM LİSTE"
+                            VerticalAlignment="Center"
+                            FontWeight="Bold"
+                            IsChecked="{Binding TümListe}"
+                            ToolTip="Süresi Geçenleri Göster" />
                         <Button Command="{Binding CsvDosyasınaYaz, Mode=OneWay, Source={StaticResource Data}}" CommandParameter="{Binding Günler}" Tag=".csv">
                             <Image Width="24" Height="24" Source="{Binding Tag, Converter={StaticResource RegistryToIconConverter}, RelativeSource={RelativeSource AncestorType={x:Type Button}}}" />
                         </Button>
@@ -260,11 +268,12 @@
                                     <Run Text="{Binding XPath=Aciklama}"
                                         Foreground="Green"
                                         FontWeight="Bold"
-                                        ToolTip="{Binding XPath=Aciklama}" /></TextBlock>
+                                        ToolTip="{Binding XPath=Aciklama}" />
+                                </TextBlock>
                                 <local:ContentToggleButton OverContent="DOSYALAR">
                                     <local:ContentToggleButton.Style>
                                         <Style BasedOn="{StaticResource {x:Type local:ContentToggleButton}}" TargetType="{x:Type local:ContentToggleButton}">
-                                            <Setter Property="BorderBrush" Value="Red" />
+                                            <Setter Property="BorderBrush" Value="Yellow" />
                                             <Setter Property="BorderThickness" Value="2" />
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding XPath=Dosyalar/Dosya}" Value="{x:Null}">

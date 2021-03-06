@@ -68,14 +68,13 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <Button Content="ICAL TAKVİM EKLE" Command="{Binding IcalEkle}" />
                 <TextBox Text="{Binding GünNotAçıklama, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                     Grid.Row="1" Grid.RowSpan="2"
-                    AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" />
+                    AcceptsReturn="True" TextWrapping="Wrap"
+                    Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
+                    VerticalScrollBarVisibility="Visible" />
                 <Grid Grid.Row="0" Grid.Column="1" Grid.RowSpan="2">
                     <Image Source="{Binding ResimData, ConverterParameter=96, Converter={StaticResource WebpByteArrayToImageConverter}, Mode=OneWay}" />
                     <ContentControl IsEnabled="{Binding ResimData, Converter={StaticResource NullableToBooleanConverter}, Mode=OneWay}"
@@ -111,7 +110,7 @@
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="AY TEKRAR" VerticalAlignment="Center" />
                             <Slider IsEnabled="{Binding AyTekrar}"
-                                Width="45"
+                                Width="47"
                                 AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" Maximum="31" Minimum="1"
                                 SmallChange="1" ToolTip="AYIN KAÇINCI GÜNÜ TEKRAR EDİLECEK"
                                 Value="{Binding AyTekrarGun, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
@@ -127,7 +126,8 @@
                         ItemsPanel="{StaticResource CbItemsPanelTemplate}"
                         ScrollViewer.VerticalScrollBarVisibility="Disabled"
                         SelectedValue="{Binding VeriRenk, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                        SelectedValuePath="Name" ToolTip="Veri Renk" />
+                        SelectedValuePath="Name" ToolTip="Veri Renk"
+                        Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
                 </UniformGrid>
                 <Slider Grid.Row="4" Grid.ColumnSpan="2"
                     AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="1" IsSnapToTickEnabled="True" LargeChange="0.5"
@@ -136,56 +136,51 @@
                     Value="{Binding EtkinlikSüresi, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
                 <local:TimePicker Grid.Row="5" Grid.ColumnSpan="2"
                     ClearButtonVisible="Visible"
-                    TimeValue="{Binding SaatBaşlangıç, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
-                <Button Content="RESİM YÜKLE"
-                    Grid.Row="6" Grid.ColumnSpan="2"
-                    IsEnabled="{Binding GünNotAçıklama, Converter={StaticResource StringNullableToBooleanConverter}}"
-                    Command="{Binding ResimYükle, Mode=OneWay}">
-                    <Button.ContextMenu>
-                        <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Mode=Self}}">
-                            <MenuItem Header="RESİM İPTAL" Command="{Binding Resimİptal}" />
-                        </ContextMenu>
-                    </Button.ContextMenu>
-                </Button>
-                <Button Content="PDF YÜKLE"
-                    Grid.Row="7" Grid.ColumnSpan="2"
-                    IsEnabled="{Binding GünNotAçıklama, Converter={StaticResource StringNullableToBooleanConverter}}"
-                    Command="{Binding PdfYükle, Mode=OneWay}">
-                    <Button.ContextMenu>
-                        <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Mode=Self}}">
-                            <MenuItem Header="PDF İPTAL" Command="{Binding Pdfİptal}" />
-                        </ContextMenu>
-                    </Button.ContextMenu>
-                </Button>
-                <local:FileSelectorTextBox Grid.Row="8" Grid.ColumnSpan="2"
-                    IsEnabled="{Binding GünNotAçıklama, Converter={StaticResource StringNullableToBooleanConverter}}"
-                    Dosyalar="{Binding Dosyalar, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
-                <Button Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="2"
-                    Command="{Binding OcrUygula}"
-                    CommandParameter="{Binding ResimData}">
-                    <StackPanel Orientation="Horizontal">
-                        <Grid>
-                            <ProgressBar Width="96" IsIndeterminate="{Binding OcrSürüyor}" />
-                            <TextBlock Text="RESİM OCR UYGULA" HorizontalAlignment="Center" />
-                        </Grid>
-                        <ContentControl IsEnabled="{Binding OcrMetin, Converter={StaticResource NullableToBooleanConverter}}"
-                            Width="16" Height="16"
-                            Template="{StaticResource Eye}"
-                            ToolTip="{Binding OcrMetin}" />
-                    </StackPanel>
-                </Button>
+                    TimeValue="{Binding SaatBaşlangıç, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                    Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
+                <Expander Header="DOSYA" Grid.Row="6" Grid.ColumnSpan="2">
+                    <UniformGrid Columns="2" Rows="2">
+                        <Button Content="RESİM YÜKLE" IsEnabled="{Binding GünNotAçıklama, Converter={StaticResource StringNullableToBooleanConverter}}" Command="{Binding ResimYükle, Mode=OneWay}">
+                            <Button.ContextMenu>
+                                <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Mode=Self}}">
+                                    <MenuItem Header="RESİM İPTAL" Command="{Binding Resimİptal}" />
+                                </ContextMenu>
+                            </Button.ContextMenu>
+                        </Button>
+                        <Button Content="PDF YÜKLE" IsEnabled="{Binding GünNotAçıklama, Converter={StaticResource StringNullableToBooleanConverter}}" Command="{Binding PdfYükle, Mode=OneWay}">
+                            <Button.ContextMenu>
+                                <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Mode=Self}}">
+                                    <MenuItem Header="PDF İPTAL" Command="{Binding Pdfİptal}" />
+                                </ContextMenu>
+                            </Button.ContextMenu>
+                        </Button>
+                        <local:FileSelectorTextBox IsEnabled="{Binding GünNotAçıklama, Converter={StaticResource StringNullableToBooleanConverter}}" Dosyalar="{Binding Dosyalar, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
+                        <Button Command="{Binding OcrUygula}" CommandParameter="{Binding ResimData}">
+                            <StackPanel Orientation="Horizontal">
+                                <Grid>
+                                    <ProgressBar IsIndeterminate="{Binding OcrSürüyor}" />
+                                    <TextBlock Text="OCR UYGULA" HorizontalAlignment="Center" />
+                                </Grid>
+                                <ContentControl IsEnabled="{Binding OcrMetin, Converter={StaticResource NullableToBooleanConverter}}"
+                                    Width="16" Height="16"
+                                    Template="{StaticResource Eye}"
+                                    ToolTip="{Binding OcrMetin}" />
+                            </StackPanel>
+                        </Button>
+                    </UniformGrid>
+                </Expander>
                 <Button Content="VERİYİ EKLE"
-                    Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2"
+                    Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2"
                     Command="{Binding XmlVeriEkle, Mode=OneWay}" />
-                <local:ContentToggleButton Grid.Row="10" Grid.Column="2" OverContent="TARAYICI">
+                <local:ContentToggleButton Grid.Row="8" Grid.Column="2" OverContent="TARAYICI">
                     <TwainControl:TwainCtrl Width="540" Height="465"
                         Background="White"
                         PropertyChanged="TwainCtrl_PropertyChanged" />
                 </local:ContentToggleButton>
-                <ListBox Grid.Row="0" Grid.Column="2" Grid.RowSpan="10"
+                <ListBox Grid.Row="0" Grid.Column="2" Grid.RowSpan="7"
                     ItemsSource="{Binding Mode=OneWay, Source={StaticResource FilteredCvs}}"
                     IsSynchronizedWithCurrentItem="False"
-                    ItemContainerStyle="{StaticResource ListBoxToolTipItemContainerStyle}">
+                    ItemContainerStyle="{StaticResource GünListBoxItemContainerStyle}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel>
@@ -199,7 +194,6 @@
                                         <Run Text="{Binding XPath=@SaatBaslangic}" />
                                         <Run Text="{Binding XPath=Aciklama}" />
                                     </TextBlock>
-                                    <ContentControl IsTabStop="False" Template="{Binding Mode=OneWay, Source={StaticResource TimePanel}}" />
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal">
                                     <StackPanel.DataContext>

@@ -52,12 +52,23 @@
                 <ControlTemplate TargetType="{x:Type local:ContentToggleButton}">
                     <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
                         <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
                             <ContentPresenter Content="{TemplateBinding OverContent}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                            <CheckBox x:Name="Cb"
+                                Grid.Column="1"
+                                Background="{x:Null}"
+                                BorderBrush="{x:Null}"
+                                VerticalAlignment="Center"
+                                IsChecked="{TemplateBinding StaysOpen}" />
                             <Popup x:Name="Popup"
                                 AllowsTransparency="True"
                                 IsOpen="{Binding IsChecked, RelativeSource={RelativeSource AncestorType=ToggleButton}}"
                                 PlacementTarget="{Binding RelativeSource={RelativeSource AncestorType=ToggleButton}}"
-                                PopupAnimation="Slide" StaysOpen="False">
+                                PopupAnimation="Slide"
+                                StaysOpen="{Binding ElementName=Cb, Path=IsChecked}">
                                 <Themes:SystemDropShadowChrome>
                                     <ScrollViewer Padding="2" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                                         <ContentPresenter Content="{TemplateBinding Content}" />

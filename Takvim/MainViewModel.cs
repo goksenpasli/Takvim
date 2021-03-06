@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Media;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
@@ -185,6 +186,7 @@ namespace Takvim
                 YaklaşanEtkinlikleriAl();
                 if (YaklaşanEtkinlikler.Any())
                 {
+                    SystemSounds.Exclamation.Play();
                     duyurularwindow.Show();
                 }
             }, parameter => true);
@@ -367,6 +369,8 @@ namespace Takvim
             }
         }
 
+        public int SeçiliGün { get; set; } = DateTime.Now.Day - 1;
+
         public ICommand SatırSütünSıfırla { get; }
 
         public short SeçiliAy
@@ -505,7 +509,7 @@ namespace Takvim
 
         private void MainViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "SütünSayısı")
+            if (e.PropertyName is "SütünSayısı")
             {
                 if (12 % SütünSayısı == 0)
                 {
@@ -518,7 +522,7 @@ namespace Takvim
                 SaveColumnRowSettings();
             }
 
-            if (e.PropertyName == "SatırSayısı")
+            if (e.PropertyName is "SatırSayısı")
             {
                 if (12 % SatırSayısı == 0)
                 {
@@ -531,12 +535,12 @@ namespace Takvim
                 SaveColumnRowSettings();
             }
 
-            if (e.PropertyName == "SeçiliYıl" && SeçiliYıl > 0 && SeçiliYıl < 10000)
+            if (e.PropertyName is "SeçiliYıl" && SeçiliYıl > 0 && SeçiliYıl < 10000)
             {
                 TakvimVerileriniOluştur(SeçiliYıl);
             }
 
-            if (e.PropertyName == "SeçiliAy" && SeçiliAy > 0 && SeçiliAy < 13)
+            if (e.PropertyName is "SeçiliAy" && SeçiliAy > 0 && SeçiliAy < 13)
             {
                 AyTakvimVerileriniOluştur(SeçiliAy);
             }
@@ -551,13 +555,13 @@ namespace Takvim
                 Properties.Settings.Default.Save();
             }
 
-            if (e.PropertyName == "AramaMetin" && string.IsNullOrWhiteSpace(AramaMetin))
+            if (e.PropertyName is "AramaMetin" && string.IsNullOrWhiteSpace(AramaMetin))
             {
                 TümListe = false;
                 Cvs.View.Filter = null;
             }
 
-            if (e.PropertyName == "BaşlangıçtaÇalışacak")
+            if (e.PropertyName is "BaşlangıçtaÇalışacak")
             {
                 SetRegistryValue(BaşlangıçtaÇalışacak);
             }

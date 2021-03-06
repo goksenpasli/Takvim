@@ -20,6 +20,7 @@ namespace Takvim
         private BitmapSource resim;
 
         private double zoom = 1;
+        private int ındex;
 
         public ImageViewer(XmlElement xmldata)
         {
@@ -63,6 +64,15 @@ namespace Takvim
             PdfData = (byte[])new Base64Converter().Convert(xmldata["Pdf"]?.InnerText, null, null, CultureInfo.CurrentCulture);
             Resim = (BitmapSource)new Base64ImageConverter().Convert(xmldata["Resim"]?.InnerText, null, null, CultureInfo.CurrentCulture);
             OcrMetin = xmldata.GetAttribute("Ocr");
+            if (PdfData is null && Resim is not null)
+            {
+                Index = 0;
+            }
+
+            if (PdfData is not null && Resim is null)
+            {
+                Index = 1;
+            }
         }
 
         public double Angle
@@ -109,6 +119,20 @@ namespace Takvim
                 {
                     zoom = value;
                     OnPropertyChanged(nameof(Zoom));
+                }
+            }
+        }
+
+        public int Index
+        {
+            get => ındex;
+
+            set
+            {
+                if (ındex != value)
+                {
+                    ındex = value;
+                    OnPropertyChanged(nameof(Index));
                 }
             }
         }

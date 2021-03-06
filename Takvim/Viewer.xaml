@@ -12,7 +12,7 @@
     WindowState="Maximized"
     mc:Ignorable="d">
     <Grid>
-        <TabControl>
+        <TabControl SelectedIndex="{Binding Index}">
             <TabItem Header="RESİM">
                 <Grid>
                     <Grid.RowDefinitions>

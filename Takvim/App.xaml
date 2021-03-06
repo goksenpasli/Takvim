@@ -559,7 +559,10 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                            <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="3">
+                            <Border BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Margin="1"
+                                CornerRadius="3">
                                 <ContentPresenter />
                             </Border>
                         </ControlTemplate>
@@ -630,7 +633,7 @@
                                                             </Style.Triggers>
                                                         </Style>
                                                     </TextBlock.Style>
-                                                    <Hyperlink x:Name="Hyp"
+                                                    <Hyperlink
                                                         Command="{Binding XmlVeriSil, Mode=OneWay, Source={StaticResource Data}}"
                                                         CommandParameter="{Binding XPath=@Id}"
                                                         FontSize="12" FontFamily="Segoe UI Black">

@@ -42,12 +42,6 @@ namespace Takvim
                 {
                     case ".tif":
                     case ".tiff":
-                        {
-                            using Pix pixImage = Pix.LoadFromFile(dosya);
-                            using Page page = engine.Process(pixImage);
-                            return page.GetText();
-                        }
-
                     case ".jpg":
                     case ".png":
                     case ".gif":
