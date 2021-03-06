@@ -15,6 +15,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="SliderResource.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <local:WrapPanelRatioConverter x:Key="WrapPanelRatioConverter" />
             <CollectionViewSource x:Key="Cvs" Source="{StaticResource XmlData}">
                 <CollectionViewSource.SortDescriptions>
                     <scm:SortDescription Direction="Descending" PropertyName="Gun" />
@@ -36,28 +37,32 @@
                         <ColumnDefinition />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0"
-                        HorizontalAlignment="Left" VerticalAlignment="Center"
-                        FontSize="20">
-                        <TextBlock.Style>
-                            <Style TargetType="{x:Type TextBlock}">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding XPath=@Onemli}" Value="true">
-                                        <Setter Property="Foreground" Value="Red" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </TextBlock.Style>
-                        <Hyperlink x:Name="Hyp"
-                            Command="{Binding XmlVeriSil, Mode=OneWay, Source={StaticResource Data}}"
-                            CommandParameter="{Binding XPath=@Id}"
-                            FontFamily="Segoe UI Black">
-                            <Run Text="X" />
-                        </Hyperlink>
-                        <Run Text="{Binding XPath=@SaatBaslangic}" FontWeight="Bold" />
-                        <Run Text="{Binding XPath=Aciklama}" /></TextBlock>
+                    <ScrollViewer Grid.Column="0" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                        <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center"
+                            FontSize="20"
+                            TextWrapping="Wrap">
+                            <TextBlock.Style>
+                                <Style TargetType="{x:Type TextBlock}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding XPath=@Onemli}" Value="true">
+                                            <Setter Property="Foreground" Value="Red" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                            <Hyperlink x:Name="Hyp"
+                                Command="{Binding XmlVeriSil, Mode=OneWay, Source={StaticResource Data}}"
+                                CommandParameter="{Binding XPath=@Id}"
+                                FontFamily="Segoe UI Black">
+                                <Run Text="X" />
+                            </Hyperlink>
+                            <Run Text="{Binding XPath=@SaatBaslangic}" FontWeight="Bold" />
+                            <Run Text="{Binding XPath=Aciklama}" />
+                        </TextBlock>
+                    </ScrollViewer>
                     <Image Grid.Column="1"
-                        MaxWidth="72" MaxHeight="72"
+                        Width="72" Height="72"
+                        HorizontalAlignment="Right"
                         Source="{Binding ConverterParameter=96, Converter={StaticResource Base64ImageConverter}, XPath=Resim}">
                         <Image.ToolTip>
                             <ToolTip Template="{StaticResource GreenToolTipControlTemplate}">
@@ -110,11 +115,28 @@
                     <ListBox.InputBindings>
                         <MouseBinding Command="{Binding ŞuAnkiGünData.VeriEkleEkranı, Mode=OneWay}" MouseAction="LeftDoubleClick" />
                     </ListBox.InputBindings>
-                    <ListBox.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <VirtualizingStackPanel />
-                        </ItemsPanelTemplate>
-                    </ListBox.ItemsPanel>
+                    <ListBox.Style>
+                        <Style TargetType="ListBox">
+                            <Setter Property="ItemsPanel">
+                                <Setter.Value>
+                                    <ItemsPanelTemplate>
+                                        <VirtualizingStackPanel />
+                                    </ItemsPanelTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Path=Panel, Source={x:Static properties:Settings.Default}}" Value="True">
+                                    <Setter Property="ItemsPanel">
+                                        <Setter.Value>
+                                            <ItemsPanelTemplate>
+                                                <local:VirtualizingWrapPanel ItemHeight="80" ItemWidth="{Binding YatayAdetOranı, Converter={StaticResource WrapPanelRatioConverter}}" />
+                                            </ItemsPanelTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ListBox.Style>
                 </ListBox>
             </TabItem>
             <TabItem Header="AY">
@@ -327,7 +349,7 @@
                 BorderBrush="Black"
                 Margin="2"
                 IsExpanded="{Binding AyarlarGörünür, Mode=TwoWay, Source={x:Static properties:Settings.Default}}">
-                <UniformGrid Columns="4" Rows="4">
+                <UniformGrid Columns="3" Rows="6">
                     <UniformGrid.Resources>
                         <Style x:Key="CbColorBaseStyle" BasedOn="{StaticResource {x:Type ComboBox}}" TargetType="{x:Type ComboBox}">
                             <Setter Property="ItemContainerStyle" Value="{StaticResource ComboBoxItemContainerStyle}" />
@@ -364,6 +386,7 @@
                         VerticalAlignment="Center"
                         IsChecked="{Binding HaftaSonlarıGizle, Mode=TwoWay, Source={x:Static properties:Settings.Default}}"
                         ToolTip="HAFTA SONLARINI GİZLE" />
+
                     <Button Command="{Binding AyarSıfırla, Mode=OneWay}" ToolTip="AYARLARI SIFIRLA">
                         <Image Width="16" Height="16" Source="{Binding ConverterParameter=146, Converter={StaticResource Shell32FileIconConverter}}" />
                     </Button>
@@ -387,6 +410,22 @@
                         </local:ContentToggleButton.OverContent>
                         <GroupBox Header="EZAN VAKİTLERİ">
                             <local:PrayerTimeControl />
+                        </GroupBox>
+                    </local:ContentToggleButton>
+                    <local:ContentToggleButton ToolTip="Panel Görünümü">
+                        <local:ContentToggleButton.OverContent>
+                            <Image Width="16" Height="16" Source="{Binding ConverterParameter=96, Converter={StaticResource Shell32FileIconConverter}}" />
+                        </local:ContentToggleButton.OverContent>
+                        <GroupBox Header="PANEL AYARLARI">
+                            <StackPanel>
+                                <CheckBox Content="PANEL ŞEKLİNDE DİZ"
+                                    VerticalAlignment="Center"
+                                    IsChecked="{Binding Panel, Mode=TwoWay, Source={x:Static properties:Settings.Default}}"
+                                    ToolTip="İŞARETLENİRSE VERİLER YAN YANA DİZİLİR" />
+                                <Slider IsEnabled="{Binding Panel, Mode=OneWay, Source={x:Static properties:Settings.Default}}" AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" Maximum="10" Minimum="2"
+                                    SmallChange="1" ToolTip="Ekran Genişliği Seçili Rakama Oranlanır."
+                                    Value="{Binding YatayAdetOranı, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            </StackPanel>
                         </GroupBox>
                     </local:ContentToggleButton>
                 </UniformGrid>

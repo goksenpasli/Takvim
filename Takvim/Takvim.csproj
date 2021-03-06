@@ -73,29 +73,31 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ContentToggleButton.cs" />
-    <Compile Include="Converter\AyTekrarConverter.cs" />
-    <Compile Include="Converter\AyTekrarDataConverter.cs" />
-    <Compile Include="Converter\Base64ImageConverter.cs" />
-    <Compile Include="Converter\BilinenGünlerConverter.cs" />
-    <Compile Include="Converter\BoolInverter.cs" />
-    <Compile Include="Converter\BrushToColorConverter.cs" />
-    <Compile Include="Converter\DateAnimationConverter.cs" />
-    <Compile Include="Converter\DatePassedBooleanConverter.cs" />
-    <Compile Include="Converter\RegistryToIconConverter.cs" />
-    <Compile Include="Converter\Shell32FileIconConverter.cs" />
-    <Compile Include="Converter\StringNullableToBooleanConverter.cs" />
-    <Compile Include="Converter\XmlIntValueToPlakaConverter.cs" />
-    <Compile Include="CursorHelper.cs" />
-    <Compile Include="FileSelectorTextBox.cs" />
+    <Compile Include="Controls\ContentToggleButton.cs" />
+    <Compile Include="Controls\VirtualizingWrapPanel.cs" />
+    <Compile Include="Converters\AyTekrarConverter.cs" />
+    <Compile Include="Converters\AyTekrarDataConverter.cs" />
+    <Compile Include="Converters\Base64ImageConverter.cs" />
+    <Compile Include="Converters\BilinenGünlerConverter.cs" />
+    <Compile Include="Converters\BoolInverter.cs" />
+    <Compile Include="Converters\BrushToColorConverter.cs" />
+    <Compile Include="Converters\DateAnimationConverter.cs" />
+    <Compile Include="Converters\DatePassedBooleanConverter.cs" />
+    <Compile Include="Converters\RegistryToIconConverter.cs" />
+    <Compile Include="Converters\Shell32FileIconConverter.cs" />
+    <Compile Include="Converters\StringNullableToBooleanConverter.cs" />
+    <Compile Include="Converters\WrapPanelRatioConverter.cs" />
+    <Compile Include="Converters\XmlIntValueToPlakaConverter.cs" />
+    <Compile Include="Helpers\CursorHelper.cs" />
+    <Compile Include="Controls\FileSelectorTextBox.cs" />
     <Compile Include="FloatingWindowControl.xaml.cs">
       <DependentUpon>FloatingWindowControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Converter\DateNoteCountConverter.cs" />
+    <Compile Include="Converters\DateNoteCountConverter.cs" />
     <Compile Include="Data.cs" />
-    <Compile Include="ExtensionMethods.cs" />
-    <Compile Include="Converter\FeastoftheSacrificeDateToHolidayConverter.cs" />
-    <Compile Include="Converter\FilePathToIconConverter.cs" />
+    <Compile Include="Helpers\ExtensionMethods.cs" />
+    <Compile Include="Converters\FeastoftheSacrificeDateToHolidayConverter.cs" />
+    <Compile Include="Converters\FilePathToIconConverter.cs" />
     <Compile Include="iCalNET\CalendarParameter.cs" />
     <Compile Include="iCalNET\CalendarParameters.cs" />
     <Compile Include="iCalNET\ContentLine.cs" />
@@ -104,30 +106,30 @@
     <Compile Include="iCalNET\vCalendar.cs" />
     <Compile Include="iCalNET\vEvent.cs" />
     <Compile Include="ImageViewer.cs" />
-    <Compile Include="InpcBase.cs" />
-    <Compile Include="Converter\ListBoxDatePassedVisibilityConverter.cs" />
-    <Compile Include="MaskedTextBox.cs" />
-    <Compile Include="Converter\NullableToBooleanConverter.cs" />
-    <Compile Include="MovableControl.cs" />
+    <Compile Include="Helpers\InpcBase.cs" />
+    <Compile Include="Converters\ListBoxDatePassedVisibilityConverter.cs" />
+    <Compile Include="Controls\MaskedTextBox.cs" />
+    <Compile Include="Converters\NullableToBooleanConverter.cs" />
+    <Compile Include="Controls\MovableControl.cs" />
     <Compile Include="Ocr.cs" />
-    <Compile Include="Converter\RamadanDateToHolidayConverter.cs" />
-    <Compile Include="Converter\RamadanDateToVisibilityConverter.cs" />
+    <Compile Include="Converters\RamadanDateToHolidayConverter.cs" />
+    <Compile Include="Converters\RamadanDateToVisibilityConverter.cs" />
     <Compile Include="Prayer.cs" />
     <Compile Include="PrayerTimeControl.xaml.cs">
       <DependentUpon>PrayerTimeControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="RelayCommand.cs" />
-    <Compile Include="Converter\IntBooleanZeroConverter.cs" />
-    <Compile Include="Converter\SelectedDateToDataListConverter.cs" />
-    <Compile Include="Converter\StringToBrushConverter.cs" />
-    <Compile Include="TimePicker.cs" />
+    <Compile Include="Helpers\RelayCommand.cs" />
+    <Compile Include="Converters\IntBooleanZeroConverter.cs" />
+    <Compile Include="Converters\SelectedDateToDataListConverter.cs" />
+    <Compile Include="Converters\StringToBrushConverter.cs" />
+    <Compile Include="Controls\TimePicker.cs" />
     <Compile Include="Viewer.xaml.cs">
       <DependentUpon>Viewer.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Converter\WebpByteArrayToImageConverter.cs" />
+    <Compile Include="Converters\WebpByteArrayToImageConverter.cs" />
     <Compile Include="WebPWrapper.cs" />
-    <Compile Include="Converter\XmlDateConverter.cs" />
-    <Compile Include="Converter\ŞuAnkiAyColorConverter.cs" />
+    <Compile Include="Converters\XmlDateConverter.cs" />
+    <Compile Include="Converters\ŞuAnkiAyColorConverter.cs" />
     <Page Include="DataEnterWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -147,7 +149,7 @@
     <Compile Include="DataEnterWindow.xaml.cs">
       <DependentUpon>DataEnterWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Converter\GünTatilConverter.cs" />
+    <Compile Include="Converters\GünTatilConverter.cs" />
     <Compile Include="MainViewModel.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

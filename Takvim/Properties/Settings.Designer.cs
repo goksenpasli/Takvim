@@ -178,5 +178,17 @@ namespace Takvim.Properties {
                 this["AyarlarGörünür"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool Panel {
+            get {
+                return ((bool)(this["Panel"]));
+            }
+            set {
+                this["Panel"] = value;
+            }
+        }
     }
 }
