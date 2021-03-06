@@ -71,8 +71,6 @@ namespace Takvim
 
         private ObservableCollection<Data> yaklaşanEtkinlikler;
 
-        private double yatayAdetOranı = 2;
-
         public MainViewModel()
         {
             Winforms.ContextMenu contextmenu = new();
@@ -491,20 +489,6 @@ namespace Takvim
             }
         }
 
-        public double YatayAdetOranı
-        {
-            get => yatayAdetOranı;
-
-            set
-            {
-                if (yatayAdetOranı != value)
-                {
-                    yatayAdetOranı = value;
-                    OnPropertyChanged(nameof(YatayAdetOranı));
-                }
-            }
-        }
-
         public ICommand YılaGit { get; }
 
         public ICommand YılGeri { get; }
@@ -592,7 +576,7 @@ namespace Takvim
 
         private void Properties_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName is "KontrolSüresi" or "PopupSüresi" or "HaftaSonlarıGizle" or "UyarıSaatSüresi" or "VarsayılanTakvim" or "AyarlarGörünür" or "Panel")
+            if (e.PropertyName is "KontrolSüresi" or "PopupSüresi" or "HaftaSonlarıGizle" or "UyarıSaatSüresi" or "VarsayılanTakvim" or "AyarlarGörünür" or "Panel" or "YatayAdetOranı")
             {
                 Properties.Settings.Default.Save();
             }

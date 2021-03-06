@@ -190,5 +190,17 @@ namespace Takvim.Properties {
                 this["Panel"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("2")]
+        public short YatayAdetOranı {
+            get {
+                return ((short)(this["YatayAdetOranı"]));
+            }
+            set {
+                this["YatayAdetOranı"] = value;
+            }
+        }
     }
 }
