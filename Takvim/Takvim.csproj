@@ -67,12 +67,18 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WpfCap, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\WPFCap.1.2.0\lib\net40\WpfCap.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CameraUserControl.xaml.cs">
+      <DependentUpon>CameraUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\ContentToggleButton.cs" />
     <Compile Include="Controls\VirtualizingWrapPanel.cs" />
     <Compile Include="Converters\AyTekrarConverter.cs" />
@@ -130,6 +136,9 @@
     <Compile Include="WebPWrapper.cs" />
     <Compile Include="Converters\XmlDateConverter.cs" />
     <Compile Include="Converters\ŞuAnkiAyColorConverter.cs" />
+    <Page Include="CameraUserControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="DataEnterWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

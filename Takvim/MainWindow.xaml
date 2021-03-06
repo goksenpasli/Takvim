@@ -349,7 +349,7 @@
                 BorderBrush="Black"
                 Margin="2"
                 IsExpanded="{Binding AyarlarGörünür, Mode=TwoWay, Source={x:Static properties:Settings.Default}}">
-                <UniformGrid Columns="3" Rows="6">
+                <UniformGrid Columns="3" Rows="5">
                     <UniformGrid.Resources>
                         <Style x:Key="CbColorBaseStyle" BasedOn="{StaticResource {x:Type ComboBox}}" TargetType="{x:Type ComboBox}">
                             <Setter Property="ItemContainerStyle" Value="{StaticResource ComboBoxItemContainerStyle}" />
@@ -370,23 +370,7 @@
                         <ComboBoxItem Content="AY" />
                         <ComboBoxItem Content="YIL" />
                     </ComboBox>
-                    <Slider VerticalAlignment="Center"
-                        AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" Maximum="60" Minimum="1"
-                        ToolTip="UYARILARIN KONTROL ARALIĞI DAKİKA OLARAK"
-                        Value="{Binding KontrolSüresi, Mode=TwoWay, Source={x:Static properties:Settings.Default}}" />
-                    <Slider VerticalAlignment="Center"
-                        AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" Maximum="60" Minimum="5"
-                        ToolTip="UYARILARIN EKRANDA GÖRÜNME SÜRESİ SANİYE OLARAK"
-                        Value="{Binding PopupSüresi, Mode=TwoWay, Source={x:Static properties:Settings.Default}}" />
-                    <Slider VerticalAlignment="Center"
-                        AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" Maximum="24" Minimum="1"
-                        ToolTip="UYARILAR BELİRTİLEN SAAT ÖNCESİNDEN EKRANDA GÖRÜNMEYE BAŞLAR"
-                        Value="{Binding UyarıSaatSüresi, Mode=TwoWay, Source={x:Static properties:Settings.Default}}" />
-                    <CheckBox Content="HS"
-                        VerticalAlignment="Center"
-                        IsChecked="{Binding HaftaSonlarıGizle, Mode=TwoWay, Source={x:Static properties:Settings.Default}}"
-                        ToolTip="HAFTA SONLARINI GİZLE" />
-
+                    <ToggleButton Content="HAFTA SONU" IsChecked="{Binding HaftaSonlarıGizle, Mode=TwoWay, Source={x:Static properties:Settings.Default}}" ToolTip="HAFTA SONLARINI GİZLE" />
                     <Button Command="{Binding AyarSıfırla, Mode=OneWay}" ToolTip="AYARLARI SIFIRLA">
                         <Image Width="16" Height="16" Source="{Binding ConverterParameter=146, Converter={StaticResource Shell32FileIconConverter}}" />
                     </Button>
@@ -422,9 +406,31 @@
                                     VerticalAlignment="Center"
                                     IsChecked="{Binding Panel, Mode=TwoWay, Source={x:Static properties:Settings.Default}}"
                                     ToolTip="İŞARETLENİRSE VERİLER YAN YANA DİZİLİR" />
-                                <Slider IsEnabled="{Binding Panel, Mode=OneWay, Source={x:Static properties:Settings.Default}}" AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" Maximum="10" Minimum="2"
+                                <Slider IsEnabled="{Binding Panel, Mode=OneWay, Source={x:Static properties:Settings.Default}}"
+                                    AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" Maximum="10" Minimum="2"
                                     SmallChange="1" ToolTip="Ekran Genişliği Seçili Rakama Oranlanır."
                                     Value="{Binding YatayAdetOranı, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            </StackPanel>
+                        </GroupBox>
+                    </local:ContentToggleButton>
+                    <local:ContentToggleButton ToolTip="Uyarı Zamanlarını Ayarlayın">
+                        <local:ContentToggleButton.OverContent>
+                            <Image Width="16" Height="16" Source="{Binding ConverterParameter=20, Converter={StaticResource Shell32FileIconConverter}}" />
+                        </local:ContentToggleButton.OverContent>
+                        <GroupBox Header="ZAMANLAR">
+                            <StackPanel>
+                                <Slider VerticalAlignment="Center"
+                                    AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" Maximum="60" Minimum="1"
+                                    ToolTip="UYARILARIN KONTROL ARALIĞI DAKİKA OLARAK"
+                                    Value="{Binding KontrolSüresi, Mode=TwoWay, Source={x:Static properties:Settings.Default}}" />
+                                <Slider VerticalAlignment="Center"
+                                    AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" Maximum="60" Minimum="5"
+                                    ToolTip="UYARILARIN EKRANDA GÖRÜNME SÜRESİ SANİYE OLARAK"
+                                    Value="{Binding PopupSüresi, Mode=TwoWay, Source={x:Static properties:Settings.Default}}" />
+                                <Slider VerticalAlignment="Center"
+                                    AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" Maximum="24" Minimum="1"
+                                    ToolTip="UYARILAR BELİRTİLEN SAAT ÖNCESİNDEN EKRANDA GÖRÜNMEYE BAŞLAR"
+                                    Value="{Binding UyarıSaatSüresi, Mode=TwoWay, Source={x:Static properties:Settings.Default}}" />
                             </StackPanel>
                         </GroupBox>
                     </local:ContentToggleButton>

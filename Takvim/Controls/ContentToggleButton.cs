@@ -9,6 +9,14 @@ namespace Takvim
 
         public static readonly DependencyProperty OverContentProperty = DependencyProperty.Register("OverContent", typeof(object), typeof(ContentToggleButton), new PropertyMetadata(null));
 
+        public static readonly DependencyProperty StayOpenCheckBoxVisibilityProperty = DependencyProperty.Register("StayOpenCheckBoxVisibility", typeof(Visibility), typeof(ContentToggleButton), new PropertyMetadata(Visibility.Collapsed));
+
+        public Visibility StayOpenCheckBoxVisibility
+        {
+            get { return (Visibility)GetValue(StayOpenCheckBoxVisibilityProperty); }
+            set { SetValue(StayOpenCheckBoxVisibilityProperty, value); }
+        }
+
         public bool StaysOpen
         {
             get { return (bool)GetValue(StaysOpenProperty); }

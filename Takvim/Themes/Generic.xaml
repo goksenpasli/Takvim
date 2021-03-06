@@ -59,6 +59,7 @@
                             <ContentPresenter Content="{TemplateBinding OverContent}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                             <CheckBox x:Name="Cb"
                                 Grid.Column="1"
+                                Visibility="{TemplateBinding StayOpenCheckBoxVisibility}"
                                 Background="{x:Null}"
                                 BorderBrush="{x:Null}"
                                 VerticalAlignment="Center"

@@ -5,7 +5,6 @@
     xmlns:TwainControl="clr-namespace:TwainControl;assembly=TwainControl"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:Takvim"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:system="clr-namespace:System;assembly=mscorlib"
     Margin="2"
     d:DataContext="{d:DesignInstance Type={x:Type local:Data}}"
     d:DesignHeight="300" d:DesignWidth="500" Loaded="UserControl_Loaded" Unloaded="UserControl_Unloaded"
@@ -20,15 +19,10 @@
         <GroupBox>
             <GroupBox.Header>
                 <UniformGrid Columns="2">
-                    <TextBlock>
-                        <Run Text="VERİ GİR" />
-                        <Run Text="{Binding TamTarih, StringFormat=\{0:d\}}" Language="tr-tr" />
-                    </TextBlock>
-                    <TextBlock HorizontalAlignment="Right" FontSize="15" FontFamily="Segoe UI Black">
-                        <Hyperlink Command="{Binding PencereKapat}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}">
+                    <TextBlock><Run Text="VERİ GİR" /><Run Text=" " /><Run Text="{Binding TamTarih, StringFormat=\{0:d\}}" Language="tr-tr" /></TextBlock>
+                    <TextBlock HorizontalAlignment="Right" FontSize="15" FontFamily="Segoe UI Black"><Hyperlink Command="{Binding PencereKapat}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}">
                             <Run Text="X" />
-                        </Hyperlink>
-                    </TextBlock>
+                        </Hyperlink></TextBlock>
                 </UniformGrid>
             </GroupBox.Header>
             <GroupBox.Style>
@@ -83,7 +77,7 @@
                         <ContentControl.ToolTip>
                             <ToolTip Template="{StaticResource GreenToolTipControlTemplate}">
                                 <Grid>
-                                    <Image Source="{Binding ResimData, Converter={StaticResource WebpByteArrayToImageConverter}, ConverterParameter=600, Mode=OneWay}" />
+                                    <Image Source="{Binding ResimData, ConverterParameter=600, Converter={StaticResource WebpByteArrayToImageConverter}, Mode=OneWay}" />
                                     <Viewbox Width="200" Height="200">
                                         <TextBlock Text="{Binding Boyut, StringFormat=\{0\} KB}" Foreground="Red" />
                                     </Viewbox>
@@ -171,62 +165,19 @@
                 <Button Content="VERİYİ EKLE"
                     Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2"
                     Command="{Binding XmlVeriEkle, Mode=OneWay}" />
-                <local:ContentToggleButton Grid.Row="8" Grid.Column="2" OverContent="TARAYICI">
-                    <TwainControl:TwainCtrl Width="540" Height="465"
-                        Background="White"
-                        PropertyChanged="TwainCtrl_PropertyChanged" />
-                </local:ContentToggleButton>
+                <UniformGrid Grid.Row="8" Grid.Column="2" Columns="2">
+                    <local:ContentToggleButton OverContent="TARAYICI">
+                        <TwainControl:TwainCtrl Width="540" Height="465"
+                            Background="White"
+                            PropertyChanged="TwainCtrl_PropertyChanged" />
+                    </local:ContentToggleButton>
+                    <local:ContentToggleButton OverContent="KAMERA" >
+                        <local:CameraUserControl Height="240" Width="320"/>
+                    </local:ContentToggleButton>
+                </UniformGrid>
                 <ListBox Grid.Row="0" Grid.Column="2" Grid.RowSpan="7"
-                    ItemsSource="{Binding Mode=OneWay, Source={StaticResource FilteredCvs}}"
                     IsSynchronizedWithCurrentItem="False"
                     ItemContainerStyle="{StaticResource GünListBoxItemContainerStyle}">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel>
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock FontSize="12" FontFamily="Segoe UI Black">
-                                        <Hyperlink x:Name="Hyp" Command="{Binding DataContext.XmlVeriSil, ElementName=UserControl}" CommandParameter="{Binding XPath=@Id}">
-                                            <Run Text="X" />
-                                        </Hyperlink>
-                                    </TextBlock>
-                                    <TextBlock>
-                                        <Run Text="{Binding XPath=@SaatBaslangic}" />
-                                        <Run Text="{Binding XPath=Aciklama}" />
-                                    </TextBlock>
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal">
-                                    <StackPanel.DataContext>
-                                        <local:Data />
-                                    </StackPanel.DataContext>
-                                    <local:TimePicker TimeValue="{Binding SaatBaşlangıç, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
-                                    <local:MaskedTextBox Width="35"
-                                        IncludePrompt="False" Mask="00" PromptChar="_"
-                                        ValueType="{x:Type system:Double}"
-                                        Value="{Binding EtkinlikSüresi, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                                    <CheckBox VerticalAlignment="Center" IsChecked="{Binding AyTekrar}">
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="AY TEKRAR" VerticalAlignment="Center" />
-                                            <Slider IsEnabled="{Binding AyTekrar}"
-                                                Width="35"
-                                                AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" Maximum="31" Minimum="1"
-                                                SmallChange="1" ToolTip="AYIN KAÇINCI GÜNÜ TEKRAR EDİLECEK"
-                                                Value="{Binding AyTekrarGun, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
-                                        </StackPanel>
-                                    </CheckBox>
-                                    <ComboBox ItemsSource="{Binding Source={StaticResource Renkler}}"
-                                        ItemContainerStyle="{StaticResource ComboBoxItemContainerStyle}"
-                                        ItemTemplate="{StaticResource ComboBoxRectItemTemplate}"
-                                        ItemsPanel="{StaticResource CbItemsPanelTemplate}"
-                                        ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                                        SelectedValue="{Binding VeriRenk, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                                        SelectedValuePath="Name" ToolTip="Veri Renk" />
-                                    <Button Command="{Binding XmlVeriGüncelle, Mode=OneWay}" CommandParameter="{Binding CommandParameter, ElementName=Hyp}" ToolTip="GÜNCELLE">
-                                        <Image Width="16" Height="16" Source="{Binding ConverterParameter=144, Converter={StaticResource Shell32FileIconConverter}}" />
-                                    </Button>
-                                </StackPanel>
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
                             <VirtualizingStackPanel />
