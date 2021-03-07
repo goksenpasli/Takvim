@@ -44,7 +44,7 @@ namespace Takvim
                         pd.PrintVisual(dv, "");
                     }
                 }
-            }, parameter => true);
+            }, parameter => parameter is BitmapSource imageSource && imageSource is not null);
 
             OcrUygula = new RelayCommand<object>(parameter =>
             {
@@ -59,7 +59,7 @@ namespace Takvim
                         MainViewModel.xmlDataProvider.Document.Save(MainViewModel.xmlpath);
                     }));
                 }, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default);
-            }, parameter => Environment.OSVersion.Version.Major > 5 && Directory.Exists(Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) + @"\tessdata"));
+            }, parameter => Resim is not null && Environment.OSVersion.Version.Major > 5 && Directory.Exists(Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) + @"\tessdata"));
 
             PdfData = (byte[])new Base64Converter().Convert(xmldata["Pdf"]?.InnerText, null, null, CultureInfo.CurrentCulture);
             Resim = (BitmapSource)new Base64ImageConverter().Convert(xmldata["Resim"]?.InnerText, null, null, CultureInfo.CurrentCulture);

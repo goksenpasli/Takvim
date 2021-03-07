@@ -40,11 +40,18 @@ namespace Takvim
             return System.Drawing.Color.FromArgb(sb.Color.A, sb.Color.R, sb.Color.G, sb.Color.B);
         }
 
-        public static PdfDocument CreatePdfFile(this IList SeçiliResimler)
+        public static PdfDocument CreatePdfFile(this IList SeçiliResimler, bool compress = false)
         {
             try
             {
-                PdfDocument doc = new();
+                using PdfDocument doc = new();
+                if (compress)
+                {
+                    doc.Options.FlateEncodeMode = PdfFlateEncodeMode.BestCompression;
+                    doc.Options.UseFlateDecoderForJpegImages = PdfUseFlateDecoderForJpegImages.Automatic;
+                    doc.Options.NoCompression = false;
+                    doc.Options.CompressContentStreams = true;
+                }
                 foreach (BitmapFrame item in SeçiliResimler)
                 {
                     PdfPage page = doc.AddPage();

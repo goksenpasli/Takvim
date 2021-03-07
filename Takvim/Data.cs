@@ -203,7 +203,7 @@ namespace Takvim
                         FileName = xmlElement.PreviousSibling?.InnerText + xmlElement.GetAttribute("Ext")
                     };
 
-                    if (saveFileDialog.ShowDialog() == true && xmlElement["Resim"].InnerText != null)
+                    if (saveFileDialog.ShowDialog() == true && xmlElement["Resim"]?.InnerText != null)
                     {
                         byte[] bytes = Convert.FromBase64String(xmlElement["Resim"].InnerText);
                         using FileStream imageFile = new(saveFileDialog.FileName, FileMode.Create);
@@ -211,7 +211,7 @@ namespace Takvim
                         imageFile.Flush();
                     }
                 }
-            }, parameter => true);
+            }, parameter => parameter is XmlElement xmlElement && xmlElement["Resim"] is not null);
 
             PencereKapat = new RelayCommand<object>(parameter =>
             {
