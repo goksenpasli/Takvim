@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel;
 using System.IO;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
@@ -10,27 +9,20 @@ using CatenaLogic.Windows.Presentation.WebcamPlayer;
 
 namespace Takvim
 {
-    public partial class CameraUserControl : UserControl
+    public partial class CameraUserControl : UserControl, INotifyPropertyChanged
     {
+        private FilterInfo[] liste = CapDevice.DeviceMonikers;
+
+        private FilterInfo seçiliKamera;
+
         public CameraUserControl()
         {
             InitializeComponent();
             DataContext = this;
-            if (!DesignerProperties.GetIsInDesignMode(new DependencyObject()))
-            {
-                FilterInfo[] camMonikers = CapDevice.DeviceMonikers;
-                if (camMonikers.Length > 0)
-                {
-                    Player.Device = new CapDevice(camMonikers[0].MonikerString)
-                    {
-                        MaxHeightInPixels = 1080
-                    };
-                }
-            }
 
             ResimYükle = new RelayCommand<object>(parameter =>
             {
-                if (parameter is Data data && Player.Source is not null)
+                if (parameter is Data data)
                 {
                     using MemoryStream ms = new();
                     JpegBitmapEncoder encoder = new();
@@ -41,8 +33,54 @@ namespace Takvim
                     data.ResimUzantı = ".webp";
                     data.Boyut = data.ResimData.Length / 1024;
                 }
-            }, parameter => true);
+            }, parameter => SeçiliKamera is not null);
+
+            PropertyChanged += CameraUserControl_PropertyChanged;
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public FilterInfo[] Liste
+        {
+            get => liste;
+
+            set
+            {
+                if (liste != value)
+                {
+                    liste = value;
+                    OnPropertyChanged(nameof(Liste));
+                }
+            }
+        }
+
         public ICommand ResimYükle { get; }
+
+        public FilterInfo SeçiliKamera
+        {
+            get { return seçiliKamera; }
+
+            set
+            {
+                if (seçiliKamera != value)
+                {
+                    seçiliKamera = value;
+                    OnPropertyChanged(nameof(SeçiliKamera));
+                }
+            }
+        }
+
+        protected virtual void OnPropertyChanged(string propertyName = null) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
+        private void CameraUserControl_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName is "SeçiliKamera")
+            {
+                Player.Device = new CapDevice(SeçiliKamera.MonikerString)
+                {
+                    MaxHeightInPixels = 1080
+                };
+            }
+        }
     }
 }

@@ -15,7 +15,11 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <WebcamPlayer:CapPlayer x:Name="Player" Grid.Row="0" Rotation="180" />
-                <UniformGrid Grid.Row="1" Columns="2">
+                <UniformGrid Grid.Row="1" Columns="3">
+                    <ComboBox x:Name="ComboBox"
+                        ItemsSource="{Binding Liste}"
+                        DisplayMemberPath="Name"
+                        SelectedItem="{Binding SeçiliKamera}" />
                     <Button Content="RESİM AKTAR" Command="{Binding ResimYükle}" CommandParameter="{Binding DataContext, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ContentToggleButton}}}" />
                     <Slider AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" Maximum="360" Minimum="0"
                         SmallChange="1" Ticks="0,90,180,270,360"
