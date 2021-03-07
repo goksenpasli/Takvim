@@ -276,10 +276,10 @@ namespace Takvim
                     UpdateAttribute(xmlattributeId, "SaatBaslangic", SaatBaşlangıç);
                     UpdateAttribute(xmlattributeId, "Saat", EtkinlikSüresi.ToString());
                     UpdateAttribute(xmlattributeId, "AyTekrar", AyTekrar.ToString().ToLower());
-                    UpdateAttribute(xmlattributeId, "Renk", VeriRenk == null ? Brushes.Transparent.ToString() : VeriRenk.ToString());
+                    UpdateAttribute(xmlattributeId, "Renk",  VeriRenk.ToString());
                     UpdateAttribute(xmlattributeId, "TekrarGun", AyTekrarGun.ToString());
                 }
-            }, parameter => DateTime.TryParseExact(SaatBaşlangıç, "H:m", new CultureInfo("tr-TR"), DateTimeStyles.None, out _));
+            }, parameter => VeriRenk is not null && DateTime.TryParseExact(SaatBaşlangıç, "H:m", new CultureInfo("tr-TR"), DateTimeStyles.None, out _));
 
             Resimİptal = new RelayCommand<object>(parameter => ResimData = null, parameter => ResimData?.Length > 0);
 
