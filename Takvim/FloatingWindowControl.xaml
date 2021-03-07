@@ -17,6 +17,14 @@
                 Storyboard.TargetName="UserControl" Storyboard.TargetProperty="Height" From="0" To="150"
                 Duration="0:0:0.2" />
         </Storyboard>
+        <Storyboard x:Key="Shrink">
+            <DoubleAnimation BeginTime="0:0:0"
+                Storyboard.TargetName="UserControl" Storyboard.TargetProperty="Width" From="220" To="0"
+                Duration="0:0:0.2" />
+            <DoubleAnimation BeginTime="0:0:0"
+                Storyboard.TargetName="UserControl" Storyboard.TargetProperty="Height" From="150" To="0"
+                Duration="0:0:0.2" />
+        </Storyboard>
     </UserControl.Resources>
     <UserControl.Triggers>
         <EventTrigger RoutedEvent="Loaded">
@@ -32,7 +40,7 @@
                     <UniformGrid Columns="3" FirstColumn="1">
                         <TextBlock Text="DUYURULAR" VerticalAlignment="Center" />
                         <TextBlock HorizontalAlignment="Right" FontSize="15" FontFamily="Segoe UI Black">
-                            <Hyperlink Command="{Binding PencereKapat, Mode=OneWay, Source={StaticResource Data}}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}">
+                            <Hyperlink Command="{Binding PencereKapat, Mode=OneWay, Source={StaticResource Data}}" CommandParameter="{Binding ElementName=UserControl}">
                                 <Hyperlink.Inlines>
                                     <Run Text="X" />
                                 </Hyperlink.Inlines>

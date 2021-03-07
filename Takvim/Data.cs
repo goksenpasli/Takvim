@@ -11,6 +11,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Xml;
 using iCalNET.Model;
 using Microsoft.Win32;
@@ -66,6 +67,7 @@ namespace Takvim
         private int veriSayısı;
 
         private int webpQuality = 20;
+
         public Data()
         {
             Window verigirişwindow = null;
@@ -215,8 +217,25 @@ namespace Takvim
 
             PencereKapat = new RelayCommand<object>(parameter =>
             {
-                if (parameter is Window window)
+                if (parameter is FrameworkElement userControl)
                 {
+                    Storyboard storyboard = userControl.TryFindResource("Shrink") as Storyboard;
+                    Window window = Window.GetWindow(userControl);
+                    bool windowclosed = false;
+
+                    storyboard.Completed += (s, e) =>
+                    {
+                        windowclosed = true;
+                        window.Close();
+                    };
+                    window.Closing += (s, e) =>
+                      {
+                          if (!windowclosed)
+                          {
+                              storyboard.Begin();
+                              e.Cancel = true;
+                          }
+                      };
                     window.Close();
                 }
             }, parameter => true);
@@ -276,7 +295,7 @@ namespace Takvim
                     UpdateAttribute(xmlattributeId, "SaatBaslangic", SaatBaşlangıç);
                     UpdateAttribute(xmlattributeId, "Saat", EtkinlikSüresi.ToString());
                     UpdateAttribute(xmlattributeId, "AyTekrar", AyTekrar.ToString().ToLower());
-                    UpdateAttribute(xmlattributeId, "Renk",  VeriRenk.ToString());
+                    UpdateAttribute(xmlattributeId, "Renk", VeriRenk.ToString());
                     UpdateAttribute(xmlattributeId, "TekrarGun", AyTekrarGun.ToString());
                 }
             }, parameter => VeriRenk is not null && DateTime.TryParseExact(SaatBaşlangıç, "H:m", new CultureInfo("tr-TR"), DateTimeStyles.None, out _));

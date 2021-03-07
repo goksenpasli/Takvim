@@ -23,6 +23,14 @@
                 Storyboard.TargetName="UserControl" Storyboard.TargetProperty="Height" From="0" To="300"
                 Duration="0:0:0.2" />
         </Storyboard>
+        <Storyboard x:Key="Shrink">
+            <DoubleAnimation BeginTime="0:0:0"
+                Storyboard.TargetName="UserControl" Storyboard.TargetProperty="Width" From="500" To="0"
+                Duration="0:0:0.2" />
+            <DoubleAnimation BeginTime="0:0:0"
+                Storyboard.TargetName="UserControl" Storyboard.TargetProperty="Height" From="300" To="0"
+                Duration="0:0:0.2" />
+        </Storyboard>
     </UserControl.Resources>
     <UserControl.Triggers>
         <EventTrigger RoutedEvent="Loaded">
@@ -35,10 +43,12 @@
         <GroupBox>
             <GroupBox.Header>
                 <UniformGrid Columns="2">
-                    <TextBlock><Run Text="VERİ GİR" />
+                    <TextBlock>
+                        <Run Text="VERİ GİR" />
                         <Run Text="{Binding TamTarih, StringFormat=\{0:d\}}" Language="tr-tr" />
                     </TextBlock>
-                    <TextBlock HorizontalAlignment="Right" FontSize="15" FontFamily="Segoe UI Black"><Hyperlink Command="{Binding PencereKapat}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}">
+                    <TextBlock HorizontalAlignment="Right" FontSize="15" FontFamily="Segoe UI Black">
+                        <Hyperlink Command="{Binding PencereKapat}" CommandParameter="{Binding ElementName=UserControl}">
                             <Run Text="X" />
                         </Hyperlink></TextBlock>
                 </UniformGrid>
