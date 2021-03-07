@@ -15,20 +15,19 @@
         <local:StringNullableToBooleanConverter x:Key="StringNullableToBooleanConverter" />
         <local:NullableToBooleanConverter x:Key="NullableToBooleanConverter" />
         <CollectionViewSource x:Key="FilteredCvs" Source="{StaticResource XmlData}" />
+        <Storyboard x:Key="Grow">
+            <DoubleAnimation BeginTime="0:0:0"
+                Storyboard.TargetName="UserControl" Storyboard.TargetProperty="Width" From="0" To="500"
+                Duration="0:0:0.2" />
+            <DoubleAnimation BeginTime="0:0:0"
+                Storyboard.TargetName="UserControl" Storyboard.TargetProperty="Height" From="0" To="300"
+                Duration="0:0:0.2" />
+        </Storyboard>
     </UserControl.Resources>
     <UserControl.Triggers>
         <EventTrigger RoutedEvent="Loaded">
             <EventTrigger.Actions>
-                <BeginStoryboard>
-                    <Storyboard>
-                        <DoubleAnimation BeginTime="0:0:0"
-                            Storyboard.TargetName="UserControl" Storyboard.TargetProperty="Width" From="0" To="500"
-                            Duration="0:0:0.2" />
-                        <DoubleAnimation BeginTime="0:0:0"
-                            Storyboard.TargetName="UserControl" Storyboard.TargetProperty="Height" From="0" To="300"
-                            Duration="0:0:0.2" />
-                    </Storyboard>
-                </BeginStoryboard>
+                <BeginStoryboard Storyboard="{StaticResource Grow}" />
             </EventTrigger.Actions>
         </EventTrigger>
     </UserControl.Triggers>

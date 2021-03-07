@@ -172,11 +172,10 @@ namespace Takvim
                 {
                     Content = new FloatingWindowControl(),
                     DataContext = this,
-                    Width = 225,
+                    Width = 224,
                     WindowStyle = WindowStyle.None,
                     AllowsTransparency = true,
-                    Height = 150,
-                    ResizeMode = ResizeMode.NoResize,
+                    Height = 154,
                     ShowInTaskbar = false,
                     Topmost = true,
                     Background = Brushes.Transparent,

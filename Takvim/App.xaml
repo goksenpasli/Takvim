@@ -633,8 +633,7 @@
                                                             </Style.Triggers>
                                                         </Style>
                                                     </TextBlock.Style>
-                                                    <Hyperlink
-                                                        Command="{Binding XmlVeriSil, Mode=OneWay, Source={StaticResource Data}}"
+                                                    <Hyperlink Command="{Binding XmlVeriSil, Mode=OneWay, Source={StaticResource Data}}"
                                                         CommandParameter="{Binding XPath=@Id}"
                                                         FontSize="12" FontFamily="Segoe UI Black">
                                                         <Run Text="X" />

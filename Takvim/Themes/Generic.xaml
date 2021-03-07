@@ -78,11 +78,6 @@
                             </Popup>
                         </Grid>
                     </Border>
-                    <ControlTemplate.Triggers>
-                        <DataTrigger Binding="{Binding IsOpen, Converter={local:BoolInverter}, ElementName=Popup, Mode=OneWay}" Value="true">
-                            <Setter Property="IsHitTestVisible" Value="true" />
-                        </DataTrigger>
-                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -150,11 +145,6 @@
                             </Popup>
                         </Grid>
                     </Border>
-                    <ControlTemplate.Triggers>
-                        <DataTrigger Binding="{Binding IsOpen, Converter={local:BoolInverter}, ElementName=PART_Popup, Mode=OneWay}" Value="true">
-                            <Setter Property="IsHitTestVisible" Value="true" />
-                        </DataTrigger>
-                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
