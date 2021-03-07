@@ -50,6 +50,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>.\GpMoonPdfViewer.dll</HintPath>
     </Reference>
+    <Reference Include="PdfSharp-wpf, Version=1.51.5185.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\PdfSharp-wpf.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationFramework.Aero" />
     <Reference Include="System" />
     <Reference Include="System.configuration" />
@@ -233,6 +237,7 @@
     <Content Include="MouseKeyboardActivityMonitor.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="PdfSharp-wpf.dll" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TwainControl\TwainControl.csproj">

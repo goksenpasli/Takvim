@@ -27,10 +27,10 @@ namespace Takvim
                     using MemoryStream ms = new();
                     JpegBitmapEncoder encoder = new();
                     encoder.Frames.Add(BitmapFrame.Create(new TransformedBitmap(Player.Source as InteropBitmap, new RotateTransform(Player.Rotation))));
-                    encoder.QualityLevel = 80;
+                    encoder.QualityLevel = 100;
                     encoder.Save(ms);
                     data.ResimData = ms.ToArray().WebpEncode(data.WebpQuality);
-                    data.ResimUzantı = ".webp";
+                    data.DosyaUzantı = ".webp";
                     data.Boyut = data.ResimData.Length / 1024;
                 }
             }, parameter => SeçiliKamera is not null);

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -7,6 +8,8 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Microsoft.Win32;
+using PdfSharp.Drawing;
+using PdfSharp.Pdf;
 
 namespace Takvim
 {
@@ -35,6 +38,27 @@ namespace Takvim
         {
             SolidColorBrush sb = (SolidColorBrush)color;
             return System.Drawing.Color.FromArgb(sb.Color.A, sb.Color.R, sb.Color.G, sb.Color.B);
+        }
+
+        public static PdfDocument CreatePdfFile(this IList SeçiliResimler)
+        {
+            try
+            {
+                PdfDocument doc = new();
+                foreach (BitmapFrame item in SeçiliResimler)
+                {
+                    PdfPage page = doc.AddPage();
+                    XGraphics gfx = XGraphics.FromPdfPage(page);
+                    XImage xImage = XImage.FromBitmapSource(item);
+                    gfx.DrawImage(xImage, 0, 0, page.Width, page.Height);
+                }
+                return doc;
+            }
+            catch (Exception Ex)
+            {
+                MessageBox.Show(Ex.Message);
+                return null;
+            }
         }
 
         [DllImport("user32.dll", CharSet = CharSet.Auto)]

@@ -29,6 +29,8 @@ namespace Takvim
 
         private ObservableCollection<string> dosyalar;
 
+        private string dosyaUzantı;
+
         private double etkinlikSüresi;
 
         private short gün;
@@ -53,11 +55,7 @@ namespace Takvim
 
         private byte[] pdfData;
 
-        private string pdfUzantı;
-
         private byte[] resimData;
-
-        private string resimUzantı;
 
         private string saatBaşlangıç;
 
@@ -68,7 +66,6 @@ namespace Takvim
         private int veriSayısı;
 
         private int webpQuality = 20;
-
         public Data()
         {
             Window verigirişwindow = null;
@@ -135,22 +132,22 @@ namespace Takvim
                     Aciklama.InnerText = GünNotAçıklama;
                     rootNode.AppendChild(Aciklama);
 
-                    if (ResimData != null && ResimUzantı != null)
+                    if (ResimData != null && DosyaUzantı != null)
                     {
                         XmlNode Resim = document.CreateElement("Resim");
                         rootNode.AppendChild(Resim);
                         XmlAttribute ResimExt = document.CreateAttribute("Ext");
-                        ResimExt.Value = ResimUzantı;
+                        ResimExt.Value = DosyaUzantı;
                         Resim.Attributes.Append(ResimExt);
                         Resim.InnerText = Convert.ToBase64String(ResimData);
                     }
 
-                    if (PdfData != null && PdfUzantı != null)
+                    if (PdfData != null && DosyaUzantı != null)
                     {
                         XmlNode Pdf = document.CreateElement("Pdf");
                         rootNode.AppendChild(Pdf);
                         XmlAttribute PdfExt = document.CreateAttribute("Ext");
-                        PdfExt.Value = PdfUzantı;
+                        PdfExt.Value = DosyaUzantı;
                         Pdf.Attributes.Append(PdfExt);
                         Pdf.InnerText = Convert.ToBase64String(PdfData);
                     }
@@ -180,7 +177,7 @@ namespace Takvim
                 if (openFileDialog.ShowDialog() == true)
                 {
                     ResimData = openFileDialog.FileName.WebpEncode(WebpQuality);
-                    ResimUzantı = ".webp";
+                    DosyaUzantı = ".webp";
                     Boyut = ResimData.Length / 1024;
                 }
             }, parameter => Environment.OSVersion.Version.Major > 5);
@@ -191,7 +188,7 @@ namespace Takvim
                 if (openFileDialog.ShowDialog() == true)
                 {
                     PdfData = File.ReadAllBytes(openFileDialog.FileName);
-                    PdfUzantı = ".pdf";
+                    DosyaUzantı = ".pdf";
                 }
             }, parameter => Environment.OSVersion.Version.Major > 5);
 
@@ -440,6 +437,20 @@ namespace Takvim
             }
         }
 
+        public string DosyaUzantı
+        {
+            get => dosyaUzantı;
+
+            set
+            {
+                if (dosyaUzantı != value)
+                {
+                    dosyaUzantı = value;
+                    OnPropertyChanged(nameof(DosyaUzantı));
+                }
+            }
+        }
+
         public string Error => string.Empty;
 
         public double EtkinlikSüresi
@@ -604,20 +615,6 @@ namespace Takvim
 
         public ICommand Pdfİptal { get; }
 
-        public string PdfUzantı
-        {
-            get => pdfUzantı;
-
-            set
-            {
-                if (pdfUzantı != value)
-                {
-                    pdfUzantı = value;
-                    OnPropertyChanged(nameof(PdfUzantı));
-                }
-            }
-        }
-
         public ICommand PdfYükle { get; }
 
         public ICommand PencereKapat { get; }
@@ -639,21 +636,6 @@ namespace Takvim
         public ICommand Resimİptal { get; }
 
         public ICommand ResimSakla { get; }
-
-        public string ResimUzantı
-        {
-            get => resimUzantı;
-
-            set
-            {
-                if (resimUzantı != value)
-                {
-                    resimUzantı = value;
-                    OnPropertyChanged(nameof(ResimUzantı));
-                }
-            }
-        }
-
         public ICommand ResimYükle { get; }
 
         public string SaatBaşlangıç

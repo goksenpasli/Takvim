@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.ComponentModel;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -35,11 +37,23 @@ namespace Takvim
 
         private void TwainCtrl_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "SeçiliResim" && DataContext is Data data)
+            if (DataContext is Data data)
             {
-                data.ResimData = ((sender as TwainControl.TwainCtrl)?.SeçiliResim).ToTiffJpegByteArray(ExtensionMethods.Format.Jpg).WebpEncode(data.WebpQuality);
-                data.ResimUzantı = ".webp";
-                data.Boyut = data.ResimData.Length / 1024;
+                if (e.PropertyName == "SeçiliResim")
+                {
+                    data.ResimData = ((sender as TwainControl.TwainCtrl)?.SeçiliResim).ToTiffJpegByteArray(ExtensionMethods.Format.Jpg).WebpEncode(data.WebpQuality);
+                    data.DosyaUzantı = ".webp";
+                    data.Boyut = data.ResimData.Length / 1024;
+                }
+
+                if (e.PropertyName == "SeçiliResimler")
+                {
+                    IList SeçiliResimler = (sender as TwainControl.TwainCtrl)?.SeçiliResimler;
+                    using MemoryStream ms = new();
+                    SeçiliResimler.CreatePdfFile().Save(ms);
+                    data.PdfData = ms.ToArray();
+                    data.DosyaUzantı = ".pdf";
+                }
             }
         }
 

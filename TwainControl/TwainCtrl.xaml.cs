@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -32,6 +33,8 @@ namespace TwainControl
 
         private bool deskew;
 
+        private bool disposedValue;
+
         private bool duplex;
 
         private double eşik = 160d;
@@ -39,6 +42,8 @@ namespace TwainControl
         private ObservableCollection<BitmapFrame> resimler = new ObservableCollection<BitmapFrame>();
 
         private BitmapFrame seçiliResim;
+
+        private IList seçiliresimler = new ObservableCollection<BitmapFrame>();
 
         private string seçiliTarayıcı;
 
@@ -82,6 +87,12 @@ namespace TwainControl
                 SeçiliResim = parameter as BitmapFrame;
                 OnPropertyChanged(nameof(SeçiliResim));
             }, parameter => true);
+
+            PdfAktar = new RelayCommand<object>(parameter =>
+            {
+                SeçiliResimler = parameter as IList;
+                OnPropertyChanged(nameof(SeçiliResimler));
+            }, parameter => SeçiliResimler.Count > 0);
 
             ResimSil = new RelayCommand<object>(parameter => Resimler?.Remove(parameter as BitmapFrame), parameter => true);
 
@@ -252,6 +263,8 @@ namespace TwainControl
 
         public ICommand Kaydet { get; }
 
+        public ICommand PdfAktar { get; }
+
         public ObservableCollection<BitmapFrame> Resimler
         {
             get => resimler;
@@ -267,7 +280,6 @@ namespace TwainControl
         }
 
         public ICommand ResimSil { get; }
-
         public ICommand ScanImage { get; }
 
         public BitmapFrame SeçiliResim
@@ -280,6 +292,20 @@ namespace TwainControl
                 {
                     seçiliResim = value;
                     OnPropertyChanged(nameof(SeçiliResim));
+                }
+            }
+        }
+
+        public IList SeçiliResimler
+        {
+            get { return seçiliresimler; }
+
+            set
+            {
+                if (seçiliresimler != value)
+                {
+                    seçiliresimler = value;
+                    OnPropertyChanged(nameof(SeçiliResimler));
                 }
             }
         }
@@ -339,7 +365,6 @@ namespace TwainControl
                 }
             }
         }
-
         public IList<string> Tarayıcılar
         {
             get => tarayıcılar;
@@ -353,12 +378,6 @@ namespace TwainControl
                 }
             }
         }
-
-        protected virtual void OnPropertyChanged(string propertyName = null) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-
-        #region IDisposable Support
-
-        private bool disposedValue;
 
         public void Dispose() => Dispose(true);
 
@@ -376,8 +395,7 @@ namespace TwainControl
             }
         }
 
-        #endregion IDisposable Support
-
+        protected virtual void OnPropertyChanged(string propertyName = null) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             try
