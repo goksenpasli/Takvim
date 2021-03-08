@@ -107,37 +107,77 @@
         <TabControl Grid.Row="0" Grid.Column="0" Grid.RowSpan="2"
             SelectedIndex="{Binding VarsayılanTakvim, Mode=OneWay, Source={x:Static properties:Settings.Default}}">
             <TabItem Header="BUGÜN">
-                <ListBox VerticalContentAlignment="Center"
-                    ItemsSource="{Binding Mode=OneWay, Source={StaticResource FilteredCvs}}"
-                    ItemContainerStyle="{StaticResource GünListBoxItemContainerStyle}"
-                    ItemTemplate="{StaticResource ListBoxGunDataTemplate}"
-                    ScrollViewer.IsDeferredScrollingEnabled="True">
-                    <ListBox.InputBindings>
-                        <MouseBinding Command="{Binding ŞuAnkiGünData.VeriEkleEkranı, Mode=OneWay}" MouseAction="LeftDoubleClick" />
-                    </ListBox.InputBindings>
-                    <ListBox.Style>
-                        <Style TargetType="ListBox">
-                            <Setter Property="ItemsPanel">
-                                <Setter.Value>
-                                    <ItemsPanelTemplate>
-                                        <VirtualizingStackPanel />
-                                    </ItemsPanelTemplate>
-                                </Setter.Value>
-                            </Setter>
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding Path=Panel, Source={x:Static properties:Settings.Default}}" Value="True">
-                                    <Setter Property="ItemsPanel">
-                                        <Setter.Value>
-                                            <ItemsPanelTemplate>
-                                                <local:VirtualizingWrapPanel ItemHeight="80" ItemWidth="{Binding YatayAdetOranı, Source={x:Static properties:Settings.Default}, Converter={StaticResource WrapPanelRatioConverter}}" />
-                                            </ItemsPanelTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </ListBox.Style>
-                </ListBox>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <ListBox Grid.Column="0"
+                        VerticalContentAlignment="Center"
+                        ItemsSource="{Binding Mode=OneWay, Source={StaticResource FilteredCvs}}"
+                        ItemContainerStyle="{StaticResource GünListBoxItemContainerStyle}"
+                        ItemTemplate="{StaticResource ListBoxGunDataTemplate}"
+                        ScrollViewer.IsDeferredScrollingEnabled="True">
+                        <ListBox.InputBindings>
+                            <MouseBinding Command="{Binding ŞuAnkiGünData.VeriEkleEkranı, Mode=OneWay}" MouseAction="LeftDoubleClick" />
+                        </ListBox.InputBindings>
+                        <ListBox.Style>
+                            <Style TargetType="ListBox">
+                                <Setter Property="ItemsPanel">
+                                    <Setter.Value>
+                                        <ItemsPanelTemplate>
+                                            <VirtualizingStackPanel />
+                                        </ItemsPanelTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Path=Panel, Source={x:Static properties:Settings.Default}}" Value="True">
+                                        <Setter Property="ItemsPanel">
+                                            <Setter.Value>
+                                                <ItemsPanelTemplate>
+                                                    <local:VirtualizingWrapPanel ItemHeight="80" ItemWidth="{Binding YatayAdetOranı, Source={x:Static properties:Settings.Default}, Converter={StaticResource WrapPanelRatioConverter}}" />
+                                                </ItemsPanelTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ListBox.Style>
+                    </ListBox>
+                    <StackPanel Grid.Column="1">
+                        <StackPanel.DataContext>
+                            <local:MainViewModel />
+                        </StackPanel.DataContext>
+                        <Slider IsSnapToTickEnabled="True" Maximum="12" Minimum="1" SmallChange="1"
+                            TickPlacement="BottomRight"
+                            ToolTip="{Binding AyGünler/Ay}"
+                            Value="{Binding SeçiliAy}" />
+                        <ItemsControl Width="230" Height="230"
+                            VerticalAlignment="Top"
+                            ItemsSource="{Binding AyGünler}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Width="30" Height="30"
+                                        Background="Transparent" BorderBrush="#FF145CD6" BorderThickness="0.5">
+                                        <Border.InputBindings>
+                                            <MouseBinding Command="{Binding VeriEkleEkranı, Mode=OneWay}" MouseAction="LeftClick" />
+                                        </Border.InputBindings>
+                                        <TextBlock FontSize="11">
+                                            <Run Text="{Binding Gün}" />
+                                            <LineBreak />
+                                            <Run Text="{Binding GünAdı}" />
+                                        </TextBlock>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <UniformGrid Columns="7" FirstColumn="{Binding AyGünler/Offset}" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
+                    </StackPanel>
+                </Grid>
             </TabItem>
             <TabItem Header="AY">
                 <Grid>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -317,10 +318,10 @@ namespace Takvim
                 {
                     try
                     {
-                        vCalendar vcalendar = new(File.ReadAllText(openFileDialog.FileName));
-                        foreach (vEvent data in vcalendar.vEvents)
+                        VCalendar vcalendar = new(File.ReadAllText(openFileDialog.FileName));
+                        foreach (VEvent data in vcalendar.vEvents)
                         {
-                            foreach (System.Collections.Generic.KeyValuePair<string, ContentLine> item in data.ContentLines)
+                            foreach (KeyValuePair<string, ContentLine> item in data.ContentLines)
                             {
                                 if (item.Key == "SUMMARY")
                                 {

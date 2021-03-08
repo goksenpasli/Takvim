@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace iCalNET.Model
 {
-    public class vCalendar
+    public class VCalendar
     {
         public const string vEventPattern = "(BEGIN:VEVENT.+?END:VEVENT)";
 
@@ -13,7 +13,7 @@ namespace iCalNET.Model
 
         private const RegexOptions CalendarParameterRegexOptions = RegexOptions.Singleline;
 
-        public vCalendar(string source)
+        public VCalendar(string source)
         {
             Source = source;
             Match parameterMatch = Regex.Match(source, CalendarParameterPattern, CalendarParameterRegexOptions);
@@ -22,7 +22,7 @@ namespace iCalNET.Model
             foreach (Match vEventMatch in Regex.Matches(source, vEventPattern, vEventRegexOptions))
             {
                 string vEventString = vEventMatch.Groups[1].ToString();
-                vEvents.Add(new vEvent(vEventString));
+                vEvents.Add(new VEvent(vEventString));
             }
         }
 
@@ -30,6 +30,6 @@ namespace iCalNET.Model
 
         public string Source { get; set; }
 
-        public List<vEvent> vEvents { get; set; } = new List<vEvent>();
+        public List<VEvent> vEvents { get; set; } = new List<VEvent>();
     }
 }

@@ -33,7 +33,7 @@ namespace Takvim
 
         public static XmlDataProvider xmlDataProvider;
 
-        private readonly CollectionViewSource Cvs = (CollectionViewSource)Application.Current.MainWindow.TryFindResource("Cvs");
+        private readonly CollectionViewSource Cvs = (CollectionViewSource)Application.Current?.MainWindow?.TryFindResource("Cvs");
 
         private DateTime? animasyonTarih;
 
@@ -76,7 +76,7 @@ namespace Takvim
             GenerateSystemTrayMenu();
 
             WriteXmlRootData(xmlpath);
-            xmlDataProvider = (XmlDataProvider)Application.Current.TryFindResource("XmlData");
+            xmlDataProvider = (XmlDataProvider)Application.Current?.TryFindResource("XmlData");
             xmlDataProvider.Source = new Uri(xmlpath);
 
             TakvimVerileriniOluştur(SeçiliYıl);
@@ -476,7 +476,7 @@ namespace Takvim
             Winforms.ContextMenu contextmenu = new();
             Winforms.MenuItem menuitem = new()
             {
-                Index = 0,                                                                                                                                                          
+                Index = 0,
                 Text = "VERİ EKLE"
             };
             contextmenu.MenuItems.Add(menuitem);
@@ -504,11 +504,7 @@ namespace Takvim
                 Application.Current.MainWindow.WindowState = AppWindowState;
             };
         }
-        private ObservableCollection<Data> AyTakvimVerileriniOluştur(short SeçiliAy)
-        {
-            AyGünler = new ObservableCollection<Data>(Günler?.Where(z => z.TamTarih.Month == SeçiliAy));
-            return AyGünler;
-        }
+        private void AyTakvimVerileriniOluştur(short SeçiliAy) => AyGünler = new ObservableCollection<Data>(Günler?.Where(z => z.TamTarih.Month == SeçiliAy));
 
         private void MainViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {

@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace iCalNET.Model
 {
-    public class vEvent
+    public class VEvent
     {
         private const string ContentLinePattern = "(.+?):(.+?)(?=\\r\\n[A-Z]|$)";
 
@@ -13,7 +13,7 @@ namespace iCalNET.Model
 
         private const RegexOptions vEventContentRegexOptions = RegexOptions.Singleline;
 
-        public vEvent(string source)
+        public VEvent(string source)
         {
             Match contentMatch = Regex.Match(source, vEventContentPattern, vEventContentRegexOptions);
             string content = contentMatch.Groups[1].ToString();

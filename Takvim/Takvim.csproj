@@ -114,7 +114,7 @@
     <Compile Include="iCalNET\ContentLineParameter.cs" />
     <Compile Include="iCalNET\ContentLineParameters.cs" />
     <Compile Include="iCalNET\vCalendar.cs" />
-    <Compile Include="iCalNET\vEvent.cs" />
+    <Compile Include="iCalNET\VEvent.cs" />
     <Compile Include="ImageViewer.cs" />
     <Compile Include="Helpers\InpcBase.cs" />
     <Compile Include="Converters\ListBoxDatePassedVisibilityConverter.cs" />
