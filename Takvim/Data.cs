@@ -70,8 +70,6 @@ namespace Takvim
 
         public Data()
         {
-            Window verigirişwindow = null;
-
             XmlVeriEkle = new RelayCommand<object>(parameter =>
             {
                 if (OcrTask?.Status != TaskStatus.Running)
@@ -163,7 +161,7 @@ namespace Takvim
                     document.DocumentElement.AppendChild(rootNode);
                     document.Save(MainViewModel.xmlpath);
                     VeriSayısı++;
-                    verigirişwindow?.Close();
+                    PencereKapat.Execute(parameter as FrameworkElement);
                     MainViewModel.xmlDataProvider.Refresh();
                     CollectionViewSource.GetDefaultView((Application.Current.MainWindow.DataContext as MainViewModel)?.AyGünler).Refresh();
                 }
@@ -362,7 +360,7 @@ namespace Takvim
 
             VeriEkleEkranı = new RelayCommand<object>(parameter =>
             {
-                verigirişwindow = new Window
+                Window verigirişwindow = new()
                 {
                     Title = TamTarih.ToString("dd MMMM yyyy dddd"),
                     Content = new DataEnterWindow(),

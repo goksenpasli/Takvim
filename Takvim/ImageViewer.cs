@@ -17,10 +17,11 @@ namespace Takvim
     {
         private double angle;
 
+        private int ındex;
+
         private BitmapSource resim;
 
         private double zoom = 1;
-        private int ındex;
 
         public ImageViewer(XmlElement xmldata)
         {
@@ -89,6 +90,20 @@ namespace Takvim
             }
         }
 
+        public int Index
+        {
+            get => ındex;
+
+            set
+            {
+                if (ındex != value)
+                {
+                    ındex = value;
+                    OnPropertyChanged(nameof(Index));
+                }
+            }
+        }
+
         public new ICommand OcrUygula { get; }
 
         public BitmapSource Resim
@@ -119,20 +134,6 @@ namespace Takvim
                 {
                     zoom = value;
                     OnPropertyChanged(nameof(Zoom));
-                }
-            }
-        }
-
-        public int Index
-        {
-            get => ındex;
-
-            set
-            {
-                if (ındex != value)
-                {
-                    ındex = value;
-                    OnPropertyChanged(nameof(Index));
                 }
             }
         }

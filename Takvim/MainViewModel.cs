@@ -73,36 +73,7 @@ namespace Takvim
 
         public MainViewModel()
         {
-            Winforms.ContextMenu contextmenu = new();
-            Winforms.MenuItem menuitem = new()
-            {
-                Index = 0,
-                Text = "VERİ EKLE"
-            };
-            contextmenu.MenuItems.Add(menuitem);
-            AppNotifyIcon = new Winforms.NotifyIcon
-            {
-                BalloonTipText = "Uygulama Sistem Tepsisine Gönderildi.",
-                BalloonTipTitle = "TAKVİM",
-                Text = "Takvim",
-                Icon = new System.Drawing.Icon(Application.GetResourceStream(new Uri("pack://application:,,,/Takvim;component/icon.ico")).Stream),
-                ContextMenu = contextmenu
-            };
-
-            menuitem.Click += (s, e) =>
-            {
-                Data data = new()
-                {
-                    TamTarih = DateTime.Today
-                };
-                data.VeriEkleEkranı.Execute(null);
-            };
-
-            AppNotifyIcon.Click += (s, e) =>
-             {
-                 Application.Current.MainWindow.Show();
-                 Application.Current.MainWindow.WindowState = AppWindowState;
-             };
+            GenerateSystemTrayMenu();
 
             WriteXmlRootData(xmlpath);
             xmlDataProvider = (XmlDataProvider)Application.Current.TryFindResource("XmlData");
@@ -368,8 +339,6 @@ namespace Takvim
             }
         }
 
-        public int SeçiliGün { get; set; } = DateTime.Now.Day - 1;
-
         public ICommand SatırSütünSıfırla { get; }
 
         public short SeçiliAy
@@ -385,6 +354,8 @@ namespace Takvim
                 }
             }
         }
+
+        public int SeçiliGün { get; set; } = DateTime.Now.Day - 1;
 
         public Brush SeçiliRenkCmt
         {
@@ -500,6 +471,39 @@ namespace Takvim
             _ => null
         };
 
+        private static void GenerateSystemTrayMenu()
+        {
+            Winforms.ContextMenu contextmenu = new();
+            Winforms.MenuItem menuitem = new()
+            {
+                Index = 0,                                                                                                                                                          
+                Text = "VERİ EKLE"
+            };
+            contextmenu.MenuItems.Add(menuitem);
+            AppNotifyIcon = new Winforms.NotifyIcon
+            {
+                BalloonTipText = "Uygulama Sistem Tepsisine Gönderildi.",
+                BalloonTipTitle = "TAKVİM",
+                Text = "Takvim",
+                Icon = new System.Drawing.Icon(Application.GetResourceStream(new Uri("pack://application:,,,/Takvim;component/icon.ico")).Stream),
+                ContextMenu = contextmenu
+            };
+
+            menuitem.Click += (s, e) =>
+            {
+                Data data = new()
+                {
+                    TamTarih = DateTime.Today
+                };
+                data.VeriEkleEkranı.Execute(null);
+            };
+
+            AppNotifyIcon.Click += (s, e) =>
+            {
+                Application.Current.MainWindow.Show();
+                Application.Current.MainWindow.WindowState = AppWindowState;
+            };
+        }
         private ObservableCollection<Data> AyTakvimVerileriniOluştur(short SeçiliAy)
         {
             AyGünler = new ObservableCollection<Data>(Günler?.Where(z => z.TamTarih.Month == SeçiliAy));

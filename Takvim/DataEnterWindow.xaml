@@ -192,7 +192,7 @@
                 </Expander>
                 <Button Content="VERİYİ EKLE"
                     Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2"
-                    Command="{Binding XmlVeriEkle, Mode=OneWay}" />
+                    Command="{Binding XmlVeriEkle, Mode=OneWay}" CommandParameter="{Binding ElementName=UserControl, Mode=OneWay}" />
                 <UniformGrid Grid.Row="8" Grid.Column="2" Columns="2">
                     <local:ContentToggleButton OverContent="TARAYICI">
                         <TwainControl:TwainCtrl Width="540" Height="465"
