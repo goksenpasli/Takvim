@@ -569,6 +569,47 @@
                     </Setter.Value>
                 </Setter>
             </Style>
+            <DataTemplate x:Key="ListBoxGunDataTemplate">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <ScrollViewer Grid.Column="0" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                        <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center"
+                            FontSize="20"
+                            TextWrapping="Wrap">
+                            <TextBlock.Style>
+                                <Style TargetType="{x:Type TextBlock}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding XPath=@Onemli}" Value="true">
+                                            <Setter Property="Foreground" Value="Red" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                            <Hyperlink x:Name="Hyp"
+                                Command="{Binding XmlVeriSil, Mode=OneWay, Source={StaticResource Data}}"
+                                CommandParameter="{Binding XPath=@Id}"
+                                FontFamily="Segoe UI Black">
+                                <Run Text="X" />
+                            </Hyperlink>
+                            <Run Text="{Binding XPath=@SaatBaslangic}" FontWeight="Bold" />
+                            <Run Text="{Binding XPath=Aciklama}" />
+                        </TextBlock>
+                    </ScrollViewer>
+                    <Image Grid.Column="1"
+                        Width="72" Height="72"
+                        HorizontalAlignment="Right"
+                        Source="{Binding ConverterParameter=96, Converter={StaticResource Base64ImageConverter}, XPath=Resim}">
+                        <Image.ToolTip>
+                            <ToolTip Template="{StaticResource GreenToolTipControlTemplate}">
+                                <Image Source="{Binding ConverterParameter=600, Converter={StaticResource Base64ImageConverter}, XPath=Resim}" />
+                            </ToolTip>
+                        </Image.ToolTip>
+                    </Image>
+                </Grid>
+            </DataTemplate>
             <DataTemplate x:Key="ListBoxAyDataTemplate">
                 <StackPanel Background="Transparent" Orientation="Horizontal">
                     <StackPanel.InputBindings>

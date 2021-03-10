@@ -15,6 +15,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="SliderResource.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <local:MonthToColorConverter x:Key="MonthToColorConverter" />
             <local:WrapPanelRatioConverter x:Key="WrapPanelRatioConverter" />
             <CollectionViewSource x:Key="Cvs" Source="{StaticResource XmlData}">
                 <CollectionViewSource.SortDescriptions>
@@ -31,56 +32,6 @@
                     <PropertyGroupDescription PropertyName="Ay" />
                 </CollectionViewSource.GroupDescriptions>
             </CollectionViewSource>
-            <DataTemplate x:Key="ListBoxGunDataTemplate">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    <ScrollViewer Grid.Column="0" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-                        <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center"
-                            FontSize="20"
-                            TextWrapping="Wrap">
-                            <TextBlock.Style>
-                                <Style TargetType="{x:Type TextBlock}">
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding XPath=@Onemli}" Value="true">
-                                            <Setter Property="Foreground" Value="Red" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </TextBlock.Style>
-                            <Hyperlink x:Name="Hyp"
-                                Command="{Binding XmlVeriSil, Mode=OneWay, Source={StaticResource Data}}"
-                                CommandParameter="{Binding XPath=@Id}"
-                                FontFamily="Segoe UI Black">
-                                <Run Text="X" />
-                            </Hyperlink>
-                            <Run Text="{Binding XPath=@SaatBaslangic}" FontWeight="Bold" />
-                            <Run Text="{Binding XPath=Aciklama}" />
-                        </TextBlock>
-                    </ScrollViewer>
-                    <Image Grid.Column="1"
-                        Width="72" Height="72"
-                        HorizontalAlignment="Right"
-                        Source="{Binding ConverterParameter=96, Converter={StaticResource Base64ImageConverter}, XPath=Resim}">
-                        <Image.ToolTip>
-                            <ToolTip Template="{StaticResource GreenToolTipControlTemplate}">
-                                <Image Source="{Binding ConverterParameter=600, Converter={StaticResource Base64ImageConverter}, XPath=Resim}" />
-                            </ToolTip>
-                        </Image.ToolTip>
-                    </Image>
-                </Grid>
-            </DataTemplate>
-            <Style x:Key="ComboboxFileStyle" BasedOn="{StaticResource {x:Type ComboBox}}" TargetType="{x:Type ComboBox}">
-                <Setter Property="BorderBrush" Value="Red" />
-                <Setter Property="BorderThickness" Value="2" />
-                <Style.Triggers>
-                    <DataTrigger Binding="{Binding XPath=Dosyalar/Dosya}" Value="{x:Null}">
-                        <Setter Property="BorderBrush" Value="#FF707070" />
-                    </DataTrigger>
-                </Style.Triggers>
-            </Style>
         </ResourceDictionary>
     </Window.Resources>
     <Grid>
@@ -144,21 +95,38 @@
                             </Style>
                         </ListBox.Style>
                     </ListBox>
-                    <StackPanel Grid.Column="1">
+                    <StackPanel Grid.Column="1" Language="tr-tr">
                         <StackPanel.DataContext>
                             <local:MainViewModel />
                         </StackPanel.DataContext>
-                        <Slider IsSnapToTickEnabled="True" Maximum="12" Minimum="1" SmallChange="1"
-                            TickPlacement="BottomRight"
-                            ToolTip="{Binding AyGünler/Ay}"
-                            Value="{Binding SeçiliAy}" />
-                        <ItemsControl Width="230" Height="230"
-                            VerticalAlignment="Top"
-                            ItemsSource="{Binding AyGünler}">
+                        <StackPanel.Resources>
+                            <CollectionViewSource x:Key="ÜçAylıkGünler" Source="{Binding ÜçAylıkGünler}">
+                                <CollectionViewSource.GroupDescriptions>
+                                    <PropertyGroupDescription PropertyName="Ay" />
+                                </CollectionViewSource.GroupDescriptions>
+                            </CollectionViewSource>
+                        </StackPanel.Resources>
+                        <TextBlock Text="{Binding Zaman}" FontSize="18" />
+                        <TextBlock Text="{Binding ŞuAnkiGünData.TamTarih, StringFormat=\{0:D\}}" FontWeight="Bold" TextDecorations="{x:Null}" />
+                        <Separator Margin="0,5,0,2" />
+                        <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                            <Button Content="ç"
+                                Background="{x:Null}"
+                                Command="{Binding AyGeri}"
+                                FontFamily="Wingdings"
+                                ToolTip="ÖNCEKİ AY" />
+                            <Button Content="è"
+                                Background="{x:Null}"
+                                Command="{Binding Ayİleri}"
+                                FontFamily="Wingdings"
+                                ToolTip="SONRAKİ AY" />
+                        </StackPanel>
+                        <ItemsControl Width="230" ItemsSource="{Binding Mode=OneWay, Source={StaticResource ÜçAylıkGünler}}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <Border Width="30" Height="30"
-                                        Background="Transparent" BorderBrush="#FF145CD6" BorderThickness="0.5">
+                                        Background="{Binding TamTarih.Month, Converter={StaticResource MonthToColorConverter}, Mode=OneWay}"
+                                        BorderThickness="1">
                                         <Border.InputBindings>
                                             <MouseBinding Command="{Binding VeriEkleEkranı, Mode=OneWay}" MouseAction="LeftClick" />
                                         </Border.InputBindings>
@@ -167,14 +135,35 @@
                                             <LineBreak />
                                             <Run Text="{Binding GünAdı}" />
                                         </TextBlock>
+                                        <Border.Style>
+                                            <Style TargetType="Border">
+                                                <Setter Property="BorderBrush" Value="#FF145CD6" />
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="BorderBrush" Value="Cyan" />
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Border.Style>
                                     </Border>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
-                                    <UniformGrid Columns="7" FirstColumn="{Binding AyGünler/Offset}" />
+                                    <UniformGrid Columns="7" FirstColumn="{Binding Items/Offset}" />
                                 </ItemsPanelTemplate>
                             </ItemsControl.ItemsPanel>
+                            <ItemsControl.GroupStyle>
+                                <GroupStyle>
+                                    <GroupStyle.HeaderTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Path=Name}"
+                                                HorizontalAlignment="Center"
+                                                FontSize="15" FontWeight="Bold" />
+                                        </DataTemplate>
+                                    </GroupStyle.HeaderTemplate>
+                                </GroupStyle>
+                            </ItemsControl.GroupStyle>
                         </ItemsControl>
                     </StackPanel>
                 </Grid>
@@ -254,7 +243,7 @@
                         ItemTemplate="{StaticResource ListBoxDataTemplate}">
                         <ListBox.ItemContainerStyle>
                             <Style BasedOn="{StaticResource ListBoxItemContainerStyle}" TargetType="{x:Type ListBoxItem}">
-                                <Setter Property="BorderThickness" Value="0.5" />
+                                <Setter Property="BorderThickness" Value="1" />
                                 <Setter Property="BorderBrush" Value="#FF145CD6" />
                                 <Setter Property="Template" Value="{StaticResource ListBoxItemControlTemplate}" />
                                 <Style.Triggers>

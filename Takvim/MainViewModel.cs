@@ -12,6 +12,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Threading;
 using System.Xml;
 using System.Xml.Linq;
 using Microsoft.Win32;
@@ -70,11 +71,13 @@ namespace Takvim
         private bool tümListe;
 
         private ObservableCollection<Data> yaklaşanEtkinlikler;
+        private string zaman;
+        private ObservableCollection<Data> üçAylıkGünler;
 
         public MainViewModel()
         {
             GenerateSystemTrayMenu();
-
+            DatetimeTimer();
             WriteXmlRootData(xmlpath);
             xmlDataProvider = (XmlDataProvider)Application.Current?.TryFindResource("XmlData");
             xmlDataProvider.Source = new Uri(xmlpath);
@@ -181,6 +184,20 @@ namespace Takvim
 
             PropertyChanged += MainViewModel_PropertyChanged;
             Properties.Settings.Default.PropertyChanged += Properties_PropertyChanged;
+        }
+
+        private void DatetimeTimer()
+        {
+            if (!DesignerProperties.GetIsInDesignMode(new DependencyObject()))
+            {
+                DispatcherTimer datetimer = new(DispatcherPriority.Normal)
+                {
+                    Interval = TimeSpan.FromSeconds(1)
+                };
+                datetimer.Start();
+                datetimer.Tick += (s, e) => Zaman = DateTime.Now.ToString("HH:mm:ss");
+            }
+            Zaman = DateTime.Now.ToString("HH:mm:ss");
         }
 
         public DateTime? AnimasyonTarih
@@ -459,11 +476,39 @@ namespace Takvim
             }
         }
 
+        public ObservableCollection<Data> ÜçAylıkGünler
+        {
+            get => üçAylıkGünler;
+
+            set
+            {
+                if (üçAylıkGünler != value)
+                {
+                    üçAylıkGünler = value;
+                    OnPropertyChanged(nameof(ÜçAylıkGünler));
+                }
+            }
+        }
+
         public ICommand YılaGit { get; }
 
         public ICommand YılGeri { get; }
 
         public ICommand Yılİleri { get; }
+
+        public string Zaman
+        {
+            get => zaman;
+
+            set
+            {
+                if (zaman != value)
+                {
+                    zaman = value;
+                    OnPropertyChanged(nameof(Zaman));
+                }
+            }
+        }
 
         public string this[string columnName] => columnName switch
         {
@@ -504,7 +549,11 @@ namespace Takvim
                 Application.Current.MainWindow.WindowState = AppWindowState;
             };
         }
-        private void AyTakvimVerileriniOluştur(short SeçiliAy) => AyGünler = new ObservableCollection<Data>(Günler?.Where(z => z.TamTarih.Month == SeçiliAy));
+        private void AyTakvimVerileriniOluştur(short SeçiliAy)
+        {
+            AyGünler = new ObservableCollection<Data>(Günler?.Where(z => z.TamTarih.Month == SeçiliAy));
+            ÜçAylıkGünler = new ObservableCollection<Data>(Günler?.Where(z => z.TamTarih.Month == SeçiliAy - 1 || z.TamTarih.Month == SeçiliAy || z.TamTarih.Month == SeçiliAy + 1));
+        }
 
         private void MainViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
