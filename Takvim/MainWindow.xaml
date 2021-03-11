@@ -15,7 +15,6 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="SliderResource.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            <local:MonthToColorConverter x:Key="MonthToColorConverter" />
             <local:WrapPanelRatioConverter x:Key="WrapPanelRatioConverter" />
             <CollectionViewSource x:Key="Cvs" Source="{StaticResource XmlData}">
                 <CollectionViewSource.SortDescriptions>
@@ -121,7 +120,7 @@
                                 FontFamily="Wingdings"
                                 ToolTip="SONRAKİ AY" />
                         </StackPanel>
-                        <ItemsControl Width="230" ItemsSource="{Binding Mode=OneWay, Source={StaticResource ÜçAylıkGünler}}">
+                        <ItemsControl ItemsSource="{Binding Mode=OneWay, Source={StaticResource ÜçAylıkGünler}}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <Border Width="30" Height="30"
@@ -180,7 +179,7 @@
                         Command="{Binding AyGeri}"
                         FontFamily="Wingdings"
                         local:MovableControl.MoveData="True" AllowDrop="True" Tag="AyGeri" ToolTip="ÖNCEKİ AY" />
-                    <GroupBox Grid.Column="1" Background="{Binding AyGünler/Ay, Converter={StaticResource ŞuAnkiAyColorConverter}}">
+                    <GroupBox Grid.Column="1" Background="{Binding AyGünler/TamTarih.Month, Converter={StaticResource MonthToColorConverter}}">
                         <GroupBox.Header>
                             <TextBlock Text="{Binding AyGünler/Ay}" FontWeight="Bold" TextAlignment="Center" />
                         </GroupBox.Header>

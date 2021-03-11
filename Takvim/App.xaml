@@ -11,10 +11,10 @@
                 <ResourceDictionary Source="/Takvim;component/Themes/Generic.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <local:Data x:Key="Data" />
+            <local:MonthToColorConverter x:Key="MonthToColorConverter" />
             <local:Shell32FileIconConverter x:Key="Shell32FileIconConverter" />
             <local:RegistryToIconConverter x:Key="RegistryToIconConverter" />
             <local:FilePathToIconConverter x:Key="FilePathToIconConverter" />
-            <local:ŞuAnkiAyColorConverter x:Key="ŞuAnkiAyColorConverter" />
             <local:ListBoxDatePassedVisibilityConverter x:Key="ListBoxDatePassedVisibilityConverter" />
             <local:XmlDateConverter x:Key="XmlDateConverter" />
             <local:Base64ImageConverter x:Key="Base64ImageConverter" />
@@ -712,7 +712,7 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type GroupItem}">
-                            <GroupBox Background="{Binding Name, Converter={StaticResource ŞuAnkiAyColorConverter}}" Margin="1">
+                            <GroupBox Background="{Binding Items[0].TamTarih.Month, Converter={StaticResource MonthToColorConverter}}" Margin="1">
                                 <GroupBox.Header>
                                     <TextBlock Text="{Binding Name, Mode=OneWay}" FontWeight="Bold" TextAlignment="Center" />
                                 </GroupBox.Header>

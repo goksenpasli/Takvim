@@ -140,7 +140,6 @@
     <Compile Include="Converters\WebpByteArrayToImageConverter.cs" />
     <Compile Include="WebPWrapper.cs" />
     <Compile Include="Converters\XmlDateConverter.cs" />
-    <Compile Include="Converters\ŞuAnkiAyColorConverter.cs" />
     <Page Include="CameraUserControl.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
