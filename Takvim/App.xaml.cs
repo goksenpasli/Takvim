@@ -51,7 +51,7 @@ namespace Takvim
 
         private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            MainViewModel.AppNotifyIcon.Dispose();
+            MainViewModel.AppNotifyIcon?.Dispose();
             MainViewModel.AppNotifyIcon = null;
             MainViewModel.duyurularwindow?.Close();
         }

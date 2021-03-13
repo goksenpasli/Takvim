@@ -60,9 +60,8 @@ namespace Takvim
 
         private static void Selector_Drop(object sender, DragEventArgs e)
         {
-            if (e.Data.GetDataPresent("data"))
+            if (e.Data.GetDataPresent("data") && GetPlacedData(sender as UIElement) is Data dc)
             {
-                Data dc = GetPlacedData(sender as UIElement) as Data;
                 (e.Data.GetData("data") as XmlNode)["Gun"].InnerText = dc.TamTarih.ToString("o");
                 MainViewModel.xmlDataProvider.Document.Save(MainViewModel.xmlpath);
                 CollectionViewSource.GetDefaultView((Application.Current.MainWindow.DataContext as MainViewModel)?.AyGünler).Refresh();

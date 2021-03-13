@@ -98,7 +98,7 @@
     <Compile Include="Converters\Shell32FileIconConverter.cs" />
     <Compile Include="Converters\StringNullableToBooleanConverter.cs" />
     <Compile Include="Converters\WrapPanelRatioConverter.cs" />
-    <Compile Include="Converters\XmlIntValueToPlakaConverter.cs" />
+    <Compile Include="Converters\XmlIntValueToIlAdıConverter.cs" />
     <Compile Include="Helpers\CursorHelper.cs" />
     <Compile Include="Controls\FileSelectorTextBox.cs" />
     <Compile Include="FloatingWindowControl.xaml.cs">

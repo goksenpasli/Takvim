@@ -250,6 +250,19 @@
                     </DataTrigger>
                 </Style.Triggers>
             </Style>
+            <Style x:Key="CanvasDragStyle" TargetType="{x:Type Canvas}">
+                <Setter Property="TextElement.Foreground" Value="Red" />
+                <Setter Property="Cursor" Value="SizeAll" />
+                <Setter Property="local:MovableControl.MoveData" Value="True" />
+                <Setter Property="local:MovableControl.DraggedData" Value="{Binding}" />
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding XPath=@Kilitli}" Value="true">
+                        <Setter Property="IsEnabled" Value="False" />
+                        <Setter Property="local:MovableControl.MoveData" Value="False" />
+                        <Setter Property="TextElement.Foreground" Value="Gray" />
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
             <LinearGradientBrush x:Key="GroupBoxBackGround" ice:Freeze="True" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0" EndPoint="0.5,1">
                 <GradientStop ice:Freeze="True" Offset="1" Color="#FE00B6E8" />
                 <GradientStop ice:Freeze="True" Color="#FF48F3CA" />
@@ -498,7 +511,8 @@
             <ControlTemplate x:Key="ValidationErrorTemplate">
                 <Grid Focusable="False">
                     <AdornedElementPlaceholder x:Name="Adorner" />
-                    <Canvas Width="18" Height="18"
+                    <Canvas x:Name="Cnv"
+                        Width="18" Height="18"
                         Background="{StaticResource Dur}"
                         HorizontalAlignment="Center" VerticalAlignment="Center"
                         DataContext="{Binding ElementName=Adorner, Mode=OneWay}"
@@ -511,22 +525,6 @@
                                 </Border>
                             </ToolTip>
                         </Canvas.ToolTip>
-                        <Canvas.Style>
-                            <Style>
-                                <Style.Triggers>
-                                    <EventTrigger RoutedEvent="FrameworkElement.Loaded">
-                                        <BeginStoryboard>
-                                            <Storyboard AutoReverse="True" RepeatBehavior="Forever" Timeline.DesiredFrameRate="2">
-                                                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)">
-                                                    <EasingDoubleKeyFrame KeyTime="0" Value="45" />
-                                                    <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0" />
-                                                </DoubleAnimationUsingKeyFrames>
-                                            </Storyboard>
-                                        </BeginStoryboard>
-                                    </EventTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Canvas.Style>
                         <Canvas.RenderTransform>
                             <TransformGroup>
                                 <ScaleTransform />
@@ -537,29 +535,60 @@
                         </Canvas.RenderTransform>
                     </Canvas>
                 </Grid>
+                <ControlTemplate.Triggers>
+                    <DataTrigger Binding="{Binding ElementName=Adorner, Path=AdornedElement.(Validation.HasError)}" Value="True">
+                        <DataTrigger.EnterActions>
+                            <BeginStoryboard>
+                                <Storyboard AutoReverse="True" RepeatBehavior="Forever" Timeline.DesiredFrameRate="2">
+                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Cnv" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)">
+                                        <EasingDoubleKeyFrame KeyTime="0" Value="45" />
+                                        <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0" />
+                                    </DoubleAnimationUsingKeyFrames>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </DataTrigger.EnterActions>
+                    </DataTrigger>
+                </ControlTemplate.Triggers>
             </ControlTemplate>
-            <DrawingImage x:Key="EmptyImg" ice:Freeze="true">
-                <DrawingImage.Drawing>
-                    <DrawingGroup>
-                        <GeometryDrawing Brush="#FFFF0000" Geometry="F1 M 17.112,60.8819L 15.7309,62.263L 11.2784,61.125C 10.8585,61.0233 10.4825,60.9559 10.1503,60.9228C 9.8181,60.8896 9.51501,60.8937 9.241,60.9349C 8.967,60.9762 8.71325,61.0605 8.47976,61.1879C 8.24626,61.3154 8.01535,61.4932 7.78701,61.7216L 6.78822,62.7204L 11.0309,66.963L 9.8995,68.0944L -1.19209e-007,58.1949L 3.01183,55.1831C 3.45377,54.7411 3.91524,54.3879 4.39622,54.1235C 4.8772,53.8591 5.36517,53.6996 5.86015,53.6451C 6.35512,53.5906 6.8442,53.6502 7.32739,53.8241C 7.81058,53.9979 8.27241,54.3051 8.71288,54.7455C 9.0576,55.0902 9.32018,55.4596 9.50064,55.8537C 9.6811,56.2478 9.78533,56.6555 9.81332,57.0768C 9.84131,57.4981 9.79601,57.9264 9.67742,58.3617C 9.55883,58.797 9.37064,59.232 9.11284,59.6666L 9.13935,59.6931C 9.38537,59.5944 9.61923,59.5284 9.84094,59.4953C 10.0626,59.4622 10.2958,59.4529 10.5403,59.4677C 10.7849,59.4824 11.0456,59.5148 11.3225,59.5649C 11.5995,59.615 11.9155,59.6791 12.2705,59.7572L 17.112,60.8819 Z M 2.12132,58.0535L 5.79827,61.7304L 7.41136,60.1173C 7.70746,59.8212 7.9369,59.5019 8.09969,59.1594C 8.26247,58.8169 8.35196,58.4704 8.36817,58.1198C 8.38437,57.7691 8.32324,57.4207 8.18476,57.0746C 8.04629,56.7284 7.82605,56.4043 7.52406,56.1023C 6.98194,55.5602 6.38311,55.3127 5.72756,55.3598C 5.07202,55.407 4.41205,55.7627 3.74767,56.4271L 2.12132,58.0535 Z " />
-                        <GeometryDrawing Brush="#FFFF0000" Geometry="F1 M 20.294,51.1945L 15.3442,56.1443C 16.1309,56.8926 16.9363,57.2723 17.7605,57.2834C 18.5848,57.2944 19.3534,56.9435 20.0664,56.2305C 20.8678,55.4291 21.3679,54.4575 21.5668,53.3158L 22.6031,54.3522C 22.4249,55.4114 21.826,56.4507 20.8066,57.4701C 19.8108,58.4659 18.7096,58.9292 17.5031,58.86C 16.2966,58.7908 15.1144,58.1772 13.9565,57.0193C 12.8635,55.9263 12.2805,54.7282 12.2075,53.4252C 12.1346,52.1222 12.5548,51.0141 13.4682,50.1007C 14.38,49.1889 15.3829,48.7804 16.4767,48.8754C 17.5705,48.9705 18.6463,49.5468 19.704,50.6045L 20.294,51.1945 Z M 18.1726,51.3359C 17.5436,50.7158 16.9006,50.3865 16.2436,50.3482C 15.5865,50.3099 14.9826,50.5662 14.4316,51.1172C 13.8998,51.649 13.631,52.2832 13.6251,53.0197C 13.6192,53.7563 13.8674,54.4627 14.3697,55.1389L 18.1726,51.3359 Z " />
-                        <GeometryDrawing Brush="#FFFF0000" Geometry="F1 M 24.5233,52.8783L 23.2638,51.6188C 24.3539,51.4715 25.2702,51.0266 26.0127,50.2841C 27.0085,49.2883 27.1919,48.4759 26.5629,47.8468C 26.3758,47.6597 26.1744,47.5437 25.9585,47.4988C 25.7427,47.4539 25.5115,47.4539 25.2647,47.4988C 25.018,47.5437 24.7557,47.6247 24.478,47.7419C 24.2004,47.859 23.9046,47.9875 23.5908,48.1275C 23.1548,48.319 22.7545,48.4711 22.3899,48.5838C 22.0253,48.6965 21.6839,48.7535 21.3657,48.755C 21.0475,48.7565 20.7473,48.6972 20.4652,48.5771C 20.1831,48.4571 19.9073,48.2622 19.6377,47.9927C 19.3077,47.6627 19.0926,47.2944 18.9924,46.8878C 18.8923,46.4812 18.8838,46.0647 18.967,45.6382C 19.0503,45.2117 19.2119,44.7915 19.4521,44.3776C 19.6922,43.9636 19.9861,43.5828 20.3337,43.2352C 20.951,42.6179 21.6161,42.1782 22.3291,41.916L 23.5467,43.1335C 22.6392,43.2867 21.8408,43.708 21.1513,44.3975C 20.9348,44.614 20.7624,44.832 20.6343,45.0515C 20.5061,45.271 20.4214,45.4846 20.3801,45.6924C 20.3389,45.9001 20.3422,46.0956 20.3901,46.279C 20.438,46.4624 20.5319,46.6241 20.6718,46.7641C 20.8545,46.9467 21.0412,47.0664 21.232,47.1231C 21.4228,47.1799 21.6308,47.1913 21.8562,47.1574C 22.0816,47.1235 22.3262,47.0528 22.5898,46.9453C 22.8535,46.8377 23.1489,46.7118 23.4759,46.5674C 23.9105,46.3715 24.3156,46.2116 24.6913,46.0879C 25.0669,45.9641 25.4216,45.8931 25.7553,45.8747C 26.0889,45.8562 26.406,45.9023 26.7065,46.0128C 27.0071,46.1232 27.2995,46.3206 27.5838,46.605C 27.9315,46.9526 28.1568,47.3312 28.26,47.7408C 28.3631,48.1503 28.3704,48.5679 28.2821,48.9937C 28.1937,49.4194 28.0235,49.8407 27.7716,50.2576C 27.5197,50.6745 27.2104,51.0664 26.8435,51.4332C 26.1202,52.1565 25.3468,52.6382 24.5233,52.8783 Z " />
-                        <GeometryDrawing Brush="#FFFF0000" Geometry="F1 M 22.8329,37.3419C 22.6385,37.5363 22.4068,37.6354 22.138,37.6391C 21.8691,37.6428 21.633,37.543 21.4298,37.3397C 21.225,37.1349 21.1233,36.897 21.1248,36.6259C 21.1263,36.3549 21.2242,36.1221 21.4187,35.9277C 21.6176,35.7288 21.8536,35.6275 22.1269,35.6238C 22.4002,35.6201 22.6392,35.7207 22.844,35.9254C 23.0384,36.1199 23.1349,36.3549 23.1334,36.6303C 23.132,36.9058 23.0318,37.143 22.8329,37.3419 Z M 32.3148,45.6791L 31.1834,46.8105L 24.1123,39.7394L 25.2437,38.608L 32.3148,45.6791 Z " />
-                        <GeometryDrawing Brush="#FFFF0000" Geometry="F1 M 44.7599,33.234L 43.6285,34.3654L 39.6068,30.3437C 38.8319,29.5688 38.148,29.1317 37.5551,29.0323C 36.9622,28.9328 36.374,29.1748 35.7906,29.7581C 35.2957,30.2531 35.0942,30.8921 35.1863,31.6751C 35.2784,32.458 35.6301,33.1552 36.2414,33.7666L 40.2344,37.7595L 39.103,38.8909L 34.9465,34.7344C 33.5692,33.357 32.3325,33.2163 31.2364,34.3124C 30.7282,34.8206 30.5157,35.4456 30.5989,36.1873C 30.6822,36.929 31.0545,37.6306 31.7159,38.292L 35.7089,42.285L 34.5775,43.4164L 27.5065,36.3453L 28.6378,35.2139L 29.8178,36.3939L 29.8465,36.3652C 29.4753,34.9745 29.7788,33.7901 30.7569,32.812C 31.249,32.3199 31.8158,32.0294 32.4573,31.9402C 33.0989,31.8511 33.7113,31.9627 34.2947,32.275C 33.8277,30.7415 34.1223,29.4466 35.1786,28.3903C 36.7578,26.8111 38.5042,26.9783 40.4178,28.8919L 44.7599,33.234 Z " />
-                        <GeometryDrawing Brush="#FFFF0000" Geometry="F1 M 47.164,11.0309L 50.1339,20.5061L 53.8108,24.1831L 52.6795,25.3144L 49.029,21.664L 39.6687,18.5262L 40.9879,17.207L 47.6104,19.5515C 47.6914,19.5795 47.9713,19.7047 48.4501,19.9272L 48.47,19.9073C 48.3595,19.7054 48.2424,19.4174 48.1186,19.0433L 45.8912,12.3037L 47.164,11.0309 Z " />
-                        <GeometryDrawing Brush="#FFFF0000" Geometry="F1 M 60.0621,18.2146C 59.022,19.2547 57.8634,19.757 56.5862,19.7217C 55.309,19.6863 54.1283,19.1265 53.0441,18.0423C 51.8641,16.8623 51.2656,15.6179 51.2487,14.309C 51.2317,13.0001 51.7735,11.7954 52.8739,10.695C 53.9228,9.64612 55.0641,9.1493 56.2979,9.20455C 57.5316,9.25978 58.7208,9.85972 59.8654,11.0044C 60.985,12.1239 61.5647,13.3385 61.6045,14.6482C 61.6442,15.9578 61.1301,17.1466 60.0621,18.2146 Z M 53.7821,11.7667C 53.0499,12.4989 52.713,13.3198 52.7711,14.2294C 52.8293,15.1391 53.2834,16.0189 54.1334,16.8689C 54.9525,17.688 55.8139,18.1185 56.7177,18.1605C 57.6215,18.2025 58.4343,17.8626 59.1561,17.1407C 59.8927,16.4041 60.2271,15.6064 60.1593,14.7476C 60.0916,13.8888 59.6297,13.0314 58.7738,12.1755C 57.9091,11.3108 57.0451,10.8423 56.1818,10.7701C 55.3186,10.6979 54.5187,11.0301 53.7821,11.7667 Z " />
-                        <GeometryDrawing Brush="#FFFF0000" Geometry="F1 M 71.2057,6.78823L 69.6169,8.37701L 63.0275,8.1693L 62.9988,8.19802L 66.3973,11.5966L 65.266,12.7279L 54.8008,2.26274L 55.9321,1.13137L 62.5657,7.76492L 62.5944,7.73619L 62.369,1.48271L 63.8517,2.86102e-006L 63.9401,6.73519L 71.2057,6.78823 Z " />
-                    </DrawingGroup>
-                </DrawingImage.Drawing>
-            </DrawingImage>
             <Style x:Key="GünListBoxItemContainerStyle" TargetType="{x:Type ListBoxItem}">
                 <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                 <Setter Property="BorderThickness" Value="2.5" />
                 <Setter Property="BorderBrush" Value="{StaticResource GroupBoxBackGround}" />
                 <Setter Property="Background" Value="{Binding Converter={StaticResource StringToBrushConverter}, XPath=@Renk}" />
+                <Setter Property="RenderTransform">
+                    <Setter.Value>
+                        <TransformGroup>
+                            <ScaleTransform />
+                            <SkewTransform />
+                            <RotateTransform />
+                            <TranslateTransform />
+                        </TransformGroup>
+                    </Setter.Value>
+                </Setter>
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                            <ControlTemplate.Resources>
+                                <Storyboard x:Key="DayRotateAnimation" Timeline.DesiredFrameRate="30">
+                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)">
+                                        <EasingDoubleKeyFrame KeyTime="0" Value="45" />
+                                        <EasingDoubleKeyFrame KeyTime="0:0:0.40" Value="0" />
+                                    </DoubleAnimationUsingKeyFrames>
+                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)">
+                                        <EasingDoubleKeyFrame KeyTime="0" Value="0" />
+                                        <EasingDoubleKeyFrame KeyTime="0:0:0.40" Value="1" />
+                                    </DoubleAnimationUsingKeyFrames>
+                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)">
+                                        <EasingDoubleKeyFrame KeyTime="0" Value="0" />
+                                        <EasingDoubleKeyFrame KeyTime="0:0:0.40" Value="1" />
+                                    </DoubleAnimationUsingKeyFrames>
+                                </Storyboard>
+                            </ControlTemplate.Resources>
+                            <ControlTemplate.Triggers>
+                                <EventTrigger RoutedEvent="Loaded">
+                                    <BeginStoryboard Storyboard="{StaticResource DayRotateAnimation}" />
+                                </EventTrigger>
+                            </ControlTemplate.Triggers>
                             <Border Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
@@ -613,20 +642,7 @@
                     <Canvas Width="18" Height="18"
                         Background="Transparent"
                         HorizontalAlignment="Left" VerticalAlignment="Top"
-                        local:MovableControl.DraggedData="{Binding}"
-                        local:MovableControl.MoveData="True">
-                        <Canvas.Style>
-                            <Style TargetType="{x:Type Canvas}">
-                                <Setter Property="TextElement.Foreground" Value="Red" />
-                                <Setter Property="Cursor" Value="SizeAll" />
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding XPath=@Kilitli}" Value="true">
-                                        <Setter Property="IsEnabled" Value="False" />
-                                        <Setter Property="TextElement.Foreground" Value="Gray" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Canvas.Style>
+                        Style="{StaticResource CanvasDragStyle}">
                         <TextBlock x:Name="Tb"
                             Text="B"
                             FontSize="18" FontFamily="Wingdings" FontWeight="Bold" />
@@ -668,22 +684,7 @@
                                 <StackPanel Orientation="Horizontal">
                                     <Canvas Width="18" Height="18"
                                         Background="Transparent"
-                                        VerticalAlignment="Stretch">
-                                        <Canvas.Style>
-                                            <Style TargetType="{x:Type Canvas}">
-                                                <Setter Property="TextElement.Foreground" Value="Red" />
-                                                <Setter Property="Cursor" Value="SizeAll" />
-                                                <Setter Property="local:MovableControl.MoveData" Value="True" />
-                                                <Setter Property="local:MovableControl.DraggedData" Value="{Binding}" />
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding XPath=@Kilitli}" Value="true">
-                                                        <Setter Property="IsEnabled" Value="False" />
-                                                        <Setter Property="local:MovableControl.MoveData" Value="False" />
-                                                        <Setter Property="TextElement.Foreground" Value="Gray" />
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Canvas.Style>
+                                        Style="{StaticResource CanvasDragStyle}">
                                         <TextBlock x:Name="Tb"
                                             Text="B"
                                             FontSize="18" FontFamily="Wingdings" FontWeight="Bold" />

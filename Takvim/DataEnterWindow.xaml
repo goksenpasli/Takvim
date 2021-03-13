@@ -231,7 +231,7 @@
                                     <StackPanel.DataContext>
                                         <local:Data />
                                     </StackPanel.DataContext>
-                                    <local:TimePicker TimeValue="{Binding SaatBaşlangıç, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+                                    <local:TimePicker TimeValue="{Binding SaatBaşlangıç, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{x:Null}" />
                                     <local:MaskedTextBox Width="35"
                                         IncludePrompt="False" Mask="00" PromptChar="_"
                                         ValueType="{x:Type system:Double}"
@@ -252,7 +252,8 @@
                                         ItemsPanel="{StaticResource CbItemsPanelTemplate}"
                                         ScrollViewer.VerticalScrollBarVisibility="Disabled"
                                         SelectedValue="{Binding VeriRenk, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                                        SelectedValuePath="Name" ToolTip="Veri Renk" />
+                                        SelectedValuePath="Name" ToolTip="Veri Renk"
+                                        Validation.ErrorTemplate="{x:Null}" />
                                     <Button Command="{Binding XmlVeriGüncelle, Mode=OneWay}" CommandParameter="{Binding CommandParameter, ElementName=Hyp}" ToolTip="GÜNCELLE">
                                         <Image Width="16" Height="16" Source="{Binding ConverterParameter=144, Converter={StaticResource Shell32FileIconConverter}}" />
                                     </Button>

@@ -7,29 +7,27 @@
     d:DesignHeight="300" d:DesignWidth="400" UseLayoutRounding="True"
     mc:Ignorable="d">
     <UserControl.Resources>
-        <local:XmlIntValueToPlakaConverter x:Key="XmlIntValueToPlakaConverter" />
+        <local:XmlIntValueToIlAdıConverter x:Key="XmlIntValueToIlAdıConverter" />
         <XmlDataProvider x:Key="Data" IsAsynchronous="False" IsInitialLoadEnabled="False" />
         <CollectionViewSource x:Key="Cvs" Filter="CollectionViewSource_Filter" Source="{Binding List}" />
     </UserControl.Resources>
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition />
-        </Grid.RowDefinitions>
-        <ComboBox ItemsSource="{Binding IllerId}" SelectedItem="{Binding CityID}">
-            <ComboBox.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock Text="{Binding Converter={StaticResource XmlIntValueToPlakaConverter}}" />
-                </DataTemplate>
-            </ComboBox.ItemTemplate>
-            <ComboBox.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <VirtualizingStackPanel />
-                </ItemsPanelTemplate>
-            </ComboBox.ItemsPanel>
-        </ComboBox>
-        <GroupBox Header="{Binding Şehir}" Grid.Row="2">
-            <ListView Grid.Row="2" ItemsSource="{Binding Mode=OneWay, Source={StaticResource Cvs}}">
+        <GroupBox>
+            <GroupBox.Header>
+                <ComboBox ItemsSource="{Binding IllerId}" SelectedItem="{Binding CityID}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Converter={StaticResource XmlIntValueToIlAdıConverter}}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                    <ComboBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel />
+                        </ItemsPanelTemplate>
+                    </ComboBox.ItemsPanel>
+                </ComboBox>
+            </GroupBox.Header>
+            <ListView ItemsSource="{Binding Mode=OneWay, Source={StaticResource Cvs}}">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="GÜN" DisplayMemberBinding="{Binding Tarih, StringFormat=\{0:dd/MM/yyyy\}}" />
