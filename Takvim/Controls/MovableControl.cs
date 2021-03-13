@@ -99,9 +99,8 @@ namespace Takvim
 
         private static void Uielement_MouseMove(object sender, MouseEventArgs e)
         {
-            if (e.LeftButton == MouseButtonState.Pressed)
+            if (e.LeftButton == MouseButtonState.Pressed && GetDraggedData(sender as UIElement) is XmlNode dc)
             {
-                XmlNode dc = GetDraggedData(sender as UIElement) as XmlNode;
                 DragDrop.DoDragDrop(sender as UIElement, new DataObject("data", dc), DragDropEffects.Move);
             }
         }

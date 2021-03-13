@@ -668,16 +668,17 @@
                                 <StackPanel Orientation="Horizontal">
                                     <Canvas Width="18" Height="18"
                                         Background="Transparent"
-                                        VerticalAlignment="Stretch"
-                                        local:MovableControl.DraggedData="{Binding}"
-                                        local:MovableControl.MoveData="True">
+                                        VerticalAlignment="Stretch">
                                         <Canvas.Style>
                                             <Style TargetType="{x:Type Canvas}">
                                                 <Setter Property="TextElement.Foreground" Value="Red" />
                                                 <Setter Property="Cursor" Value="SizeAll" />
+                                                <Setter Property="local:MovableControl.MoveData" Value="True" />
+                                                <Setter Property="local:MovableControl.DraggedData" Value="{Binding}" />
                                                 <Style.Triggers>
                                                     <DataTrigger Binding="{Binding XPath=@Kilitli}" Value="true">
                                                         <Setter Property="IsEnabled" Value="False" />
+                                                        <Setter Property="local:MovableControl.MoveData" Value="False" />
                                                         <Setter Property="TextElement.Foreground" Value="Gray" />
                                                     </DataTrigger>
                                                 </Style.Triggers>
