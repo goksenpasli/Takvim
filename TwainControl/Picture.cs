@@ -3,8 +3,11 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using PdfSharp.Drawing;
+using PdfSharp.Pdf;
 
 namespace TwainControl
 {
@@ -19,6 +22,33 @@ namespace TwainControl
             Jpg,
 
             Png
+        }
+
+        public static PdfDocument CreatePdfFile(this BitmapFrame SeçiliResim, bool compress = false)
+        {
+            try
+            {
+                using (PdfDocument doc = new PdfDocument())
+                {
+                    if (compress)
+                    {
+                        doc.Options.FlateEncodeMode = PdfFlateEncodeMode.BestCompression;
+                        doc.Options.UseFlateDecoderForJpegImages = PdfUseFlateDecoderForJpegImages.Automatic;
+                        doc.Options.NoCompression = false;
+                        doc.Options.CompressContentStreams = true;
+                    }
+                    PdfPage page = doc.AddPage();
+                    XGraphics gfx = XGraphics.FromPdfPage(page);
+                    XImage xImage = XImage.FromBitmapSource(SeçiliResim);
+                    gfx.DrawImage(xImage, 0, 0, page.Width, page.Height);
+                    return doc;
+                }
+            }
+            catch (Exception Ex)
+            {
+                MessageBox.Show(Ex.Message);
+                return null;
+            }
         }
 
         public static Bitmap ConvertBlackAndWhite(this Bitmap bitmap, int bWthreshold, bool grayscale = false)

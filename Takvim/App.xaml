@@ -89,6 +89,9 @@
                     BorderThickness="{TemplateBinding BorderThickness}"
                     Padding="{TemplateBinding Padding}"
                     CornerRadius="1" RenderTransformOrigin="0.5,0.5" SnapsToDevicePixels="True">
+                    <Border.InputBindings>
+                        <MouseBinding Command="{Binding VeriEkleEkranı, Mode=OneWay}" MouseAction="LeftClick" />
+                    </Border.InputBindings>
                     <Border.RenderTransform>
                         <TransformGroup>
                             <ScaleTransform />
@@ -301,9 +304,6 @@
             </Style>
             <DataTemplate x:Key="ListBoxDataTemplate">
                 <Canvas Width="30" Height="30" Background="Transparent">
-                    <Canvas.InputBindings>
-                        <MouseBinding Command="{Binding VeriEkleEkranı, Mode=OneWay}" MouseAction="LeftClick" />
-                    </Canvas.InputBindings>
                     <TextBlock Canvas.Left="0"
                         Width="30" Height="30"
                         FontSize="10">
@@ -555,11 +555,13 @@
             <Style x:Key="GünListBoxItemContainerStyle" TargetType="{x:Type ListBoxItem}">
                 <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                 <Setter Property="BorderThickness" Value="2.5" />
-                <Setter Property="BorderBrush" Value="{Binding Converter={StaticResource StringToBrushConverter}, XPath=@Renk}" />
+                <Setter Property="BorderBrush" Value="{StaticResource GroupBoxBackGround}" />
+                <Setter Property="Background" Value="{Binding Converter={StaticResource StringToBrushConverter}, XPath=@Renk}" />
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                            <Border BorderBrush="{TemplateBinding BorderBrush}"
+                            <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 Margin="1"
                                 CornerRadius="3">
@@ -608,6 +610,27 @@
                             </ToolTip>
                         </Image.ToolTip>
                     </Image>
+                    <Canvas Width="18" Height="18"
+                        Background="Transparent"
+                        HorizontalAlignment="Left" VerticalAlignment="Top"
+                        local:MovableControl.DraggedData="{Binding}"
+                        local:MovableControl.MoveData="True">
+                        <Canvas.Style>
+                            <Style TargetType="{x:Type Canvas}">
+                                <Setter Property="TextElement.Foreground" Value="Red" />
+                                <Setter Property="Cursor" Value="SizeAll" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding XPath=@Kilitli}" Value="true">
+                                        <Setter Property="IsEnabled" Value="False" />
+                                        <Setter Property="TextElement.Foreground" Value="Gray" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Canvas.Style>
+                        <TextBlock x:Name="Tb"
+                            Text="B"
+                            FontSize="18" FontFamily="Wingdings" FontWeight="Bold" />
+                    </Canvas>
                 </Grid>
             </DataTemplate>
             <DataTemplate x:Key="ListBoxAyDataTemplate">
@@ -632,7 +655,9 @@
                     <ListBox Width="120" Height="130"
                         VerticalAlignment="Center"
                         ItemsSource="{Binding Converter={StaticResource SelectedDateToDataListConverter}, Mode=OneWay}"
-                        local:MovableControl.MoveData="True" AllowDrop="True">
+                        local:MovableControl.MoveData="True"
+                        local:MovableControl.PlacedData="{Binding}"
+                        AllowDrop="True">
                         <ListBox.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <VirtualizingStackPanel />
@@ -644,6 +669,7 @@
                                     <Canvas Width="18" Height="18"
                                         Background="Transparent"
                                         VerticalAlignment="Stretch"
+                                        local:MovableControl.DraggedData="{Binding}"
                                         local:MovableControl.MoveData="True">
                                         <Canvas.Style>
                                             <Style TargetType="{x:Type Canvas}">

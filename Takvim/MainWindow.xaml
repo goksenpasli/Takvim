@@ -63,6 +63,7 @@
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     <ListBox Grid.Column="0"
+                        Background="{StaticResource BorderBackground}"
                         VerticalContentAlignment="Center"
                         ItemsSource="{Binding Mode=OneWay, Source={StaticResource FilteredCvs}}"
                         ItemContainerStyle="{StaticResource GünListBoxItemContainerStyle}"
@@ -94,7 +95,7 @@
                             </Style>
                         </ListBox.Style>
                     </ListBox>
-                    <StackPanel Grid.Column="1" Language="tr-tr">
+                    <StackPanel Grid.Column="1" Background="{StaticResource BorderBackground}" Language="tr-tr">
                         <StackPanel.DataContext>
                             <local:MainViewModel />
                         </StackPanel.DataContext>
@@ -125,7 +126,10 @@
                                 <DataTemplate>
                                     <Border Width="30" Height="30"
                                         Background="{Binding TamTarih.Month, Converter={StaticResource MonthToColorConverter}, Mode=OneWay}"
-                                        BorderThickness="1">
+                                        BorderThickness="1"
+                                        local:MovableControl.MoveData="True"
+                                        local:MovableControl.PlacedData="{Binding}"
+                                        AllowDrop="True">
                                         <Border.InputBindings>
                                             <MouseBinding Command="{Binding VeriEkleEkranı, Mode=OneWay}" MouseAction="LeftClick" />
                                         </Border.InputBindings>
@@ -178,6 +182,7 @@
                         Grid.Row="0" Grid.Column="0"
                         Command="{Binding AyGeri}"
                         FontFamily="Wingdings"
+                        local:MovableControl.DraggedData="{Binding}"
                         local:MovableControl.MoveData="True" AllowDrop="True" Tag="AyGeri" ToolTip="ÖNCEKİ AY" />
                     <GroupBox Grid.Column="1" Background="{Binding AyGünler/TamTarih.Month, Converter={StaticResource MonthToColorConverter}}">
                         <GroupBox.Header>
@@ -198,6 +203,7 @@
                         Grid.Row="0" Grid.Column="2"
                         Command="{Binding Ayİleri}"
                         FontFamily="Wingdings"
+                        local:MovableControl.DraggedData="{Binding}"
                         local:MovableControl.MoveData="True" AllowDrop="True" Tag="Ayİleri" ToolTip="SONRAKİ AY" />
                 </Grid>
             </TabItem>
@@ -319,6 +325,7 @@
                                         Foreground="Green"
                                         FontWeight="Bold"
                                         ToolTip="{Binding XPath=Aciklama}" />
+                                    <Run Text="{Binding XPath=@SaatBaslangic}" />
                                 </TextBlock>
                                 <local:ContentToggleButton OverContent="DOSYALAR">
                                     <local:ContentToggleButton.Style>

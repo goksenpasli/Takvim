@@ -100,7 +100,7 @@ namespace TwainControl
             {
                 if (parameter is BitmapFrame resim)
                 {
-                    SaveFileDialog saveFileDialog = new SaveFileDialog { Filter = "Tif Resmi (*.tif)|*.tif|Jpg Resmi(*.jpg)|*.jpg" };
+                    SaveFileDialog saveFileDialog = new SaveFileDialog { Filter = "Tif Resmi (*.tif)|*.tif|Jpg Resmi(*.jpg)|*.jpg|Pdf Resmi(*.pdf)|*.pdf" };
                     if (saveFileDialog.ShowDialog() == true)
                     {
                         switch (saveFileDialog.FilterIndex)
@@ -124,6 +124,13 @@ namespace TwainControl
 
                             case 2:
                                 File.WriteAllBytes(saveFileDialog.FileName, resim.ToTiffJpegByteArray(Picture.Format.Jpg));
+                                break;
+                            case 3:
+                                using (MemoryStream ms = new MemoryStream())
+                                {
+                                    resim.CreatePdfFile().Save(ms);
+                                    File.WriteAllBytes(saveFileDialog.FileName, ms.ToArray());
+                                }
                                 break;
                         }
                     }

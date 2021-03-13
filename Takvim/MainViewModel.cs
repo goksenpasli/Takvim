@@ -516,7 +516,7 @@ namespace Takvim
             _ => null
         };
 
-        private static void GenerateSystemTrayMenu()
+        private void GenerateSystemTrayMenu()
         {
             Winforms.ContextMenu contextmenu = new();
             Winforms.MenuItem menuitem = new()

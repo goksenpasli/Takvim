@@ -9,15 +9,27 @@ namespace Takvim
 {
     public class MovableControl : DependencyObject
     {
+        public static readonly DependencyProperty DraggedDataProperty = DependencyProperty.RegisterAttached("DraggedData", typeof(object), typeof(MovableControl), new PropertyMetadata(null));
+
         public static readonly DependencyProperty MoveDataProperty = DependencyProperty.RegisterAttached("MoveData", typeof(bool), typeof(MovableControl), new PropertyMetadata(false, Changed));
+
+        public static readonly DependencyProperty PlacedDataProperty = DependencyProperty.RegisterAttached("PlacedData", typeof(object), typeof(MovableControl), new PropertyMetadata(null));
+
+        public static object GetDraggedData(DependencyObject obj) => obj.GetValue(DraggedDataProperty);
 
         public static bool GetMoveData(DependencyObject obj) => (bool)obj.GetValue(MoveDataProperty);
 
+        public static object GetPlacedData(DependencyObject obj) => obj.GetValue(PlacedDataProperty);
+
+        public static void SetDraggedData(DependencyObject obj, object value) => obj.SetValue(DraggedDataProperty, value);
+
         public static void SetMoveData(DependencyObject obj, bool value) => obj.SetValue(MoveDataProperty, value);
+
+        public static void SetPlacedData(DependencyObject obj, object value) => obj.SetValue(PlacedDataProperty, value);
 
         private static void Button_DragEnter(object sender, DragEventArgs e)
         {
-            MainViewModel dc = (sender as Button)?.DataContext as MainViewModel;
+            MainViewModel dc = GetDraggedData(sender as Button) as MainViewModel;
             switch ((sender as Button)?.Tag.ToString())
             {
                 case "Ayİleri":
@@ -30,7 +42,35 @@ namespace Takvim
             }
         }
 
-        private static void Canvas_DragEnter(object sender, DragEventArgs e)
+        private static void Changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is UIElement uielement && GetMoveData(d))
+            {
+                uielement.DragEnter += Uielement_DragEnter;
+                uielement.MouseMove += Uielement_MouseMove;
+                uielement.GiveFeedback += Uielement_GiveFeedback;
+                uielement.Drop += Selector_Drop;
+            }
+
+            if (d is Button backforwardmonthbutton && GetMoveData(d))
+            {
+                backforwardmonthbutton.DragEnter += Button_DragEnter;
+            }
+        }
+
+        private static void Selector_Drop(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent("data"))
+            {
+                Data dc = GetPlacedData(sender as UIElement) as Data;
+                (e.Data.GetData("data") as XmlNode)["Gun"].InnerText = dc.TamTarih.ToString("o");
+                MainViewModel.xmlDataProvider.Document.Save(MainViewModel.xmlpath);
+                CollectionViewSource.GetDefaultView((Application.Current.MainWindow.DataContext as MainViewModel)?.AyGünler).Refresh();
+                MainViewModel.xmlDataProvider.Refresh();
+            }
+        }
+
+        private static void Uielement_DragEnter(object sender, DragEventArgs e)
         {
             if (!e.Data.GetDataPresent("data") || sender == e.Source)
             {
@@ -38,7 +78,7 @@ namespace Takvim
             }
         }
 
-        private static void Canvas_GiveFeedback(object sender, GiveFeedbackEventArgs e)
+        private static void Uielement_GiveFeedback(object sender, GiveFeedbackEventArgs e)
         {
             if (e.Effects == DragDropEffects.Move)
             {
@@ -57,43 +97,12 @@ namespace Takvim
             e.Handled = true;
         }
 
-        private static void Canvas_MouseMove(object sender, MouseEventArgs e)
+        private static void Uielement_MouseMove(object sender, MouseEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
             {
-                XmlNode dc = (sender as Canvas)?.DataContext as XmlNode;
-                DragDrop.DoDragDrop(sender as Canvas, new DataObject("data", dc), DragDropEffects.Move);
-            }
-        }
-
-        private static void Changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            if (d is Canvas canvas)
-            {
-                canvas.DragEnter += Canvas_DragEnter;
-                canvas.MouseMove += Canvas_MouseMove;
-                canvas.GiveFeedback += Canvas_GiveFeedback;
-            }
-            if (d is ListBox listBox)
-            {
-                listBox.Drop += ListBox_Drop;
-            }
-            if (d is Button backforwardmonthbutton)
-            {
-                backforwardmonthbutton.DragEnter += Button_DragEnter;
-            }
-        }
-
-        private static void ListBox_Drop(object sender, DragEventArgs e)
-        {
-            if (e.Data.GetDataPresent("data"))
-            {
-                Data dc = (e.Source as ListBox)?.DataContext as Data;
-                XmlNode dropdata = e.Data.GetData("data") as XmlNode;
-                dropdata["Gun"].InnerText = dc.TamTarih.ToString("o");
-                MainViewModel.xmlDataProvider.Document.Save(MainViewModel.xmlpath);
-                CollectionViewSource.GetDefaultView((Application.Current.MainWindow.DataContext as MainViewModel)?.AyGünler).Refresh();
-                MainViewModel.xmlDataProvider.Refresh();
+                XmlNode dc = GetDraggedData(sender as UIElement) as XmlNode;
+                DragDrop.DoDragDrop(sender as UIElement, new DataObject("data", dc), DragDropEffects.Move);
             }
         }
     }
