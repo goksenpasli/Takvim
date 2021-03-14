@@ -403,6 +403,7 @@ namespace TwainControl
         }
 
         protected virtual void OnPropertyChanged(string propertyName = null) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             try

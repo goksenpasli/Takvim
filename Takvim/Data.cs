@@ -162,7 +162,6 @@ namespace Takvim
                     document.DocumentElement.AppendChild(rootNode);
                     document.Save(MainViewModel.xmlpath);
                     VeriSayısı++;
-                    PencereKapat.Execute(parameter as FrameworkElement);
                     MainViewModel.xmlDataProvider.Refresh();
                     CollectionViewSource.GetDefaultView((Application.Current.MainWindow.DataContext as MainViewModel)?.AyGünler).Refresh();
                 }
@@ -247,15 +246,27 @@ namespace Takvim
                     OcrMetin = (parameter as byte[]).WebpDecode().ToTiffJpegByteArray(ExtensionMethods.Format.Jpg).OcrYap();
                     OcrSürüyor = false;
                 }, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default);
-            }, parameter => parameter is byte[] && !OcrSürüyor && Environment.OSVersion.Version.Major > 5 && Directory.Exists(Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) + @"\tessdata"));
+            }, parameter => parameter is byte[] && !OcrSürüyor && Environment.OSVersion.Version.Major > 5 && Ocr.tesseractexsist);
 
-            DosyaAç = new RelayCommand<object>(parameter =>
+            EkDosyaAç = new RelayCommand<object>(parameter =>
             {
                 if (parameter is XmlAttribute xmlAttribute)
                 {
                     Process.Start(xmlAttribute.Value);
                 }
             }, parameter => parameter is XmlAttribute xmlAttribute && File.Exists(xmlAttribute.Value));
+
+            DosyaGör = new RelayCommand<object>(parameter =>
+            {
+                if (parameter is XmlElement xmlElement)
+                {
+                    using Viewer viewer = new(xmlElement)
+                    {
+                        Owner = Application.Current.MainWindow
+                    };
+                    viewer.ShowDialog();
+                }
+            }, parameter => true);
 
             XmlVeriSil = new RelayCommand<object>(parameter =>
             {
@@ -439,7 +450,7 @@ namespace Takvim
 
         public ICommand CsvDosyasınaYaz { get; }
 
-        public ICommand DosyaAç { get; }
+        public ICommand EkDosyaAç { get; }
 
         public ObservableCollection<string> Dosyalar
         {
@@ -528,6 +539,8 @@ namespace Takvim
         }
 
         public ICommand IcalEkle { get; }
+
+        public ICommand DosyaGör { get; }
 
         public int Id
         {

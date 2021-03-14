@@ -113,29 +113,30 @@ namespace TwainControl
         {
             if (bitmap != null)
             {
-                MemoryStream memoryStream = new MemoryStream();
-                bitmap.Save(memoryStream, format);
-                memoryStream.Position = 0;
-                BitmapImage image = new BitmapImage();
-                image.BeginInit();
-                if (decodeheight != 0)
+                using (MemoryStream memoryStream = new MemoryStream())
                 {
-                    image.DecodePixelHeight = bitmap.Height > (int)decodeheight ? (int)decodeheight : bitmap.Height;
-                }
+                    bitmap.Save(memoryStream, format);
+                    memoryStream.Position = 0;
+                    BitmapImage image = new BitmapImage();
+                    image.BeginInit();
+                    if (decodeheight != 0)
+                    {
+                        image.DecodePixelHeight = bitmap.Height > (int)decodeheight ? (int)decodeheight : bitmap.Height;
+                    }
 
-                image.CreateOptions = BitmapCreateOptions.IgnoreColorProfile;
-                image.CacheOption = BitmapCacheOption.None;
-                image.StreamSource = memoryStream;
-                image.EndInit();
-                bitmap.Dispose();
-                if (!image.IsFrozen && image.CanFreeze)
-                {
-                    image.Freeze();
-                }
-                memoryStream = null;
-                GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced);
+                    image.CreateOptions = BitmapCreateOptions.IgnoreColorProfile;
+                    image.CacheOption = BitmapCacheOption.OnLoad;
+                    image.StreamSource = memoryStream;
+                    image.EndInit();
+                    bitmap.Dispose();
+                    if (!image.IsFrozen && image.CanFreeze)
+                    {
+                        image.Freeze();
+                    }
+                    GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced);
 
-                return image;
+                    return image;
+                }
             }
 
             return null;

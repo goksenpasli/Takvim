@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Diagnostics;
+using System.Drawing.Imaging;
+using System.Drawing;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows;
@@ -28,13 +30,13 @@ namespace Takvim
             Png
         }
 
-        public static System.Drawing.Bitmap BitmapChangeFormat(this System.Drawing.Bitmap bitmap, System.Drawing.Imaging.PixelFormat format) => bitmap.Clone(new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height), format);
+        public static Bitmap BitmapChangeFormat(this Bitmap bitmap, System.Drawing.Imaging.PixelFormat format) => bitmap.Clone(new Rectangle(0, 0, bitmap.Width, bitmap.Height), format);
 
         public static bool Contains(this string source, string toCheck, StringComparison comp) => source?.IndexOf(toCheck, comp) >= 0;
 
-        public static Brush ConvertToBrush(this System.Drawing.Color color) => new SolidColorBrush(Color.FromArgb(color.A, color.R, color.G, color.B));
+        public static System.Windows.Media.Brush ConvertToBrush(this System.Drawing.Color color) => new SolidColorBrush(System.Windows.Media.Color.FromArgb(color.A, color.R, color.G, color.B));
 
-        public static System.Drawing.Color ConvertToColor(this Brush color)
+        public static System.Drawing.Color ConvertToColor(this System.Windows.Media.Brush color)
         {
             SolidColorBrush sb = (SolidColorBrush)color;
             return System.Drawing.Color.FromArgb(sb.Color.A, sb.Color.R, sb.Color.G, sb.Color.B);
@@ -80,7 +82,7 @@ namespace Takvim
             {
                 try
                 {
-                    using System.Drawing.Icon icon = System.Drawing.Icon.ExtractAssociatedIcon(filepath);
+                    using Icon icon = Icon.ExtractAssociatedIcon(filepath);
                     BitmapSource bitmapsource = Imaging.CreateBitmapSourceFromHIcon(icon.Handle, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
                     icon.Dispose();
 
@@ -171,11 +173,11 @@ namespace Takvim
             return null;
         }
 
-        public static BitmapSource ToBitmapImage(this System.Drawing.Image bitmap, System.Drawing.Imaging.ImageFormat format, double decodeheight = 0)
+        public static BitmapSource ToBitmapImage(this Image bitmap, ImageFormat format, double decodeheight = 0)
         {
             if (bitmap != null)
             {
-                MemoryStream memoryStream = new();
+                using MemoryStream memoryStream = new();
                 bitmap.Save(memoryStream, format);
                 memoryStream.Position = 0;
                 BitmapImage image = new();
@@ -186,7 +188,7 @@ namespace Takvim
                 }
 
                 image.CreateOptions = BitmapCreateOptions.IgnoreColorProfile;
-                image.CacheOption = BitmapCacheOption.None;
+                image.CacheOption = BitmapCacheOption.OnLoad;
                 image.StreamSource = memoryStream;
                 image.EndInit();
                 bitmap.Dispose();
@@ -194,7 +196,6 @@ namespace Takvim
                 {
                     image.Freeze();
                 }
-                memoryStream = null;
                 return image;
             }
 
@@ -243,16 +244,16 @@ namespace Takvim
         {
             using WebP webp = new();
             WebPDecoderOptions options = new() { use_threads = 1 };
-            using System.Drawing.Bitmap bmp = webp.Decode(rawWebp, options);
+            using Bitmap bmp = webp.Decode(rawWebp, options);
             BitmapSource bitmapsource = null;
 
             if (bmp.PixelFormat == System.Drawing.Imaging.PixelFormat.Format32bppArgb)
             {
-                bitmapsource = bmp.ToBitmapImage(System.Drawing.Imaging.ImageFormat.Png, decodeheight);
+                bitmapsource = bmp.ToBitmapImage(ImageFormat.Png, decodeheight);
             }
             else
             {
-                bitmapsource = bmp.ToBitmapImage(System.Drawing.Imaging.ImageFormat.Jpeg, decodeheight);
+                bitmapsource = bmp.ToBitmapImage(ImageFormat.Jpeg, decodeheight);
             }
 
             rawWebp = null;
@@ -270,12 +271,12 @@ namespace Takvim
             {
                 using WebP webp = new();
                 using MemoryStream ms = new(resim);
-                using System.Drawing.Bitmap bmp = System.Drawing.Image.FromStream(ms) as System.Drawing.Bitmap;
+                using Bitmap bmp = Image.FromStream(ms) as Bitmap;
                 return webp.EncodeLossy(bmp, kalite);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "EBYS", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.Message, "TAKVİM", MessageBoxButton.OK, MessageBoxImage.Error);
                 return null;
             }
         }
@@ -285,12 +286,12 @@ namespace Takvim
             try
             {
                 using WebP webp = new();
-                using System.Drawing.Bitmap bmp = new(resimdosyayolu);
+                using Bitmap bmp = new(resimdosyayolu);
                 return bmp.PixelFormat is System.Drawing.Imaging.PixelFormat.Format24bppRgb or System.Drawing.Imaging.PixelFormat.Format32bppArgb ? webp.EncodeLossy(bmp, kalite) : webp.EncodeLossy(bmp.BitmapChangeFormat(System.Drawing.Imaging.PixelFormat.Format24bppRgb), kalite);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "EBYS", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.Message, "TAKVİM", MessageBoxButton.OK, MessageBoxImage.Error);
                 return null;
             }
         }

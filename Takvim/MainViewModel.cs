@@ -111,18 +111,6 @@ namespace Takvim
                 }
             }, parameter => true);
 
-            DosyaGör = new RelayCommand<object>(parameter =>
-            {
-                if (parameter is XmlElement xmlElement)
-                {
-                    using Viewer viewer = new(xmlElement)
-                    {
-                        Owner = Application.Current.MainWindow
-                    };
-                    viewer.ShowDialog();
-                }
-            }, parameter => true);
-
             AyarSıfırla = new RelayCommand<object>(parameter =>
             {
                 Properties.Settings.Default.Reset();
@@ -275,8 +263,6 @@ namespace Takvim
                 }
             }
         }
-
-        public ICommand DosyaGör { get; }
 
         public ICommand DuyurularPopupEkranıAç { get; }
 

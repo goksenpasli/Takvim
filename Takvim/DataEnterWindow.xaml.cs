@@ -28,6 +28,7 @@ namespace Takvim
                 if (disposing && DataContext is Data data)
                 {
                     data.ResimData = null;
+                    data.PdfData = null;
                     data.Dosyalar = null;
                 }
 

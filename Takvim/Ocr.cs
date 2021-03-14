@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Windows;
 using Tesseract;
@@ -9,9 +10,10 @@ namespace Takvim
 {
     public static class Ocr
     {
+        public static readonly bool tesseractexsist = Directory.Exists(Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) + @"\tessdata");
         public static string OcrYap(this byte[] dosya)
         {
-            if (Directory.Exists(Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) + @"\tessdata"))
+            if (tesseractexsist)
             {
                 try
                 {
@@ -30,35 +32,50 @@ namespace Takvim
 
         public static string OcrYap(this string dosya)
         {
-            if (!Directory.Exists(Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) + @"\tessdata"))
+            if (tesseractexsist)
             {
-                return null;
-            }
-
-            try
-            {
-                using TesseractEngine engine = new("./tessdata", "tur", EngineMode.LstmOnly);
-                switch (Path.GetExtension(dosya).ToLower())
+                try
                 {
-                    case ".tif":
-                    case ".tiff":
-                    case ".jpg":
-                    case ".png":
-                    case ".gif":
-                    case ".bmp":
-                    case ".jpeg":
-                        {
-                            using Pix pixImage = Pix.LoadFromFile(dosya);
-                            using Page page = engine.Process(pixImage);
-                            return page.GetText();
-                        }
+                    using TesseractEngine engine = new("./tessdata", "tur", EngineMode.LstmOnly);
+                    switch (Path.GetExtension(dosya).ToLower())
+                    {
+                        case ".tif":
+                        case ".tiff":
+                        case ".jpg":
+                        case ".png":
+                        case ".gif":
+                        case ".bmp":
+                        case ".jpeg":
+                            {
+                                using Pix pixImage = Pix.LoadFromFile(dosya);
+                                using Page page = engine.Process(pixImage);
+                                return page.GetText();
+                            }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "TAKVİM", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                 }
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "EBYS", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-            }
+            return null;
+        }
 
+        public static string OcrYap(this Bitmap bmp)
+        {
+            if (tesseractexsist)
+            {
+                try
+                {
+                    using TesseractEngine engine = new("./tessdata", "tur", EngineMode.LstmOnly);
+                    using Page page = engine.Process(bmp);
+                    return page.GetText();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "TAKVİM", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                }
+            }
             return null;
         }
 

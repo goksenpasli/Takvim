@@ -14,7 +14,7 @@
     <UserControl.Resources>
         <local:StringNullableToBooleanConverter x:Key="StringNullableToBooleanConverter" />
         <local:NullableToBooleanConverter x:Key="NullableToBooleanConverter" />
-        <CollectionViewSource x:Key="FilteredCvs" Source="{StaticResource XmlData}" />
+        <CollectionViewSource x:Key="FilteredCvs" d:DesignSource="{d:DesignInstance {x:Type local:Data}, CreateList=True}" Source="{StaticResource XmlData}" />
         <Storyboard x:Key="Grow">
             <DoubleAnimation BeginTime="0:0:0"
                 Storyboard.TargetName="UserControl" Storyboard.TargetProperty="Width" From="0" To="500"
@@ -48,7 +48,7 @@
                         <Run Text="{Binding TamTarih, StringFormat=\{0:d\}}" Language="tr-tr" />
                     </TextBlock>
                     <TextBlock HorizontalAlignment="Right" FontSize="15" FontFamily="Segoe UI Black">
-                        <Hyperlink Command="{Binding PencereKapat}" CommandParameter="{Binding ElementName=UserControl}">
+                        <Hyperlink Command="{Binding PencereKapat}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=UserControl}}">
                             <Run Text="X" />
                         </Hyperlink></TextBlock>
                 </UniformGrid>
@@ -192,75 +192,33 @@
                 </Expander>
                 <Button Content="VERİYİ EKLE"
                     Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2"
-                    Command="{Binding XmlVeriEkle, Mode=OneWay}"
-                    CommandParameter="{Binding ElementName=UserControl, Mode=OneWay}" />
+                    Command="{Binding XmlVeriEkle, Mode=OneWay}" />
                 <UniformGrid Grid.Row="8" Grid.Column="2" Columns="2">
-                    <local:ContentToggleButton OverContent="TARAYICI">
+                    <local:ContentToggleButton>
+                        <local:ContentToggleButton.OverContent>
+                            <Image Width="32" Height="32" Source="{Binding ConverterParameter=201, Converter={StaticResource Shell32FileIconConverter}}" />
+                        </local:ContentToggleButton.OverContent>
                         <TwainControl:TwainCtrl Width="540" Height="465"
                             Background="White"
                             PropertyChanged="TwainCtrl_PropertyChanged" />
                     </local:ContentToggleButton>
-                    <local:ContentToggleButton OverContent="KAMERA">
+                    <local:ContentToggleButton>
+                        <local:ContentToggleButton.OverContent>
+                            <Image Width="32" Height="32" Source="{Binding ConverterParameter=195, Converter={StaticResource Shell32FileIconConverter}}" />
+                        </local:ContentToggleButton.OverContent>
                         <local:CameraUserControl Width="320" Height="240" />
                     </local:ContentToggleButton>
                 </UniformGrid>
-                <ListBox Grid.Row="0" Grid.Column="2" Grid.RowSpan="7"
+                <ListBox Grid.Row="0" Grid.Column="2" Grid.RowSpan="7" VirtualizingStackPanel.VirtualizationMode="Recycling"
                     ItemsSource="{Binding Mode=OneWay, Source={StaticResource FilteredCvs}}"
                     IsSynchronizedWithCurrentItem="False"
-                    ItemContainerStyle="{StaticResource GünListBoxItemContainerStyle}">
+                    ItemContainerStyle="{StaticResource GünListBoxItemContainerStyle}"
+                    ItemTemplate="{StaticResource ListBoxEditDataTemplate}">
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
                             <VirtualizingStackPanel />
                         </ItemsPanelTemplate>
                     </ListBox.ItemsPanel>
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel>
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock FontSize="12" FontFamily="Segoe UI Black">
-                                        <Hyperlink x:Name="Hyp" Command="{Binding DataContext.XmlVeriSil, ElementName=UserControl}" CommandParameter="{Binding XPath=@Id}">
-                                            <Run Text="X" />
-                                        </Hyperlink>
-                                    </TextBlock>
-                                    <TextBlock>
-                                        <Run Text="{Binding XPath=@SaatBaslangic}" />
-                                        <Run Text="{Binding XPath=Aciklama}" />
-                                    </TextBlock>
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal">
-                                    <StackPanel.DataContext>
-                                        <local:Data />
-                                    </StackPanel.DataContext>
-                                    <local:TimePicker TimeValue="{Binding SaatBaşlangıç, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{x:Null}" />
-                                    <local:MaskedTextBox Width="35"
-                                        IncludePrompt="False" Mask="00" PromptChar="_"
-                                        ValueType="{x:Type system:Double}"
-                                        Value="{Binding EtkinlikSüresi, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                                    <CheckBox VerticalAlignment="Center" IsChecked="{Binding AyTekrar}">
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="AY TEKRAR" VerticalAlignment="Center" />
-                                            <Slider IsEnabled="{Binding AyTekrar}"
-                                                Width="35"
-                                                AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" Maximum="31" Minimum="1"
-                                                SmallChange="1" ToolTip="AYIN KAÇINCI GÜNÜ TEKRAR EDİLECEK"
-                                                Value="{Binding AyTekrarGun, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
-                                        </StackPanel>
-                                    </CheckBox>
-                                    <ComboBox ItemsSource="{Binding Source={StaticResource Renkler}}"
-                                        ItemContainerStyle="{StaticResource ComboBoxItemContainerStyle}"
-                                        ItemTemplate="{StaticResource ComboBoxRectItemTemplate}"
-                                        ItemsPanel="{StaticResource CbItemsPanelTemplate}"
-                                        ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                                        SelectedValue="{Binding VeriRenk, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                                        SelectedValuePath="Name" ToolTip="Veri Renk"
-                                        Validation.ErrorTemplate="{x:Null}" />
-                                    <Button Command="{Binding XmlVeriGüncelle, Mode=OneWay}" CommandParameter="{Binding CommandParameter, ElementName=Hyp}" ToolTip="GÜNCELLE">
-                                        <Image Width="16" Height="16" Source="{Binding ConverterParameter=144, Converter={StaticResource Shell32FileIconConverter}}" />
-                                    </Button>
-                                </StackPanel>
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
                 </ListBox>
             </Grid>
         </GroupBox>

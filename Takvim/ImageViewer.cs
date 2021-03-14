@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Diagnostics;
+using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Threading;
@@ -10,6 +10,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Xml;
+using PdfSharp.Drawing;
+using PdfSharp.Pdf;
+using PdfSharp.Pdf.IO;
 
 namespace Takvim
 {
@@ -45,7 +48,7 @@ namespace Takvim
                         pd.PrintVisual(dv, "");
                     }
                 }
-            }, parameter => parameter is BitmapSource imageSource && imageSource is not null);
+            }, parameter => Resim is not null);
 
             OcrUygula = new RelayCommand<object>(parameter =>
             {
@@ -60,11 +63,12 @@ namespace Takvim
                         MainViewModel.xmlDataProvider.Document.Save(MainViewModel.xmlpath);
                     }));
                 }, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default);
-            }, parameter => Resim is not null && Environment.OSVersion.Version.Major > 5 && Directory.Exists(Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) + @"\tessdata"));
+            }, parameter => Resim is not null && Environment.OSVersion.Version.Major > 5 && Ocr.tesseractexsist);
 
             PdfData = (byte[])new Base64Converter().Convert(xmldata["Pdf"]?.InnerText, null, null, CultureInfo.CurrentCulture);
             Resim = (BitmapSource)new Base64ImageConverter().Convert(xmldata["Resim"]?.InnerText, null, null, CultureInfo.CurrentCulture);
             OcrMetin = xmldata.GetAttribute("Ocr");
+            
             if (PdfData is null && Resim is not null)
             {
                 Index = 0;
