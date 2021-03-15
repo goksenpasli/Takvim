@@ -16,7 +16,6 @@
             <local:Shell32FileIconConverter x:Key="Shell32FileIconConverter" />
             <local:RegistryToIconConverter x:Key="RegistryToIconConverter" />
             <local:FilePathToIconConverter x:Key="FilePathToIconConverter" />
-            <local:ListBoxDatePassedVisibilityConverter x:Key="ListBoxDatePassedVisibilityConverter" />
             <local:XmlDateConverter x:Key="XmlDateConverter" />
             <local:Base64ImageConverter x:Key="Base64ImageConverter" />
             <local:AyTekrarDataConverter x:Key="AyTekrarDataConverter" />
@@ -30,7 +29,6 @@
             <local:GünTatilConverter x:Key="GünTatilConverter" />
             <local:RamadanDateToHolidayConverter x:Key="RamadanDateToHolidayConverter" />
             <local:FeastoftheSacrificeDateToHolidayConverter x:Key="FeastoftheSacrificeDateToHolidayConverter" />
-            <local:DateNoteCountConverter x:Key="DateNoteCountConverter" />
             <local:BrushToColorConverter x:Key="BrushToColorConverter" />
             <local:AnimationtoBooleanConverter x:Key="AnimationtoBooleanConverter" />
             <local:SelectedDateToDataListConverter x:Key="SelectedDateToDataListConverter" />
@@ -243,8 +241,8 @@
             <Style x:Key="RunItemCountStyle" TargetType="{x:Type Run}">
                 <Setter Property="Text" Value="{Binding VeriSayısı}" />
                 <Style.Triggers>
-                    <DataTrigger Binding="{Binding VeriSayısı}" Value="{x:Null}">
-                        <Setter Property="Text" Value="" />
+                    <DataTrigger Binding="{Binding VeriSayısı}" Value="0">
+                        <Setter Property="Text" Value="{x:Null}" />
                     </DataTrigger>
                 </Style.Triggers>
             </Style>
@@ -340,12 +338,6 @@
                         </TextBlock.Style>
                         <Run Text="{Binding Gün}" />
                         <Run FontSize="8" Style="{StaticResource RunItemCountStyle}">
-                            <Run.Text>
-                                <MultiBinding Converter="{StaticResource DateNoteCountConverter}" StringFormat="{}{0}">
-                                    <Binding Path="TamTarih" />
-                                    <Binding Path="VeriSayısı" />
-                                </MultiBinding>
-                            </Run.Text>
                             <Run.ToolTip>
                                 <ToolTip Template="{StaticResource GreenToolTipControlTemplate}">
                                     <ListBox ItemsSource="{Binding Converter={StaticResource SelectedDateToDataListConverter}, Mode=OneWay}" ItemContainerStyle="{StaticResource ListBoxToolTipItemContainerStyle}">

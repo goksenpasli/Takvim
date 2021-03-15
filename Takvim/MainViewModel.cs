@@ -67,8 +67,6 @@ namespace Takvim
 
         private short sütünSayısı = Properties.Settings.Default.Sütün;
 
-        private bool tümListe;
-
         private ObservableCollection<Data> yaklaşanEtkinlikler;
 
         private string zaman;
@@ -157,11 +155,7 @@ namespace Takvim
                 }
             }, parameter => true);
 
-            VeriAra = new RelayCommand<object>(parameter =>
-            {
-                TümListe = true;
-                Cvs.Filter += (s, e) => e.Accepted = (e.Item as XmlNode)?["Aciklama"]?.InnerText.Contains(AramaMetin) == true || (e.Item as XmlNode)?.Attributes.GetNamedItem("Ocr")?.InnerText.Contains(AramaMetin, StringComparison.OrdinalIgnoreCase) == true;
-            }, parameter => !string.IsNullOrWhiteSpace(AramaMetin));
+            VeriAra = new RelayCommand<object>(parameter => Cvs.Filter += (s, e) => e.Accepted = (e.Item as XmlNode)?["Aciklama"]?.InnerText.Contains(AramaMetin) == true || (e.Item as XmlNode)?.Attributes.GetNamedItem("Ocr")?.InnerText.Contains(AramaMetin, StringComparison.OrdinalIgnoreCase) == true, parameter => !string.IsNullOrWhiteSpace(AramaMetin));
 
             Hakkında = new RelayCommand<object>(parameter => Process.Start("https://github.com/goksenpasli"), parameter => true);
 
@@ -435,20 +429,6 @@ namespace Takvim
             }
         }
 
-        public bool TümListe
-        {
-            get => tümListe;
-
-            set
-            {
-                if (tümListe != value)
-                {
-                    tümListe = value;
-                    OnPropertyChanged(nameof(TümListe));
-                }
-            }
-        }
-
         public ICommand VeriAra { get; }
 
         public ICommand VeritabanıAç { get; }
@@ -596,7 +576,6 @@ namespace Takvim
 
             if (e.PropertyName is "AramaMetin" && string.IsNullOrWhiteSpace(AramaMetin))
             {
-                TümListe = false;
                 Cvs.View.Filter = null;
             }
 

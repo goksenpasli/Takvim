@@ -195,14 +195,7 @@
                                             </Border.InputBindings>
                                             <TextBlock FontSize="11">
                                                 <Run Text="{Binding Gün}" />
-                                                <Run FontSize="8" FontWeight="Bold" Style="{StaticResource RunItemCountStyle}">
-                                                    <Run.Text>
-                                                        <MultiBinding Converter="{StaticResource DateNoteCountConverter}" StringFormat="{}{0}">
-                                                            <Binding Path="TamTarih" />
-                                                            <Binding Path="VeriSayısı" />
-                                                        </MultiBinding>
-                                                    </Run.Text>
-                                                </Run>
+                                                <Run FontSize="8" FontWeight="Bold" Style="{StaticResource RunItemCountStyle}" />
                                                 <LineBreak />
                                                 <Run Text="{Binding GünAdı}" />
                                             </TextBlock>
@@ -389,21 +382,13 @@
             </Grid.RowDefinitions>
             <GroupBox Grid.Row="0" Margin="2">
                 <GroupBox.Header>
-                    <StackPanel Orientation="Horizontal">
-                        <CheckBox Content="TÜM LİSTE"
-                            VerticalAlignment="Center"
-                            FontWeight="Bold"
-                            IsChecked="{Binding TümListe}"
-                            ToolTip="Süresi Geçenleri Göster" />
                         <Button Command="{Binding CsvDosyasınaYaz, Mode=OneWay, Source={StaticResource Data}}" CommandParameter="{Binding Günler}" Tag=".csv">
                             <Image Width="24" Height="24" Source="{Binding Tag, Converter={StaticResource RegistryToIconConverter}, RelativeSource={RelativeSource AncestorType={x:Type Button}}}" />
                         </Button>
-                    </StackPanel>
                 </GroupBox.Header>
                 <ListBox Background="Transparent"
                     ItemsSource="{Binding Mode=OneWay, Source={StaticResource Cvs}}"
-                    IsSynchronizedWithCurrentItem="False" ScrollViewer.IsDeferredScrollingEnabled="True"
-                    VirtualizingStackPanel.VirtualizationMode="Recycling">
+                    IsSynchronizedWithCurrentItem="False" ScrollViewer.IsDeferredScrollingEnabled="True">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel>
@@ -461,10 +446,7 @@
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding XPath=@Onemli}" Value="true">
                                     <Setter Property="Background" Value="Red" />
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding DataContext.TümListe, RelativeSource={RelativeSource AncestorType=Window}}" Value="false">
-                                    <Setter Property="Visibility" Value="{Binding Converter={StaticResource ListBoxDatePassedVisibilityConverter}, Mode=OneWay}" />
-                                </DataTrigger>
+                                </DataTrigger>                      
                             </Style.Triggers>
                         </Style>
                     </ListBox.ItemContainerStyle>

@@ -104,7 +104,6 @@
     <Compile Include="FloatingWindowControl.xaml.cs">
       <DependentUpon>FloatingWindowControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Converters\DateNoteCountConverter.cs" />
     <Compile Include="Data.cs" />
     <Compile Include="Helpers\ExtensionMethods.cs" />
     <Compile Include="Converters\FeastoftheSacrificeDateToHolidayConverter.cs" />
@@ -118,7 +117,6 @@
     <Compile Include="iCalNET\VEvent.cs" />
     <Compile Include="ImageViewer.cs" />
     <Compile Include="Helpers\InpcBase.cs" />
-    <Compile Include="Converters\ListBoxDatePassedVisibilityConverter.cs" />
     <Compile Include="Controls\MaskedTextBox.cs" />
     <Compile Include="Converters\NullableToBooleanConverter.cs" />
     <Compile Include="Controls\MovableControl.cs" />
