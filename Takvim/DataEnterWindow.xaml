@@ -209,11 +209,12 @@
                         <local:CameraUserControl Width="320" Height="240" />
                     </local:ContentToggleButton>
                 </UniformGrid>
-                <ListBox Grid.Row="0" Grid.Column="2" Grid.RowSpan="7" VirtualizingStackPanel.VirtualizationMode="Recycling"
+                <ListBox Grid.Row="0" Grid.Column="2" Grid.RowSpan="7"
                     ItemsSource="{Binding Mode=OneWay, Source={StaticResource FilteredCvs}}"
                     IsSynchronizedWithCurrentItem="False"
                     ItemContainerStyle="{StaticResource GünListBoxItemContainerStyle}"
-                    ItemTemplate="{StaticResource ListBoxEditDataTemplate}">
+                    ItemTemplate="{StaticResource ListBoxEditDataTemplate}"
+                    VirtualizingStackPanel.VirtualizationMode="Recycling">
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
                             <VirtualizingStackPanel />

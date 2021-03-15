@@ -13,6 +13,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
+using System.Xaml;
 using System.Xml;
 using System.Xml.Linq;
 using Microsoft.Win32;
@@ -642,6 +643,7 @@ namespace Takvim
 
         private ObservableCollection<Data> TakvimVerileriniOluştur(short SeçiliYıl)
         {
+            XmlNodeList xmlNodeList = xmlDataProvider.Document?.SelectNodes("/Veriler/Veri");
             Günler = new ObservableCollection<Data>();
             for (int i = 1; i <= 12; i++)
             {
@@ -658,6 +660,14 @@ namespace Takvim
                             Offset = (short)date.DayOfWeek,
                             TamTarih = date
                         };
+                        if (xmlNodeList != null)
+                        {
+                            using IEnumerator<XmlNode> en = (from XmlNode xn in xmlNodeList where DateTime.Parse(xn["Gun"]?.InnerText) == data.TamTarih select xn).GetEnumerator();
+                            while (en.MoveNext())
+                            {
+                                data.VeriSayısı++;
+                            }
+                        }
                         Günler.Add(data);
                     }
                 }

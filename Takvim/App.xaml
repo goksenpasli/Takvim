@@ -710,7 +710,7 @@
                 <StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock FontSize="12" FontFamily="Segoe UI Black">
-                            <Hyperlink x:Name="Hyp" Command="{Binding XmlVeriSil, Source={StaticResource Data}}" CommandParameter="{Binding XPath=@Id}">
+                            <Hyperlink x:Name="Hyp" Command="{Binding DataContext.XmlVeriSil, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding XPath=@Id}">
                                 <Run Text="X" />
                             </Hyperlink>
                         </TextBlock>

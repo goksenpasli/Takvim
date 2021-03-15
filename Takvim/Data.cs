@@ -279,6 +279,7 @@ namespace Takvim
                             item.ParentNode.RemoveChild(item);
                         }
                     }
+                    VeriSayısı--;
                     MainViewModel.xmlDataProvider.Document.Save(MainViewModel.xmlpath);
                     MainViewModel.xmlDataProvider.Refresh();
                     CollectionViewSource.GetDefaultView((Application.Current.MainWindow.DataContext as MainViewModel)?.AyGünler).Refresh();
