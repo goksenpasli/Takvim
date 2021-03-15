@@ -66,20 +66,24 @@ namespace Takvim
 
         private short sütünSayısı = Properties.Settings.Default.Sütün;
 
-        private Data şuankigünData = new();
-
         private bool tümListe;
 
         private ObservableCollection<Data> yaklaşanEtkinlikler;
+
         private string zaman;
+
         private ObservableCollection<Data> üçAylıkGünler;
+
+        private Data şuAnkiGünVerisi;
 
         public MainViewModel()
         {
             GenerateSystemTrayMenu();
             DatetimeTimer();
             WriteXmlRootData(xmlpath);
+
             xmlDataProvider = (XmlDataProvider)Application.Current?.TryFindResource("XmlData");
+
             xmlDataProvider.Source = new Uri(xmlpath);
 
             TakvimVerileriniOluştur(SeçiliYıl);
@@ -160,8 +164,6 @@ namespace Takvim
 
             Hakkında = new RelayCommand<object>(parameter => Process.Start("https://github.com/goksenpasli"), parameter => true);
 
-            ŞuAnkiGünData.TamTarih = DateTime.Today;
-
             VeritabanıAç = new RelayCommand<object>(parameter =>
             {
                 if (MessageBox.Show("Veritabanı dosyasını düzenlemek istiyor musun? Dikkat yanlış düzenleme programın açılmamasına neden olabilir. Devam edilsin mi?", "TAKVİM", MessageBoxButton.YesNo, MessageBoxImage.Exclamation, MessageBoxResult.No) == MessageBoxResult.Yes)
@@ -169,6 +171,8 @@ namespace Takvim
                     Process.Start(xmlpath);
                 }
             }, parameter => true);
+
+            ŞuAnkiGünVerisi = Günler.FirstOrDefault(z => z.TamTarih == DateTime.Today);
 
             PropertyChanged += MainViewModel_PropertyChanged;
             Properties.Settings.Default.PropertyChanged += Properties_PropertyChanged;
@@ -328,6 +332,20 @@ namespace Takvim
             }
         }
 
+        public Data ŞuAnkiGünVerisi
+        {
+            get { return şuAnkiGünVerisi; }
+
+            set
+            {
+                if (şuAnkiGünVerisi != value)
+                {
+                    şuAnkiGünVerisi = value;
+                    OnPropertyChanged(nameof(ŞuAnkiGünVerisi));
+                }
+            }
+        }
+
         public short SatırSayısı
         {
             get => satırSayısı;
@@ -412,20 +430,6 @@ namespace Takvim
                 {
                     sütünSayısı = value;
                     OnPropertyChanged(nameof(SütünSayısı));
-                }
-            }
-        }
-
-        public Data ŞuAnkiGünData
-        {
-            get => şuankigünData;
-
-            set
-            {
-                if (şuankigünData != value)
-                {
-                    şuankigünData = value;
-                    OnPropertyChanged(nameof(ŞuAnkiGünData));
                 }
             }
         }
@@ -638,7 +642,6 @@ namespace Takvim
 
         private ObservableCollection<Data> TakvimVerileriniOluştur(short SeçiliYıl)
         {
-            XmlNodeList xmlNodeList = xmlDataProvider.Document?.SelectNodes("/Veriler/Veri");
             Günler = new ObservableCollection<Data>();
             for (int i = 1; i <= 12; i++)
             {
@@ -655,14 +658,6 @@ namespace Takvim
                             Offset = (short)date.DayOfWeek,
                             TamTarih = date
                         };
-
-                        if (xmlNodeList != null)
-                        {
-                            foreach (XmlNode xn in from XmlNode xn in xmlNodeList where DateTime.Parse(xn["Gun"]?.InnerText) == data.TamTarih select xn)
-                            {
-                                data.Id = Convert.ToInt32(xn.Attributes.GetNamedItem("Id").Value);
-                            }
-                        }
                         Günler.Add(data);
                     }
                 }

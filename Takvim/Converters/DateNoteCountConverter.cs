@@ -7,24 +7,21 @@ using System.Xml;
 
 namespace Takvim
 {
-    public class DateNoteCountConverter : IValueConverter
+    public class DateNoteCountConverter : IMultiValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is Data data)
+            if (values[0] is DateTime dateTime && MainViewModel.xmlDataProvider?.Data is ICollection<XmlNode> xmlNode)
             {
-                if (MainViewModel.xmlDataProvider?.Data is ICollection<XmlNode> xmlNode)
+                int adet = xmlNode.Count(z => DateTime.Parse(z["Gun"]?.InnerText) == dateTime);
+                if (adet > 0)
                 {
-                    data.VeriSayısı = xmlNode.Count(z => DateTime.Parse(z["Gun"]?.InnerText) == data.TamTarih);
+                    return adet;
                 }
-                return data;
             }
-            else
-            {
-                return null;
-            }
+            return null;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture) => throw new NotImplementedException();
     }
 }

@@ -130,7 +130,7 @@
       <DependentUpon>PrayerTimeControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Helpers\RelayCommand.cs" />
-    <Compile Include="Converters\IntBooleanZeroConverter.cs" />
+    <Compile Include="Converters\AnimationtoBooleanConverter.cs" />
     <Compile Include="Converters\SelectedDateToDataListConverter.cs" />
     <Compile Include="Converters\StringToBrushConverter.cs" />
     <Compile Include="Controls\TimePicker.cs" />

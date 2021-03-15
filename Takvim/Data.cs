@@ -282,7 +282,6 @@ namespace Takvim
                     MainViewModel.xmlDataProvider.Document.Save(MainViewModel.xmlpath);
                     MainViewModel.xmlDataProvider.Refresh();
                     CollectionViewSource.GetDefaultView((Application.Current.MainWindow.DataContext as MainViewModel)?.AyGünler).Refresh();
-                    VeriSayısı--;
                 }
             }, parameter => true);
 
@@ -376,7 +375,7 @@ namespace Takvim
                 {
                     Title = TamTarih.ToString("dd MMMM yyyy dddd"),
                     Content = new DataEnterWindow(),
-                    DataContext = this,
+                    DataContext = parameter as Data,
                     Width = 504,
                     AllowsTransparency = true,
                     WindowStyle = WindowStyle.None,
@@ -667,6 +666,7 @@ namespace Takvim
         public ICommand Resimİptal { get; }
 
         public ICommand ResimSakla { get; }
+
         public ICommand ResimYükle { get; }
 
         public string SaatBaşlangıç

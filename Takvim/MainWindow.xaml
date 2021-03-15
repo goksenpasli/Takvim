@@ -126,7 +126,7 @@
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                         <ListBox.InputBindings>
-                            <MouseBinding Command="{Binding ŞuAnkiGünData.VeriEkleEkranı, Mode=OneWay}" MouseAction="LeftDoubleClick" />
+                            <MouseBinding Command="{Binding VeriEkleEkranı, Mode=OneWay, Source={StaticResource Data}}" CommandParameter="{Binding ElementName=Lb, Path=Tag}" MouseAction="LeftDoubleClick" />
                         </ListBox.InputBindings>
                         <ListBox.Style>
                             <Style TargetType="ListBox">
@@ -164,7 +164,7 @@
                                 </CollectionViewSource>
                             </StackPanel.Resources>
                             <TextBlock Text="{Binding Zaman}" FontSize="18" />
-                            <TextBlock Text="{Binding ŞuAnkiGünData.TamTarih, StringFormat=\{0:D\}}" FontWeight="Bold" TextDecorations="{x:Null}" />
+                            <TextBlock Text="{Binding ŞuAnkiGünVerisi.TamTarih, StringFormat=\{0:D\}}" FontWeight="Bold" TextDecorations="{x:Null}" />
                             <Separator Margin="0,5,0,2" />
                             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
                                 <Button Content="ç"
@@ -178,26 +178,37 @@
                                     FontFamily="Wingdings"
                                     ToolTip="SONRAKİ AY" />
                             </StackPanel>
-                            <ListBox ItemsSource="{Binding Mode=OneWay, Source={StaticResource ÜçAylıkGünler}}">
+                            <ListBox x:Name="Lb"
+                                ItemsSource="{Binding Mode=OneWay, Source={StaticResource ÜçAylıkGünler}}"
+                                IsSynchronizedWithCurrentItem="False"
+                                Tag="{Binding ŞuAnkiGünVerisi}">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
-                                        <Border Width="30" Height="30"
+                                        <Border Width="32" Height="32"
                                             Background="{Binding TamTarih.Month, Converter={StaticResource MonthToColorConverter}, Mode=OneWay}"
-                                            BorderThickness="1"
+                                            BorderThickness="2"
                                             local:MovableControl.MoveData="True"
                                             local:MovableControl.PlacedData="{Binding}"
                                             AllowDrop="True">
                                             <Border.InputBindings>
-                                                <MouseBinding Command="{Binding VeriEkleEkranı, Mode=OneWay}" MouseAction="LeftClick" />
+                                                <MouseBinding Command="{Binding VeriEkleEkranı, Mode=OneWay}" CommandParameter="{Binding Mode=OneWay}" MouseAction="LeftClick" />
                                             </Border.InputBindings>
                                             <TextBlock FontSize="11">
                                                 <Run Text="{Binding Gün}" />
+                                                <Run FontSize="8" FontWeight="Bold" Style="{StaticResource RunItemCountStyle}">
+                                                    <Run.Text>
+                                                        <MultiBinding Converter="{StaticResource DateNoteCountConverter}" StringFormat="{}{0}">
+                                                            <Binding Path="TamTarih" />
+                                                            <Binding Path="VeriSayısı" />
+                                                        </MultiBinding>
+                                                    </Run.Text>
+                                                </Run>
                                                 <LineBreak />
                                                 <Run Text="{Binding GünAdı}" />
                                             </TextBlock>
                                             <Border.Style>
                                                 <Style TargetType="Border">
-                                                    <Setter Property="BorderBrush" Value="#FF145CD6" />
+                                                    <Setter Property="BorderBrush" Value="Black" />
                                                     <Style.Triggers>
                                                         <Trigger Property="IsMouseOver" Value="True">
                                                             <Setter Property="BorderBrush" Value="Cyan" />
@@ -335,12 +346,12 @@
                                 <Setter Property="BorderBrush" Value="#FF145CD6" />
                                 <Setter Property="Template" Value="{StaticResource ListBoxItemControlTemplate}" />
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding VeriSayısı, Converter={StaticResource IntBooleanZeroConverter}}" Value="true">
+                                    <DataTrigger Binding="{Binding Path=TamTarih, Converter={StaticResource AnimationtoBooleanConverter}}" Value="true">
                                         <DataTrigger.EnterActions>
                                             <BeginStoryboard x:Name="Sb" Storyboard="{StaticResource TimerColorAnimation}" />
                                         </DataTrigger.EnterActions>
                                     </DataTrigger>
-                                    <DataTrigger Binding="{Binding VeriSayısı}" Value="0">
+                                    <DataTrigger Binding="{Binding Path=TamTarih, Mode=OneWay}" Value="false">
                                         <DataTrigger.EnterActions>
                                             <StopStoryboard BeginStoryboardName="Sb" />
                                         </DataTrigger.EnterActions>
