@@ -11,7 +11,6 @@
                 <ResourceDictionary Source="/PresentationFramework.Aero,Version=4.0.0.0,Culture=neutral,PublicKeyToken=31bf3856ad364e35,processorArchitecture=MSIL;component/themes/Aero.NormalColor.xaml" />
                 <ResourceDictionary Source="/Takvim;component/Themes/Generic.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            <local:Data x:Key="Data" />
             <local:MonthToColorConverter x:Key="MonthToColorConverter" />
             <local:Shell32FileIconConverter x:Key="Shell32FileIconConverter" />
             <local:RegistryToIconConverter x:Key="RegistryToIconConverter" />
@@ -645,7 +644,7 @@
                                                             </Style.Triggers>
                                                         </Style>
                                                     </TextBlock.Style>
-                                                    <Hyperlink Command="{Binding XmlVeriSil, Mode=OneWay, Source={StaticResource Data}}"
+                                                    <Hyperlink Command="{Binding Tag.XmlVeriSil, Mode=OneWay,  ElementName=Lb}"
                                                         CommandParameter="{Binding XPath=@Id}"
                                                         FontSize="12" FontFamily="Segoe UI Black">
                                                         <Run Text="X" />
@@ -672,7 +671,7 @@
                                                 </ToolTip>
                                             </Image.ToolTip>
                                             <Image.InputBindings>
-                                                <MouseBinding Command="{Binding DosyaGör, Source={StaticResource Data}}" CommandParameter="{Binding Mode=OneWay}" Gesture="CTRL+LeftClick" />
+                                                <MouseBinding Command="{Binding DataContext.DosyaGör, RelativeSource={RelativeSource AncestorType=ListBox}}" CommandParameter="{Binding Mode=OneWay}" Gesture="CTRL+LeftClick" />
                                             </Image.InputBindings>
                                         </Image>
                                     </Expander>

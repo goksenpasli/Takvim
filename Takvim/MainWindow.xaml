@@ -92,7 +92,7 @@
                                                 </Style>
                                             </TextBlock.Style>
                                             <Hyperlink x:Name="Hyp"
-                                                Command="{Binding XmlVeriSil, Mode=OneWay, Source={StaticResource Data}}"
+                                                Command="{Binding Tag.XmlVeriSil, Mode=OneWay, ElementName=Lb}"
                                                 CommandParameter="{Binding XPath=@Id}"
                                                 FontFamily="Segoe UI Black">
                                                 <Run Text="X" />
@@ -106,7 +106,7 @@
                                         HorizontalAlignment="Right"
                                         Source="{Binding ConverterParameter=72, Converter={StaticResource Base64ImageConverter}, XPath=Resim}">
                                         <Image.InputBindings>
-                                            <MouseBinding Command="{Binding DosyaGör, Source={StaticResource Data}}" CommandParameter="{Binding Mode=OneWay}" Gesture="CTRL+LeftClick" />
+                                            <MouseBinding Command="{Binding Tag.DosyaGör,  ElementName=Lb}" CommandParameter="{Binding Mode=OneWay}" Gesture="CTRL+LeftClick" />
                                         </Image.InputBindings>
                                         <Image.ToolTip>
                                             <ToolTip Template="{StaticResource GreenToolTipControlTemplate}">
@@ -126,7 +126,7 @@
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                         <ListBox.InputBindings>
-                            <MouseBinding Command="{Binding VeriEkleEkranı, Mode=OneWay, Source={StaticResource Data}}" CommandParameter="{Binding ElementName=Lb, Path=Tag}" MouseAction="LeftDoubleClick" />
+                            <MouseBinding Command="{Binding Tag.VeriEkleEkranı, Mode=OneWay, ElementName=Lb}" CommandParameter="{Binding ElementName=Lb, Path=Tag}" MouseAction="LeftDoubleClick" />
                         </ListBox.InputBindings>
                         <ListBox.Style>
                             <Style TargetType="ListBox">
@@ -382,7 +382,7 @@
             </Grid.RowDefinitions>
             <GroupBox Grid.Row="0" Margin="2">
                 <GroupBox.Header>
-                        <Button Command="{Binding CsvDosyasınaYaz, Mode=OneWay, Source={StaticResource Data}}" CommandParameter="{Binding Günler}" Tag=".csv">
+                    <Button Command="{Binding Tag.CsvDosyasınaYaz, Mode=OneWay,  ElementName=Lb}" CommandParameter="{Binding Günler}" Tag=".csv">
                             <Image Width="24" Height="24" Source="{Binding Tag, Converter={StaticResource RegistryToIconConverter}, RelativeSource={RelativeSource AncestorType={x:Type Button}}}" />
                         </Button>
                 </GroupBox.Header>
@@ -393,7 +393,7 @@
                         <DataTemplate>
                             <StackPanel>
                                 <TextBlock Margin="0,0,3,0">
-                                    <Hyperlink Command="{Binding DosyaGör, Source={StaticResource Data}}" CommandParameter="{Binding Mode=OneWay}" Cursor="Hand">
+                                    <Hyperlink Command="{Binding Tag.DosyaGör,  ElementName=Lb}" CommandParameter="{Binding Mode=OneWay}" Cursor="Hand">
                                         <Run Text="DOSYA AÇ" />
                                     </Hyperlink>
                                 </TextBlock>
@@ -427,7 +427,7 @@
                                                     <StackPanel Orientation="Horizontal">
                                                         <Image Width="24" Height="24" Source="{Binding Converter={StaticResource FilePathToIconConverter}, XPath=@Yol}" />
                                                         <TextBlock VerticalAlignment="Center">
-                                                            <Hyperlink Command="{Binding EkDosyaAç, Mode=OneWay, Source={StaticResource Data}}" CommandParameter="{Binding XPath=@Yol}">
+                                                            <Hyperlink Command="{Binding Tag.EkDosyaAç, Mode=OneWay,  ElementName=Lb}" CommandParameter="{Binding XPath=@Yol}">
                                                                 <Run Text="{Binding XPath=@Ad}" />
                                                             </Hyperlink>
                                                         </TextBlock>
