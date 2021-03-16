@@ -9,6 +9,7 @@
     d:DesignHeight="150" d:DesignWidth="220" UseLayoutRounding="True"
     mc:Ignorable="d">
     <UserControl.Resources>
+        <local:Data x:Key="Data" />
         <Storyboard x:Key="Grow">
             <DoubleAnimation BeginTime="0:0:0"
                 Storyboard.TargetName="UserControl" Storyboard.TargetProperty="Width" From="0" To="220"
