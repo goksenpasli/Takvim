@@ -11,6 +11,8 @@
                 <ResourceDictionary Source="/PresentationFramework.Aero,Version=4.0.0.0,Culture=neutral,PublicKeyToken=31bf3856ad364e35,processorArchitecture=MSIL;component/themes/Aero.NormalColor.xaml" />
                 <ResourceDictionary Source="/Takvim;component/Themes/Generic.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <local:StringNullableToBooleanConverter x:Key="StringNullableToBooleanConverter" />
+            <local:NullableToBooleanConverter x:Key="NullableToBooleanConverter" />
             <local:MonthToColorConverter x:Key="MonthToColorConverter" />
             <local:Shell32FileIconConverter x:Key="Shell32FileIconConverter" />
             <local:RegistryToIconConverter x:Key="RegistryToIconConverter" />
@@ -644,7 +646,7 @@
                                                             </Style.Triggers>
                                                         </Style>
                                                     </TextBlock.Style>
-                                                    <Hyperlink Command="{Binding Tag.XmlVeriSil, Mode=OneWay,  ElementName=Lb}"
+                                                    <Hyperlink Command="{Binding DataContext.XmlVeriSil, Mode=OneWay, RelativeSource={RelativeSource AncestorType=ListBox}}"
                                                         CommandParameter="{Binding XPath=@Id}"
                                                         FontSize="12" FontFamily="Segoe UI Black">
                                                         <Run Text="X" />
@@ -700,6 +702,14 @@
             <DataTemplate x:Key="ListBoxEditDataTemplate">
                 <StackPanel>
                     <StackPanel Orientation="Horizontal">
+                        <Canvas Width="18" Height="18"
+                            Background="Transparent"
+                            HorizontalAlignment="Left" VerticalAlignment="Top"
+                            Style="{StaticResource CanvasDragStyle}">
+                            <TextBlock x:Name="Tb"
+                                Text="B"
+                                FontSize="18" FontFamily="Wingdings" FontWeight="Bold" />
+                        </Canvas>
                         <TextBlock FontSize="12" FontFamily="Segoe UI Black">
                             <Hyperlink x:Name="Hyp" Command="{Binding DataContext.XmlVeriSil, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding XPath=@Id}">
                                 <Run Text="X" />
@@ -724,9 +734,9 @@
                                 <TextBlock Text="AY TEKRAR" VerticalAlignment="Center" />
                                 <Slider IsEnabled="{Binding AyTekrar}"
                                     Width="35"
-                                    AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" Maximum="31" Minimum="1"
+                                    AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" Maximum="31" Minimum="0"
                                     SmallChange="1" ToolTip="AYIN KAÇINCI GÜNÜ TEKRAR EDİLECEK"
-                                    Value="{Binding AyTekrarGun, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
+                                    Value="{Binding AyTekrarGun, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                             </StackPanel>
                         </CheckBox>
                         <ComboBox ItemsSource="{Binding Source={StaticResource Renkler}}"

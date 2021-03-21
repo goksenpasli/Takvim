@@ -64,6 +64,7 @@ namespace Takvim
             {
                 (e.Data.GetData("data") as XmlNode)["Gun"].InnerText = dc.TamTarih.ToString("o");
                 MainViewModel.xmlDataProvider.Document.Save(MainViewModel.xmlpath);
+                dc.VeriSayısı++;
                 CollectionViewSource.GetDefaultView((Application.Current.MainWindow.DataContext as MainViewModel)?.AyGünler).Refresh();
                 MainViewModel.xmlDataProvider.Refresh();
             }

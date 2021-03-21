@@ -305,7 +305,7 @@ namespace TwainControl
 
         public IList SeçiliResimler
         {
-            get { return seçiliresimler; }
+            get => seçiliresimler;
 
             set
             {

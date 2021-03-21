@@ -13,14 +13,14 @@ namespace Takvim
 
         public Visibility StayOpenCheckBoxVisibility
         {
-            get { return (Visibility)GetValue(StayOpenCheckBoxVisibilityProperty); }
-            set { SetValue(StayOpenCheckBoxVisibilityProperty, value); }
+            get => (Visibility)GetValue(StayOpenCheckBoxVisibilityProperty);
+            set => SetValue(StayOpenCheckBoxVisibilityProperty, value);
         }
 
         public bool StaysOpen
         {
-            get { return (bool)GetValue(StaysOpenProperty); }
-            set { SetValue(StaysOpenProperty, value); }
+            get => (bool)GetValue(StaysOpenProperty);
+            set => SetValue(StaysOpenProperty, value);
         }
 
         public object OverContent

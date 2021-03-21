@@ -390,6 +390,16 @@ namespace Takvim
                 verigirişwindow.MouseLeftButtonDown += (s, e) => verigirişwindow.DragMove();
                 verigirişwindow.ShowDialog();
             }, parameter => true);
+
+            PropertyChanged += Data_PropertyChanged;
+        }
+
+        private void Data_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName is "AyTekrar")
+            {
+                AyTekrarGun = AyTekrar ? DateTime.Now.Day : 0;
+            }
         }
 
         public string Ay

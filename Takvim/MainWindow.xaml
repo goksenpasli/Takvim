@@ -16,7 +16,7 @@
                 <ResourceDictionary Source="SliderResource.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <local:WrapPanelRatioConverter x:Key="WrapPanelRatioConverter" />
-            <CollectionViewSource x:Key="Cvs" Source="{StaticResource XmlData}">
+            <CollectionViewSource x:Key="Cvs" d:DesignSource="{d:DesignInstance Type=local:Data, CreateList=True}" Source="{StaticResource XmlData}">
                 <CollectionViewSource.SortDescriptions>
                     <scm:SortDescription Direction="Descending" PropertyName="Gun" />
                 </CollectionViewSource.SortDescriptions>
@@ -51,12 +51,17 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <TextBox Text="{Binding AramaMetin, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="0" />
             <Button Content="ARA"
                 Grid.Column="1"
                 Command="{Binding VeriAra, Mode=OneWay}"
                 CommandParameter="{Binding AramaMetin}" />
+            <CheckBox Grid.Column="2"
+                VerticalAlignment="Center"
+                IsChecked="{Binding TümKayıtlar, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                ToolTip="İşaretli İse Tüm Kayıtlarda Arama Yapılır. İşaretsiz İse Bugünden Sonraki Kayıtlarda Arama Yapılır." />
         </Grid>
         <TabControl Grid.Row="0" Grid.Column="0" Grid.RowSpan="2"
             SelectedIndex="{Binding VarsayılanTakvim, Mode=OneWay, Source={x:Static properties:Settings.Default}}">
@@ -106,7 +111,7 @@
                                         HorizontalAlignment="Right"
                                         Source="{Binding ConverterParameter=72, Converter={StaticResource Base64ImageConverter}, XPath=Resim}">
                                         <Image.InputBindings>
-                                            <MouseBinding Command="{Binding Tag.DosyaGör,  ElementName=Lb}" CommandParameter="{Binding Mode=OneWay}" Gesture="CTRL+LeftClick" />
+                                            <MouseBinding Command="{Binding Tag.DosyaGör, ElementName=Lb}" CommandParameter="{Binding Mode=OneWay}" Gesture="CTRL+LeftClick" />
                                         </Image.InputBindings>
                                         <Image.ToolTip>
                                             <ToolTip Template="{StaticResource GreenToolTipControlTemplate}">
@@ -164,7 +169,7 @@
                                 </CollectionViewSource>
                             </StackPanel.Resources>
                             <TextBlock Text="{Binding Zaman}" FontSize="18" />
-                            <TextBlock Text="{Binding ŞuAnkiGünVerisi.TamTarih, StringFormat=\{0:D\}}" FontWeight="Bold" TextDecorations="{x:Null}" />
+                            <TextBlock Text="{Binding ŞuAnkiGünVerisi.TamTarih, StringFormat=\{0:D\}}" FontWeight="Bold" />
                             <Separator Margin="0,5,0,2" />
                             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
                                 <Button Content="ç"
@@ -382,9 +387,9 @@
             </Grid.RowDefinitions>
             <GroupBox Grid.Row="0" Margin="2">
                 <GroupBox.Header>
-                    <Button Command="{Binding Tag.CsvDosyasınaYaz, Mode=OneWay,  ElementName=Lb}" CommandParameter="{Binding Günler}" Tag=".csv">
-                            <Image Width="24" Height="24" Source="{Binding Tag, Converter={StaticResource RegistryToIconConverter}, RelativeSource={RelativeSource AncestorType={x:Type Button}}}" />
-                        </Button>
+                    <Button Command="{Binding Tag.CsvDosyasınaYaz, Mode=OneWay, ElementName=Lb}" CommandParameter="{Binding Günler}" Tag=".csv">
+                        <Image Width="24" Height="24" Source="{Binding Tag, Converter={StaticResource RegistryToIconConverter}, RelativeSource={RelativeSource AncestorType={x:Type Button}}}" />
+                    </Button>
                 </GroupBox.Header>
                 <ListBox Background="Transparent"
                     ItemsSource="{Binding Mode=OneWay, Source={StaticResource Cvs}}"
@@ -392,11 +397,21 @@
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel>
-                                <TextBlock Margin="0,0,3,0">
-                                    <Hyperlink Command="{Binding Tag.DosyaGör,  ElementName=Lb}" CommandParameter="{Binding Mode=OneWay}" Cursor="Hand">
-                                        <Run Text="DOSYA AÇ" />
-                                    </Hyperlink>
-                                </TextBlock>
+                                <StackPanel Orientation="Horizontal">
+                                    <Canvas Width="18" Height="18"
+                                        Background="Transparent"
+                                        HorizontalAlignment="Left" VerticalAlignment="Top"
+                                        Style="{StaticResource CanvasDragStyle}">
+                                        <TextBlock x:Name="Tb"
+                                            Text="B"
+                                            FontSize="18" FontFamily="Wingdings" FontWeight="Bold" />
+                                    </Canvas>
+                                    <TextBlock Margin="0,0,3,0">
+                                        <Hyperlink Command="{Binding Tag.DosyaGör, ElementName=Lb}" CommandParameter="{Binding Mode=OneWay}" Cursor="Hand">
+                                            <Run Text="DOSYA AÇ" />
+                                        </Hyperlink>
+                                    </TextBlock>
+                                </StackPanel>
                                 <TextBlock Width="100" TextWrapping="Wrap">
                                     <Hyperlink Command="{Binding DataContext.YılaGit, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="{Binding Mode=OneWay, XPath=Gun}">
                                         <Run Text="{Binding Converter={StaticResource XmlDateConverter}, StringFormat=\{0:dd/MM/yyyy\}, XPath=Gun}" />
@@ -427,7 +442,7 @@
                                                     <StackPanel Orientation="Horizontal">
                                                         <Image Width="24" Height="24" Source="{Binding Converter={StaticResource FilePathToIconConverter}, XPath=@Yol}" />
                                                         <TextBlock VerticalAlignment="Center">
-                                                            <Hyperlink Command="{Binding Tag.EkDosyaAç, Mode=OneWay,  ElementName=Lb}" CommandParameter="{Binding XPath=@Yol}">
+                                                            <Hyperlink Command="{Binding Tag.EkDosyaAç, Mode=OneWay, ElementName=Lb}" CommandParameter="{Binding XPath=@Yol}">
                                                                 <Run Text="{Binding XPath=@Ad}" />
                                                             </Hyperlink>
                                                         </TextBlock>
@@ -446,7 +461,7 @@
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding XPath=@Onemli}" Value="true">
                                     <Setter Property="Background" Value="Red" />
-                                </DataTrigger>                      
+                                </DataTrigger>
                             </Style.Triggers>
                         </Style>
                     </ListBox.ItemContainerStyle>

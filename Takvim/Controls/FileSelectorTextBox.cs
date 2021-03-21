@@ -24,14 +24,14 @@ namespace Takvim
 
         public ObservableCollection<string> Dosyalar
         {
-            get { return (ObservableCollection<string>)GetValue(DosyalarProperty); }
-            set { SetValue(DosyalarProperty, value); }
+            get => (ObservableCollection<string>)GetValue(DosyalarProperty);
+            set => SetValue(DosyalarProperty, value);
         }
 
         public Visibility FileListPanelVisibility
         {
-            get { return (Visibility)GetValue(FileListPanelVisibilityProperty); }
-            set { SetValue(FileListPanelVisibilityProperty, value); }
+            get => (Visibility)GetValue(FileListPanelVisibilityProperty);
+            set => SetValue(FileListPanelVisibilityProperty, value);
         }
 
         public string FilePath

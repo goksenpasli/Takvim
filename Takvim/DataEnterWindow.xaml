@@ -5,15 +5,12 @@
     xmlns:TwainControl="clr-namespace:TwainControl;assembly=TwainControl"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:Takvim"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:system="clr-namespace:System;assembly=mscorlib"
     Margin="2"
     d:DataContext="{d:DesignInstance Type={x:Type local:Data}}"
     d:DesignHeight="300" d:DesignWidth="500" Loaded="UserControl_Loaded" Unloaded="UserControl_Unloaded"
     UseLayoutRounding="True"
     mc:Ignorable="d">
     <UserControl.Resources>
-        <local:StringNullableToBooleanConverter x:Key="StringNullableToBooleanConverter" />
-        <local:NullableToBooleanConverter x:Key="NullableToBooleanConverter" />
         <CollectionViewSource x:Key="FilteredCvs" d:DesignSource="{d:DesignInstance {x:Type local:Data}, CreateList=True}" Source="{StaticResource XmlData}" />
         <Storyboard x:Key="Grow">
             <DoubleAnimation BeginTime="0:0:0"

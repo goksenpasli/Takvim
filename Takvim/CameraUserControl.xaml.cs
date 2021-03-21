@@ -58,7 +58,7 @@ namespace Takvim
 
         public FilterInfo SeçiliKamera
         {
-            get { return seçiliKamera; }
+            get => seçiliKamera;
 
             set
             {

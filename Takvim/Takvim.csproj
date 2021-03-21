@@ -120,6 +120,8 @@
     <Compile Include="Controls\MaskedTextBox.cs" />
     <Compile Include="Converters\NullableToBooleanConverter.cs" />
     <Compile Include="Controls\MovableControl.cs" />
+    <Compile Include="MultipleImage.cs" />
+    <Compile Include="MultipleImageViewer.cs" />
     <Compile Include="Ocr.cs" />
     <Compile Include="Converters\RamadanDateToHolidayConverter.cs" />
     <Compile Include="Converters\RamadanDateToVisibilityConverter.cs" />

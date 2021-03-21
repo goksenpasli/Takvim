@@ -11,6 +11,9 @@
     Closing="Window_Closing" ShowInTaskbar="True" UseLayoutRounding="True" WindowStartupLocation="CenterScreen"
     WindowState="Maximized"
     mc:Ignorable="d">
+    <Window.Resources>
+        <local:MultipleImageViewer x:Key="MultipleImageViewer" />
+    </Window.Resources>
     <Grid>
         <TabControl SelectedIndex="{Binding Index}">
             <TabItem Header="RESİM">
@@ -64,6 +67,42 @@
             </TabItem>
             <TabItem Header="PDF">
                 <GpMoonPdfViewer:MoonPdfViewer Grid.Column="1" PdfData="{Binding DataContext.PdfData, ElementName=Window}" />
+            </TabItem>
+            <TabItem Header="RESİMLER">
+                <Grid>
+                    <ListBox DataContext="{StaticResource MultipleImageViewer}"
+                        ItemsSource="{Binding TopluDosyalar}"
+                        d:DataContext="{d:DesignInstance Type=local:MultipleImageViewer}"
+                        VirtualizingStackPanel.VirtualizationMode="Recycling">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Border BorderBrush="Blue" BorderThickness="1">
+                                    <StackPanel>
+                                        <UniformGrid Width="144" Columns="2">
+                                            <Slider Maximum="10" Minimum="0.25" Value="{Binding Zoom}" />
+                                            <Slider Maximum="360" Minimum="0" Value="{Binding Angle}" />
+                                        </UniformGrid>
+                                        <Image Width="144" Height="176"
+                                        RenderTransformOrigin="0.5,0.5"
+                                        Source="{Binding Path=Resim, ConverterParameter=144, Converter={StaticResource Base64ImageConverter}, Mode=OneWay}">
+                                            <Image.LayoutTransform>
+                                                <TransformGroup ice:Freeze="True">
+                                                    <ScaleTransform ice:Freeze="True" ScaleX="{Binding Zoom}" ScaleY="{Binding Zoom}" />
+                                                    <RotateTransform ice:Freeze="True" Angle="{Binding Angle}" />
+                                                </TransformGroup>
+                                            </Image.LayoutTransform>
+                                        </Image>
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <local:VirtualizingWrapPanel ItemHeight="200" ItemWidth="200" />
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                    </ListBox>
+                </Grid>
             </TabItem>
         </TabControl>
     </Grid>

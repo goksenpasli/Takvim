@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Drawing;
 using System.Globalization;
-using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -10,9 +8,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Xml;
-using PdfSharp.Drawing;
-using PdfSharp.Pdf;
-using PdfSharp.Pdf.IO;
 
 namespace Takvim
 {
@@ -68,7 +63,7 @@ namespace Takvim
             PdfData = (byte[])new Base64Converter().Convert(xmldata["Pdf"]?.InnerText, null, null, CultureInfo.CurrentCulture);
             Resim = (BitmapSource)new Base64ImageConverter().Convert(xmldata["Resim"]?.InnerText, null, null, CultureInfo.CurrentCulture);
             OcrMetin = xmldata.GetAttribute("Ocr");
-            
+
             if (PdfData is null && Resim is not null)
             {
                 Index = 0;

@@ -13,7 +13,6 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
-using System.Xaml;
 using System.Xml;
 using System.Xml.Linq;
 using Microsoft.Win32;
@@ -74,6 +73,8 @@ namespace Takvim
         private ObservableCollection<Data> üçAylıkGünler;
 
         private Data şuAnkiGünVerisi;
+
+        private bool tümkayıtlar = true;
 
         public MainViewModel()
         {
@@ -155,7 +156,23 @@ namespace Takvim
                 }
             }, parameter => true);
 
-            VeriAra = new RelayCommand<object>(parameter => Cvs.Filter += (s, e) => e.Accepted = (e.Item as XmlNode)?["Aciklama"]?.InnerText.Contains(AramaMetin) == true || (e.Item as XmlNode)?.Attributes.GetNamedItem("Ocr")?.InnerText.Contains(AramaMetin, StringComparison.OrdinalIgnoreCase) == true, parameter => !string.IsNullOrWhiteSpace(AramaMetin));
+            VeriAra = new RelayCommand<object>(parameter =>
+            {
+                Cvs.Filter += (s, e) =>
+                {
+                    if (e.Item is XmlNode node)
+                    {
+                        if (TümKayıtlar)
+                        {
+                            e.Accepted = node?["Aciklama"]?.InnerText.Contains(AramaMetin) == true || (e.Item as XmlNode)?.Attributes.GetNamedItem("Ocr")?.InnerText.Contains(AramaMetin, StringComparison.OrdinalIgnoreCase) == true;
+                        }
+                        else
+                        {
+                            e.Accepted = DateTime.Parse(node?["Gun"]?.InnerText) > DateTime.Today && node?["Aciklama"]?.InnerText.Contains(AramaMetin) == true || (e.Item as XmlNode)?.Attributes.GetNamedItem("Ocr")?.InnerText.Contains(AramaMetin, StringComparison.OrdinalIgnoreCase) == true;
+                        }
+                    }
+                };
+            }, parameter => !string.IsNullOrWhiteSpace(AramaMetin));
 
             Hakkında = new RelayCommand<object>(parameter => Process.Start("https://github.com/goksenpasli"), parameter => true);
 
@@ -211,6 +228,20 @@ namespace Takvim
                 {
                     aramaMetin = value;
                     OnPropertyChanged(nameof(AramaMetin));
+                }
+            }
+        }
+
+        public bool TümKayıtlar
+        {
+            get => tümkayıtlar;
+
+            set
+            {
+                if (tümkayıtlar != value)
+                {
+                    tümkayıtlar = value;
+                    OnPropertyChanged(nameof(TümKayıtlar));
                 }
             }
         }
@@ -329,7 +360,7 @@ namespace Takvim
 
         public Data ŞuAnkiGünVerisi
         {
-            get { return şuAnkiGünVerisi; }
+            get => şuAnkiGünVerisi;
 
             set
             {
