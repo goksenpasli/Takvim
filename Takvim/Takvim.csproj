@@ -95,6 +95,7 @@
     <Compile Include="Converters\DatePassedBooleanConverter.cs" />
     <Compile Include="Converters\MonthToColorConverter.cs" />
     <Compile Include="Converters\RegistryToIconConverter.cs" />
+    <Compile Include="ShadowedImage.cs" />
     <Compile Include="Converters\Shell32FileIconConverter.cs" />
     <Compile Include="Converters\StringNullableToBooleanConverter.cs" />
     <Compile Include="Converters\WrapPanelRatioConverter.cs" />

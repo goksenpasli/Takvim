@@ -106,19 +106,20 @@
                                             <Run Text="{Binding XPath=Aciklama}" />
                                         </TextBlock>
                                     </ScrollViewer>
-                                    <Image Grid.Column="1"
+                                    <local:ShadowedImage Grid.Column="1"
                                         Width="72" Height="72"
                                         HorizontalAlignment="Right"
+                                        ShowShadow="True"
                                         Source="{Binding ConverterParameter=72, Converter={StaticResource Base64ImageConverter}, XPath=Resim}">
-                                        <Image.InputBindings>
+                                        <local:ShadowedImage.InputBindings>
                                             <MouseBinding Command="{Binding Tag.DosyaGör, ElementName=Lb}" CommandParameter="{Binding Mode=OneWay}" Gesture="CTRL+LeftClick" />
-                                        </Image.InputBindings>
-                                        <Image.ToolTip>
+                                        </local:ShadowedImage.InputBindings>
+                                        <local:ShadowedImage.ToolTip>
                                             <ToolTip Template="{StaticResource GreenToolTipControlTemplate}">
                                                 <Image Source="{Binding ConverterParameter=600, Converter={StaticResource Base64ImageConverter}, XPath=Resim}" />
                                             </ToolTip>
-                                        </Image.ToolTip>
-                                    </Image>
+                                        </local:ShadowedImage.ToolTip>
+                                    </local:ShadowedImage>
                                     <Canvas Width="18" Height="18"
                                         Background="Transparent"
                                         HorizontalAlignment="Left" VerticalAlignment="Top"

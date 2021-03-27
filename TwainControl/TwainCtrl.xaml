@@ -47,17 +47,18 @@
                         <CheckBox Content="HER SAYFAYI AYRI TARA" IsChecked="{Binding SeperateSave}" ToolTip="Her Sayfayı Ayrı Dosyaya Kaydet Dosyalar Resimlerim Klasörüne Kaydedilir." />
                         <UniformGrid Columns="2">
                             <Button Content="TARA" Command="{Binding ScanImage}" />
-                            <Button Content="PDF AKTAR" Command="{Binding PdfAktar}" CommandParameter="{Binding SeçiliResimler}"/>
+                            <Button Content="PDF AKTAR" Command="{Binding PdfAktar}" CommandParameter="{Binding SeçiliResimler}" />
                         </UniformGrid>
                     </UniformGrid>
                 </GroupBox>
                 <ListBox x:Name="LbResimler"
                     Grid.Row="2"
                     ItemsSource="{Binding Resimler, Mode=OneWay}"
+                    d:DataContext="{d:DesignInstance Type=local:TwainCtrl}"
                     local:ListBoxHelper.SelectedItems="{Binding SeçiliResimler}"
                     SelectionMode="Extended">
                     <ListBox.ItemTemplate>
-                        <DataTemplate DataType="{x:Type BitmapFrame}">
+                        <DataTemplate>
                             <StackPanel>
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock>

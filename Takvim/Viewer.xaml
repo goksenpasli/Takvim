@@ -82,16 +82,16 @@
                                             <Slider Maximum="10" Minimum="0.25" Value="{Binding Zoom}" />
                                             <Slider Maximum="360" Minimum="0" Value="{Binding Angle}" />
                                         </UniformGrid>
-                                        <Image Width="144" Height="176"
-                                        RenderTransformOrigin="0.5,0.5"
-                                        Source="{Binding Path=Resim, ConverterParameter=144, Converter={StaticResource Base64ImageConverter}, Mode=OneWay}">
+                                        <local:ShadowedImage Width="144" Height="176"
+                                            RenderTransformOrigin="0.5,0.5" ShowShadow="True"
+                                            Source="{Binding Path=Resim, ConverterParameter=144, Converter={StaticResource Base64ImageConverter}, Mode=OneWay}">
                                             <Image.LayoutTransform>
                                                 <TransformGroup ice:Freeze="True">
                                                     <ScaleTransform ice:Freeze="True" ScaleX="{Binding Zoom}" ScaleY="{Binding Zoom}" />
                                                     <RotateTransform ice:Freeze="True" Angle="{Binding Angle}" />
                                                 </TransformGroup>
                                             </Image.LayoutTransform>
-                                        </Image>
+                                        </local:ShadowedImage>
                                     </StackPanel>
                                 </Border>
                             </DataTemplate>

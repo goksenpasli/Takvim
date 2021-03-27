@@ -542,7 +542,7 @@ namespace Takvim
                 {
                     TamTarih = DateTime.Today
                 };
-                data.VeriEkleEkranı.Execute(null);
+                data.VeriEkleEkranı.Execute(data);
             };
 
             AppNotifyIcon.Click += (s, e) =>

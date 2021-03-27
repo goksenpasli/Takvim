@@ -131,7 +131,7 @@
                                 Width="47"
                                 AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" Maximum="31" Minimum="1"
                                 SmallChange="1" ToolTip="AYIN KAÇINCI GÜNÜ TEKRAR EDİLECEK"
-                                Value="{Binding AyTekrarGun, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
+                                Value="{Binding AyTekrarGun, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         </StackPanel>
                     </CheckBox>
                     <CheckBox Content="KİLİTLİ Mİ"
