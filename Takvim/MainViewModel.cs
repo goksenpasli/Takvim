@@ -709,7 +709,7 @@ namespace Takvim
                 foreach (XmlNode xmlnode in xmlNodeCollection)
                 {
                     _ = DateTime.TryParseExact(xmlnode.Attributes.GetNamedItem("SaatBaslangic").Value, "H:m", new CultureInfo("tr-TR"), DateTimeStyles.None, out DateTime saat);
-                    bool yaklaşanetkinlik = saat > DateTime.Now && saat.AddHours(-Properties.Settings.Default.UyarıSaatSüresi) < DateTime.Now && xmlnode.Attributes.GetNamedItem("Okundu")?.Value != "true";
+                    bool yaklaşanetkinlik = DateTime.Today.Day == DateTime.Parse(xmlnode["Gun"]?.InnerText).Day && saat > DateTime.Now && saat.AddHours(-Properties.Settings.Default.UyarıSaatSüresi) < DateTime.Now && xmlnode.Attributes.GetNamedItem("Okundu")?.Value != "true";
                     bool tekraretkinlik = DateTime.Today.Day == DateTime.Parse(xmlnode["Gun"]?.InnerText).Day && xmlnode.Attributes.GetNamedItem("AyTekrar")?.Value == "true" && saat > DateTime.Now && saat.AddHours(-Properties.Settings.Default.UyarıSaatSüresi) < DateTime.Now;
                     if (yaklaşanetkinlik || tekraretkinlik)
                     {

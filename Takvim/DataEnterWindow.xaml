@@ -136,7 +136,7 @@
                     </CheckBox>
                     <CheckBox Content="KİLİTLİ Mİ"
                         VerticalAlignment="Center"
-                        IsChecked="{Binding KilitliMi}"
+                        IsChecked="{Binding KilitliMi, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
                         ToolTip="BU İŞARETLENİRSE TARİH KİLİTLENİR TAŞIMA YAPILMAZ" />
                     <ComboBox ItemsSource="{Binding Source={StaticResource Renkler}}"
                         ItemContainerStyle="{StaticResource ComboBoxItemContainerStyle}"
@@ -144,7 +144,7 @@
                         ItemsPanel="{StaticResource CbItemsPanelTemplate}"
                         ScrollViewer.VerticalScrollBarVisibility="Disabled"
                         SelectedValue="{Binding VeriRenk, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                        SelectedValuePath="Name" ToolTip="Veri Renk"
+                        SelectedValuePath="Name"
                         Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
                 </UniformGrid>
                 <Slider Grid.Row="4" Grid.ColumnSpan="2"

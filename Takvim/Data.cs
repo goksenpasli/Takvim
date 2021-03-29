@@ -215,9 +215,8 @@ namespace Takvim
 
             PencereKapat = new RelayCommand<object>(parameter =>
             {
-                if (parameter is FrameworkElement userControl)
+                if (parameter is FrameworkElement userControl && userControl.TryFindResource("Shrink") is Storyboard storyboard)
                 {
-                    Storyboard storyboard = userControl.TryFindResource("Shrink") as Storyboard;
                     Window window = Window.GetWindow(userControl);
                     bool windowclosed = false;
 

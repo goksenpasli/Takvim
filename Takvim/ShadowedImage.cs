@@ -19,11 +19,13 @@ namespace Takvim
         }
         public static readonly DependencyProperty ShowShadowProperty = DependencyProperty.Register("ShowShadow", typeof(bool), typeof(ShadowedImage), new PropertyMetadata(false));
 
+        private static readonly SolidColorBrush brush = new(Color.FromArgb(70, 128, 128, 128));
+
         protected override void OnRender(DrawingContext dc)
         {
             if (ShowShadow)
             {
-                dc.DrawRectangle(new SolidColorBrush(Color.FromArgb(70, 128, 128, 128)), null, new Rect(new Point(2.5, 2.5), new Size(ActualWidth, ActualHeight)));
+                dc.DrawRectangle(brush, null, new Rect(new Point(2.5, 2.5), new Size(ActualWidth, ActualHeight)));
             }
             base.OnRender(dc);
         }

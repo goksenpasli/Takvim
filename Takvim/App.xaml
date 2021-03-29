@@ -714,7 +714,7 @@
                                 FontSize="18" FontFamily="Wingdings" FontWeight="Bold" />
                         </Canvas>
                         <TextBlock FontSize="12" FontFamily="Segoe UI Black">
-                            <Hyperlink x:Name="Hyp" Command="{Binding DataContext.XmlVeriSil, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding XPath=@Id}">
+                            <Hyperlink x:Name="Hyp" Command="{Binding DataContext.XmlVeriSil, RelativeSource={RelativeSource AncestorType=Grid}}" CommandParameter="{Binding XPath=@Id}">
                                 <Run Text="X" />
                             </Hyperlink>
                         </TextBlock>

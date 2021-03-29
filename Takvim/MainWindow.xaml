@@ -190,32 +190,64 @@
                                 Tag="{Binding ŞuAnkiGünVerisi}">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
-                                        <Border Width="32" Height="32"
-                                            Background="{Binding TamTarih.Month, Converter={StaticResource MonthToColorConverter}, Mode=OneWay}"
-                                            BorderThickness="2"
-                                            local:MovableControl.MoveData="True"
-                                            local:MovableControl.PlacedData="{Binding}"
-                                            AllowDrop="True">
-                                            <Border.InputBindings>
-                                                <MouseBinding Command="{Binding VeriEkleEkranı, Mode=OneWay}" CommandParameter="{Binding Mode=OneWay}" MouseAction="LeftClick" />
-                                            </Border.InputBindings>
-                                            <TextBlock FontSize="11">
-                                                <Run Text="{Binding Gün}" />
-                                                <Run FontSize="8" FontWeight="Bold" Style="{StaticResource RunItemCountStyle}" />
-                                                <LineBreak />
-                                                <Run Text="{Binding GünAdı}" />
-                                            </TextBlock>
-                                            <Border.Style>
-                                                <Style TargetType="Border">
-                                                    <Setter Property="BorderBrush" Value="Black" />
-                                                    <Style.Triggers>
-                                                        <Trigger Property="IsMouseOver" Value="True">
-                                                            <Setter Property="BorderBrush" Value="Cyan" />
-                                                        </Trigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </Border.Style>
-                                        </Border>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Border Width="32" Height="32"
+                                                Background="{Binding TamTarih.Month, Converter={StaticResource MonthToColorConverter}, Mode=OneWay}"
+                                                BorderThickness="2"
+                                                local:MovableControl.MoveData="True"
+                                                local:MovableControl.PlacedData="{Binding}"
+                                                AllowDrop="True">
+                                                <Border.InputBindings>
+                                                    <MouseBinding Command="{Binding VeriEkleEkranı, Mode=OneWay}" CommandParameter="{Binding Mode=OneWay}" MouseAction="LeftClick" />
+                                                </Border.InputBindings>
+                                                <TextBlock FontSize="11">
+                                                    <Run Text="{Binding Gün}" />
+                                                    <Run FontSize="8" FontWeight="Bold" Style="{StaticResource RunItemCountStyle}">
+                                                        <Run.ToolTip>
+                                                            <ToolTip Template="{StaticResource GreenToolTipControlTemplate}">
+                                                                <ListBox ItemsSource="{Binding Converter={StaticResource SelectedDateToDataListConverter}, Mode=OneWay}" ItemContainerStyle="{StaticResource ListBoxToolTipItemContainerStyle}">
+                                                                    <ListBox.ItemTemplate>
+                                                                        <DataTemplate>
+                                                                            <TextBlock Text="{Binding XPath=Aciklama}" />
+                                                                        </DataTemplate>
+                                                                    </ListBox.ItemTemplate>
+                                                                </ListBox>
+                                                            </ToolTip>
+                                                        </Run.ToolTip>
+                                                    </Run>
+                                                    <LineBreak />
+                                                    <Run Text="{Binding GünAdı}" />
+                                                </TextBlock>
+                                                <Border.Style>
+                                                    <Style TargetType="Border">
+                                                        <Setter Property="BorderBrush" Value="Black" />
+                                                        <Style.Triggers>
+                                                            <Trigger Property="IsMouseOver" Value="True">
+                                                                <Setter Property="BorderBrush" Value="Cyan" />
+                                                            </Trigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Border.Style>
+                                            </Border>
+                                            <local:ContentToggleButton>
+                                                <local:ContentToggleButton.OverContent>
+                                                    <Path HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                        Data="{StaticResource ArrowGeometry}"
+                                                        Fill="Black" />
+                                                </local:ContentToggleButton.OverContent>
+                                                <ListBox ItemsSource="{Binding Converter={StaticResource SelectedDateToDataListConverter}, Mode=OneWay}"
+                                                    IsSynchronizedWithCurrentItem="False"
+                                                    ItemContainerStyle="{StaticResource GünListBoxItemContainerStyle}"
+                                                    ItemTemplate="{StaticResource ListBoxEditDataTemplate}"
+                                                    VirtualizingStackPanel.VirtualizationMode="Recycling">
+                                                    <ListBox.ItemsPanel>
+                                                        <ItemsPanelTemplate>
+                                                            <local:VirtualizingWrapPanel Width="500" Height="300" />
+                                                        </ItemsPanelTemplate>
+                                                    </ListBox.ItemsPanel>
+                                                </ListBox>
+                                            </local:ContentToggleButton>
+                                        </StackPanel>
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
                                 <ListBox.ItemsPanel>
@@ -327,9 +359,9 @@
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
                     <Slider Grid.Row="0" Grid.Column="0"
+                        Style="{StaticResource SliderStyle}"
                         IsDirectionReversed="True" IsSnapToTickEnabled="True" IsTabStop="False" Maximum="12"
                         Minimum="1" Orientation="Vertical"
-                        Style="{StaticResource SliderStyle}"
                         Value="{Binding SatırSayısı}" />
                     <Button Content="R"
                         Grid.Row="1" Grid.Column="0"
@@ -375,8 +407,8 @@
                     </ListBox>
                     <Slider Grid.Row="2" Grid.Column="2"
                         VerticalAlignment="Center"
-                        IsSnapToTickEnabled="True" IsTabStop="False" Maximum="12" Minimum="1"
                         Style="{StaticResource SliderStyle}"
+                        IsSnapToTickEnabled="True" IsTabStop="False" Maximum="12" Minimum="1"
                         Value="{Binding SütünSayısı}" />
                 </Grid>
             </TabItem>
@@ -489,11 +521,11 @@
                             <Setter Property="SelectedValuePath" Value="Name" />
                         </Style>
                     </UniformGrid.Resources>
-                    <ComboBox SelectedValue="{Binding SeçiliRenkCmt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource CbColorBaseStyle}" ToolTip="Cumartesi Renk" />
-                    <ComboBox SelectedValue="{Binding SeçiliRenkPaz, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource CbColorBaseStyle}" ToolTip="Pazar Renk" />
-                    <ComboBox SelectedValue="{Binding ResmiTatilRenk, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource CbColorBaseStyle}" ToolTip="Resmi Tatil Renk" />
-                    <ComboBox SelectedValue="{Binding GövdeRenk, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource CbColorBaseStyle}" ToolTip="Gövde Renk" />
-                    <ComboBox SelectedValue="{Binding BayramTatilRenk, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource CbColorBaseStyle}" ToolTip="Bayram Renk" />
+                    <ComboBox Style="{StaticResource CbColorBaseStyle}" SelectedValue="{Binding SeçiliRenkCmt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ToolTip="Cumartesi Renk" />
+                    <ComboBox Style="{StaticResource CbColorBaseStyle}" SelectedValue="{Binding SeçiliRenkPaz, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ToolTip="Pazar Renk" />
+                    <ComboBox Style="{StaticResource CbColorBaseStyle}" SelectedValue="{Binding ResmiTatilRenk, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ToolTip="Resmi Tatil Renk" />
+                    <ComboBox Style="{StaticResource CbColorBaseStyle}" SelectedValue="{Binding GövdeRenk, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ToolTip="Gövde Renk" />
+                    <ComboBox Style="{StaticResource CbColorBaseStyle}" SelectedValue="{Binding BayramTatilRenk, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ToolTip="Bayram Renk" />
                     <ComboBox SelectedIndex="{Binding VarsayılanTakvim, Mode=TwoWay, Source={x:Static properties:Settings.Default}}" ToolTip="Varsayılan Takvim Görünümü">
                         <ComboBoxItem Content="BUGÜN" />
                         <ComboBoxItem Content="AY" />
