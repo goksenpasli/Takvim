@@ -261,7 +261,6 @@ namespace Takvim
             {
                 bitmapsource.Freeze();
             }
-            GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced);
             return bitmapsource;
         }
 

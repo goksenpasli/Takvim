@@ -78,20 +78,21 @@
                             <DataTemplate>
                                 <Border BorderBrush="Blue" BorderThickness="1">
                                     <StackPanel>
-                                        <UniformGrid Width="144" Columns="2">
+                                        <UniformGrid Columns="2">
                                             <Slider Maximum="10" Minimum="0.25" Value="{Binding Zoom}" />
                                             <Slider Maximum="360" Minimum="0" Value="{Binding Angle}" />
                                         </UniformGrid>
-                                        <local:ShadowedImage Width="144" Height="176"
-                                            RenderTransformOrigin="0.5,0.5" ShowShadow="True"
-                                            Source="{Binding Path=Resim, ConverterParameter=144, Converter={StaticResource Base64ImageConverter}, Mode=OneWay}">
-                                            <Image.LayoutTransform>
-                                                <TransformGroup ice:Freeze="True">
-                                                    <ScaleTransform ice:Freeze="True" ScaleX="{Binding Zoom}" ScaleY="{Binding Zoom}" />
-                                                    <RotateTransform ice:Freeze="True" Angle="{Binding Angle}" />
-                                                </TransformGroup>
-                                            </Image.LayoutTransform>
-                                        </local:ShadowedImage>
+                                        <ScrollViewer Width="144" Height="176"
+                                            HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                                            <local:ShadowedImage RenderTransformOrigin="0.5,0.5" ShowShadow="True" Source="{Binding Path=Resim, ConverterParameter=176, Converter={StaticResource Base64ImageConverter}, IsAsync=True, Mode=OneWay}">
+                                                <Image.LayoutTransform>
+                                                    <TransformGroup ice:Freeze="True">
+                                                        <ScaleTransform ice:Freeze="True" ScaleX="{Binding Zoom}" ScaleY="{Binding Zoom}" />
+                                                        <RotateTransform ice:Freeze="True" Angle="{Binding Angle}" />
+                                                    </TransformGroup>
+                                                </Image.LayoutTransform>
+                                            </local:ShadowedImage>
+                                        </ScrollViewer>
                                     </StackPanel>
                                 </Border>
                             </DataTemplate>

@@ -110,7 +110,7 @@
                                         Width="72" Height="72"
                                         HorizontalAlignment="Right"
                                         ShowShadow="True"
-                                        Source="{Binding ConverterParameter=72, Converter={StaticResource Base64ImageConverter}, XPath=Resim}">
+                                        Source="{Binding ConverterParameter=72, Converter={StaticResource Base64ImageConverter}, IsAsync=True, XPath=Resim}">
                                         <local:ShadowedImage.InputBindings>
                                             <MouseBinding Command="{Binding Tag.DosyaGör, ElementName=Lb}" CommandParameter="{Binding Mode=OneWay}" Gesture="CTRL+LeftClick" />
                                         </local:ShadowedImage.InputBindings>
