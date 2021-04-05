@@ -14,8 +14,8 @@ namespace Takvim
     {
         public bool ShowShadow
         {
-            get { return (bool)GetValue(ShowShadowProperty); }
-            set { SetValue(ShowShadowProperty, value); }
+            get => (bool)GetValue(ShowShadowProperty);
+            set => SetValue(ShowShadowProperty, value);
         }
         public static readonly DependencyProperty ShowShadowProperty = DependencyProperty.Register("ShowShadow", typeof(bool), typeof(ShadowedImage), new PropertyMetadata(false));
 

@@ -3,7 +3,7 @@ using PdfSharp.Windows;
 
 namespace Takvim
 {
-    public class MultipleImage : InpcBase
+    public class MultipleImage : Data
     {
         private double angle;
         private double zoom = 1;

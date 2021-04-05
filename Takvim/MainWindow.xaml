@@ -107,10 +107,10 @@
                                         </TextBlock>
                                     </ScrollViewer>
                                     <local:ShadowedImage Grid.Column="1"
-                                        Width="72" Height="72"
+                                        Width="128" Height="128"
                                         HorizontalAlignment="Right"
                                         ShowShadow="True"
-                                        Source="{Binding ConverterParameter=72, Converter={StaticResource Base64ImageConverter}, IsAsync=True, XPath=Resim}">
+                                        Source="{Binding ConverterParameter=128, Converter={StaticResource Base64ImageConverter}, IsAsync=True, XPath=Resim}">
                                         <local:ShadowedImage.InputBindings>
                                             <MouseBinding Command="{Binding Tag.DosyaGör, ElementName=Lb}" CommandParameter="{Binding Mode=OneWay}" Gesture="CTRL+LeftClick" />
                                         </local:ShadowedImage.InputBindings>
@@ -184,59 +184,59 @@
                                     FontFamily="Wingdings"
                                     ToolTip="SONRAKİ AY" />
                             </StackPanel>
-                            <ListBox x:Name="Lb"
-                                ItemsSource="{Binding Mode=OneWay, Source={StaticResource ÜçAylıkGünler}}"
-                                IsSynchronizedWithCurrentItem="False"
-                                Tag="{Binding ŞuAnkiGünVerisi}">
-                                <ListBox.ItemTemplate>
+                            <ItemsControl x:Name="Lb" ItemsSource="{Binding Mode=OneWay, Source={StaticResource ÜçAylıkGünler}}" Tag="{Binding ŞuAnkiGünVerisi}">
+                                <ItemsControl.Template>
+                                    <ControlTemplate TargetType="ItemsControl">
+                                        <ScrollViewer Padding="{TemplateBinding Padding}"
+                                            CanContentScroll="True" Focusable="False" VerticalScrollBarVisibility="Auto">
+                                            <ItemsPresenter />
+                                        </ScrollViewer>
+                                    </ControlTemplate>
+                                </ItemsControl.Template>
+                                <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <StackPanel Orientation="Horizontal">
-                                            <Border Width="32" Height="32"
-                                                Background="{Binding TamTarih.Month, Converter={StaticResource MonthToColorConverter}, Mode=OneWay}"
-                                                BorderThickness="2"
-                                                local:MovableControl.MoveData="True"
-                                                local:MovableControl.PlacedData="{Binding}"
-                                                AllowDrop="True">
-                                                <Border.InputBindings>
-                                                    <MouseBinding Command="{Binding VeriEkleEkranı, Mode=OneWay}" CommandParameter="{Binding Mode=OneWay}" MouseAction="LeftClick" />
-                                                </Border.InputBindings>
-                                                <TextBlock FontSize="11">
-                                                    <Run Text="{Binding Gün}" />
-                                                    <Run FontSize="8" FontWeight="Bold" Style="{StaticResource RunItemCountStyle}">
-                                                        <Run.ToolTip>
-                                                            <ToolTip Template="{StaticResource GreenToolTipControlTemplate}">
-                                                                <ListBox ItemsSource="{Binding Converter={StaticResource SelectedDateToDataListConverter}, Mode=OneWay}" ItemContainerStyle="{StaticResource ListBoxToolTipItemContainerStyle}">
-                                                                    <ListBox.ItemTemplate>
-                                                                        <DataTemplate>
-                                                                            <TextBlock Text="{Binding XPath=Aciklama}" />
-                                                                        </DataTemplate>
-                                                                    </ListBox.ItemTemplate>
-                                                                </ListBox>
-                                                            </ToolTip>
-                                                        </Run.ToolTip>
-                                                    </Run>
-                                                    <LineBreak />
-                                                    <Run Text="{Binding GünAdı}" />
-                                                </TextBlock>
-                                                <Border.Style>
-                                                    <Style TargetType="Border">
-                                                        <Setter Property="BorderBrush" Value="Black" />
-                                                        <Style.Triggers>
-                                                            <Trigger Property="IsMouseOver" Value="True">
-                                                                <Setter Property="BorderBrush" Value="Cyan" />
-                                                            </Trigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </Border.Style>
-                                            </Border>
-                                            <local:ContentToggleButton>
-                                                <local:ContentToggleButton.OverContent>
-                                                    <Path HorizontalAlignment="Center" VerticalAlignment="Center"
-                                                        Data="{StaticResource ArrowGeometry}"
-                                                        Fill="Black" />
-                                                </local:ContentToggleButton.OverContent>
+                                        <local:SplitButton>
+                                            <local:SplitButton.Content>
+                                                <Border Width="32" Height="32"
+                                                    Background="{Binding TamTarih.Month, Converter={StaticResource MonthToColorConverter}, Mode=OneWay}"
+                                                    local:MovableControl.MoveData="True"
+                                                    local:MovableControl.PlacedData="{Binding}"
+                                                    AllowDrop="True">
+                                                    <Border.InputBindings>
+                                                        <MouseBinding Command="{Binding VeriEkleEkranı, Mode=OneWay}" CommandParameter="{Binding Mode=OneWay}" MouseAction="LeftClick" />
+                                                    </Border.InputBindings>
+                                                    <TextBlock FontSize="11">
+                                                        <Run Text="{Binding Gün}" />
+                                                        <Run FontSize="8" FontWeight="Bold" Style="{StaticResource RunItemCountStyle}">
+                                                            <Run.ToolTip>
+                                                                <ToolTip Template="{StaticResource GreenToolTipControlTemplate}">
+                                                                    <ListBox ItemsSource="{Binding Converter={StaticResource SelectedDateToDataListConverter}, Mode=OneWay}" ItemContainerStyle="{StaticResource ListBoxToolTipItemContainerStyle}">
+                                                                        <ListBox.ItemTemplate>
+                                                                            <DataTemplate>
+                                                                                <TextBlock Text="{Binding XPath=Aciklama}" />
+                                                                            </DataTemplate>
+                                                                        </ListBox.ItemTemplate>
+                                                                    </ListBox>
+                                                                </ToolTip>
+                                                            </Run.ToolTip>
+                                                        </Run>
+                                                        <LineBreak />
+                                                        <Run Text="{Binding GünAdı}" />
+                                                    </TextBlock>
+                                                    <Border.Style>
+                                                        <Style TargetType="Border">
+                                                            <Setter Property="BorderBrush" Value="Black" />
+                                                            <Style.Triggers>
+                                                                <Trigger Property="IsMouseOver" Value="True">
+                                                                    <Setter Property="BorderBrush" Value="Cyan" />
+                                                                </Trigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Border.Style>
+                                                </Border>
+                                            </local:SplitButton.Content>
+                                            <local:SplitButton.InternalContent>
                                                 <ListBox ItemsSource="{Binding Converter={StaticResource SelectedDateToDataListConverter}, Mode=OneWay}"
-                                                    IsSynchronizedWithCurrentItem="False"
                                                     ItemContainerStyle="{StaticResource GünListBoxItemContainerStyle}"
                                                     ItemTemplate="{StaticResource ListBoxEditDataTemplate}"
                                                     VirtualizingStackPanel.VirtualizationMode="Recycling">
@@ -246,11 +246,11 @@
                                                         </ItemsPanelTemplate>
                                                     </ListBox.ItemsPanel>
                                                 </ListBox>
-                                            </local:ContentToggleButton>
-                                        </StackPanel>
+                                            </local:SplitButton.InternalContent>
+                                        </local:SplitButton>
                                     </DataTemplate>
-                                </ListBox.ItemTemplate>
-                                <ListBox.ItemsPanel>
+                                </ItemsControl.ItemTemplate>
+                                <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <UniformGrid Columns="7" FirstColumn="{Binding Items/Offset}" RenderTransformOrigin="0.5,0.5">
                                             <UniformGrid.Resources>
@@ -278,8 +278,8 @@
                                             </UniformGrid.RenderTransform>
                                         </UniformGrid>
                                     </ItemsPanelTemplate>
-                                </ListBox.ItemsPanel>
-                                <ListBox.GroupStyle>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.GroupStyle>
                                     <GroupStyle>
                                         <GroupStyle.HeaderTemplate>
                                             <DataTemplate>
@@ -289,8 +289,8 @@
                                             </DataTemplate>
                                         </GroupStyle.HeaderTemplate>
                                     </GroupStyle>
-                                </ListBox.GroupStyle>
-                            </ListBox>
+                                </ItemsControl.GroupStyle>
+                            </ItemsControl>
                             <Separator />
                         </StackPanel>
                     </ScrollViewer>
@@ -313,16 +313,22 @@
                         <GroupBox.Header>
                             <TextBlock Text="{Binding AyGünler/Ay}" FontWeight="Bold" TextAlignment="Center" />
                         </GroupBox.Header>
-                        <ListBox Background="{Binding DataContext.GövdeRenk, RelativeSource={RelativeSource AncestorType=Window}}"
-                            ItemsSource="{Binding AyGünler}"
-                            ItemTemplate="{StaticResource ListBoxAyDataTemplate}"
-                            SelectedIndex="{Binding SeçiliGün}">
-                            <ListBox.ItemsPanel>
+                        <ItemsControl Background="{Binding DataContext.GövdeRenk, RelativeSource={RelativeSource AncestorType=Window}}" ItemsSource="{Binding AyGünler}" ItemTemplate="{StaticResource ListBoxAyDataTemplate}">
+                            <ItemsControl.Template>
+                                <ControlTemplate TargetType="ItemsControl">
+                                    <ScrollViewer Padding="{TemplateBinding Padding}"
+                                        CanContentScroll="True" Focusable="False" HorizontalScrollBarVisibility="Auto"
+                                        VerticalScrollBarVisibility="Auto">
+                                        <ItemsPresenter />
+                                    </ScrollViewer>
+                                </ControlTemplate>
+                            </ItemsControl.Template>
+                            <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <UniformGrid Columns="7" FirstColumn="{Binding AyGünler/Offset}" />
                                 </ItemsPanelTemplate>
-                            </ListBox.ItemsPanel>
-                        </ListBox>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
                     </GroupBox>
                     <Button Content="è"
                         Grid.Row="0" Grid.Column="2"

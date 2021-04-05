@@ -8,8 +8,7 @@
     Title="Dahili Gösterici"
     Width="800" Height="578"
     d:DataContext="{d:DesignInstance Type=local:ImageViewer}"
-    Closing="Window_Closing" ShowInTaskbar="True" UseLayoutRounding="True" WindowStartupLocation="CenterScreen"
-    WindowState="Maximized"
+    Closing="Window_Closing" ShowInTaskbar="True" WindowStartupLocation="CenterScreen" WindowState="Maximized"
     mc:Ignorable="d">
     <Window.Resources>
         <local:MultipleImageViewer x:Key="MultipleImageViewer" />
@@ -24,10 +23,10 @@
                     </Grid.RowDefinitions>
                     <ToolBarPanel Orientation="Horizontal" ToolBar.OverflowMode="AsNeeded" ToolBarTray.IsLocked="True">
                         <Slider Width="100"
-                            Maximum="10" Minimum="0.25"
+                            AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="2" Maximum="10" Minimum="0.25"
                             Value="{Binding Zoom}" />
                         <Slider Width="100"
-                            Maximum="360" Minimum="0"
+                            AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="2" Maximum="360" Minimum="0"
                             Value="{Binding Angle}" />
                         <Button Content="RESİM SAKLA" Command="{Binding ResimSakla}" CommandParameter="{Binding Xmldata}" />
                         <Button Content="RESİM YAZDIR" Command="{Binding Yazdır}" CommandParameter="{Binding Path=Resim}" />
@@ -70,21 +69,34 @@
             </TabItem>
             <TabItem Header="RESİMLER">
                 <Grid>
-                    <ListBox DataContext="{StaticResource MultipleImageViewer}"
+                    <ItemsControl DataContext="{StaticResource MultipleImageViewer}"
                         ItemsSource="{Binding TopluDosyalar}"
                         d:DataContext="{d:DesignInstance Type=local:MultipleImageViewer}"
                         VirtualizingStackPanel.VirtualizationMode="Recycling">
-                        <ListBox.ItemTemplate>
+                        <ItemsControl.Template>
+                            <ControlTemplate TargetType="ItemsControl">
+                                <ScrollViewer Padding="{TemplateBinding Padding}" CanContentScroll="True" Focusable="False">
+                                    <ItemsPresenter />
+                                </ScrollViewer>
+                            </ControlTemplate>
+                        </ItemsControl.Template>
+                        <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <Border BorderBrush="Blue" BorderThickness="1">
-                                    <StackPanel>
-                                        <UniformGrid Columns="2">
-                                            <Slider Maximum="10" Minimum="0.25" Value="{Binding Zoom}" />
-                                            <Slider Maximum="360" Minimum="0" Value="{Binding Angle}" />
-                                        </UniformGrid>
-                                        <ScrollViewer Width="144" Height="176"
+                                <Border Background="{Binding VeriRenk}" BorderBrush="Black" BorderThickness="1">
+                                    <Canvas>
+                                        <TextBlock Text="{Binding GünNotAçıklama}" Canvas.Top="0" />
+                                        <Slider Canvas.Top="18"
+                                            Width="72"
+                                            Maximum="10" Minimum="0.25"
+                                            Value="{Binding Zoom}" />
+                                        <Slider Canvas.Left="72" Canvas.Top="18"
+                                            Width="72"
+                                            Maximum="360" Minimum="0"
+                                            Value="{Binding Angle}" />
+                                        <ScrollViewer Canvas.Bottom="0"
+                                            Width="144" Height="176"
                                             HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                                            <local:ShadowedImage RenderTransformOrigin="0.5,0.5" ShowShadow="True" Source="{Binding Path=Resim, ConverterParameter=176, Converter={StaticResource Base64ImageConverter}, IsAsync=True, Mode=OneWay}">
+                                            <local:ShadowedImage RenderTransformOrigin="0.5,0.5" ShowShadow="True" Source="{Binding Path=Resim, ConverterParameter=128, Converter={StaticResource Base64ImageConverter}, IsAsync=True, Mode=OneWay}">
                                                 <Image.LayoutTransform>
                                                     <TransformGroup ice:Freeze="True">
                                                         <ScaleTransform ice:Freeze="True" ScaleX="{Binding Zoom}" ScaleY="{Binding Zoom}" />
@@ -93,16 +105,16 @@
                                                 </Image.LayoutTransform>
                                             </local:ShadowedImage>
                                         </ScrollViewer>
-                                    </StackPanel>
+                                    </Canvas>
                                 </Border>
                             </DataTemplate>
-                        </ListBox.ItemTemplate>
-                        <ListBox.ItemsPanel>
+                        </ItemsControl.ItemTemplate>
+                        <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <local:VirtualizingWrapPanel ItemHeight="200" ItemWidth="200" />
+                                <local:VirtualizingWrapPanel ItemHeight="225" ItemWidth="150" />
                             </ItemsPanelTemplate>
-                        </ListBox.ItemsPanel>
-                    </ListBox>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
                 </Grid>
             </TabItem>
         </TabControl>
