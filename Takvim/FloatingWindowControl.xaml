@@ -49,7 +49,15 @@
                         </TextBlock>
                     </UniformGrid>
                 </GroupBox.Header>
-                <ItemsControl Height="118" ItemsSource="{Binding YaklaşanEtkinlikler}" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                <ItemsControl Height="118" ItemsSource="{Binding YaklaşanEtkinlikler}">
+                    <ItemsControl.Template>
+                        <ControlTemplate TargetType="ItemsControl">
+                            <ScrollViewer Padding="{TemplateBinding Padding}"
+                                CanContentScroll="True" Focusable="False" VerticalScrollBarVisibility="Auto">
+                                <ItemsPresenter />
+                            </ScrollViewer>
+                        </ControlTemplate>
+                    </ItemsControl.Template>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">

@@ -30,7 +30,7 @@
                             Value="{Binding Angle}" />
                         <Button Content="RESİM SAKLA" Command="{Binding ResimSakla}" CommandParameter="{Binding Xmldata}" />
                         <Button Content="RESİM YAZDIR" Command="{Binding Yazdır}" CommandParameter="{Binding Path=Resim}" />
-                        <Button Command="{Binding OcrUygula}">
+                        <local:SplitButton Command="{Binding OcrUygula}">
                             <Grid>
                                 <ProgressBar Width="80"
                                     Background="{x:Null}"
@@ -38,19 +38,16 @@
                                     IsIndeterminate="{Binding OcrSürüyor}" />
                                 <TextBlock Text="OCR UYGULA" HorizontalAlignment="Center" />
                             </Grid>
-                        </Button>
-                        <local:ContentToggleButton>
-                            <local:ContentToggleButton.OverContent>
-                                <Image Width="16" Height="16" Source="{Binding ConverterParameter=70, Converter={StaticResource Shell32FileIconConverter}}" />
-                            </local:ContentToggleButton.OverContent>
-                            <GroupBox Header="OCR">
-                                <TextBox Text="{Binding Path=OcrMetin}"
-                                    Grid.Row="2" Grid.Column="1"
-                                    IsReadOnly="True"
-                                    Width="300" Height="300"
-                                    HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" />
-                            </GroupBox>
-                        </local:ContentToggleButton>
+                            <local:SplitButton.InternalContent>
+                                <GroupBox Header="OCR">
+                                    <TextBox Text="{Binding Path=OcrMetin}"
+                                        Grid.Row="2" Grid.Column="1"
+                                        IsReadOnly="True"
+                                        Width="300" Height="300"
+                                        HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" />
+                                </GroupBox>
+                            </local:SplitButton.InternalContent>
+                        </local:SplitButton>
                     </ToolBarPanel>
                     <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                         <Image RenderOptions.BitmapScalingMode="Fant" RenderTransformOrigin="0.5,0.5" Source="{Binding Resim}">

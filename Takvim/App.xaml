@@ -632,8 +632,7 @@
                                     <Canvas Width="18" Height="18"
                                         Background="Transparent"
                                         Style="{StaticResource CanvasDragStyle}">
-                                        <TextBlock x:Name="Tb"
-                                            Text="B"
+                                        <TextBlock x:Name="Tb" Text="B"
                                             FontSize="18" FontFamily="Wingdings" FontWeight="Bold" />
                                     </Canvas>
                                     <Expander BorderBrush="{Binding Converter={StaticResource StringToBrushConverter}, XPath=@Renk}" BorderThickness="2" VerticalAlignment="Center">
@@ -709,8 +708,7 @@
                             Background="Transparent"
                             HorizontalAlignment="Left" VerticalAlignment="Top"
                             Style="{StaticResource CanvasDragStyle}">
-                            <TextBlock x:Name="Tb"
-                                Text="B"
+                            <TextBlock x:Name="Tb" Text="B"
                                 FontSize="18" FontFamily="Wingdings" FontWeight="Bold" />
                         </Canvas>
                         <TextBlock FontSize="12" FontFamily="Segoe UI Black">

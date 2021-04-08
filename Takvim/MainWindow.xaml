@@ -51,17 +51,21 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <TextBox Text="{Binding AramaMetin, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="0" />
-            <Button Content="ARA"
+            <local:SplitButton Content="ARA"
                 Grid.Column="1"
                 Command="{Binding VeriAra, Mode=OneWay}"
-                CommandParameter="{Binding AramaMetin}" />
-            <CheckBox Grid.Column="2"
-                VerticalAlignment="Center"
-                IsChecked="{Binding TümKayıtlar, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                ToolTip="İşaretli İse Tüm Kayıtlarda Arama Yapılır. İşaretsiz İse Bugünden Sonraki Kayıtlarda Arama Yapılır." />
+                CommandParameter="{Binding AramaMetin}">
+                <local:SplitButton.InternalContent>
+                    <Menu>
+                        <MenuItem Header="TÜM KAYITLAR"
+                            IsCheckable="True"
+                            IsChecked="{Binding TümKayıtlar, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            ToolTip="İşaretli İse Tüm Kayıtlarda Arama Yapılır. İşaretsiz İse Bugünden Sonraki Kayıtlarda Arama Yapılır." />
+                    </Menu>
+                </local:SplitButton.InternalContent>
+            </local:SplitButton>
         </Grid>
         <TabControl Grid.Row="0" Grid.Column="0" Grid.RowSpan="2"
             SelectedIndex="{Binding VarsayılanTakvim, Mode=OneWay, Source={x:Static properties:Settings.Default}}">
@@ -124,8 +128,7 @@
                                         Background="Transparent"
                                         HorizontalAlignment="Left" VerticalAlignment="Top"
                                         Style="{StaticResource CanvasDragStyle}">
-                                        <TextBlock x:Name="Tb"
-                                            Text="B"
+                                        <TextBlock x:Name="Tb" Text="B"
                                             FontSize="18" FontFamily="Wingdings" FontWeight="Bold" />
                                     </Canvas>
                                 </Grid>
@@ -195,16 +198,12 @@
                                 </ItemsControl.Template>
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <local:SplitButton>
+                                        <local:SplitButton Background="{Binding TamTarih.Month, Converter={StaticResource MonthToColorConverter}, Mode=OneWay}" Command="{Binding VeriEkleEkranı, Mode=OneWay}" CommandParameter="{Binding Mode=OneWay}">
                                             <local:SplitButton.Content>
                                                 <Border Width="32" Height="32"
-                                                    Background="{Binding TamTarih.Month, Converter={StaticResource MonthToColorConverter}, Mode=OneWay}"
                                                     local:MovableControl.MoveData="True"
                                                     local:MovableControl.PlacedData="{Binding}"
                                                     AllowDrop="True">
-                                                    <Border.InputBindings>
-                                                        <MouseBinding Command="{Binding VeriEkleEkranı, Mode=OneWay}" CommandParameter="{Binding Mode=OneWay}" MouseAction="LeftClick" />
-                                                    </Border.InputBindings>
                                                     <TextBlock FontSize="11">
                                                         <Run Text="{Binding Gün}" />
                                                         <Run FontSize="8" FontWeight="Bold" Style="{StaticResource RunItemCountStyle}">
@@ -441,15 +440,40 @@
                                         Background="Transparent"
                                         HorizontalAlignment="Left" VerticalAlignment="Top"
                                         Style="{StaticResource CanvasDragStyle}">
-                                        <TextBlock x:Name="Tb"
-                                            Text="B"
+                                        <TextBlock x:Name="Tb" Text="B"
                                             FontSize="18" FontFamily="Wingdings" FontWeight="Bold" />
                                     </Canvas>
-                                    <TextBlock Margin="0,0,3,0">
-                                        <Hyperlink Command="{Binding Tag.DosyaGör, ElementName=Lb}" CommandParameter="{Binding Mode=OneWay}" Cursor="Hand">
-                                            <Run Text="DOSYA AÇ" />
-                                        </Hyperlink>
-                                    </TextBlock>
+                                    <local:SplitButton Content="DOSYA AÇ" Command="{Binding Tag.DosyaGör, ElementName=Lb}" CommandParameter="{Binding Mode=OneWay}">
+                                        <local:SplitButton.Style>
+                                            <Style BasedOn="{StaticResource {x:Type local:SplitButton}}" TargetType="{x:Type local:SplitButton}">
+                                                <Setter Property="BorderBrush" Value="Yellow" />
+                                                <Setter Property="BorderThickness" Value="2" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding XPath=Dosyalar/Dosya}" Value="{x:Null}">
+                                                        <Setter Property="BorderBrush" Value="#FF707070" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </local:SplitButton.Style>
+                                        <local:SplitButton.InternalContent>
+                                            <ListBox Width="200" Height="200"
+                                                ItemsSource="{Binding XPath=Dosyalar/Dosya}"
+                                                FontWeight="Normal">
+                                                <ListBox.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <Image Width="24" Height="24" Source="{Binding Converter={StaticResource FilePathToIconConverter}, XPath=@Yol}" />
+                                                            <TextBlock VerticalAlignment="Center">
+                                                                <Hyperlink Command="{Binding Tag.EkDosyaAç, Mode=OneWay, ElementName=Lb}" CommandParameter="{Binding XPath=@Yol}">
+                                                                    <Run Text="{Binding XPath=@Ad}" />
+                                                                </Hyperlink>
+                                                            </TextBlock>
+                                                        </StackPanel>
+                                                    </DataTemplate>
+                                                </ListBox.ItemTemplate>
+                                            </ListBox>
+                                        </local:SplitButton.InternalContent>
+                                    </local:SplitButton>
                                 </StackPanel>
                                 <TextBlock Width="100" TextWrapping="Wrap">
                                     <Hyperlink Command="{Binding DataContext.YılaGit, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="{Binding Mode=OneWay, XPath=Gun}">
@@ -462,35 +486,6 @@
                                         ToolTip="{Binding XPath=Aciklama}" />
                                     <Run Text="{Binding XPath=@SaatBaslangic}" />
                                 </TextBlock>
-                                <local:ContentToggleButton OverContent="DOSYALAR">
-                                    <local:ContentToggleButton.Style>
-                                        <Style BasedOn="{StaticResource {x:Type local:ContentToggleButton}}" TargetType="{x:Type local:ContentToggleButton}">
-                                            <Setter Property="BorderBrush" Value="Yellow" />
-                                            <Setter Property="BorderThickness" Value="2" />
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding XPath=Dosyalar/Dosya}" Value="{x:Null}">
-                                                    <Setter Property="BorderBrush" Value="#FF707070" />
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </local:ContentToggleButton.Style>
-                                    <GroupBox Header="{Binding OverContent, RelativeSource={RelativeSource AncestorType={x:Type local:ContentToggleButton}}}" Width="200" Height="200">
-                                        <ListBox ItemsSource="{Binding XPath=Dosyalar/Dosya}" FontWeight="Normal">
-                                            <ListBox.ItemTemplate>
-                                                <DataTemplate>
-                                                    <StackPanel Orientation="Horizontal">
-                                                        <Image Width="24" Height="24" Source="{Binding Converter={StaticResource FilePathToIconConverter}, XPath=@Yol}" />
-                                                        <TextBlock VerticalAlignment="Center">
-                                                            <Hyperlink Command="{Binding Tag.EkDosyaAç, Mode=OneWay, ElementName=Lb}" CommandParameter="{Binding XPath=@Yol}">
-                                                                <Run Text="{Binding XPath=@Ad}" />
-                                                            </Hyperlink>
-                                                        </TextBlock>
-                                                    </StackPanel>
-                                                </DataTemplate>
-                                            </ListBox.ItemTemplate>
-                                        </ListBox>
-                                    </GroupBox>
-                                </local:ContentToggleButton>
                             </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
