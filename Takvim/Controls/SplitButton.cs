@@ -4,7 +4,6 @@ using System.Windows.Controls.Primitives;
 
 namespace Takvim
 {
-
     public class SplitButton : Button
     {
         public static readonly DependencyProperty InternalContentProperty = DependencyProperty.Register("InternalContent", typeof(object), typeof(SplitButton), new PropertyMetadata(null));

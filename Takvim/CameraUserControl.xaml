@@ -5,7 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:Takvim"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DataContext="{d:DesignInstance Type=local:CameraUserControl}"
-    d:DesignHeight="240" d:DesignWidth="320" UseLayoutRounding="True"
+    d:DesignHeight="260" d:DesignWidth="320" UseLayoutRounding="True"
     mc:Ignorable="d">
     <Grid>
         <GroupBox Header="KAMERA">
@@ -15,16 +15,20 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <WebcamPlayer:CapPlayer x:Name="Player" Grid.Row="0" Rotation="180" />
-                <UniformGrid Grid.Row="1" Columns="3">
+                <StackPanel Grid.Row="1">
                     <ComboBox x:Name="ComboBox"
                         ItemsSource="{Binding Liste}"
                         DisplayMemberPath="Name"
                         SelectedItem="{Binding SeçiliKamera}" />
-                    <Button Content="RESİM AKTAR" Command="{Binding ResimYükle}" CommandParameter="{Binding DataContext, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ContentToggleButton}}}" />
-                    <Slider AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" Maximum="360" Minimum="0"
-                        SmallChange="1" Ticks="0,90,180,270,360"
-                        Value="{Binding Rotation, ElementName=Player}" />
-                </UniformGrid>
+                    <UniformGrid Columns="4">
+                        <Button Content="RESİM AKTAR" Command="{Binding ResimYükle}" CommandParameter="{Binding DataContext, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ContentToggleButton}}}" />
+                        <Button Content="DURDUR" Command="{Binding Durdur}" />
+                        <Button Content="OYNAT" Command="{Binding Oynat}" />
+                        <Slider AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" Maximum="360" Minimum="0"
+                            SmallChange="1" Ticks="0,90,180,270,360"
+                            Value="{Binding Rotation, ElementName=Player}" />
+                    </UniformGrid>
+                </StackPanel>
             </Grid>
         </GroupBox>
     </Grid>

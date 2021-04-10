@@ -12,9 +12,6 @@
     mc:Ignorable="d">
     <Window.Resources>
         <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="SliderResource.xaml" />
-            </ResourceDictionary.MergedDictionaries>
             <local:WrapPanelRatioConverter x:Key="WrapPanelRatioConverter" />
             <CollectionViewSource x:Key="Cvs" d:DesignSource="{d:DesignInstance Type=local:Data, CreateList=True}" Source="{StaticResource XmlData}">
                 <CollectionViewSource.SortDescriptions>
@@ -53,10 +50,10 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <TextBox Text="{Binding AramaMetin, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="0" />
-            <local:SplitButton Content="ARA"
-                Grid.Column="1"
-                Command="{Binding VeriAra, Mode=OneWay}"
-                CommandParameter="{Binding AramaMetin}">
+            <local:SplitButton Grid.Column="1" Command="{Binding VeriAra, Mode=OneWay}" CommandParameter="{Binding AramaMetin}">
+                <local:SplitButton.Content>
+                    <Image Width="16" Height="16" Source="{Binding ConverterParameter=22, Converter={StaticResource Shell32FileIconConverter}}" />
+                </local:SplitButton.Content>
                 <local:SplitButton.InternalContent>
                     <Menu>
                         <MenuItem Header="TÜM KAYITLAR"
@@ -341,13 +338,11 @@
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Button Content="ç"
-                            Grid.Row="1" Grid.Column="0" Grid.RowSpan="3"
                             Command="{Binding YılGeri}"
                             FontFamily="Wingdings"
                             ToolTip="ÖNCEKİ YIL" />
                         <TextBox Text="{Binding SeçiliYıl, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" HorizontalAlignment="Center" FontWeight="Bold" />
                         <Button Content="è"
-                            Grid.Row="1" Grid.Column="4" Grid.RowSpan="3"
                             Command="{Binding Yılİleri}"
                             FontFamily="Wingdings"
                             ToolTip="SONRAKİ YIL" />
@@ -363,11 +358,14 @@
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
-                    <Slider Grid.Row="0" Grid.Column="0"
-                        Style="{StaticResource SliderStyle}"
+                    <local:ContentSlider Grid.Row="0" Grid.Column="0"
                         IsDirectionReversed="True" IsSnapToTickEnabled="True" IsTabStop="False" Maximum="12"
                         Minimum="1" Orientation="Vertical"
-                        Value="{Binding SatırSayısı}" />
+                        Value="{Binding SatırSayısı}">
+                        <local:ContentSlider.OverContent>
+                            <TextBlock Text="{Binding SatırSayısı}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </local:ContentSlider.OverContent>
+                    </local:ContentSlider>
                     <Button Content="R"
                         Grid.Row="1" Grid.Column="0"
                         Command="{Binding SatırSütünSıfırla, Mode=OneWay}"
@@ -410,11 +408,14 @@
                             </ItemsPanelTemplate>
                         </ListBox.ItemsPanel>
                     </ListBox>
-                    <Slider Grid.Row="2" Grid.Column="2"
+                    <local:ContentSlider Grid.Row="2" Grid.Column="2"
                         VerticalAlignment="Center"
-                        Style="{StaticResource SliderStyle}"
                         IsSnapToTickEnabled="True" IsTabStop="False" Maximum="12" Minimum="1"
-                        Value="{Binding SütünSayısı}" />
+                        Value="{Binding SütünSayısı}">
+                        <local:ContentSlider.OverContent>
+                            <TextBlock Text="{Binding SütünSayısı}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </local:ContentSlider.OverContent>
+                    </local:ContentSlider>
                 </Grid>
             </TabItem>
         </TabControl>

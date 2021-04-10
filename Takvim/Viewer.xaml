@@ -66,52 +66,60 @@
             </TabItem>
             <TabItem Header="RESİMLER">
                 <Grid>
-                    <ItemsControl DataContext="{StaticResource MultipleImageViewer}"
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="4*" />
+                        <ColumnDefinition Width="3*" />
+                    </Grid.ColumnDefinitions>
+                    <ListBox x:Name="Lb"
+                        Grid.Column="0"
+                        HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+                        DataContext="{StaticResource MultipleImageViewer}"
                         ItemsSource="{Binding TopluDosyalar}"
                         d:DataContext="{d:DesignInstance Type=local:MultipleImageViewer}"
                         VirtualizingStackPanel.VirtualizationMode="Recycling">
-                        <ItemsControl.Template>
-                            <ControlTemplate TargetType="ItemsControl">
-                                <ScrollViewer Padding="{TemplateBinding Padding}" CanContentScroll="True" Focusable="False">
-                                    <ItemsPresenter />
-                                </ScrollViewer>
-                            </ControlTemplate>
-                        </ItemsControl.Template>
-                        <ItemsControl.ItemTemplate>
+                        <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <Border Background="{Binding VeriRenk}" BorderBrush="Black" BorderThickness="1">
                                     <Canvas>
                                         <TextBlock Text="{Binding GünNotAçıklama}" Canvas.Top="0" />
-                                        <Slider Canvas.Top="18"
-                                            Width="72"
-                                            Maximum="10" Minimum="0.25"
-                                            Value="{Binding Zoom}" />
-                                        <Slider Canvas.Left="72" Canvas.Top="18"
-                                            Width="72"
-                                            Maximum="360" Minimum="0"
-                                            Value="{Binding Angle}" />
                                         <ScrollViewer Canvas.Bottom="0"
                                             Width="144" Height="176"
                                             HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                                            <local:ShadowedImage RenderTransformOrigin="0.5,0.5" ShowShadow="True" Source="{Binding Path=Resim, ConverterParameter=128, Converter={StaticResource Base64ImageConverter}, IsAsync=True, Mode=OneWay}">
-                                                <Image.LayoutTransform>
-                                                    <TransformGroup ice:Freeze="True">
-                                                        <ScaleTransform ice:Freeze="True" ScaleX="{Binding Zoom}" ScaleY="{Binding Zoom}" />
-                                                        <RotateTransform ice:Freeze="True" Angle="{Binding Angle}" />
-                                                    </TransformGroup>
-                                                </Image.LayoutTransform>
-                                            </local:ShadowedImage>
+                                            <local:ShadowedImage RenderTransformOrigin="0.5,0.5" ShowShadow="True" Source="{Binding Path=Resim, ConverterParameter=128, Converter={StaticResource Base64ImageConverter}, IsAsync=True, Mode=OneWay}" />
                                         </ScrollViewer>
                                     </Canvas>
                                 </Border>
                             </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                        <ItemsControl.ItemsPanel>
+                        </ListBox.ItemTemplate>
+                        <ListBox.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <local:VirtualizingWrapPanel ItemHeight="225" ItemWidth="150" />
+                                <local:VirtualizingWrapPanel ItemHeight="205" ItemWidth="160" />
                             </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                    </ItemsControl>
+                        </ListBox.ItemsPanel>
+                    </ListBox>
+                    <Grid Grid.Column="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Slider Grid.Row="0"
+                            Maximum="10" Minimum="0.25"
+                            Value="{Binding Zoom}" />
+                        <Slider Grid.Row="1"
+                            Maximum="360" Minimum="0"
+                            Value="{Binding Angle}" />
+                        <ScrollViewer Grid.Row="2" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                            <local:ShadowedImage RenderTransformOrigin="0.5,0.5" ShowShadow="True" Source="{Binding ElementName=Lb, Path=SelectedItem.Resim, Converter={StaticResource Base64ImageConverter}}">
+                                <Image.LayoutTransform>
+                                    <TransformGroup ice:Freeze="True">
+                                        <ScaleTransform ice:Freeze="True" ScaleX="{Binding Zoom}" ScaleY="{Binding Zoom}" />
+                                        <RotateTransform ice:Freeze="True" Angle="{Binding Angle}" />
+                                    </TransformGroup>
+                                </Image.LayoutTransform>
+                            </local:ShadowedImage>
+                        </ScrollViewer>
+                    </Grid>
                 </Grid>
             </TabItem>
         </TabControl>

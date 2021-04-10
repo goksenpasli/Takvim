@@ -2,7 +2,6 @@
 using System.IO;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using CatenaLogic.Windows.Presentation.WebcamPlayer;
@@ -26,7 +25,7 @@ namespace Takvim
                 {
                     using MemoryStream ms = new();
                     JpegBitmapEncoder encoder = new();
-                    encoder.Frames.Add(BitmapFrame.Create(new TransformedBitmap(Player.Source as InteropBitmap, new RotateTransform(Player.Rotation))));
+                    encoder.Frames.Add(BitmapFrame.Create(new TransformedBitmap(Player.Device.BitmapSource, new RotateTransform(Player.Rotation))));
                     encoder.QualityLevel = 100;
                     encoder.Save(ms);
                     data.ResimData = ms.ToArray().WebpEncode(data.WebpQuality);
@@ -34,6 +33,10 @@ namespace Takvim
                     data.Boyut = data.ResimData.Length / 1024;
                 }
             }, parameter => SeçiliKamera is not null);
+
+            Durdur = new RelayCommand<object>(parameter => Player.Device.Stop(), parameter => SeçiliKamera is not null && Player.Device.IsRunning);
+
+            Oynat = new RelayCommand<object>(parameter => Player.Device.Start(), parameter => SeçiliKamera is not null && !Player.Device.IsRunning);
 
             PropertyChanged += CameraUserControl_PropertyChanged;
         }
@@ -55,6 +58,10 @@ namespace Takvim
         }
 
         public ICommand ResimYükle { get; }
+
+        public ICommand Durdur { get; }
+
+        public ICommand Oynat { get; }
 
         public FilterInfo SeçiliKamera
         {

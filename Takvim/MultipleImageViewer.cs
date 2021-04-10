@@ -5,7 +5,6 @@ namespace Takvim
 {
     public class MultipleImageViewer : InpcBase
     {
-
         private ObservableCollection<MultipleImage> topluDosyalar;
 
         public MultipleImageViewer()
@@ -42,7 +41,6 @@ namespace Takvim
                 }
             }
         }
-
 
     }
 }

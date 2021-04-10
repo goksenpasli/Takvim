@@ -19,7 +19,7 @@ namespace Takvim
 
         private BitmapSource resim;
 
-        private double zoom = 1;
+        private double zoom = 0.25;
 
         public ImageViewer(XmlElement xmldata)
         {
