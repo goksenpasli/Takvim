@@ -41,12 +41,6 @@
                 <ColorAnimation Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)" From="Yellow" To="Red"
                     Duration="00:00:01" />
             </Storyboard>
-            <ControlTemplate x:Key="SimpleButtonTemplate" TargetType="{x:Type Button}">
-                <Border Background="{TemplateBinding Background}"
-                    BorderBrush="{Binding Converter={StaticResource StringToBrushConverter}, XPath=@Renk}"
-                    BorderThickness="2.5"
-                    CornerRadius="10" />
-            </ControlTemplate>
             <LinearGradientBrush x:Key="GroupBoxBackGround" ice:Freeze="True" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0" EndPoint="0.5,1">
                 <GradientStop ice:Freeze="True" Offset="1" Color="#FE00B6E8" />
                 <GradientStop ice:Freeze="True" Color="#FF48F3CA" />
@@ -729,7 +723,7 @@
                         <local:MaskedTextBox Width="35"
                             IncludePrompt="False" Mask="00" PromptChar="_"
                             ValueType="{x:Type System:Double}"
-                            Value="{Binding EtkinlikSüresi, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            Value="{Binding EtkinlikSüresi, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
                         <CheckBox VerticalAlignment="Center" VerticalContentAlignment="Center" IsChecked="{Binding AyTekrar}">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="AY TEKRAR" VerticalAlignment="Center" />
@@ -754,6 +748,34 @@
                     </StackPanel>
                 </StackPanel>
             </DataTemplate>
+            <DrawingBrush x:Key="ThatchBackground"
+                ice:Freeze="True" Stretch="None" TileMode="Tile" Viewport="0,0,40,40"
+                ViewportUnits="Absolute">
+                <DrawingBrush.Drawing>
+                    <DrawingGroup>
+                        <GeometryDrawing Brush="White" ice:Freeze="True">
+                            <GeometryDrawing.Geometry>
+                                <GeometryGroup>
+                                    <RectangleGeometry Rect="0,0,80,80" />
+                                    <RectangleGeometry Rect="80,80,80,80" />
+                                </GeometryGroup>
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                    </DrawingGroup>
+                </DrawingBrush.Drawing>
+            </DrawingBrush>
+            <Style x:Key="SimpleHourProgress" TargetType="{x:Type ProgressBar}">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ProgressBar}">
+                            <Grid>
+                                <Border Name="PART_Track" />
+                                <Border Name="PART_Indicator" Background="{TemplateBinding Foreground}" HorizontalAlignment="Left" />
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

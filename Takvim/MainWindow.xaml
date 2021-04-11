@@ -84,6 +84,10 @@
                                         <ColumnDefinition />
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
+                                    <ProgressBar Foreground="{StaticResource ThatchBackground}"
+                                        Style="{StaticResource SimpleHourProgress}"
+                                        Maximum="24" Minimum="0"
+                                        Value="{Binding XPath=@Saat}" />
                                     <ScrollViewer Grid.Column="0" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
                                         <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center"
                                             FontSize="20"
@@ -202,20 +206,19 @@
                                                     local:MovableControl.PlacedData="{Binding}"
                                                     AllowDrop="True">
                                                     <TextBlock FontSize="11">
+                                                        <TextBlock.Style>
+                                                            <Style TargetType="TextBlock">
+                                                                <Setter Property="Foreground" Value="Blue" />
+                                                                <Setter Property="FontWeight" Value="Bold" />
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding VeriSayısı}" Value="0">
+                                                                        <Setter Property="Foreground" Value="Black" />
+                                                                        <Setter Property="FontWeight" Value="Normal" />
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </TextBlock.Style>
                                                         <Run Text="{Binding Gün}" />
-                                                        <Run FontSize="8" FontWeight="Bold" Style="{StaticResource RunItemCountStyle}">
-                                                            <Run.ToolTip>
-                                                                <ToolTip Template="{StaticResource GreenToolTipControlTemplate}">
-                                                                    <ListBox ItemsSource="{Binding Converter={StaticResource SelectedDateToDataListConverter}, Mode=OneWay}" ItemContainerStyle="{StaticResource ListBoxToolTipItemContainerStyle}">
-                                                                        <ListBox.ItemTemplate>
-                                                                            <DataTemplate>
-                                                                                <TextBlock Text="{Binding XPath=Aciklama}" />
-                                                                            </DataTemplate>
-                                                                        </ListBox.ItemTemplate>
-                                                                    </ListBox>
-                                                                </ToolTip>
-                                                            </Run.ToolTip>
-                                                        </Run>
                                                         <LineBreak />
                                                         <Run Text="{Binding GünAdı}" />
                                                     </TextBlock>

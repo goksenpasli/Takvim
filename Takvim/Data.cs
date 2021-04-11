@@ -307,7 +307,7 @@ namespace Takvim
                     UpdateAttribute(xmlattributeId, "Renk", VeriRenk.ToString());
                     UpdateAttribute(xmlattributeId, "TekrarGun", AyTekrarGun.ToString());
                 }
-            }, parameter => VeriRenk is not null && DateTime.TryParseExact(SaatBaşlangıç, "H:m", new CultureInfo("tr-TR"), DateTimeStyles.None, out _));
+            }, parameter => EtkinlikSüresi is <= 24 and >= 0 && VeriRenk is not null && DateTime.TryParseExact(SaatBaşlangıç, "H:m", new CultureInfo("tr-TR"), DateTimeStyles.None, out _));
 
             Resimİptal = new RelayCommand<object>(parameter => ResimData = null, parameter => ResimData?.Length > 0);
 
@@ -762,6 +762,7 @@ namespace Takvim
             "SaatBaşlangıç" when string.IsNullOrWhiteSpace(SaatBaşlangıç) || SaatBaşlangıç == "__:__" => "Başlangıç Saatini Boş Bırakmayın.",
             "GünNotAçıklama" when string.IsNullOrWhiteSpace(GünNotAçıklama) => "Açıklamayı Boş Bırakmayın.",
             "VeriRenk" when VeriRenk == null => "Renk Boş Bırakmayın.",
+            "EtkinlikSüresi" when EtkinlikSüresi is > 24 or < 0 => "Etkinlik Süresini 0-24 Arasında Girin.",
             _ => null
         };
 

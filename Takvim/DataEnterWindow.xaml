@@ -126,7 +126,7 @@
                 </UniformGrid>
                 <Slider Grid.Row="4" Grid.ColumnSpan="2"
                     AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="1" IsSnapToTickEnabled="True" LargeChange="0.5"
-                    Maximum="100" Minimum="0" SmallChange="0.5" TickFrequency="0.5"
+                    Maximum="24" Minimum="0" SmallChange="0.5" TickFrequency="0.5"
                     ToolTip="ETKİNLİK SÜRESİ SAAT"
                     Value="{Binding EtkinlikSüresi, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
                 <local:TimePicker Grid.Row="5" Grid.ColumnSpan="2"
@@ -210,9 +210,15 @@
                     </local:ContentToggleButton>
                     <local:ContentToggleButton>
                         <local:ContentToggleButton.OverContent>
-                            <Image Width="32" Height="32" Source="{Binding ConverterParameter=22, Converter={StaticResource Shell32FileIconConverter}}" />
+                            <Canvas Width="32" Height="32">
+                                <Image Width="32" Height="32" Source="{Binding ConverterParameter=22, Converter={StaticResource Shell32FileIconConverter}}" />
+                                <TextBlock Text="{Binding Items.Count, ElementName=Lb, Mode=OneWay, StringFormat=\{0:D2\}}"
+                                    Canvas.Left="13" Canvas.Top="4"
+                                    Width="16" Height="16" />
+                            </Canvas>
                         </local:ContentToggleButton.OverContent>
-                        <ListBox Width="300" Height="400"
+                        <ListBox x:Name="Lb"
+                            Width="300" Height="400"
                             ItemsSource="{Binding Mode=OneWay, Source={StaticResource FilteredCvs}}"
                             IsSynchronizedWithCurrentItem="False"
                             ItemContainerStyle="{StaticResource GünListBoxItemContainerStyle}"
