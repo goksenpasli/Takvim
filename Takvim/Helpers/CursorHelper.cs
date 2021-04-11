@@ -59,13 +59,13 @@ namespace Takvim
             {
                 public bool fIcon;
 
-                public int xHotspot;
-
-                public int yHotspot;
+                public IntPtr hbmColor;
 
                 public IntPtr hbmMask;
 
-                public IntPtr hbmColor;
+                public int xHotspot;
+
+                public int yHotspot;
             }
         }
 

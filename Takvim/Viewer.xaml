@@ -28,7 +28,10 @@
                         <Slider Width="100"
                             AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="2" Maximum="360" Minimum="0"
                             Value="{Binding Angle}" />
-                        <Button Content="RESİM SAKLA" Command="{Binding ResimSakla}" CommandParameter="{Binding Xmldata}" />
+                        <Button Content="RESİM SAKLA"
+                            IsEnabled="{Binding Resim, Converter={StaticResource NullableToBooleanConverter}}"
+                            Command="{Binding ResimSakla}"
+                            CommandParameter="{Binding Xmldata}" />
                         <Button Content="RESİM YAZDIR" Command="{Binding Yazdır}" CommandParameter="{Binding Path=Resim}" />
                         <local:SplitButton Command="{Binding OcrUygula}">
                             <Grid>
@@ -81,7 +84,10 @@
                             <DataTemplate>
                                 <Border Background="{Binding VeriRenk}" BorderBrush="Black" BorderThickness="1">
                                     <Canvas>
-                                        <TextBlock Text="{Binding GünNotAçıklama}" Canvas.Top="0" />
+                                        <TextBlock Text="{Binding GünNotAçıklama}"
+                                            Canvas.Top="0"
+                                            Width="144" Height="16"
+                                            TextWrapping="Wrap" />
                                         <ScrollViewer Canvas.Bottom="0"
                                             Width="144" Height="176"
                                             HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Diagnostics;
-using System.Drawing.Imaging;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows;
@@ -85,11 +85,7 @@ namespace Takvim
                     using Icon icon = Icon.ExtractAssociatedIcon(filepath);
                     BitmapSource bitmapsource = Imaging.CreateBitmapSourceFromHIcon(icon.Handle, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
                     icon.Dispose();
-
-                    if (bitmapsource.CanFreeze)
-                    {
-                        bitmapsource.Freeze();
-                    }
+                    bitmapsource.Freeze();
                     return bitmapsource;
                 }
                 catch (Exception)
@@ -173,7 +169,7 @@ namespace Takvim
             return null;
         }
 
-        public static BitmapSource ToBitmapImage(this Image bitmap, ImageFormat format, double decodeheight = 0)
+        public static ImageSource ToBitmapImage(this Image bitmap, ImageFormat format, double decodeheight = 0)
         {
             if (bitmap != null)
             {
@@ -192,17 +188,14 @@ namespace Takvim
                 image.StreamSource = memoryStream;
                 image.EndInit();
                 bitmap.Dispose();
-                if (!image.IsFrozen && image.CanFreeze)
-                {
-                    image.Freeze();
-                }
+                image.Freeze();
                 return image;
             }
 
             return null;
         }
 
-        public static byte[] ToTiffJpegByteArray(this BitmapSource bitmapsource, Format format)
+        public static byte[] ToTiffJpegByteArray(this ImageSource bitmapsource, Format format)
         {
             using MemoryStream outStream = new();
             switch (format)
@@ -210,28 +203,28 @@ namespace Takvim
                 case Format.TiffRenkli:
                     {
                         TiffBitmapEncoder encoder = new() { Compression = TiffCompressOption.Zip };
-                        encoder.Frames.Add(BitmapFrame.Create(bitmapsource));
+                        encoder.Frames.Add(BitmapFrame.Create((BitmapSource)bitmapsource));
                         encoder.Save(outStream);
                         return outStream.ToArray();
                     }
                 case Format.Tiff:
                     {
                         TiffBitmapEncoder encoder = new() { Compression = TiffCompressOption.Ccitt4 };
-                        encoder.Frames.Add(BitmapFrame.Create(bitmapsource));
+                        encoder.Frames.Add(BitmapFrame.Create((BitmapSource)bitmapsource));
                         encoder.Save(outStream);
                         return outStream.ToArray();
                     }
                 case Format.Jpg:
                     {
                         JpegBitmapEncoder encoder = new() { QualityLevel = 75 };
-                        encoder.Frames.Add(BitmapFrame.Create(bitmapsource));
+                        encoder.Frames.Add(BitmapFrame.Create((BitmapSource)bitmapsource));
                         encoder.Save(outStream);
                         return outStream.ToArray();
                     }
                 case Format.Png:
                     {
                         PngBitmapEncoder encoder = new();
-                        encoder.Frames.Add(BitmapFrame.Create(bitmapsource));
+                        encoder.Frames.Add(BitmapFrame.Create((BitmapSource)bitmapsource));
                         encoder.Save(outStream);
                         return outStream.ToArray();
                     }
@@ -240,28 +233,25 @@ namespace Takvim
             }
         }
 
-        public static BitmapSource WebpDecode(this byte[] rawWebp, double decodeheight = 0)
+        public static ImageSource WebpDecode(this byte[] rawWebp, double decodeheight = 0)
         {
             using WebP webp = new();
             WebPDecoderOptions options = new() { use_threads = 1 };
             using Bitmap bmp = webp.Decode(rawWebp, options);
-            BitmapSource bitmapsource = null;
+            ImageSource imagesource = null;
 
             if (bmp.PixelFormat == System.Drawing.Imaging.PixelFormat.Format32bppArgb)
             {
-                bitmapsource = bmp.ToBitmapImage(ImageFormat.Png, decodeheight);
+                imagesource = bmp.ToBitmapImage(ImageFormat.Png, decodeheight);
             }
             else
             {
-                bitmapsource = bmp.ToBitmapImage(ImageFormat.Jpeg, decodeheight);
+                imagesource = bmp.ToBitmapImage(ImageFormat.Jpeg, decodeheight);
             }
 
             rawWebp = null;
-            if (!bitmapsource.IsFrozen && bitmapsource.CanFreeze)
-            {
-                bitmapsource.Freeze();
-            }
-            return bitmapsource;
+            imagesource.Freeze();
+            return imagesource;
         }
 
         public static byte[] WebpEncode(this byte[] resim, int kalite)

@@ -40,6 +40,7 @@ namespace Takvim
         public double ItemWidth
         {
             get => (double)GetValue(ItemWidthProperty);
+
             set
             {
                 if (value <= 0)
@@ -62,6 +63,7 @@ namespace Takvim
         public double ItemHeight
         {
             get => (double)GetValue(ItemHeightProperty);
+
             set
             {
                 if (value <= 0)
@@ -605,5 +607,4 @@ namespace Takvim
     }
 
     #endregion VirtualizingWrapPanel
-
 }

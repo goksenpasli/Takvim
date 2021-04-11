@@ -24,33 +24,6 @@ namespace TwainControl
             Png
         }
 
-        public static PdfDocument CreatePdfFile(this BitmapFrame SeçiliResim, bool compress = false)
-        {
-            try
-            {
-                using (PdfDocument doc = new PdfDocument())
-                {
-                    if (compress)
-                    {
-                        doc.Options.FlateEncodeMode = PdfFlateEncodeMode.BestCompression;
-                        doc.Options.UseFlateDecoderForJpegImages = PdfUseFlateDecoderForJpegImages.Automatic;
-                        doc.Options.NoCompression = false;
-                        doc.Options.CompressContentStreams = true;
-                    }
-                    PdfPage page = doc.AddPage();
-                    XGraphics gfx = XGraphics.FromPdfPage(page);
-                    XImage xImage = XImage.FromBitmapSource(SeçiliResim);
-                    gfx.DrawImage(xImage, 0, 0, page.Width, page.Height);
-                    return doc;
-                }
-            }
-            catch (Exception Ex)
-            {
-                MessageBox.Show(Ex.Message);
-                return null;
-            }
-        }
-
         public static Bitmap ConvertBlackAndWhite(this Bitmap bitmap, int bWthreshold, bool grayscale = false)
         {
             unsafe
@@ -84,6 +57,33 @@ namespace TwainControl
             }
 
             return bitmap;
+        }
+
+        public static PdfDocument CreatePdfFile(this BitmapFrame SeçiliResim, bool compress = false)
+        {
+            try
+            {
+                using (PdfDocument doc = new PdfDocument())
+                {
+                    if (compress)
+                    {
+                        doc.Options.FlateEncodeMode = PdfFlateEncodeMode.BestCompression;
+                        doc.Options.UseFlateDecoderForJpegImages = PdfUseFlateDecoderForJpegImages.Automatic;
+                        doc.Options.NoCompression = false;
+                        doc.Options.CompressContentStreams = true;
+                    }
+                    PdfPage page = doc.AddPage();
+                    XGraphics gfx = XGraphics.FromPdfPage(page);
+                    XImage xImage = XImage.FromBitmapSource(SeçiliResim);
+                    gfx.DrawImage(xImage, 0, 0, page.Width, page.Height);
+                    return doc;
+                }
+            }
+            catch (Exception Ex)
+            {
+                MessageBox.Show(Ex.Message);
+                return null;
+            }
         }
 
         public static BitmapSource Resize(this BitmapSource bfPhoto, double nWidth, double nHeight, double rotate = 0, int dpiX = 96, int dpiY = 96)

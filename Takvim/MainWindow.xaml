@@ -112,10 +112,10 @@
                                         </TextBlock>
                                     </ScrollViewer>
                                     <local:ShadowedImage Grid.Column="1"
-                                        Width="128" Height="128"
+                                        Width="120" Height="120"
                                         HorizontalAlignment="Right"
                                         ShowShadow="True"
-                                        Source="{Binding ConverterParameter=128, Converter={StaticResource Base64ImageConverter}, IsAsync=True, XPath=Resim}">
+                                        Source="{Binding ConverterParameter=120, Converter={StaticResource Base64ImageConverter}, IsAsync=True, XPath=Resim}">
                                         <local:ShadowedImage.InputBindings>
                                             <MouseBinding Command="{Binding Tag.DosyaGör, ElementName=Lb}" CommandParameter="{Binding Mode=OneWay}" Gesture="CTRL+LeftClick" />
                                         </local:ShadowedImage.InputBindings>
@@ -518,7 +518,7 @@
                 <UniformGrid Columns="3" Rows="5">
                     <UniformGrid.Resources>
                         <Style x:Key="CbColorBaseStyle" BasedOn="{StaticResource {x:Type ComboBox}}" TargetType="{x:Type ComboBox}">
-                            <Setter Property="ItemContainerStyle" Value="{StaticResource ComboBoxItemContainerStyle}" />
+                            <Setter Property="ItemContainerStyle" Value="{StaticResource ComboBoxColorItemContainerStyle}" />
                             <Setter Property="ItemTemplate" Value="{StaticResource ComboBoxRectItemTemplate}" />
                             <Setter Property="ItemsPanel" Value="{StaticResource CbItemsPanelTemplate}" />
                             <Setter Property="ItemsSource" Value="{Binding Source={StaticResource Renkler}}" />

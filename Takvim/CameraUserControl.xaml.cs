@@ -43,6 +43,8 @@ namespace Takvim
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        public ICommand Durdur { get; }
+
         public FilterInfo[] Liste
         {
             get => liste;
@@ -57,11 +59,9 @@ namespace Takvim
             }
         }
 
-        public ICommand ResimYükle { get; }
-
-        public ICommand Durdur { get; }
-
         public ICommand Oynat { get; }
+
+        public ICommand ResimYükle { get; }
 
         public FilterInfo SeçiliKamera
         {

@@ -211,7 +211,7 @@ namespace Takvim
                         imageFile.Flush();
                     }
                 }
-            }, parameter => parameter is XmlElement xmlElement && xmlElement["Resim"] is not null);
+            }, parameter => true);
 
             PencereKapat = new RelayCommand<object>(parameter =>
             {
@@ -393,14 +393,6 @@ namespace Takvim
             PropertyChanged += Data_PropertyChanged;
         }
 
-        private void Data_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName is "AyTekrar")
-            {
-                AyTekrarGun = AyTekrar ? DateTime.Now.Day : 0;
-            }
-        }
-
         public string Ay
         {
             get => ay;
@@ -459,7 +451,7 @@ namespace Takvim
 
         public ICommand CsvDosyasınaYaz { get; }
 
-        public ICommand EkDosyaAç { get; }
+        public ICommand DosyaGör { get; }
 
         public ObservableCollection<string> Dosyalar
         {
@@ -488,6 +480,8 @@ namespace Takvim
                 }
             }
         }
+
+        public ICommand EkDosyaAç { get; }
 
         public string Error => string.Empty;
 
@@ -548,8 +542,6 @@ namespace Takvim
         }
 
         public ICommand IcalEkle { get; }
-
-        public ICommand DosyaGör { get; }
 
         public int Id
         {
@@ -765,6 +757,14 @@ namespace Takvim
             "EtkinlikSüresi" when EtkinlikSüresi is > 24 or < 0 => "Etkinlik Süresini 0-24 Arasında Girin.",
             _ => null
         };
+
+        private void Data_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName is "AyTekrar")
+            {
+                AyTekrarGun = AyTekrar ? DateTime.Now.Day : 0;
+            }
+        }
 
         private void UpdateAttribute(XmlAttribute xmlAttribute, string attributevalue, string updatedattributevalue)
         {

@@ -1,17 +1,17 @@
-﻿using System;
-using PdfSharp.Windows;
-
-namespace Takvim
+﻿namespace Takvim
 {
     public class MultipleImage : Data
     {
         private double angle;
-        private double zoom = 1;
+
         private string resim;
+
+        private double zoom = 1;
 
         public double Angle
         {
             get => angle;
+
             set
             {
                 if (angle != value)

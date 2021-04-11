@@ -125,6 +125,7 @@ namespace TwainControl
                             case 2:
                                 File.WriteAllBytes(saveFileDialog.FileName, resim.ToTiffJpegByteArray(Picture.Format.Jpg));
                                 break;
+
                             case 3:
                                 using (MemoryStream ms = new MemoryStream())
                                 {
@@ -287,6 +288,7 @@ namespace TwainControl
         }
 
         public ICommand ResimSil { get; }
+
         public ICommand ScanImage { get; }
 
         public BitmapFrame SeçiliResim
@@ -372,6 +374,7 @@ namespace TwainControl
                 }
             }
         }
+
         public IList<string> Tarayıcılar
         {
             get => tarayıcılar;
@@ -403,7 +406,7 @@ namespace TwainControl
         }
 
         protected virtual void OnPropertyChanged(string propertyName = null) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        
+
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             try

@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Media;
 using System.Xml;
+
 namespace Takvim
 {
     public class MultipleImageViewer : InpcBase
@@ -41,6 +42,5 @@ namespace Takvim
                 }
             }
         }
-
     }
 }

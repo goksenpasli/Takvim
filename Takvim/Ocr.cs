@@ -11,6 +11,7 @@ namespace Takvim
     public static class Ocr
     {
         public static readonly bool tesseractexsist = Directory.Exists(Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) + @"\tessdata");
+
         public static string OcrYap(this byte[] dosya)
         {
             if (tesseractexsist)

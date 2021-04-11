@@ -75,7 +75,7 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="3*" />
                     <ColumnDefinition Width="2*" />
-                    <ColumnDefinition Width="4*" />
+                    <ColumnDefinition Width="3*" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -105,7 +105,7 @@
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="AY TEKRAR" VerticalAlignment="Center" />
                             <Slider IsEnabled="{Binding AyTekrar}"
-                                Width="57"
+                                Width="70"
                                 AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" Maximum="31" Minimum="1"
                                 SmallChange="1" ToolTip="AYIN KAÇINCI GÜNÜ TEKRAR EDİLECEK"
                                 Value="{Binding AyTekrarGun, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
@@ -116,7 +116,7 @@
                         IsChecked="{Binding KilitliMi, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
                         ToolTip="BU İŞARETLENİRSE TARİH KİLİTLENİR TAŞIMA YAPILMAZ" />
                     <ComboBox ItemsSource="{Binding Source={StaticResource Renkler}}"
-                        ItemContainerStyle="{StaticResource ComboBoxItemContainerStyle}"
+                        ItemContainerStyle="{StaticResource ComboBoxColorItemContainerStyle}"
                         ItemTemplate="{StaticResource ComboBoxRectItemTemplate}"
                         ItemsPanel="{StaticResource CbItemsPanelTemplate}"
                         ScrollViewer.VerticalScrollBarVisibility="Disabled"
@@ -170,29 +170,33 @@
                 <Button Content="VERİYİ EKLE"
                     Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2"
                     Command="{Binding XmlVeriEkle, Mode=OneWay}" />
-                <Grid Grid.Row="0" Grid.Column="2" Grid.RowSpan="6">
+                <GroupBox Grid.Row="0" Grid.Column="2" Grid.RowSpan="7">
+                    <GroupBox.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <ContentControl IsEnabled="{Binding ResimData, Converter={StaticResource NullableToBooleanConverter}, Mode=OneWay}"
+                                Width="16" Height="16"
+                                HorizontalAlignment="Left" VerticalAlignment="Center"
+                                Template="{StaticResource Eye}">
+                                <ContentControl.ToolTip>
+                                    <ToolTip Template="{StaticResource GreenToolTipControlTemplate}">
+                                        <Grid>
+                                            <Image Source="{Binding ResimData, ConverterParameter=600, Converter={StaticResource WebpByteArrayToImageConverter}, Mode=OneWay}" />
+                                            <Viewbox Width="200" Height="200">
+                                                <TextBlock Text="{Binding Boyut, StringFormat=\{0\} KB}" Foreground="Red" />
+                                            </Viewbox>
+                                        </Grid>
+                                    </ToolTip>
+                                </ContentControl.ToolTip>
+                            </ContentControl>
+                            <Slider Width="160"
+                                AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" IsTabStop="False" LargeChange="1"
+                                Maximum="100" Minimum="1" SmallChange="1" TickFrequency="1"
+                                ToolTip="WEBP RESİM YÜKLEME KALİTESİ 1 EN DÜŞÜK BOYUTTUR. DEĞERİ DEĞİŞTİRİP DOSYAYI TEKRAR YÜKLEYİP ÖNİZLEME GÖZÜNDEN BAKIN"
+                                Value="{Binding WebpQuality, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        </StackPanel>
+                    </GroupBox.Header>
                     <Image Source="{Binding ResimData, ConverterParameter=96, Converter={StaticResource WebpByteArrayToImageConverter}, Mode=OneWay}" />
-                    <ContentControl IsEnabled="{Binding ResimData, Converter={StaticResource NullableToBooleanConverter}, Mode=OneWay}"
-                        Width="16" Height="16"
-                        HorizontalAlignment="Left" VerticalAlignment="Top"
-                        Template="{StaticResource Eye}">
-                        <ContentControl.ToolTip>
-                            <ToolTip Template="{StaticResource GreenToolTipControlTemplate}">
-                                <Grid>
-                                    <Image Source="{Binding ResimData, ConverterParameter=600, Converter={StaticResource WebpByteArrayToImageConverter}, Mode=OneWay}" />
-                                    <Viewbox Width="200" Height="200">
-                                        <TextBlock Text="{Binding Boyut, StringFormat=\{0\} KB}" Foreground="Red" />
-                                    </Viewbox>
-                                </Grid>
-                            </ToolTip>
-                        </ContentControl.ToolTip>
-                    </ContentControl>
-                </Grid>
-                <Slider Grid.Row="6" Grid.Column="2"
-                    AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" IsTabStop="False" LargeChange="1"
-                    Maximum="100" Minimum="1" SmallChange="1" TickFrequency="1"
-                    ToolTip="WEBP RESİM YÜKLEME KALİTESİ 1 EN DÜŞÜK BOYUTTUR. DEĞERİ DEĞİŞTİRİP DOSYAYI TEKRAR YÜKLEYİP ÖNİZLEME GÖZÜNDEN BAKIN"
-                    Value="{Binding WebpQuality, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                </GroupBox>
                 <UniformGrid Grid.Row="8" Grid.Column="2" Columns="3">
                     <local:ContentToggleButton>
                         <local:ContentToggleButton.OverContent>

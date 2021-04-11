@@ -66,15 +66,15 @@ namespace Takvim
 
         private short sütünSayısı = Properties.Settings.Default.Sütün;
 
-        private ObservableCollection<Data> yaklaşanEtkinlikler;
-
-        private string zaman;
-
-        private ObservableCollection<Data> üçAylıkGünler;
-
         private Data şuAnkiGünVerisi;
 
         private bool tümkayıtlar = true;
+
+        private ObservableCollection<Data> üçAylıkGünler;
+
+        private ObservableCollection<Data> yaklaşanEtkinlikler;
+
+        private string zaman;
 
         public MainViewModel()
         {
@@ -190,20 +190,6 @@ namespace Takvim
             Properties.Settings.Default.PropertyChanged += Properties_PropertyChanged;
         }
 
-        private void DatetimeTimer()
-        {
-            if (!DesignerProperties.GetIsInDesignMode(new DependencyObject()))
-            {
-                DispatcherTimer datetimer = new(DispatcherPriority.Normal)
-                {
-                    Interval = TimeSpan.FromSeconds(1)
-                };
-                datetimer.Start();
-                datetimer.Tick += (s, e) => Zaman = DateTime.Now.ToString("HH:mm:ss");
-            }
-            Zaman = DateTime.Now.ToString("HH:mm:ss");
-        }
-
         public DateTime? AnimasyonTarih
         {
             get => animasyonTarih;
@@ -228,20 +214,6 @@ namespace Takvim
                 {
                     aramaMetin = value;
                     OnPropertyChanged(nameof(AramaMetin));
-                }
-            }
-        }
-
-        public bool TümKayıtlar
-        {
-            get => tümkayıtlar;
-
-            set
-            {
-                if (tümkayıtlar != value)
-                {
-                    tümkayıtlar = value;
-                    OnPropertyChanged(nameof(TümKayıtlar));
                 }
             }
         }
@@ -358,20 +330,6 @@ namespace Takvim
             }
         }
 
-        public Data ŞuAnkiGünVerisi
-        {
-            get => şuAnkiGünVerisi;
-
-            set
-            {
-                if (şuAnkiGünVerisi != value)
-                {
-                    şuAnkiGünVerisi = value;
-                    OnPropertyChanged(nameof(ŞuAnkiGünVerisi));
-                }
-            }
-        }
-
         public short SatırSayısı
         {
             get => satırSayısı;
@@ -460,20 +418,30 @@ namespace Takvim
             }
         }
 
-        public ICommand VeriAra { get; }
-
-        public ICommand VeritabanıAç { get; }
-
-        public ObservableCollection<Data> YaklaşanEtkinlikler
+        public Data ŞuAnkiGünVerisi
         {
-            get => yaklaşanEtkinlikler;
+            get => şuAnkiGünVerisi;
 
             set
             {
-                if (yaklaşanEtkinlikler != value)
+                if (şuAnkiGünVerisi != value)
                 {
-                    yaklaşanEtkinlikler = value;
-                    OnPropertyChanged(nameof(YaklaşanEtkinlikler));
+                    şuAnkiGünVerisi = value;
+                    OnPropertyChanged(nameof(ŞuAnkiGünVerisi));
+                }
+            }
+        }
+
+        public bool TümKayıtlar
+        {
+            get => tümkayıtlar;
+
+            set
+            {
+                if (tümkayıtlar != value)
+                {
+                    tümkayıtlar = value;
+                    OnPropertyChanged(nameof(TümKayıtlar));
                 }
             }
         }
@@ -488,6 +456,24 @@ namespace Takvim
                 {
                     üçAylıkGünler = value;
                     OnPropertyChanged(nameof(ÜçAylıkGünler));
+                }
+            }
+        }
+
+        public ICommand VeriAra { get; }
+
+        public ICommand VeritabanıAç { get; }
+
+        public ObservableCollection<Data> YaklaşanEtkinlikler
+        {
+            get => yaklaşanEtkinlikler;
+
+            set
+            {
+                if (yaklaşanEtkinlikler != value)
+                {
+                    yaklaşanEtkinlikler = value;
+                    OnPropertyChanged(nameof(YaklaşanEtkinlikler));
                 }
             }
         }
@@ -517,6 +503,26 @@ namespace Takvim
             "SeçiliYıl" when SeçiliYıl is <= 0 or > 9999 => "Seçili Yıl 1-9999 Aralığındadır.",
             _ => null
         };
+
+        private void AyTakvimVerileriniOluştur(short SeçiliAy)
+        {
+            AyGünler = new ObservableCollection<Data>(Günler?.Where(z => z.TamTarih.Month == SeçiliAy));
+            ÜçAylıkGünler = new ObservableCollection<Data>(Günler?.Where(z => z.TamTarih.Month == SeçiliAy - 1 || z.TamTarih.Month == SeçiliAy || z.TamTarih.Month == SeçiliAy + 1));
+        }
+
+        private void DatetimeTimer()
+        {
+            if (!DesignerProperties.GetIsInDesignMode(new DependencyObject()))
+            {
+                DispatcherTimer datetimer = new(DispatcherPriority.Normal)
+                {
+                    Interval = TimeSpan.FromSeconds(1)
+                };
+                datetimer.Start();
+                datetimer.Tick += (s, e) => Zaman = DateTime.Now.ToString("HH:mm:ss");
+            }
+            Zaman = DateTime.Now.ToString("HH:mm:ss");
+        }
 
         private void GenerateSystemTrayMenu()
         {
@@ -550,11 +556,6 @@ namespace Takvim
                 Application.Current.MainWindow.Show();
                 Application.Current.MainWindow.WindowState = AppWindowState;
             };
-        }
-        private void AyTakvimVerileriniOluştur(short SeçiliAy)
-        {
-            AyGünler = new ObservableCollection<Data>(Günler?.Where(z => z.TamTarih.Month == SeçiliAy));
-            ÜçAylıkGünler = new ObservableCollection<Data>(Günler?.Where(z => z.TamTarih.Month == SeçiliAy - 1 || z.TamTarih.Month == SeçiliAy || z.TamTarih.Month == SeçiliAy + 1));
         }
 
         private void MainViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
