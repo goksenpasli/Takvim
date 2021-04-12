@@ -102,7 +102,7 @@
                                                 </Style>
                                             </TextBlock.Style>
                                             <Hyperlink x:Name="Hyp"
-                                                Command="{Binding Tag.XmlVeriSil, Mode=OneWay, ElementName=Lb}"
+                                                Command="{Binding Tag.XmlVeriSil, Mode=OneWay, ElementName=MiniCalendar}"
                                                 CommandParameter="{Binding XPath=@Id}"
                                                 FontFamily="Segoe UI Black">
                                                 <Run Text="X" />
@@ -117,7 +117,7 @@
                                         ShowShadow="True"
                                         Source="{Binding ConverterParameter=120, Converter={StaticResource Base64ImageConverter}, IsAsync=True, XPath=Resim}">
                                         <local:ShadowedImage.InputBindings>
-                                            <MouseBinding Command="{Binding Tag.DosyaGör, ElementName=Lb}" CommandParameter="{Binding Mode=OneWay}" Gesture="CTRL+LeftClick" />
+                                            <MouseBinding Command="{Binding Tag.DosyaGör, ElementName=MiniCalendar}" CommandParameter="{Binding Mode=OneWay}" Gesture="CTRL+LeftClick" />
                                         </local:ShadowedImage.InputBindings>
                                         <local:ShadowedImage.ToolTip>
                                             <ToolTip Template="{StaticResource GreenToolTipControlTemplate}">
@@ -136,7 +136,7 @@
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                         <ListBox.InputBindings>
-                            <MouseBinding Command="{Binding Tag.VeriEkleEkranı, Mode=OneWay, ElementName=Lb}" CommandParameter="{Binding ElementName=Lb, Path=Tag}" MouseAction="LeftDoubleClick" />
+                            <MouseBinding Command="{Binding Tag.VeriEkleEkranı, Mode=OneWay, ElementName=MiniCalendar}" CommandParameter="{Binding ElementName=MiniCalendar, Path=Tag}" MouseAction="LeftDoubleClick" />
                         </ListBox.InputBindings>
                         <ListBox.Style>
                             <Style TargetType="ListBox">
@@ -162,136 +162,10 @@
                         </ListBox.Style>
                     </ListBox>
                     <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto">
-                        <StackPanel Background="{StaticResource BorderBackground}" Language="tr-tr">
-                            <StackPanel.DataContext>
-                                <local:MainViewModel />
-                            </StackPanel.DataContext>
-                            <StackPanel.Resources>
-                                <CollectionViewSource x:Key="ÜçAylıkGünler" Source="{Binding ÜçAylıkGünler}">
-                                    <CollectionViewSource.GroupDescriptions>
-                                        <PropertyGroupDescription PropertyName="Ay" />
-                                    </CollectionViewSource.GroupDescriptions>
-                                </CollectionViewSource>
-                            </StackPanel.Resources>
-                            <TextBlock Text="{Binding Zaman}" FontSize="18" />
-                            <TextBlock Text="{Binding ŞuAnkiGünVerisi.TamTarih, StringFormat=\{0:D\}}" FontWeight="Bold" />
-                            <Separator Margin="0,5,0,2" />
-                            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                                <Button Content="ç"
-                                    Background="{x:Null}"
-                                    Command="{Binding AyGeri}"
-                                    FontFamily="Wingdings"
-                                    ToolTip="ÖNCEKİ AY" />
-                                <Button Content="è"
-                                    Background="{x:Null}"
-                                    Command="{Binding Ayİleri}"
-                                    FontFamily="Wingdings"
-                                    ToolTip="SONRAKİ AY" />
-                            </StackPanel>
-                            <ItemsControl x:Name="Lb" ItemsSource="{Binding Mode=OneWay, Source={StaticResource ÜçAylıkGünler}}" Tag="{Binding ŞuAnkiGünVerisi}">
-                                <ItemsControl.Template>
-                                    <ControlTemplate TargetType="ItemsControl">
-                                        <ScrollViewer Padding="{TemplateBinding Padding}"
-                                            CanContentScroll="True" Focusable="False" VerticalScrollBarVisibility="Auto">
-                                            <ItemsPresenter />
-                                        </ScrollViewer>
-                                    </ControlTemplate>
-                                </ItemsControl.Template>
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <local:SplitButton Background="{Binding TamTarih.Month, Converter={StaticResource MonthToColorConverter}, Mode=OneWay}" Command="{Binding VeriEkleEkranı, Mode=OneWay}" CommandParameter="{Binding Mode=OneWay}">
-                                            <local:SplitButton.Content>
-                                                <Border Width="32" Height="32"
-                                                    local:MovableControl.MoveData="True"
-                                                    local:MovableControl.PlacedData="{Binding}"
-                                                    AllowDrop="True">
-                                                    <TextBlock FontSize="11">
-                                                        <TextBlock.Style>
-                                                            <Style TargetType="TextBlock">
-                                                                <Setter Property="Foreground" Value="Blue" />
-                                                                <Setter Property="FontWeight" Value="Bold" />
-                                                                <Style.Triggers>
-                                                                    <DataTrigger Binding="{Binding VeriSayısı}" Value="0">
-                                                                        <Setter Property="Foreground" Value="Black" />
-                                                                        <Setter Property="FontWeight" Value="Normal" />
-                                                                    </DataTrigger>
-                                                                </Style.Triggers>
-                                                            </Style>
-                                                        </TextBlock.Style>
-                                                        <Run Text="{Binding Gün}" />
-                                                        <LineBreak />
-                                                        <Run Text="{Binding GünAdı}" />
-                                                    </TextBlock>
-                                                    <Border.Style>
-                                                        <Style TargetType="Border">
-                                                            <Setter Property="BorderBrush" Value="Black" />
-                                                            <Style.Triggers>
-                                                                <Trigger Property="IsMouseOver" Value="True">
-                                                                    <Setter Property="BorderBrush" Value="Cyan" />
-                                                                </Trigger>
-                                                            </Style.Triggers>
-                                                        </Style>
-                                                    </Border.Style>
-                                                </Border>
-                                            </local:SplitButton.Content>
-                                            <local:SplitButton.InternalContent>
-                                                <ListBox ItemsSource="{Binding Converter={StaticResource SelectedDateToDataListConverter}, Mode=OneWay}"
-                                                    ItemContainerStyle="{StaticResource GünListBoxItemContainerStyle}"
-                                                    ItemTemplate="{StaticResource ListBoxEditDataTemplate}"
-                                                    VirtualizingStackPanel.VirtualizationMode="Recycling">
-                                                    <ListBox.ItemsPanel>
-                                                        <ItemsPanelTemplate>
-                                                            <local:VirtualizingWrapPanel Width="500" Height="300" />
-                                                        </ItemsPanelTemplate>
-                                                    </ListBox.ItemsPanel>
-                                                </ListBox>
-                                            </local:SplitButton.InternalContent>
-                                        </local:SplitButton>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                                <ItemsControl.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <UniformGrid Columns="7" FirstColumn="{Binding Items/Offset}" RenderTransformOrigin="0.5,0.5">
-                                            <UniformGrid.Resources>
-                                                <Storyboard x:Key="MonthRotateAnimation" Timeline.DesiredFrameRate="30">
-                                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)">
-                                                        <EasingDoubleKeyFrame KeyTime="0" Value="0" />
-                                                        <EasingDoubleKeyFrame KeyTime="0:0:0.10" Value="-20" />
-                                                        <EasingDoubleKeyFrame KeyTime="0:0:0.30" Value="20" />
-                                                        <EasingDoubleKeyFrame KeyTime="0:0:0.40" Value="0" />
-                                                    </DoubleAnimationUsingKeyFrames>
-                                                </Storyboard>
-                                            </UniformGrid.Resources>
-                                            <UniformGrid.Triggers>
-                                                <EventTrigger RoutedEvent="FrameworkElement.Loaded">
-                                                    <BeginStoryboard Storyboard="{StaticResource MonthRotateAnimation}" />
-                                                </EventTrigger>
-                                            </UniformGrid.Triggers>
-                                            <UniformGrid.RenderTransform>
-                                                <TransformGroup>
-                                                    <ScaleTransform />
-                                                    <SkewTransform />
-                                                    <RotateTransform />
-                                                    <TranslateTransform />
-                                                </TransformGroup>
-                                            </UniformGrid.RenderTransform>
-                                        </UniformGrid>
-                                    </ItemsPanelTemplate>
-                                </ItemsControl.ItemsPanel>
-                                <ItemsControl.GroupStyle>
-                                    <GroupStyle>
-                                        <GroupStyle.HeaderTemplate>
-                                            <DataTemplate>
-                                                <TextBlock Text="{Binding Path=Name}"
-                                                    HorizontalAlignment="Center"
-                                                    FontSize="15" FontWeight="Bold" />
-                                            </DataTemplate>
-                                        </GroupStyle.HeaderTemplate>
-                                    </GroupStyle>
-                                </ItemsControl.GroupStyle>
-                            </ItemsControl>
-                            <Separator />
-                        </StackPanel>
+                        <ScrollViewer.DataContext>
+                            <local:MainViewModel />
+                        </ScrollViewer.DataContext>
+                        <local:MiniCalendarControl x:Name="MiniCalendar" Tag="{Binding ŞuAnkiGünVerisi}" />
                     </ScrollViewer>
                 </Grid>
             </TabItem>
@@ -429,7 +303,7 @@
             </Grid.RowDefinitions>
             <GroupBox Grid.Row="0" Margin="2">
                 <GroupBox.Header>
-                    <Button Command="{Binding Tag.CsvDosyasınaYaz, Mode=OneWay, ElementName=Lb}" CommandParameter="{Binding Günler}" Tag=".csv">
+                    <Button Command="{Binding Tag.CsvDosyasınaYaz, Mode=OneWay, ElementName=MiniCalendar}" CommandParameter="{Binding Günler}" Tag=".csv">
                         <Image Width="24" Height="24" Source="{Binding Tag, Converter={StaticResource RegistryToIconConverter}, RelativeSource={RelativeSource AncestorType={x:Type Button}}}" />
                     </Button>
                 </GroupBox.Header>
@@ -447,7 +321,7 @@
                                         <TextBlock x:Name="Tb" Text="B"
                                             FontSize="18" FontFamily="Wingdings" FontWeight="Bold" />
                                     </Canvas>
-                                    <local:SplitButton Content="DOSYA AÇ" Command="{Binding Tag.DosyaGör, ElementName=Lb}" CommandParameter="{Binding Mode=OneWay}">
+                                    <local:SplitButton Content="DOSYA AÇ" Command="{Binding Tag.DosyaGör, ElementName=MiniCalendar}" CommandParameter="{Binding Mode=OneWay}">
                                         <local:SplitButton.Style>
                                             <Style BasedOn="{StaticResource {x:Type local:SplitButton}}" TargetType="{x:Type local:SplitButton}">
                                                 <Setter Property="BorderBrush" Value="Yellow" />
@@ -468,7 +342,7 @@
                                                         <StackPanel Orientation="Horizontal">
                                                             <Image Width="24" Height="24" Source="{Binding Converter={StaticResource FilePathToIconConverter}, XPath=@Yol}" />
                                                             <TextBlock VerticalAlignment="Center">
-                                                                <Hyperlink Command="{Binding Tag.EkDosyaAç, Mode=OneWay, ElementName=Lb}" CommandParameter="{Binding XPath=@Yol}">
+                                                                <Hyperlink Command="{Binding Tag.EkDosyaAç, Mode=OneWay, ElementName=MiniCalendar}" CommandParameter="{Binding XPath=@Yol}">
                                                                     <Run Text="{Binding XPath=@Ad}" />
                                                                 </Hyperlink>
                                                             </TextBlock>

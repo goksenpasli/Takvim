@@ -109,12 +109,15 @@
                             <RowDefinition Height="Auto" />
                             <RowDefinition />
                         </Grid.RowDefinitions>
-                        <Slider Grid.Row="0"
-                            Maximum="10" Minimum="0.25"
-                            Value="{Binding Zoom}" />
-                        <Slider Grid.Row="1"
-                            Maximum="360" Minimum="0"
-                            Value="{Binding Angle}" />
+                        <local:MiniCalendarControl Grid.Row="0">
+                            <local:MiniCalendarControl.DataContext>
+                                <local:MainViewModel ŞuAnkiAy="True" />
+                            </local:MiniCalendarControl.DataContext>
+                        </local:MiniCalendarControl>
+                        <UniformGrid Grid.Row="1" Columns="2">
+                            <Slider Maximum="10" Minimum="0.25" Value="{Binding Zoom}" />
+                            <Slider Maximum="360" Minimum="0" Value="{Binding Angle}" />
+                        </UniformGrid>
                         <ScrollViewer Grid.Row="2" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                             <local:ShadowedImage RenderTransformOrigin="0.5,0.5" ShowShadow="True" Source="{Binding ElementName=Lb, Path=SelectedItem.Resim, Converter={StaticResource Base64ImageConverter}}">
                                 <Image.LayoutTransform>

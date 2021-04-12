@@ -75,6 +75,7 @@ namespace Takvim
         private ObservableCollection<Data> yaklaşanEtkinlikler;
 
         private string zaman;
+        private bool şuAnkiAy;
 
         public MainViewModel()
         {
@@ -432,6 +433,20 @@ namespace Takvim
             }
         }
 
+        public bool ŞuAnkiAy
+        {
+            get => şuAnkiAy;
+
+            set
+            {
+                if (şuAnkiAy != value)
+                {
+                    şuAnkiAy = value;
+                    OnPropertyChanged(nameof(ŞuAnkiAy));
+                }
+            }
+        }
+
         public bool TümKayıtlar
         {
             get => tümkayıtlar;
@@ -506,8 +521,8 @@ namespace Takvim
 
         private void AyTakvimVerileriniOluştur(short SeçiliAy)
         {
-            AyGünler = new ObservableCollection<Data>(Günler?.Where(z => z.TamTarih.Month == SeçiliAy));
             ÜçAylıkGünler = new ObservableCollection<Data>(Günler?.Where(z => z.TamTarih.Month == SeçiliAy - 1 || z.TamTarih.Month == SeçiliAy || z.TamTarih.Month == SeçiliAy + 1));
+            AyGünler = new ObservableCollection<Data>(ÜçAylıkGünler.Where(z => z.TamTarih.Month == SeçiliAy));
         }
 
         private void DatetimeTimer()
@@ -542,20 +557,22 @@ namespace Takvim
                 ContextMenu = contextmenu
             };
 
-            menuitem.Click += (s, e) =>
+            menuitem.Click += (s, e) => AddData();
+
+            AppNotifyIcon.MouseClick += (s, e) =>
+            {
+                Application.Current.MainWindow?.Show();
+                Application.Current.MainWindow.WindowState = AppWindowState;
+            };
+
+            static void AddData()
             {
                 Data data = new()
                 {
                     TamTarih = DateTime.Today
                 };
                 data.VeriEkleEkranı.Execute(data);
-            };
-
-            AppNotifyIcon.Click += (s, e) =>
-            {
-                Application.Current.MainWindow.Show();
-                Application.Current.MainWindow.WindowState = AppWindowState;
-            };
+            }
         }
 
         private void MainViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
