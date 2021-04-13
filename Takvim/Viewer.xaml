@@ -69,16 +69,25 @@
             </TabItem>
             <TabItem Header="RESİMLER">
                 <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="4*" />
                         <ColumnDefinition Width="3*" />
                     </Grid.ColumnDefinitions>
+                    <local:MiniCalendarControl Grid.Row="0" Grid.Column="0">
+                        <local:MiniCalendarControl.DataContext>
+                            <local:MainViewModel ŞuAnkiAy="True" />
+                        </local:MiniCalendarControl.DataContext>
+                    </local:MiniCalendarControl>
                     <ListBox x:Name="Lb"
-                        Grid.Column="0"
+                        Grid.Row="1" Grid.Column="0"
                         HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
                         DataContext="{StaticResource MultipleImageViewer}"
                         ItemsSource="{Binding TopluDosyalar}"
-                        d:DataContext="{d:DesignInstance Type=local:MultipleImageViewer}"
+                        d:DataContext="{d:DesignInstance Type={x:Type local:MultipleImageViewer}}"
                         VirtualizingStackPanel.VirtualizationMode="Recycling">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
@@ -91,7 +100,7 @@
                                         <ScrollViewer Canvas.Bottom="0"
                                             Width="144" Height="176"
                                             HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                                            <local:ShadowedImage RenderTransformOrigin="0.5,0.5" ShowShadow="True" Source="{Binding Path=Resim, ConverterParameter=128, Converter={StaticResource Base64ImageConverter}, IsAsync=True, Mode=OneWay}" />
+                                            <local:ShadowedImage RenderTransformOrigin="0.5,0.5" ShowShadow="True" Source="{Binding Resim, ConverterParameter=128, Converter={StaticResource Base64ImageConverter}, IsAsync=True, Mode=OneWay}" />
                                         </ScrollViewer>
                                     </Canvas>
                                 </Border>
@@ -103,29 +112,23 @@
                             </ItemsPanelTemplate>
                         </ListBox.ItemsPanel>
                     </ListBox>
-                    <Grid Grid.Column="1">
+                    <Grid Grid.Column="1" Grid.RowSpan="2">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                             <RowDefinition />
                         </Grid.RowDefinitions>
-                        <local:MiniCalendarControl Grid.Row="0">
-                            <local:MiniCalendarControl.DataContext>
-                                <local:MainViewModel ŞuAnkiAy="True" />
-                            </local:MiniCalendarControl.DataContext>
-                        </local:MiniCalendarControl>
-                        <UniformGrid Grid.Row="1" Columns="2">
+                        <UniformGrid Grid.Row="0" Columns="2">
                             <Slider Maximum="10" Minimum="0.25" Value="{Binding Zoom}" />
                             <Slider Maximum="360" Minimum="0" Value="{Binding Angle}" />
                         </UniformGrid>
-                        <ScrollViewer Grid.Row="2" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                            <local:ShadowedImage RenderTransformOrigin="0.5,0.5" ShowShadow="True" Source="{Binding ElementName=Lb, Path=SelectedItem.Resim, Converter={StaticResource Base64ImageConverter}}">
-                                <Image.LayoutTransform>
+                        <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                            <local:ShadowedImage RenderTransformOrigin="0.5,0.5" ShowShadow="True" Source="{Binding SelectedItem.Resim, Converter={StaticResource Base64ImageConverter}, ElementName=Lb}">
+                                <local:ShadowedImage.LayoutTransform>
                                     <TransformGroup ice:Freeze="True">
                                         <ScaleTransform ice:Freeze="True" ScaleX="{Binding Zoom}" ScaleY="{Binding Zoom}" />
                                         <RotateTransform ice:Freeze="True" Angle="{Binding Angle}" />
                                     </TransformGroup>
-                                </Image.LayoutTransform>
+                                </local:ShadowedImage.LayoutTransform>
                             </local:ShadowedImage>
                         </ScrollViewer>
                     </Grid>

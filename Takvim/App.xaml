@@ -287,14 +287,14 @@
                     <RotateTransform Angle="45" CenterX="0.5" CenterY="0.5" />
                 </LinearGradientBrush.RelativeTransform>
                 <GradientStop Offset="0.5" Color="Transparent" />
-                <GradientStop Offset="0.5" Color="{Binding DataContext.BayramTatilRenk, Converter={StaticResource BrushToColorConverter}, ElementName=Window}" />
+                <GradientStop Offset="0.5" Color="{Binding DataContext.BayramTatilRenk, Converter={StaticResource BrushToColorConverter}, RelativeSource={RelativeSource AncestorType=Window}}" />
             </LinearGradientBrush>
             <LinearGradientBrush x:Key="HolidayHalfBackground" ice:Freeze="True" StartPoint="0,0" EndPoint="1,0">
                 <LinearGradientBrush.RelativeTransform>
                     <RotateTransform Angle="45" CenterX="0.5" CenterY="0.5" />
                 </LinearGradientBrush.RelativeTransform>
                 <GradientStop Offset="0.5" Color="Transparent" />
-                <GradientStop Offset="0.5" Color="{Binding DataContext.ResmiTatilRenk, Converter={StaticResource BrushToColorConverter}, ElementName=Window}" />
+                <GradientStop Offset="0.5" Color="{Binding DataContext.ResmiTatilRenk, Converter={StaticResource BrushToColorConverter}, RelativeSource={RelativeSource AncestorType=Window}}" />
             </LinearGradientBrush>
             <Style TargetType="{x:Type GroupBox}">
                 <Setter Property="Background" Value="{StaticResource GroupBoxBackGround}" />
@@ -470,25 +470,25 @@
                 <Setter Property="Margin" Value="1" />
                 <Style.Triggers>
                     <DataTrigger Binding="{Binding GünAdı}" Value="Cmt">
-                        <Setter Property="Background" Value="{Binding DataContext.SeçiliRenkCmt, ElementName=Window}" />
+                        <Setter Property="Background" Value="{Binding DataContext.SeçiliRenkCmt, RelativeSource={RelativeSource AncestorType=Window}}" />
                     </DataTrigger>
                     <DataTrigger Binding="{Binding GünAdı}" Value="Paz">
-                        <Setter Property="Background" Value="{Binding DataContext.SeçiliRenkPaz, ElementName=Window}" />
+                        <Setter Property="Background" Value="{Binding DataContext.SeçiliRenkPaz, RelativeSource={RelativeSource AncestorType=Window}}" />
                     </DataTrigger>
                     <DataTrigger Binding="{Binding Converter={StaticResource GünTatilConverter}, Mode=OneWay}" Value="true">
-                        <Setter Property="Background" Value="{Binding DataContext.ResmiTatilRenk, ElementName=Window}" />
+                        <Setter Property="Background" Value="{Binding DataContext.ResmiTatilRenk, RelativeSource={RelativeSource AncestorType=Window}}" />
                     </DataTrigger>
                     <DataTrigger Binding="{Binding Converter={StaticResource GünTatilConverter}, Mode=OneWay}" Value="{x:Null}">
                         <Setter Property="Background" Value="{StaticResource HolidayHalfBackground}" />
                     </DataTrigger>
                     <DataTrigger Binding="{Binding TamTarih, Converter={StaticResource RamadanDateToHolidayConverter}, Mode=OneWay}" Value="true">
-                        <Setter Property="Background" Value="{Binding DataContext.BayramTatilRenk, ElementName=Window}" />
+                        <Setter Property="Background" Value="{Binding DataContext.BayramTatilRenk, RelativeSource={RelativeSource AncestorType=Window}}" />
                     </DataTrigger>
                     <DataTrigger Binding="{Binding TamTarih, Converter={StaticResource RamadanDateToHolidayConverter}, Mode=OneWay}" Value="{x:Null}">
                         <Setter Property="Background" Value="{StaticResource ReligiousDateHalfBackground}" />
                     </DataTrigger>
                     <DataTrigger Binding="{Binding TamTarih, Converter={StaticResource FeastoftheSacrificeDateToHolidayConverter}, Mode=OneWay}" Value="true">
-                        <Setter Property="Background" Value="{Binding DataContext.BayramTatilRenk, ElementName=Window}" />
+                        <Setter Property="Background" Value="{Binding DataContext.BayramTatilRenk, RelativeSource={RelativeSource AncestorType=Window}}" />
                     </DataTrigger>
                     <DataTrigger Binding="{Binding TamTarih, Converter={StaticResource FeastoftheSacrificeDateToHolidayConverter}, Mode=OneWay}" Value="{x:Null}">
                         <Setter Property="Background" Value="{StaticResource ReligiousDateHalfBackground}" />
@@ -693,7 +693,7 @@
                                 <GroupBox.Header>
                                     <TextBlock Text="{Binding Name, Mode=OneWay}" FontWeight="Bold" TextAlignment="Center" />
                                 </GroupBox.Header>
-                                <Border Background="{Binding DataContext.GövdeRenk, ElementName=Window}">
+                                <Border Background="{Binding DataContext.GövdeRenk, RelativeSource={RelativeSource AncestorType=Window}}">
                                     <ItemsPresenter />
                                 </Border>
                             </GroupBox>
