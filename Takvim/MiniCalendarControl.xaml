@@ -63,32 +63,18 @@
                         <local:SplitButton Command="{Binding VeriEkleEkranı, Mode=OneWay}" CommandParameter="{Binding Mode=OneWay}">
                             <local:SplitButton.Style>
                                 <Style TargetType="local:SplitButton">
-                                    <Setter Property="Background" Value="{Binding TamTarih.Month, Converter={StaticResource MonthToColorConverter}, Mode=OneWay}"/>
+                                    <Setter Property="Background" Value="{Binding TamTarih.Month, Converter={StaticResource MonthToColorConverter}, Mode=OneWay}" />
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding GünAdı}" Value="Cmt">
-                                            <Setter Property="Background" Value="{Binding DataContext.SeçiliRenkCmt, RelativeSource={RelativeSource AncestorType=Window}}" />
+                                            <Setter Property="Background" Value="{Binding DataContext.SeçiliRenkCmt, RelativeSource={RelativeSource AncestorType=UserControl}}" />
                                         </DataTrigger>
                                         <DataTrigger Binding="{Binding GünAdı}" Value="Paz">
-                                            <Setter Property="Background" Value="{Binding DataContext.SeçiliRenkPaz, RelativeSource={RelativeSource AncestorType=Window}}" />
+                                            <Setter Property="Background" Value="{Binding DataContext.SeçiliRenkPaz, RelativeSource={RelativeSource AncestorType=UserControl}}" />
                                         </DataTrigger>
                                         <DataTrigger Binding="{Binding Converter={StaticResource GünTatilConverter}, Mode=OneWay}" Value="true">
-                                            <Setter Property="Background" Value="{Binding DataContext.ResmiTatilRenk, RelativeSource={RelativeSource AncestorType=Window}}" />
+                                            <Setter Property="Background" Value="{Binding DataContext.ResmiTatilRenk, RelativeSource={RelativeSource AncestorType=UserControl}}" />
                                         </DataTrigger>
-                                        <DataTrigger Binding="{Binding Converter={StaticResource GünTatilConverter}, Mode=OneWay}" Value="{x:Null}">
-                                            <Setter Property="Background" Value="{StaticResource HolidayHalfBackground}" />
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding TamTarih, Converter={StaticResource RamadanDateToHolidayConverter}, Mode=OneWay}" Value="true">
-                                            <Setter Property="Background" Value="{Binding DataContext.BayramTatilRenk, RelativeSource={RelativeSource AncestorType=Window}}" />
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding TamTarih, Converter={StaticResource RamadanDateToHolidayConverter}, Mode=OneWay}" Value="{x:Null}">
-                                            <Setter Property="Background" Value="{StaticResource ReligiousDateHalfBackground}" />
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding TamTarih, Converter={StaticResource FeastoftheSacrificeDateToHolidayConverter}, Mode=OneWay}" Value="true">
-                                            <Setter Property="Background" Value="{Binding DataContext.BayramTatilRenk, RelativeSource={RelativeSource AncestorType=Window}}" />
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding TamTarih, Converter={StaticResource FeastoftheSacrificeDateToHolidayConverter}, Mode=OneWay}" Value="{x:Null}">
-                                            <Setter Property="Background" Value="{StaticResource ReligiousDateHalfBackground}" />
-                                        </DataTrigger>
+                                       
                                     </Style.Triggers>
                                 </Style>
                             </local:SplitButton.Style>
