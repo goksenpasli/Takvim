@@ -62,7 +62,7 @@
                     <DataTemplate>
                         <local:SplitButton Command="{Binding VeriEkleEkranı, Mode=OneWay}" CommandParameter="{Binding Mode=OneWay}">
                             <local:SplitButton.Style>
-                                <Style TargetType="local:SplitButton">
+                                <Style BasedOn="{StaticResource ResourceKey={x:Type local:SplitButton}}" TargetType="local:SplitButton">
                                     <Setter Property="Background" Value="{Binding TamTarih.Month, Converter={StaticResource MonthToColorConverter}, Mode=OneWay}" />
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding GünAdı}" Value="Cmt">
@@ -74,7 +74,7 @@
                                         <DataTrigger Binding="{Binding Converter={StaticResource GünTatilConverter}, Mode=OneWay}" Value="true">
                                             <Setter Property="Background" Value="{Binding DataContext.ResmiTatilRenk, RelativeSource={RelativeSource AncestorType=UserControl}}" />
                                         </DataTrigger>
-                                       
+
                                     </Style.Triggers>
                                 </Style>
                             </local:SplitButton.Style>
