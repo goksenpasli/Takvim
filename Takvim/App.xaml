@@ -33,7 +33,7 @@
             <local:GünTatilConverter x:Key="GünTatilConverter" />
             <local:RamadanDateToHolidayConverter x:Key="RamadanDateToHolidayConverter" />
             <local:FeastoftheSacrificeDateToHolidayConverter x:Key="FeastoftheSacrificeDateToHolidayConverter" />
-            <local:BrushToColorConverter x:Key="BrushToColorConverter" />
+            <local:DrawingColorToColorConverter x:Key="DrawingColorToColorConverter" />
             <local:AnimationtoBooleanConverter x:Key="AnimationtoBooleanConverter" />
             <local:SelectedDateToDataListConverter x:Key="SelectedDateToDataListConverter" />
             <local:WebpByteArrayToImageConverter x:Key="WebpByteArrayToImageConverter" />
@@ -287,14 +287,14 @@
                     <RotateTransform Angle="45" CenterX="0.5" CenterY="0.5" />
                 </LinearGradientBrush.RelativeTransform>
                 <GradientStop Offset="0.5" Color="Transparent" />
-                <GradientStop Offset="0.5" Color="{Binding DataContext.BayramTatilRenk, Converter={StaticResource BrushToColorConverter}, RelativeSource={RelativeSource AncestorType=local:MainWindow}}" />
+                <GradientStop Offset="0.5" Color="{Binding BayramRenk, Converter={StaticResource DrawingColorToColorConverter},  Source={x:Static properties:Settings.Default}}" />
             </LinearGradientBrush>
             <LinearGradientBrush x:Key="HolidayHalfBackground" ice:Freeze="True" StartPoint="0,0" EndPoint="1,0">
                 <LinearGradientBrush.RelativeTransform>
                     <RotateTransform Angle="45" CenterX="0.5" CenterY="0.5" />
                 </LinearGradientBrush.RelativeTransform>
                 <GradientStop Offset="0.5" Color="Transparent" />
-                <GradientStop Offset="0.5" Color="{Binding DataContext.ResmiTatilRenk, Converter={StaticResource BrushToColorConverter}, RelativeSource={RelativeSource AncestorType=local:MainWindow}}" />
+                <GradientStop Offset="0.5" Color="{Binding ResmiTatil, Converter={StaticResource DrawingColorToColorConverter}, Source={x:Static properties:Settings.Default}}" />
             </LinearGradientBrush>
             <Style TargetType="{x:Type GroupBox}">
                 <Setter Property="Background" Value="{StaticResource GroupBoxBackGround}" />
@@ -702,56 +702,71 @@
                 </Setter>
             </Style>
             <DataTemplate x:Key="ListBoxEditDataTemplate">
-                <StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <Canvas Width="18" Height="18"
-                            Background="Transparent"
-                            HorizontalAlignment="Left" VerticalAlignment="Top"
-                            Style="{StaticResource CanvasDragStyle}">
-                            <TextBlock x:Name="Tb" Text="B"
-                                FontSize="18" FontFamily="Wingdings" FontWeight="Bold" />
-                        </Canvas>
-                        <TextBlock FontSize="12" FontFamily="Segoe UI Black">
-                            <Hyperlink x:Name="Hyp" Command="{Binding DataContext.XmlVeriSil, RelativeSource={RelativeSource AncestorType=Grid}}" CommandParameter="{Binding XPath=@Id}">
-                                <Run Text="X" />
-                            </Hyperlink>
-                        </TextBlock>
-                        <TextBlock>
-                            <Run Text="{Binding XPath=@SaatBaslangic}" />
-                            <Run Text="{Binding XPath=Aciklama}" />
-                        </TextBlock>
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Canvas Width="18" Height="18"
+                                Background="Transparent"
+                                HorizontalAlignment="Left" VerticalAlignment="Top"
+                                Style="{StaticResource CanvasDragStyle}">
+                                <TextBlock x:Name="Tb" Text="B"
+                                    FontSize="18" FontFamily="Wingdings" FontWeight="Bold" />
+                            </Canvas>
+                            <TextBlock FontSize="12" FontFamily="Segoe UI Black">
+                                <Hyperlink x:Name="Hyp" Command="{Binding DataContext.XmlVeriSil, RelativeSource={RelativeSource AncestorType=Grid}}" CommandParameter="{Binding XPath=@Id}">
+                                    <Run Text="X" />
+                                </Hyperlink>
+                            </TextBlock>
+                            <TextBlock>
+                                <Run Text="{Binding XPath=@SaatBaslangic}" />
+                                <Run Text="{Binding XPath=Aciklama}" />
+                            </TextBlock>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <StackPanel.DataContext>
+                                <local:Data />
+                            </StackPanel.DataContext>
+                            <local:TimePicker TimeValue="{Binding SaatBaşlangıç, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{x:Null}" />
+                            <local:MaskedTextBox Width="35"
+                                IncludePrompt="False" Mask="00" PromptChar="_"
+                                ValueType="{x:Type System:Double}"
+                                Value="{Binding EtkinlikSüresi, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+                            <CheckBox VerticalAlignment="Center" VerticalContentAlignment="Center" IsChecked="{Binding AyTekrar}">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="AY TEKRAR" VerticalAlignment="Center" />
+                                    <Slider IsEnabled="{Binding AyTekrar}"
+                                        Width="35"
+                                        AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" Maximum="31" Minimum="0"
+                                        SmallChange="1" ToolTip="AYIN KAÇINCI GÜNÜ TEKRAR EDİLECEK"
+                                        Value="{Binding AyTekrarGun, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                </StackPanel>
+                            </CheckBox>
+                            <ComboBox ItemsSource="{Binding Source={StaticResource Renkler}}"
+                                ItemContainerStyle="{StaticResource ComboBoxColorItemContainerStyle}"
+                                ItemTemplate="{StaticResource ComboBoxRectItemTemplate}"
+                                ItemsPanel="{StaticResource CbItemsPanelTemplate}"
+                                ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                                SelectedValue="{Binding VeriRenk, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                SelectedValuePath="Name" ToolTip="Veri Renk"
+                                Validation.ErrorTemplate="{x:Null}" />
+                            <Button Command="{Binding XmlVeriGüncelle, Mode=OneWay}" CommandParameter="{Binding CommandParameter, ElementName=Hyp}" ToolTip="GÜNCELLE">
+                                <Image Width="16" Height="16" Source="{Binding ConverterParameter=144, Converter={StaticResource Shell32FileIconConverter}}" />
+                            </Button>
+                        </StackPanel>
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <StackPanel.DataContext>
-                            <local:Data />
-                        </StackPanel.DataContext>
-                        <local:TimePicker TimeValue="{Binding SaatBaşlangıç, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{x:Null}" />
-                        <local:MaskedTextBox Width="35"
-                            IncludePrompt="False" Mask="00" PromptChar="_"
-                            ValueType="{x:Type System:Double}"
-                            Value="{Binding EtkinlikSüresi, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
-                        <CheckBox VerticalAlignment="Center" VerticalContentAlignment="Center" IsChecked="{Binding AyTekrar}">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="AY TEKRAR" VerticalAlignment="Center" />
-                                <Slider IsEnabled="{Binding AyTekrar}"
-                                    Width="35"
-                                    AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" Maximum="31" Minimum="0"
-                                    SmallChange="1" ToolTip="AYIN KAÇINCI GÜNÜ TEKRAR EDİLECEK"
-                                    Value="{Binding AyTekrarGun, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                            </StackPanel>
-                        </CheckBox>
-                        <ComboBox ItemsSource="{Binding Source={StaticResource Renkler}}"
-                            ItemContainerStyle="{StaticResource ComboBoxColorItemContainerStyle}"
-                            ItemTemplate="{StaticResource ComboBoxRectItemTemplate}"
-                            ItemsPanel="{StaticResource CbItemsPanelTemplate}"
-                            ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                            SelectedValue="{Binding VeriRenk, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                            SelectedValuePath="Name" ToolTip="Veri Renk"
-                            Validation.ErrorTemplate="{x:Null}" />
-                        <Button Command="{Binding XmlVeriGüncelle, Mode=OneWay}" CommandParameter="{Binding CommandParameter, ElementName=Hyp}" ToolTip="GÜNCELLE">
-                            <Image Width="16" Height="16" Source="{Binding ConverterParameter=144, Converter={StaticResource Shell32FileIconConverter}}" />
-                        </Button>
-                    </StackPanel>
+                    <local:ShadowedImage Width="64" Height="64"
+                        ShowShadow="True"
+                        Source="{Binding ConverterParameter=64, Converter={StaticResource Base64ImageConverter}, IsAsync=True, XPath=Resim}">
+                        <local:ShadowedImage.InputBindings>
+                            <MouseBinding Command="{Binding DataContext.DosyaGör, RelativeSource={RelativeSource AncestorType=Grid}}" CommandParameter="{Binding Mode=OneWay}" Gesture="CTRL+LeftClick" />
+                        </local:ShadowedImage.InputBindings>
+                        <local:ShadowedImage.ToolTip>
+                            <ToolTip Template="{StaticResource GreenToolTipControlTemplate}">
+                                <Image Source="{Binding ConverterParameter=600, Converter={StaticResource Base64ImageConverter}, XPath=Resim}" />
+                            </ToolTip>
+                        </local:ShadowedImage.ToolTip>
+                    </local:ShadowedImage>
+
                 </StackPanel>
             </DataTemplate>
             <DrawingBrush x:Key="ThatchBackground"

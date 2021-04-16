@@ -97,6 +97,7 @@
     <Compile Include="Converters\DatePassedBooleanConverter.cs" />
     <Compile Include="Converters\MonthToColorConverter.cs" />
     <Compile Include="Converters\RegistryToIconConverter.cs" />
+    <Compile Include="MainView.cs" />
     <Compile Include="MiniCalendarControl.xaml.cs">
       <DependentUpon>MiniCalendarControl.xaml</DependentUpon>
     </Compile>
