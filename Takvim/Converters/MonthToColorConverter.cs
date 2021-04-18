@@ -13,11 +13,11 @@ namespace Takvim
             {
                 if (DateTime.Now.Month == month)
                 {
-                    return Brushes.Yellow;
+                    return Brushes.DarkOrange;
                 }
                 if (DateTime.Now.Month > month)
                 {
-                    return Brushes.Red;
+                    return Brushes.Gray;
                 }
                 if (DateTime.Now.Month < month)
                 {

@@ -94,6 +94,7 @@
     <Compile Include="Converters\BoolInverter.cs" />
     <Compile Include="Converters\BrushToColorConverter.cs" />
     <Compile Include="Converters\DateAnimationConverter.cs" />
+    <Compile Include="Converters\DateEndTimeConverter.cs" />
     <Compile Include="Converters\DatePassedBooleanConverter.cs" />
     <Compile Include="Converters\MonthToColorConverter.cs" />
     <Compile Include="Converters\RegistryToIconConverter.cs" />

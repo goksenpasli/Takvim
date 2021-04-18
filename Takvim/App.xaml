@@ -14,6 +14,7 @@
                 <ResourceDictionary Source="/PresentationFramework.Aero,Version=4.0.0.0,Culture=neutral,PublicKeyToken=31bf3856ad364e35,processorArchitecture=MSIL;component/themes/Aero.NormalColor.xaml" />
                 <ResourceDictionary Source="/Takvim;component/Themes/Generic.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <local:DateEndTimeConverter x:Key="DateEndTimeConverter"/>
             <local:StringNullableToBooleanConverter x:Key="StringNullableToBooleanConverter" />
             <local:NullableToBooleanConverter x:Key="NullableToBooleanConverter" />
             <local:MonthToColorConverter x:Key="MonthToColorConverter" />
@@ -674,7 +675,7 @@
                                                         FontSize="12" FontFamily="Segoe UI Black">
                                                         <Run Text="X" />
                                                     </Hyperlink>
-                                                    <Run Text="{Binding XPath=@SaatBaslangic}" />
+                                                    <Run Text="{Binding Converter={StaticResource DateEndTimeConverter}, Mode=OneWay}"  />
                                                     <LineBreak />
                                                     <Run Text="{Binding XPath=Aciklama}" />
                                                 </TextBlock>
