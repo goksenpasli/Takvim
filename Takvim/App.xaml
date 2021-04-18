@@ -287,7 +287,7 @@
                     <RotateTransform Angle="45" CenterX="0.5" CenterY="0.5" />
                 </LinearGradientBrush.RelativeTransform>
                 <GradientStop Offset="0.5" Color="Transparent" />
-                <GradientStop Offset="0.5" Color="{Binding BayramRenk, Converter={StaticResource DrawingColorToColorConverter},  Source={x:Static properties:Settings.Default}}" />
+                <GradientStop Offset="0.5" Color="{Binding BayramRenk, Converter={StaticResource DrawingColorToColorConverter}, Source={x:Static properties:Settings.Default}}" />
             </LinearGradientBrush>
             <LinearGradientBrush x:Key="HolidayHalfBackground" ice:Freeze="True" StartPoint="0,0" EndPoint="1,0">
                 <LinearGradientBrush.RelativeTransform>
@@ -601,21 +601,39 @@
                 </Setter>
             </Style>
             <DataTemplate x:Key="ListBoxAyDataTemplate">
-                <StackPanel Background="Transparent" Orientation="Horizontal">
+                <StackPanel Background="Transparent">
                     <StackPanel.InputBindings>
                         <MouseBinding Command="{Binding VeriEkleEkranı, Mode=OneWay}" CommandParameter="{Binding Mode=OneWay}" MouseAction="LeftClick" />
                     </StackPanel.InputBindings>
-                    <TextBlock Margin="0,0,5,0" VerticalAlignment="Center" FontSize="14">
-                        <TextBlock.Style>
-                            <Style TargetType="{x:Type TextBlock}">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding TamTarih, Converter={StaticResource DatePassedBooleanConverter}}" Value="true">
-                                        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </TextBlock.Style><Run Text="{Binding Gün}" /><LineBreak /><Run Text="{Binding GünAdı}" /></TextBlock>
-                    <ListBox Width="120" Height="130"
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <TextBlock HorizontalAlignment="Center" FontSize="14">
+                            <TextBlock.Style>
+                                <Style TargetType="{x:Type TextBlock}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding TamTarih, Converter={StaticResource DatePassedBooleanConverter}}" Value="true">
+                                            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                            <Run Text="{Binding Gün}" />
+                            <Run Text="{Binding GünAdı}" />
+                        </TextBlock>
+                        <ContentControl Width="22" Height="16"
+                            IsTabStop="False" RenderTransformOrigin="0.5,0.5">
+                            <ContentControl.Style>
+                                <Style TargetType="{x:Type ContentControl}">
+                                    <Setter Property="Content" Value="{x:Null}" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Converter={StaticResource GünTatilConverter}, Mode=OneWay}" Value="true">
+                                            <Setter Property="Template" Value="{StaticResource Bayrak}" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ContentControl.Style>
+                        </ContentControl>
+                    </StackPanel>
+                    <ListBox Width="160" Height="120"
                         VerticalAlignment="Center"
                         ItemsSource="{Binding Converter={StaticResource SelectedDateToDataListConverter}, Mode=OneWay}"
                         local:MovableControl.MoveData="True"
@@ -635,7 +653,10 @@
                                         <TextBlock x:Name="Tb" Text="B"
                                             FontSize="18" FontFamily="Wingdings" FontWeight="Bold" />
                                     </Canvas>
-                                    <Expander BorderBrush="{Binding Converter={StaticResource StringToBrushConverter}, XPath=@Renk}" BorderThickness="2" VerticalAlignment="Center">
+                                    <Expander BorderBrush="{Binding Converter={StaticResource StringToBrushConverter}, XPath=@Renk}"
+                                        BorderThickness="2"
+                                        VerticalAlignment="Center"
+                                        IsExpanded="{Binding XPath=@Onemli}">
                                         <Expander.Header>
                                             <StackPanel Orientation="Horizontal">
                                                 <TextBlock VerticalAlignment="Center">

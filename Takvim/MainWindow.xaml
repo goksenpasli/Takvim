@@ -171,20 +171,21 @@
             </TabItem>
             <TabItem Header="AY">
                 <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    <Button Content="ç"
-                        Grid.Row="0" Grid.Column="0"
-                        Command="{Binding AyGeri}"
-                        FontFamily="Wingdings"
-                        local:MovableControl.DraggedData="{Binding}"
-                        local:MovableControl.MoveData="True" AllowDrop="True" Tag="AyGeri" ToolTip="ÖNCEKİ AY" />
                     <GroupBox Grid.Column="1" Background="{Binding AyGünler/TamTarih.Month, Converter={StaticResource MonthToColorConverter}}">
                         <GroupBox.Header>
-                            <TextBlock Text="{Binding AyGünler/Ay}" FontWeight="Bold" TextAlignment="Center" />
+                            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                                <Button Content="ç"
+                                    Command="{Binding AyGeri}"
+                                    FontFamily="Wingdings"
+                                    local:MovableControl.DraggedData="{Binding}"
+                                    local:MovableControl.MoveData="True" AllowDrop="True" Tag="AyGeri" ToolTip="ÖNCEKİ AY" />
+                                <TextBlock Text="{Binding AyGünler/Ay}" VerticalAlignment="Center" FontWeight="Bold" />
+                                <Button Content="è"
+                                    Command="{Binding Ayİleri}"
+                                    FontFamily="Wingdings"
+                                    local:MovableControl.DraggedData="{Binding}"
+                                    local:MovableControl.MoveData="True" AllowDrop="True" Tag="Ayİleri" ToolTip="SONRAKİ AY" />
+                            </StackPanel>
                         </GroupBox.Header>
                         <ItemsControl Background="{Binding DataContext.GövdeRenk, RelativeSource={RelativeSource AncestorType=Window}}" ItemsSource="{Binding AyGünler}" ItemTemplate="{StaticResource ListBoxAyDataTemplate}">
                             <ItemsControl.Template>
@@ -203,12 +204,6 @@
                             </ItemsControl.ItemsPanel>
                         </ItemsControl>
                     </GroupBox>
-                    <Button Content="è"
-                        Grid.Row="0" Grid.Column="2"
-                        Command="{Binding Ayİleri}"
-                        FontFamily="Wingdings"
-                        local:MovableControl.DraggedData="{Binding}"
-                        local:MovableControl.MoveData="True" AllowDrop="True" Tag="Ayİleri" ToolTip="SONRAKİ AY" />
                 </Grid>
             </TabItem>
             <TabItem>
