@@ -200,7 +200,7 @@ namespace Takvim
                     {
                         Title = "SAKLA",
                         Filter = "Resim Dosyaları (*.webp)|*.webp",
-                        FileName = xmlElement.PreviousSibling?.InnerText + xmlElement.GetAttribute("Ext")
+                        FileName = xmlElement["Aciklama"]?.InnerText + xmlElement.GetAttribute("Ext")
                     };
 
                     if (saveFileDialog.ShowDialog() == true && xmlElement["Resim"]?.InnerText != null)

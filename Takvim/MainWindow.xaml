@@ -101,18 +101,13 @@
                                                     </Style.Triggers>
                                                 </Style>
                                             </TextBlock.Style>
-                                            <Hyperlink x:Name="Hyp"
-                                                Command="{Binding Tag.XmlVeriSil, Mode=OneWay, ElementName=MiniCalendar}"
-                                                CommandParameter="{Binding XPath=@Id}"
-                                                FontFamily="Segoe UI Black">
-                                                <Run Text="X" />
-                                            </Hyperlink>
-                                            <Run Text="{Binding XPath=@SaatBaslangic}" FontWeight="Bold" />
-                                            <Run Text="{Binding XPath=Aciklama}" />
+                                            <Run Text="{Binding Converter={StaticResource DateEndTimeConverter}, Mode=OneWay}" FontWeight="Bold" />
+                                            <LineBreak />
+                                            <Run Text="{Binding XPath=Aciklama}" FontSize="24" FontWeight="Bold" />
                                         </TextBlock>
                                     </ScrollViewer>
                                     <local:ShadowedImage Grid.Column="1"
-                                        Width="120" Height="120"
+                                        Width="96" Height="120"
                                         HorizontalAlignment="Right"
                                         ShowShadow="True"
                                         Source="{Binding ConverterParameter=120, Converter={StaticResource Base64ImageConverter}, IsAsync=True, XPath=Resim}">
@@ -129,9 +124,14 @@
                                         Background="Transparent"
                                         HorizontalAlignment="Left" VerticalAlignment="Top"
                                         Style="{StaticResource CanvasDragStyle}">
-                                        <TextBlock x:Name="Tb" Text="B"
+                                        <TextBlock Text="B"
                                             FontSize="18" FontFamily="Wingdings" FontWeight="Bold" />
                                     </Canvas>
+                                    <TextBlock HorizontalAlignment="Right" FontSize="24" >
+                                        <Hyperlink Command="{Binding Tag.XmlVeriSil, Mode=OneWay, ElementName=MiniCalendar}" CommandParameter="{Binding XPath=@Id}" FontFamily="Segoe UI Black" TextDecorations="{x:Null}">
+                                            <Run Text="3" FontFamily="Wingdings 2" FontWeight="Bold"  />
+                                        </Hyperlink>
+                                    </TextBlock>
                                 </Grid>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
@@ -313,7 +313,7 @@
                                         Background="Transparent"
                                         HorizontalAlignment="Left" VerticalAlignment="Top"
                                         Style="{StaticResource CanvasDragStyle}">
-                                        <TextBlock x:Name="Tb" Text="B"
+                                        <TextBlock Text="B"
                                             FontSize="18" FontFamily="Wingdings" FontWeight="Bold" />
                                     </Canvas>
                                     <local:SplitButton Content="DOSYA AÇ" Command="{Binding Tag.DosyaGör, ElementName=MiniCalendar}" CommandParameter="{Binding Mode=OneWay}">
