@@ -127,9 +127,12 @@
                                         <TextBlock Text="B"
                                             FontSize="18" FontFamily="Wingdings" FontWeight="Bold" />
                                     </Canvas>
-                                    <TextBlock HorizontalAlignment="Right" FontSize="24" >
-                                        <Hyperlink Command="{Binding Tag.XmlVeriSil, Mode=OneWay, ElementName=MiniCalendar}" CommandParameter="{Binding XPath=@Id}" FontFamily="Segoe UI Black" TextDecorations="{x:Null}">
-                                            <Run Text="3" FontFamily="Wingdings 2" FontWeight="Bold"  />
+                                    <TextBlock HorizontalAlignment="Right" FontSize="24">
+                                        <Hyperlink Command="{Binding Tag.XmlVeriSil, Mode=OneWay, ElementName=MiniCalendar}"
+                                            CommandParameter="{Binding XPath=@Id}"
+                                            FontFamily="Segoe UI Black"
+                                            TextDecorations="{x:Null}">
+                                            <Run Text="3" FontFamily="Wingdings 2" FontWeight="Bold" />
                                         </Hyperlink>
                                     </TextBlock>
                                 </Grid>

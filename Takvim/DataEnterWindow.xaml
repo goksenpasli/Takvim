@@ -5,6 +5,7 @@
     xmlns:TwainControl="clr-namespace:TwainControl;assembly=TwainControl"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:Takvim"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:properties="clr-namespace:Takvim.Properties"
     Margin="2"
     d:DataContext="{d:DesignInstance Type={x:Type local:Data}}"
     d:DesignHeight="300" d:DesignWidth="500" Loaded="UserControl_Loaded" Unloaded="UserControl_Unloaded"
@@ -94,7 +95,7 @@
                     Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
                     VerticalScrollBarVisibility="Visible" />
                 <UniformGrid Grid.Row="3" Grid.ColumnSpan="2"
-                    Columns="2" Rows="2">
+                    Columns="3" Rows="1">
                     <CheckBox Content="ÖNEMLİ Mİ"
                         Foreground="Red"
                         VerticalAlignment="Center"
@@ -105,7 +106,7 @@
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="AY TEKRAR" VerticalAlignment="Center" />
                             <Slider IsEnabled="{Binding AyTekrar}"
-                                Width="70"
+                                Width="25"
                                 AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" Maximum="31" Minimum="1"
                                 SmallChange="1" ToolTip="AYIN KAÇINCI GÜNÜ TEKRAR EDİLECEK"
                                 Value="{Binding AyTekrarGun, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
@@ -115,14 +116,6 @@
                         VerticalAlignment="Center"
                         IsChecked="{Binding KilitliMi, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
                         ToolTip="BU İŞARETLENİRSE TARİH KİLİTLENİR TAŞIMA YAPILMAZ" />
-                    <ComboBox ItemsSource="{Binding Source={StaticResource Renkler}}"
-                        ItemContainerStyle="{StaticResource ComboBoxColorItemContainerStyle}"
-                        ItemTemplate="{StaticResource ComboBoxRectItemTemplate}"
-                        ItemsPanel="{StaticResource CbItemsPanelTemplate}"
-                        ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                        SelectedValue="{Binding VeriRenk, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                        SelectedValuePath="Name"
-                        Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
                 </UniformGrid>
                 <Slider Grid.Row="4" Grid.ColumnSpan="2"
                     AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="1" IsSnapToTickEnabled="True" LargeChange="0.5"

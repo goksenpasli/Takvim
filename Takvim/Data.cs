@@ -5,6 +5,8 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -93,7 +95,8 @@ namespace Takvim
                     rootNode.Attributes.Append(Tekrar);
 
                     XmlAttribute Renk = document.CreateAttribute("Renk");
-                    Renk.Value = VeriRenk == null ? Brushes.Transparent.ToString() : VeriRenk.ToString();
+                    VeriRenk = typeof(Brushes).GetProperties(BindingFlags.Public | BindingFlags.Static).Select(pi => (Brush)pi.GetValue(null, null)).Where(z => z != Brushes.Black && z != Brushes.White && z != Brushes.Transparent).OrderBy(_ => Guid.NewGuid()).Take(1).First();
+                    Renk.Value = VeriRenk.ToString();
                     rootNode.Attributes.Append(Renk);
 
                     if (ÖnemliMi)
@@ -169,7 +172,7 @@ namespace Takvim
                 {
                     MessageBox.Show("Ocr İşlemi Sürüyor Bitmesini Bekleyin.", "TAKVİM", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                 }
-            }, parameter => VeriRenk != null && !string.IsNullOrWhiteSpace(GünNotAçıklama) && DateTime.TryParseExact(SaatBaşlangıç, "H:m", new CultureInfo("tr-TR"), DateTimeStyles.None, out _));
+            }, parameter => !string.IsNullOrWhiteSpace(GünNotAçıklama) && DateTime.TryParseExact(SaatBaşlangıç, "H:m", new CultureInfo("tr-TR"), DateTimeStyles.None, out _));
 
             ResimYükle = new RelayCommand<object>(parameter =>
             {
@@ -389,7 +392,6 @@ namespace Takvim
                 verigirişwindow.MouseLeftButtonDown += (s, e) => verigirişwindow.DragMove();
                 verigirişwindow.ShowDialog();
             }, parameter => true);
-
             PropertyChanged += Data_PropertyChanged;
         }
 
