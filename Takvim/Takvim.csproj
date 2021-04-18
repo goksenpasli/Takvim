@@ -98,6 +98,7 @@
     <Compile Include="Converters\DatePassedBooleanConverter.cs" />
     <Compile Include="Converters\MonthToColorConverter.cs" />
     <Compile Include="Converters\RegistryToIconConverter.cs" />
+    <Compile Include="DataView.cs" />
     <Compile Include="MainView.cs" />
     <Compile Include="MiniCalendarControl.xaml.cs">
       <DependentUpon>MiniCalendarControl.xaml</DependentUpon>
@@ -112,7 +113,7 @@
     <Compile Include="FloatingWindowControl.xaml.cs">
       <DependentUpon>FloatingWindowControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Data.cs" />
+    <Compile Include="DataViewModel.cs" />
     <Compile Include="Helpers\ExtensionMethods.cs" />
     <Compile Include="Converters\FeastoftheSacrificeDateToHolidayConverter.cs" />
     <Compile Include="Converters\FilePathToIconConverter.cs" />
