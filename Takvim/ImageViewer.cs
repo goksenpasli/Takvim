@@ -119,7 +119,7 @@ namespace Takvim
             }
         }
 
-        public XmlElement Xmldata { get; set; }
+        public XmlElement Xmldata { get;}
 
         public ICommand Yazdır { get; }
 

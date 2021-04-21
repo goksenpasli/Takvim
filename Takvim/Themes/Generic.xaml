@@ -446,6 +446,7 @@
                         Background="{TemplateBinding Background}"
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"
+                        Padding="{TemplateBinding Padding}"
                         Command="{TemplateBinding Command}"
                         CommandParameter="{TemplateBinding CommandParameter}">
                         <Grid>
@@ -613,7 +614,8 @@
                             <Button Content="..." Grid.Column="1" Command="{Binding SelectFile, RelativeSource={RelativeSource TemplatedParent}}" />
                             <ToggleButton x:Name="Tb" Grid.Column="2" Visibility="{Binding FileListPanelVisibility, RelativeSource={RelativeSource TemplatedParent}}">
                                 <Path HorizontalAlignment="Center" VerticalAlignment="Center"
-                                    Data="{StaticResource ArrowGeometry}" Fill="Black" RenderTransformOrigin="0.5,0.5">
+                                    Data="{StaticResource ArrowGeometry}"
+                                    Fill="Black" RenderTransformOrigin="0.5,0.5">
                                     <Path.RenderTransform>
                                         <TransformGroup>
                                             <ScaleTransform />

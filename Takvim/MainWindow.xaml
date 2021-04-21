@@ -84,10 +84,6 @@
                                         <ColumnDefinition />
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
-                                    <ProgressBar Foreground="{StaticResource ThatchBackground}"
-                                        Style="{StaticResource SimpleHourProgress}"
-                                        Maximum="24" Minimum="0"
-                                        Value="{Binding XPath=@Saat}" />
                                     <ScrollViewer Grid.Column="0" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
                                         <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center"
                                             FontSize="20"
@@ -107,7 +103,7 @@
                                         </TextBlock>
                                     </ScrollViewer>
                                     <local:ShadowedImage Grid.Column="1"
-                                        Width="96" Height="120"
+                                        Height="120" MaxWidth="96"
                                         HorizontalAlignment="Right"
                                         ShowShadow="True"
                                         Source="{Binding ConverterParameter=120, Converter={StaticResource Base64ImageConverter}, IsAsync=True, XPath=Resim}">

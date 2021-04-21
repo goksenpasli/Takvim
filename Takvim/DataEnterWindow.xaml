@@ -74,9 +74,9 @@
             </GroupBox.Style>
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="3*" />
-                    <ColumnDefinition Width="2*" />
-                    <ColumnDefinition Width="3*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -106,7 +106,7 @@
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="AY TEKRAR" VerticalAlignment="Center" />
                             <Slider IsEnabled="{Binding AyTekrar}"
-                                Width="25"
+                                Width="35"
                                 AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" Maximum="31" Minimum="1"
                                 SmallChange="1" ToolTip="AYIN KAÇINCI GÜNÜ TEKRAR EDİLECEK"
                                 Value="{Binding AyTekrarGun, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
@@ -181,7 +181,7 @@
                                     </ToolTip>
                                 </ContentControl.ToolTip>
                             </ContentControl>
-                            <Slider Width="160"
+                            <Slider Width="140"
                                 AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" IsTabStop="False" LargeChange="1"
                                 Maximum="100" Minimum="1" SmallChange="1" TickFrequency="1"
                                 ToolTip="WEBP RESİM YÜKLEME KALİTESİ 1 EN DÜŞÜK BOYUTTUR. DEĞERİ DEĞİŞTİRİP DOSYAYI TEKRAR YÜKLEYİP ÖNİZLEME GÖZÜNDEN BAKIN"

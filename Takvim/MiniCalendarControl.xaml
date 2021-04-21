@@ -175,8 +175,10 @@
                         <GroupStyle.HeaderTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Path=Name}"
-                                    HorizontalAlignment="Center"
-                                    FontSize="15" FontWeight="Bold" />
+                                    Background="{StaticResource GroupBoxBackGround}"
+                                    HorizontalAlignment="Stretch"
+                                    FontSize="15" FontWeight="Bold"
+                                    TextAlignment="Center" />
                             </DataTemplate>
                         </GroupStyle.HeaderTemplate>
                     </GroupStyle>

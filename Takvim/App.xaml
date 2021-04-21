@@ -14,7 +14,7 @@
                 <ResourceDictionary Source="/PresentationFramework.Aero,Version=4.0.0.0,Culture=neutral,PublicKeyToken=31bf3856ad364e35,processorArchitecture=MSIL;component/themes/Aero.NormalColor.xaml" />
                 <ResourceDictionary Source="/Takvim;component/Themes/Generic.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            <local:DateEndTimeConverter x:Key="DateEndTimeConverter"/>
+            <local:DateEndTimeConverter x:Key="DateEndTimeConverter" />
             <local:StringNullableToBooleanConverter x:Key="StringNullableToBooleanConverter" />
             <local:NullableToBooleanConverter x:Key="NullableToBooleanConverter" />
             <local:MonthToColorConverter x:Key="MonthToColorConverter" />
@@ -606,8 +606,12 @@
                     <StackPanel.InputBindings>
                         <MouseBinding Command="{Binding VeriEkleEkranı, Mode=OneWay}" CommandParameter="{Binding Mode=OneWay}" MouseAction="LeftClick" />
                     </StackPanel.InputBindings>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                        <TextBlock HorizontalAlignment="Center" FontSize="14">
+                    <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                        <ToggleButton x:Name="TgButton" Content="è"
+                            Background="Transparent" BorderBrush="Transparent"
+                            VerticalAlignment="Center"
+                            FontFamily="Wingdings 3" />
+                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14">
                             <TextBlock.Style>
                                 <Style TargetType="{x:Type TextBlock}">
                                     <Style.Triggers>
@@ -654,10 +658,19 @@
                                         <TextBlock x:Name="Tb" Text="B"
                                             FontSize="18" FontFamily="Wingdings" FontWeight="Bold" />
                                     </Canvas>
-                                    <Expander BorderBrush="{Binding Converter={StaticResource StringToBrushConverter}, XPath=@Renk}"
-                                        BorderThickness="2"
-                                        VerticalAlignment="Center"
-                                        IsExpanded="{Binding XPath=@Onemli}">
+                                    <Expander BorderBrush="{Binding Converter={StaticResource StringToBrushConverter}, XPath=@Renk}" BorderThickness="2" VerticalAlignment="Center">
+                                        <Expander.Style>
+                                            <Style TargetType="Expander">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding XPath=@Onemli}" Value="true">
+                                                        <Setter Property="IsExpanded" Value="True" />
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding ElementName=TgButton, Path=IsChecked}" Value="true">
+                                                        <Setter Property="IsExpanded" Value="True" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Expander.Style>
                                         <Expander.Header>
                                             <StackPanel Orientation="Horizontal">
                                                 <TextBlock VerticalAlignment="Center">
@@ -675,7 +688,7 @@
                                                         FontSize="12" FontFamily="Segoe UI Black">
                                                         <Run Text="X" />
                                                     </Hyperlink>
-                                                    <Run Text="{Binding Converter={StaticResource DateEndTimeConverter}, Mode=OneWay}"  />
+                                                    <Run Text="{Binding Converter={StaticResource DateEndTimeConverter}, Mode=OneWay}" />
                                                     <LineBreak />
                                                     <Run Text="{Binding XPath=Aciklama}" />
                                                 </TextBlock>
@@ -792,15 +805,15 @@
                 </StackPanel>
             </DataTemplate>
             <DrawingBrush x:Key="ThatchBackground"
-                ice:Freeze="True" Stretch="None" TileMode="Tile" Viewport="0,0,40,40"
+                ice:Freeze="True" Stretch="None" TileMode="Tile" Viewport="0,0,16,16"
                 ViewportUnits="Absolute">
                 <DrawingBrush.Drawing>
                     <DrawingGroup>
                         <GeometryDrawing Brush="White" ice:Freeze="True">
                             <GeometryDrawing.Geometry>
                                 <GeometryGroup>
-                                    <RectangleGeometry Rect="0,0,80,80" />
-                                    <RectangleGeometry Rect="80,80,80,80" />
+                                    <RectangleGeometry Rect="0,0,32,32" />
+                                    <RectangleGeometry Rect="32,32,32,32" />
                                 </GeometryGroup>
                             </GeometryDrawing.Geometry>
                         </GeometryDrawing>
