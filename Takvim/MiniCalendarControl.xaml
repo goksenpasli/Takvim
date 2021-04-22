@@ -3,6 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:Takvim"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:properties="clr-namespace:Takvim.Properties"
     d:DataContext="{d:DesignInstance Type=local:MainViewModel}"
     d:DesignHeight="450" d:DesignWidth="300" UseLayoutRounding="True"
     mc:Ignorable="d">
@@ -89,6 +90,20 @@
                                         <DataTrigger Binding="{Binding TamTarih, Converter={StaticResource FeastoftheSacrificeDateToHolidayConverter}, Mode=OneWay}" Value="{x:Null}">
                                             <Setter Property="Background" Value="{StaticResource ReligiousDateHalfBackground}" />
                                         </DataTrigger>
+                                        <MultiDataTrigger>
+                                            <MultiDataTrigger.Conditions>
+                                                <Condition Binding="{Binding HaftaSonlarıGizle, Source={x:Static properties:Settings.Default}}" Value="true" />
+                                                <Condition Binding="{Binding GünAdı}" Value="Cmt" />
+                                            </MultiDataTrigger.Conditions>
+                                            <Setter Property="Visibility" Value="Collapsed" />
+                                        </MultiDataTrigger>
+                                        <MultiDataTrigger>
+                                            <MultiDataTrigger.Conditions>
+                                                <Condition Binding="{Binding HaftaSonlarıGizle, Source={x:Static properties:Settings.Default}}" Value="true" />
+                                                <Condition Binding="{Binding GünAdı}" Value="Paz" />
+                                            </MultiDataTrigger.Conditions>
+                                            <Setter Property="Visibility" Value="Collapsed" />
+                                        </MultiDataTrigger>
                                     </Style.Triggers>
                                 </Style>
                             </local:SplitButton.Style>

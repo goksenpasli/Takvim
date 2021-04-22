@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -22,6 +23,34 @@ namespace TwainControl
             Jpg,
 
             Png
+        }
+
+        public static PdfDocument CreatePdfFile(this IList SeçiliResimler, bool compress = false)
+        {
+            try
+            {
+                PdfDocument doc = new PdfDocument();
+                if (compress)
+                {
+                    doc.Options.FlateEncodeMode = PdfFlateEncodeMode.BestCompression;
+                    doc.Options.UseFlateDecoderForJpegImages = PdfUseFlateDecoderForJpegImages.Automatic;
+                    doc.Options.NoCompression = false;
+                    doc.Options.CompressContentStreams = true;
+                }
+                foreach (BitmapFrame item in SeçiliResimler)
+                {
+                    PdfPage page = doc.AddPage();
+                    XGraphics gfx = XGraphics.FromPdfPage(page);
+                    XImage xImage = XImage.FromBitmapSource(item);
+                    gfx.DrawImage(xImage, 0, 0, page.Width, page.Height);
+                }
+                return doc;
+            }
+            catch (Exception Ex)
+            {
+                MessageBox.Show(Ex.Message);
+                return null;
+            }
         }
 
         public static Bitmap ConvertBlackAndWhite(this Bitmap bitmap, int bWthreshold, bool grayscale = false)

@@ -131,7 +131,8 @@ namespace Takvim
                 OpenFileDialog openFileDialog = new() { Multiselect = false, Filter = "Resim Dosyaları (*.jpg;*.jpeg;*.tif;*.tiff;*.png)|*.jpg;*.jpeg;*.tif;*.tiff;*.png" };
                 if (openFileDialog.ShowDialog() == true)
                 {
-                    ResimData = openFileDialog.FileName.WebpEncode(WebpQuality);
+                    ResimYolu = openFileDialog.FileName;
+                    ResimData = ResimYolu.WebpEncode(WebpQuality);
                     DosyaUzantı = ".webp";
                     Boyut = ResimData.Length / 1024;
                 }
@@ -395,6 +396,11 @@ namespace Takvim
             if (e.PropertyName is "AyTekrar")
             {
                 AyTekrarGun = AyTekrar ? DateTime.Now.Day : 0;
+            }
+            if (e.PropertyName is "WebpQuality" && ResimData is not null)
+            {
+                ResimData = ResimYolu.WebpEncode(WebpQuality);
+                Boyut = ResimData.Length / 1024;
             }
         }
 

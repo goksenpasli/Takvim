@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -9,7 +10,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
-using Microsoft.Win32;
 using TwainWpf;
 using TwainWpf.Wpf;
 
@@ -92,6 +92,16 @@ namespace TwainControl
             {
                 SeçiliResimler = parameter as IList;
                 OnPropertyChanged(nameof(SeçiliResimler));
+            }, parameter => SeçiliResimler.Count > 0);
+
+            PdfTopluKaydet = new RelayCommand<object>(parameter =>
+            {
+                SaveFileDialog saveFileDialog = new SaveFileDialog { Filter = "Pdf Resmi(*.pdf)|*.pdf" };
+                if (saveFileDialog.ShowDialog() == true)
+                {
+                    SeçiliResimler = parameter as IList;
+                    SeçiliResimler.CreatePdfFile().Save(saveFileDialog.FileName);
+                }
             }, parameter => SeçiliResimler.Count > 0);
 
             ResimSil = new RelayCommand<object>(parameter => Resimler?.Remove(parameter as BitmapFrame), parameter => true);
@@ -273,6 +283,8 @@ namespace TwainControl
 
         public ICommand PdfAktar { get; }
 
+        public ICommand PdfTopluKaydet { get; }
+
         public ObservableCollection<BitmapFrame> Resimler
         {
             get => resimler;
@@ -389,7 +401,10 @@ namespace TwainControl
             }
         }
 
-        public void Dispose() => Dispose(true);
+        public void Dispose()
+        {
+            Dispose(true);
+        }
 
         protected virtual void Dispose(bool disposing)
         {
@@ -405,7 +420,10 @@ namespace TwainControl
             }
         }
 
-        protected virtual void OnPropertyChanged(string propertyName = null) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        protected virtual void OnPropertyChanged(string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {

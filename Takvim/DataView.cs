@@ -55,6 +55,8 @@ namespace Takvim
 
         private int webpQuality = 20;
 
+        private string resimYolu;
+
         public string Ay
         {
             get => ay;
@@ -303,6 +305,20 @@ namespace Takvim
                 {
                     resimData = value;
                     OnPropertyChanged(nameof(ResimData));
+                }
+            }
+        }
+
+        public string ResimYolu
+        {
+            get => resimYolu;
+
+            set
+            {
+                if (resimYolu != value)
+                {
+                    resimYolu = value;
+                    OnPropertyChanged(nameof(ResimYolu));
                 }
             }
         }

@@ -45,9 +45,10 @@
                         <CheckBox Content="YÜZDE GÖSTER" IsChecked="{Binding ShowProgress}" />
                         <CheckBox Content="OTOMATİK DÖNDÜR" IsChecked="{Binding AutoRotate}" />
                         <CheckBox Content="HER SAYFAYI AYRI TARA" IsChecked="{Binding SeperateSave}" ToolTip="Her Sayfayı Ayrı Dosyaya Kaydet Dosyalar Resimlerim Klasörüne Kaydedilir." />
-                        <UniformGrid Columns="2">
+                        <UniformGrid Columns="3">
                             <Button Content="TARA" Command="{Binding ScanImage}" />
                             <Button Content="PDF AKTAR" Command="{Binding PdfAktar}" CommandParameter="{Binding SeçiliResimler}" />
+                            <Button Content="PDF KAYDET" Command="{Binding PdfTopluKaydet}" CommandParameter="{Binding SeçiliResimler}" />
                         </UniformGrid>
                     </UniformGrid>
                 </GroupBox>

@@ -602,87 +602,88 @@
                 </Setter>
             </Style>
             <DataTemplate x:Key="ListBoxAyDataTemplate">
-                <StackPanel Background="Transparent">
-                    <StackPanel.InputBindings>
-                        <MouseBinding Command="{Binding VeriEkleEkranı, Mode=OneWay}" CommandParameter="{Binding Mode=OneWay}" MouseAction="LeftClick" />
-                    </StackPanel.InputBindings>
-                    <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                        <ToggleButton x:Name="TgButton" Content="è"
+                <Border BorderThickness="1" BorderBrush="Black" Margin="1">
+                    <StackPanel Background="Transparent">
+                        <StackPanel.InputBindings>
+                            <MouseBinding Command="{Binding VeriEkleEkranı, Mode=OneWay}" CommandParameter="{Binding Mode=OneWay}" MouseAction="LeftClick" />
+                        </StackPanel.InputBindings>
+                        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                            <ToggleButton x:Name="TgButton" Content="è"
                             Background="Transparent" BorderBrush="Transparent"
                             VerticalAlignment="Center"
                             FontFamily="Wingdings 3" />
-                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14">
-                            <TextBlock.Style>
-                                <Style TargetType="{x:Type TextBlock}">
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding TamTarih, Converter={StaticResource DatePassedBooleanConverter}}" Value="true">
-                                            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </TextBlock.Style>
+                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14">
+                                <TextBlock.Style>
+                                    <Style TargetType="{x:Type TextBlock}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding TamTarih, Converter={StaticResource DatePassedBooleanConverter}}" Value="true">
+                                                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
                             <Run Text="{Binding Gün}" />
                             <Run Text="{Binding GünAdı}" />
-                        </TextBlock>
-                        <ContentControl Width="22" Height="16"
+                            </TextBlock>
+                            <ContentControl Width="22" Height="16"
                             IsTabStop="False" RenderTransformOrigin="0.5,0.5">
-                            <ContentControl.Style>
-                                <Style TargetType="{x:Type ContentControl}">
-                                    <Setter Property="Content" Value="{x:Null}" />
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding Converter={StaticResource GünTatilConverter}, Mode=OneWay}" Value="true">
-                                            <Setter Property="Template" Value="{StaticResource Bayrak}" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </ContentControl.Style>
-                        </ContentControl>
-                    </StackPanel>
-                    <ListBox Width="160" Height="120"
+                                <ContentControl.Style>
+                                    <Style TargetType="{x:Type ContentControl}">
+                                        <Setter Property="Content" Value="{x:Null}" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Converter={StaticResource GünTatilConverter}, Mode=OneWay}" Value="true">
+                                                <Setter Property="Template" Value="{StaticResource Bayrak}" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </ContentControl.Style>
+                            </ContentControl>
+                        </StackPanel>
+                        <ListBox Width="160" Height="120"
                         VerticalAlignment="Center"
                         ItemsSource="{Binding Converter={StaticResource SelectedDateToDataListConverter}, Mode=OneWay}"
                         local:MovableControl.MoveData="True"
                         local:MovableControl.PlacedData="{Binding}"
                         AllowDrop="True">
-                        <ListBox.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <VirtualizingStackPanel />
-                            </ItemsPanelTemplate>
-                        </ListBox.ItemsPanel>
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <Canvas Width="18" Height="18"
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <VirtualizingStackPanel />
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Canvas Width="18" Height="18"
                                         Background="Transparent"
                                         Style="{StaticResource CanvasDragStyle}">
-                                        <TextBlock x:Name="Tb" Text="B"
+                                            <TextBlock x:Name="Tb" Text="B"
                                             FontSize="18" FontFamily="Wingdings" FontWeight="Bold" />
-                                    </Canvas>
-                                    <Expander BorderBrush="{Binding Converter={StaticResource StringToBrushConverter}, XPath=@Renk}" BorderThickness="2" VerticalAlignment="Center">
-                                        <Expander.Style>
-                                            <Style TargetType="Expander">
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding XPath=@Onemli}" Value="true">
-                                                        <Setter Property="IsExpanded" Value="True" />
-                                                    </DataTrigger>
-                                                    <DataTrigger Binding="{Binding ElementName=TgButton, Path=IsChecked}" Value="true">
-                                                        <Setter Property="IsExpanded" Value="True" />
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Expander.Style>
-                                        <Expander.Header>
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBlock VerticalAlignment="Center">
-                                                    <TextBlock.Style>
-                                                        <Style TargetType="{x:Type TextBlock}">
-                                                            <Style.Triggers>
-                                                                <DataTrigger Binding="{Binding XPath=@Onemli}" Value="true">
-                                                                    <Setter Property="Foreground" Value="Red" />
-                                                                </DataTrigger>
-                                                            </Style.Triggers>
-                                                        </Style>
-                                                    </TextBlock.Style>
+                                        </Canvas>
+                                        <Expander BorderBrush="{Binding Converter={StaticResource StringToBrushConverter}, XPath=@Renk}" BorderThickness="2" VerticalAlignment="Center">
+                                            <Expander.Style>
+                                                <Style TargetType="Expander">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding XPath=@Onemli}" Value="true">
+                                                            <Setter Property="IsExpanded" Value="True" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding ElementName=TgButton, Path=IsChecked}" Value="true">
+                                                            <Setter Property="IsExpanded" Value="True" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Expander.Style>
+                                            <Expander.Header>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock VerticalAlignment="Center">
+                                                        <TextBlock.Style>
+                                                            <Style TargetType="{x:Type TextBlock}">
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding XPath=@Onemli}" Value="true">
+                                                                        <Setter Property="Foreground" Value="Red" />
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </TextBlock.Style>
                                                     <Hyperlink Command="{Binding DataContext.XmlVeriSil, Mode=OneWay, RelativeSource={RelativeSource AncestorType=ListBox}}"
                                                         CommandParameter="{Binding XPath=@Id}"
                                                         FontSize="12" FontFamily="Segoe UI Black">
@@ -691,34 +692,35 @@
                                                     <Run Text="{Binding Converter={StaticResource DateEndTimeConverter}, Mode=OneWay}" />
                                                     <LineBreak />
                                                     <Run Text="{Binding XPath=Aciklama}" />
-                                                </TextBlock>
-                                            </StackPanel>
-                                        </Expander.Header>
-                                        <Image Width="48" Height="48" Source="{Binding ConverterParameter=48, Converter={StaticResource Base64ImageConverter}, IsAsync=True, XPath=Resim}">
-                                            <Image.Style>
-                                                <Style TargetType="{x:Type Image}">
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding XPath=Resim}" Value="{x:Null}">
-                                                            <Setter Property="Visibility" Value="Collapsed" />
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </Image.Style>
-                                            <Image.ToolTip>
-                                                <ToolTip Template="{StaticResource GreenToolTipControlTemplate}">
-                                                    <Image Source="{Binding ConverterParameter=600, Converter={StaticResource Base64ImageConverter}, XPath=Resim}" />
-                                                </ToolTip>
-                                            </Image.ToolTip>
-                                            <Image.InputBindings>
-                                                <MouseBinding Command="{Binding DataContext.DosyaGör, RelativeSource={RelativeSource AncestorType=ListBox}}" CommandParameter="{Binding Mode=OneWay}" Gesture="CTRL+LeftClick" />
-                                            </Image.InputBindings>
-                                        </Image>
-                                    </Expander>
-                                </StackPanel>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-                </StackPanel>
+                                                    </TextBlock>
+                                                </StackPanel>
+                                            </Expander.Header>
+                                            <Image Width="48" Height="48" Source="{Binding ConverterParameter=48, Converter={StaticResource Base64ImageConverter}, IsAsync=True, XPath=Resim}">
+                                                <Image.Style>
+                                                    <Style TargetType="{x:Type Image}">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding XPath=Resim}" Value="{x:Null}">
+                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Image.Style>
+                                                <Image.ToolTip>
+                                                    <ToolTip Template="{StaticResource GreenToolTipControlTemplate}">
+                                                        <Image Source="{Binding ConverterParameter=600, Converter={StaticResource Base64ImageConverter}, XPath=Resim}" />
+                                                    </ToolTip>
+                                                </Image.ToolTip>
+                                                <Image.InputBindings>
+                                                    <MouseBinding Command="{Binding DataContext.DosyaGör, RelativeSource={RelativeSource AncestorType=ListBox}}" CommandParameter="{Binding Mode=OneWay}" Gesture="CTRL+LeftClick" />
+                                                </Image.InputBindings>
+                                            </Image>
+                                        </Expander>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </StackPanel>
+                </Border>
             </DataTemplate>
             <Style x:Key="ListBoxYılGroupStyle" TargetType="{x:Type GroupItem}">
                 <Setter Property="Template">

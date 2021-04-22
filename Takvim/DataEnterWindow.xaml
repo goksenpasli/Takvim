@@ -184,8 +184,8 @@
                             <Slider Width="140"
                                 AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" IsTabStop="False" LargeChange="1"
                                 Maximum="100" Minimum="1" SmallChange="1" TickFrequency="1"
-                                ToolTip="WEBP RESİM YÜKLEME KALİTESİ 1 EN DÜŞÜK BOYUTTUR. DEĞERİ DEĞİŞTİRİP DOSYAYI TEKRAR YÜKLEYİP ÖNİZLEME GÖZÜNDEN BAKIN"
-                                Value="{Binding WebpQuality, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                ToolTip="WEBP RESİM YÜKLEME KALİTESİ 1 EN DÜŞÜK BOYUTTUR. DEĞERİ DEĞİŞTİRİP ÖNİZLEME GÖZÜNDEN BAKIN"
+                                Value="{Binding WebpQuality, Delay=1000, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         </StackPanel>
                     </GroupBox.Header>
                     <Image Source="{Binding ResimData, ConverterParameter=96, Converter={StaticResource WebpByteArrayToImageConverter}, Mode=OneWay}" />
