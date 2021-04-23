@@ -1,5 +1,7 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace Takvim
@@ -35,8 +37,100 @@ namespace Takvim
         }
 
         [DebuggerStepThrough]
-        public bool CanExecute(object parameter) => _canExecute == null || _canExecute((T)parameter);
+        public bool CanExecute(object parameter)
+        {
+            return _canExecute == null || _canExecute((T)parameter);
+        }
 
-        public void Execute(object parameter) => _execute((T)parameter);
+        public void Execute(object parameter)
+        {
+            _execute((T)parameter);
+        }
+    }
+
+    public class RelayCommand : ICommand
+    {
+        protected readonly Func<bool> canExecute;
+
+        protected readonly Action execute;
+
+        public event EventHandler CanExecuteChanged
+        {
+            add
+            {
+                if (canExecute != null)
+                {
+                    CommandManager.RequerySuggested += value;
+                }
+            }
+
+            remove
+            {
+                if (canExecute != null)
+                {
+                    CommandManager.RequerySuggested -= value;
+                }
+            }
+        }
+
+        public RelayCommand(Action execute, Func<bool> canExecute)
+        {
+            this.execute = execute ?? throw new ArgumentNullException(nameof(execute));
+            this.canExecute = canExecute;
+        }
+
+        public RelayCommand(Action execute)
+            : this(execute, null)
+        {
+        }
+
+        public virtual bool CanExecute(object parameter) => canExecute == null || canExecute();
+
+        public virtual void Execute(object parameter) => execute();
+    }
+
+    public class RelayAsyncCommand : RelayCommand
+    {
+        private bool isExecuting;
+
+        public event EventHandler Started;
+
+        public event EventHandler Ended;
+
+        public bool IsExecuting => isExecuting;
+
+        public RelayAsyncCommand(Action execute, Func<bool> canExecute)
+            : base(execute, canExecute)
+        {
+        }
+
+        public RelayAsyncCommand(Action execute)
+            : base(execute)
+        {
+        }
+
+        public override bool CanExecute(object parameter) => base.CanExecute(parameter) && (!isExecuting);
+
+        public override void Execute(object parameter)
+        {
+            try
+            {
+                isExecuting = true;
+                Started?.Invoke(this, EventArgs.Empty);
+
+                Task task = Task.Factory.StartNew(() => execute());
+                task.ContinueWith(t => OnRunWorkerCompleted(EventArgs.Empty), TaskScheduler.FromCurrentSynchronizationContext());
+            }
+            catch (Exception ex)
+            {
+                OnRunWorkerCompleted(new RunWorkerCompletedEventArgs(null, ex, true));
+            }
+        }
+
+        private void OnRunWorkerCompleted(EventArgs e)
+        {
+            isExecuting = false;
+            Ended?.Invoke(this, e);
+        }
     }
 }

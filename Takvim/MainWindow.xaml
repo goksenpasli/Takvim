@@ -443,7 +443,7 @@
                                 <Slider IsEnabled="{Binding Panel, Mode=OneWay, Source={x:Static properties:Settings.Default}}"
                                     AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" Maximum="10" Minimum="2"
                                     SmallChange="1" ToolTip="Ekran Genişliği Seçili Rakama Oranlanır."
-                                    Value="{Binding YatayAdetOranı, Mode=TwoWay, Source={x:Static properties:Settings.Default}}" />
+                                    Value="{Binding YatayAdetOranı, Delay=500, Mode=TwoWay, Source={x:Static properties:Settings.Default}}" />
                             </StackPanel>
                         </GroupBox>
                     </local:ContentToggleButton>

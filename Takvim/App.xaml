@@ -602,16 +602,16 @@
                 </Setter>
             </Style>
             <DataTemplate x:Key="ListBoxAyDataTemplate">
-                <Border BorderThickness="1" BorderBrush="Black" Margin="1">
+                <Border BorderBrush="Black" BorderThickness="1" Margin="1">
                     <StackPanel Background="Transparent">
                         <StackPanel.InputBindings>
                             <MouseBinding Command="{Binding VeriEkleEkranı, Mode=OneWay}" CommandParameter="{Binding Mode=OneWay}" MouseAction="LeftClick" />
                         </StackPanel.InputBindings>
                         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                             <ToggleButton x:Name="TgButton" Content="è"
-                            Background="Transparent" BorderBrush="Transparent"
-                            VerticalAlignment="Center"
-                            FontFamily="Wingdings 3" />
+                                Background="Transparent" BorderBrush="Transparent"
+                                VerticalAlignment="Center"
+                                FontFamily="Wingdings 3" />
                             <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14">
                                 <TextBlock.Style>
                                     <Style TargetType="{x:Type TextBlock}">
@@ -622,11 +622,11 @@
                                         </Style.Triggers>
                                     </Style>
                                 </TextBlock.Style>
-                            <Run Text="{Binding Gün}" />
-                            <Run Text="{Binding GünAdı}" />
+                                <Run Text="{Binding Gün}" />
+                                <Run Text="{Binding GünAdı}" />
                             </TextBlock>
                             <ContentControl Width="22" Height="16"
-                            IsTabStop="False" RenderTransformOrigin="0.5,0.5">
+                                IsTabStop="False" RenderTransformOrigin="0.5,0.5">
                                 <ContentControl.Style>
                                     <Style TargetType="{x:Type ContentControl}">
                                         <Setter Property="Content" Value="{x:Null}" />
@@ -640,11 +640,11 @@
                             </ContentControl>
                         </StackPanel>
                         <ListBox Width="160" Height="120"
-                        VerticalAlignment="Center"
-                        ItemsSource="{Binding Converter={StaticResource SelectedDateToDataListConverter}, Mode=OneWay}"
-                        local:MovableControl.MoveData="True"
-                        local:MovableControl.PlacedData="{Binding}"
-                        AllowDrop="True">
+                            VerticalAlignment="Center"
+                            ItemsSource="{Binding Converter={StaticResource SelectedDateToDataListConverter}, Mode=OneWay}"
+                            local:MovableControl.MoveData="True"
+                            local:MovableControl.PlacedData="{Binding}"
+                            AllowDrop="True">
                             <ListBox.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <VirtualizingStackPanel />
@@ -654,11 +654,27 @@
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
                                         <Canvas Width="18" Height="18"
-                                        Background="Transparent"
-                                        Style="{StaticResource CanvasDragStyle}">
+                                            Background="Transparent"
+                                            Style="{StaticResource CanvasDragStyle}">
                                             <TextBlock x:Name="Tb" Text="B"
-                                            FontSize="18" FontFamily="Wingdings" FontWeight="Bold" />
+                                                FontSize="18" FontFamily="Wingdings" FontWeight="Bold" />
                                         </Canvas>
+                                        <StackPanel VerticalAlignment="Center">
+                                            <ComboBox Width="18" Height="16"
+                                                ItemsSource="{Binding Source={StaticResource Renkler}}"
+                                                ItemContainerStyle="{StaticResource ComboBoxColorItemContainerStyle}"
+                                                ItemTemplate="{StaticResource ComboBoxRectItemTemplate}"
+                                                ItemsPanel="{StaticResource CbItemsPanelTemplate}"
+                                                ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                                                SelectedValue="{Binding XPath=@Renk, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                                SelectedValuePath="Name" ToolTip="Veri Renk"
+                                                Validation.ErrorTemplate="{x:Null}" />
+                                            <Button Content="="
+                                                Width="18" Height="16"
+                                                Command="{Binding Tag.XmlRenkGüncelle, Mode=OneWay, ElementName=MiniCalendar}"
+                                                CommandParameter="{Binding Mode=OneWay}"
+                                                FontFamily="Wingdings" />
+                                        </StackPanel>
                                         <Expander BorderBrush="{Binding Converter={StaticResource StringToBrushConverter}, XPath=@Renk}" BorderThickness="2" VerticalAlignment="Center">
                                             <Expander.Style>
                                                 <Style TargetType="Expander">
@@ -684,14 +700,14 @@
                                                                 </Style.Triggers>
                                                             </Style>
                                                         </TextBlock.Style>
-                                                    <Hyperlink Command="{Binding DataContext.XmlVeriSil, Mode=OneWay, RelativeSource={RelativeSource AncestorType=ListBox}}"
-                                                        CommandParameter="{Binding XPath=@Id}"
-                                                        FontSize="12" FontFamily="Segoe UI Black">
-                                                        <Run Text="X" />
-                                                    </Hyperlink>
-                                                    <Run Text="{Binding Converter={StaticResource DateEndTimeConverter}, Mode=OneWay}" />
-                                                    <LineBreak />
-                                                    <Run Text="{Binding XPath=Aciklama}" />
+                                                        <Hyperlink Command="{Binding DataContext.XmlVeriSil, Mode=OneWay, RelativeSource={RelativeSource AncestorType=ListBox}}"
+                                                            CommandParameter="{Binding XPath=@Id}"
+                                                            FontSize="12" FontFamily="Segoe UI Black">
+                                                            <Run Text="X" />
+                                                        </Hyperlink>
+                                                        <Run Text="{Binding Converter={StaticResource DateEndTimeConverter}, Mode=OneWay}" />
+                                                        <LineBreak />
+                                                        <Run Text="{Binding XPath=Aciklama}" />
                                                     </TextBlock>
                                                 </StackPanel>
                                             </Expander.Header>

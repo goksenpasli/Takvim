@@ -265,6 +265,14 @@ namespace Takvim
                 }
             }, parameter => EtkinlikSüresi is <= 24 and >= 0 && VeriRenk is not null && DateTime.TryParseExact(SaatBaşlangıç, "H:m", new CultureInfo("tr-TR"), DateTimeStyles.None, out _));
 
+            XmlRenkGüncelle = new RelayCommand<object>(parameter =>
+            {
+                if (parameter is XmlElement xmlElement)
+                {
+                    UpdateAttribute(int.Parse(xmlElement.GetAttribute("Id")), "Renk", xmlElement.GetAttribute("Renk"));
+                }
+            }, parameter => true);
+
             Resimİptal = new RelayCommand<object>(parameter => ResimData = null, parameter => ResimData?.Length > 0);
 
             Pdfİptal = new RelayCommand<object>(parameter => PdfData = null, parameter => PdfData?.Length > 0);
@@ -378,7 +386,9 @@ namespace Takvim
 
         public ICommand XmlVeriEkle { get; }
 
-        public ICommand XmlVeriGüncelle { get; }
+        public ICommand XmlVeriGüncelle { get; } 
+        
+        public ICommand XmlRenkGüncelle { get; }
 
         public ICommand XmlVeriSil { get; }
 
