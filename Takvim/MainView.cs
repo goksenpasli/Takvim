@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.ObjectModel;
 using System.Configuration;
-using System.Windows.Data;
-using System.Windows;
-using System.Windows.Media;
-using Microsoft.Win32;
 using System.IO;
+using System.Windows;
+using System.Windows.Data;
+using System.Windows.Media;
 using Winforms = System.Windows.Forms;
 
 namespace Takvim
@@ -25,6 +25,8 @@ namespace Takvim
         public static XmlDataProvider xmlDataProvider;
 
         private readonly CollectionViewSource Cvs = (CollectionViewSource)Application.Current?.MainWindow?.TryFindResource("Cvs");
+
+        private readonly CollectionViewSource FilteredCvs = (CollectionViewSource)Application.Current?.MainWindow?.TryFindResource("FilteredCvs");
 
         private DateTime? animasyonTarih;
 
@@ -67,6 +69,8 @@ namespace Takvim
         private ObservableCollection<Data> yaklaşanEtkinlikler;
 
         private string zaman;
+
+        private DateTime şuAnkiGün = DateTime.Today;
 
         public DateTime? AnimasyonTarih
         {
@@ -218,6 +222,20 @@ namespace Takvim
                 {
                     seçiliAy = value;
                     OnPropertyChanged(nameof(SeçiliAy));
+                }
+            }
+        }
+
+        public DateTime ŞuAnkiGün
+        {
+            get => şuAnkiGün;
+
+            set
+            {
+                if (şuAnkiGün != value)
+                {
+                    şuAnkiGün = value;
+                    OnPropertyChanged(nameof(ŞuAnkiGün));
                 }
             }
         }

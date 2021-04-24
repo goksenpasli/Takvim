@@ -76,13 +76,13 @@ namespace Takvim
         [DllImport("shell32.dll", CharSet = CharSet.Unicode)]
         public static extern IntPtr ExtractIcon(this IntPtr hInst, string lpszExeFileName, int nIconIndex);
 
-        public static BitmapSource IconCreate(this string filepath)
+        public static BitmapSource IconCreate(this string xmlfilepath)
         {
-            if (filepath != null)
+            if (File.Exists(xmlfilepath))
             {
                 try
                 {
-                    using Icon icon = Icon.ExtractAssociatedIcon(filepath);
+                    using Icon icon = Icon.ExtractAssociatedIcon(xmlfilepath);
                     BitmapSource bitmapsource = Imaging.CreateBitmapSourceFromHIcon(icon.Handle, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
                     icon.Dispose();
                     bitmapsource.Freeze();

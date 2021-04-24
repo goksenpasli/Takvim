@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -14,7 +15,6 @@ using System.Windows.Media;
 using System.Windows.Threading;
 using System.Xml;
 using System.Xml.Linq;
-using Microsoft.Win32;
 using Winforms = System.Windows.Forms;
 
 namespace Takvim
@@ -42,6 +42,10 @@ namespace Takvim
             Yılİleri = new RelayCommand<object>(parameter => SeçiliYıl++, parameter => SeçiliYıl < 9999);
 
             Ayİleri = new RelayCommand<object>(parameter => SeçiliAy++, parameter => SeçiliAy < 12);
+
+            Günİleri = new RelayCommand<object>(parameter => ŞuAnkiGün = ŞuAnkiGün.AddDays(1), parameter => true);
+
+            GünGeri = new RelayCommand<object>(parameter => ŞuAnkiGün = ŞuAnkiGün.AddDays(-1), parameter => true);
 
             SatırSütünSıfırla = new RelayCommand<object>(parameter =>
             {
@@ -129,9 +133,15 @@ namespace Takvim
                 }
             }, parameter => true);
 
-            ŞuAnkiGünVerisi = Günler.FirstOrDefault(z => z.TamTarih == DateTime.Today);
+            if (FilteredCvs is not null)
+            {
+                FilteredCvs.Filter += (s, e) => e.Accepted = DateTime.Parse((e.Item as XmlNode)?["Gun"]?.InnerText) == ŞuAnkiGün;
+            }
+
+            ŞuAnkiGünVerisi = Günler.FirstOrDefault(z => z.TamTarih == ŞuAnkiGün);
 
             PropertyChanged += MainViewModel_PropertyChanged;
+
             Properties.Settings.Default.PropertyChanged += Properties_PropertyChanged;
         }
 
@@ -140,6 +150,10 @@ namespace Takvim
         public ICommand AyGeri { get; }
 
         public ICommand Ayİleri { get; }
+
+        public ICommand GünGeri { get; }
+
+        public ICommand Günİleri { get; }
 
         public ICommand DuyurularPopupEkranıAç { get; }
 
@@ -279,6 +293,12 @@ namespace Takvim
             if (e.PropertyName is "BaşlangıçtaÇalışacak")
             {
                 SetRegistryValue(BaşlangıçtaÇalışacak);
+            }
+
+            if (e.PropertyName is "ŞuAnkiGün")
+            {
+                FilteredCvs.Filter += (s, e) => e.Accepted = DateTime.Parse((e.Item as XmlNode)?["Gun"]?.InnerText) == ŞuAnkiGün;
+                ŞuAnkiGünVerisi = Günler.FirstOrDefault(z => z.TamTarih == ŞuAnkiGün);
             }
 
             void SaveColumnRowSettings()

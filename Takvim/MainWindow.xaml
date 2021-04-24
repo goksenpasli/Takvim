@@ -18,11 +18,7 @@
                     <scm:SortDescription Direction="Descending" PropertyName="Gun" />
                 </CollectionViewSource.SortDescriptions>
             </CollectionViewSource>
-            <CollectionViewSource x:Key="FilteredCvs"
-                d:DesignSource="{d:DesignInstance Type=local:Data,
-                                                  CreateList=True}"
-                Filter="CollectionViewSource_Filter"
-                Source="{StaticResource XmlData}">
+            <CollectionViewSource x:Key="FilteredCvs" d:DesignSource="{d:DesignInstance Type=local:Data, CreateList=True}" Source="{StaticResource XmlData}">
                 <CollectionViewSource.SortDescriptions>
                     <scm:SortDescription Direction="Ascending" PropertyName="@SaatBaslangic" />
                 </CollectionViewSource.SortDescriptions>
@@ -66,7 +62,31 @@
         </Grid>
         <TabControl Grid.Row="0" Grid.Column="0" Grid.RowSpan="2"
             SelectedIndex="{Binding VarsayılanTakvim, Mode=OneWay, Source={x:Static properties:Settings.Default}}">
-            <TabItem Header="BUGÜN">
+            <TabItem>
+                <TabItem.Header>
+                    <Grid HorizontalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="70" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Button Content="ç"
+                            Grid.Column="0"
+                            Command="{Binding GünGeri}"
+                            FontFamily="Wingdings"
+                            ToolTip="ÖNCEKİ GÜN" />
+                        <TextBlock Text="{Binding ŞuAnkiGün, StringFormat=\{0:d\}}"
+                            Grid.Column="1"
+                            HorizontalAlignment="Center" VerticalAlignment="Center"
+                            FontWeight="Bold"
+                            Language="tr-tr" />
+                        <Button Content="è"
+                            Grid.Column="2"
+                            Command="{Binding Günİleri}"
+                            FontFamily="Wingdings"
+                            ToolTip="SONRAKİ GÜN" />
+                    </Grid>
+                </TabItem.Header>
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
@@ -78,7 +98,7 @@
                         ItemContainerStyle="{StaticResource GünListBoxItemContainerStyle}"
                         ScrollViewer.IsDeferredScrollingEnabled="True" VirtualizingStackPanel.VirtualizationMode="Recycling">
                         <ListBox.InputBindings>
-                            <MouseBinding Command="{Binding Tag.VeriEkleEkranı, Mode=OneWay, ElementName=MiniCalendar}" CommandParameter="{Binding ElementName=MiniCalendar, Path=Tag}" MouseAction="LeftDoubleClick" />
+                            <MouseBinding Command="{Binding Tag.VeriEkleEkranı, Mode=OneWay, ElementName=MiniCalendar}" CommandParameter="{Binding ŞuAnkiGünVerisi}" MouseAction="LeftDoubleClick" />
                         </ListBox.InputBindings>
                         <ListBox.Style>
                             <Style TargetType="ListBox">
@@ -115,23 +135,38 @@
                     </ScrollViewer>
                 </Grid>
             </TabItem>
-            <TabItem Header="AY">
+            <TabItem>
+                <TabItem.Header>
+                    <Grid HorizontalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="56" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Button Content="ç"
+                            Grid.Column="0"
+                            Command="{Binding AyGeri}"
+                            FontFamily="Wingdings"
+                            local:MovableControl.DraggedData="{Binding}"
+                            local:MovableControl.MoveData="True" AllowDrop="True" Tag="AyGeri" ToolTip="ÖNCEKİ AY" />
+                        <TextBlock Text="{Binding AyGünler/Ay}"
+                            Grid.Column="1"
+                            HorizontalAlignment="Center" VerticalAlignment="Center"
+                            FontWeight="Bold" />
+                        <Button Content="è"
+                            Grid.Column="2"
+                            Command="{Binding Ayİleri}"
+                            FontFamily="Wingdings"
+                            local:MovableControl.DraggedData="{Binding}"
+                            local:MovableControl.MoveData="True" AllowDrop="True" Tag="Ayİleri" ToolTip="SONRAKİ AY" />
+                    </Grid>
+                </TabItem.Header>
                 <Grid>
                     <GroupBox Grid.Column="1" Background="{Binding AyGünler/TamTarih.Month, Converter={StaticResource MonthToColorConverter}}">
                         <GroupBox.Header>
-                            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                                <Button Content="ç"
-                                    Command="{Binding AyGeri}"
-                                    FontFamily="Wingdings"
-                                    local:MovableControl.DraggedData="{Binding}"
-                                    local:MovableControl.MoveData="True" AllowDrop="True" Tag="AyGeri" ToolTip="ÖNCEKİ AY" />
-                                <TextBlock Text="{Binding AyGünler/Ay}" VerticalAlignment="Center" FontWeight="Bold" />
-                                <Button Content="è"
-                                    Command="{Binding Ayİleri}"
-                                    FontFamily="Wingdings"
-                                    local:MovableControl.DraggedData="{Binding}"
-                                    local:MovableControl.MoveData="True" AllowDrop="True" Tag="Ayİleri" ToolTip="SONRAKİ AY" />
-                            </StackPanel>
+                            <TextBlock Text="{Binding AyGünler/Ay}"
+                                HorizontalAlignment="Center" VerticalAlignment="Center"
+                                FontWeight="Bold" />
                         </GroupBox.Header>
                         <ItemsControl Background="{Binding DataContext.GövdeRenk, RelativeSource={RelativeSource AncestorType=Window}}" ItemsSource="{Binding AyGünler}" ItemTemplate="{StaticResource ListBoxAyDataTemplate}">
                             <ItemsControl.Template>
