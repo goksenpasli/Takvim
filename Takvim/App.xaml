@@ -656,7 +656,7 @@
                                         <Canvas Width="18" Height="18"
                                             Background="Transparent"
                                             Style="{StaticResource CanvasDragStyle}">
-                                            <TextBlock x:Name="Tb" Text="B"
+                                            <TextBlock Text="B"
                                                 FontSize="18" FontFamily="Wingdings" FontWeight="Bold" />
                                         </Canvas>
                                         <StackPanel VerticalAlignment="Center">
@@ -723,7 +723,7 @@
                                                 </Image.Style>
                                                 <Image.ToolTip>
                                                     <ToolTip Template="{StaticResource GreenToolTipControlTemplate}">
-                                                        <Image Source="{Binding ConverterParameter=600, Converter={StaticResource Base64ImageConverter}, XPath=Resim}" />
+                                                        <Image Source="{Binding ConverterParameter=800, Converter={StaticResource Base64ImageConverter}, XPath=Resim}" />
                                                     </ToolTip>
                                                 </Image.ToolTip>
                                                 <Image.InputBindings>
@@ -762,18 +762,16 @@
                                 Background="Transparent"
                                 HorizontalAlignment="Left" VerticalAlignment="Top"
                                 Style="{StaticResource CanvasDragStyle}">
-                                <TextBlock x:Name="Tb" Text="B"
+                                <TextBlock Text="B"
                                     FontSize="18" FontFamily="Wingdings" FontWeight="Bold" />
                             </Canvas>
-                            <TextBlock FontSize="12" FontFamily="Segoe UI Black">
+                            <TextBlock VerticalAlignment="Center" FontSize="12" FontFamily="Segoe UI Black">
                                 <Hyperlink x:Name="Hyp" Command="{Binding DataContext.XmlVeriSil, RelativeSource={RelativeSource AncestorType=Grid}}" CommandParameter="{Binding XPath=@Id}">
                                     <Run Text="X" />
                                 </Hyperlink>
-                            </TextBlock>
-                            <TextBlock>
                                 <Run Text="{Binding XPath=@SaatBaslangic}" />
-                                <Run Text="{Binding XPath=Aciklama}" />
                             </TextBlock>
+                            <TextBox Text="{Binding XPath=Aciklama, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="100" VerticalAlignment="Center" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <StackPanel.DataContext>
@@ -807,19 +805,6 @@
                             </Button>
                         </StackPanel>
                     </StackPanel>
-                    <local:ShadowedImage Width="64" Height="64"
-                        ShowShadow="True"
-                        Source="{Binding ConverterParameter=64, Converter={StaticResource Base64ImageConverter}, IsAsync=True, XPath=Resim}">
-                        <local:ShadowedImage.InputBindings>
-                            <MouseBinding Command="{Binding DataContext.DosyaGör, RelativeSource={RelativeSource AncestorType=Grid}}" CommandParameter="{Binding Mode=OneWay}" Gesture="CTRL+LeftClick" />
-                        </local:ShadowedImage.InputBindings>
-                        <local:ShadowedImage.ToolTip>
-                            <ToolTip Template="{StaticResource GreenToolTipControlTemplate}">
-                                <Image Source="{Binding ConverterParameter=600, Converter={StaticResource Base64ImageConverter}, XPath=Resim}" />
-                            </ToolTip>
-                        </local:ShadowedImage.ToolTip>
-                    </local:ShadowedImage>
-
                 </StackPanel>
             </DataTemplate>
             <DrawingBrush x:Key="ThatchBackground"
@@ -850,6 +835,60 @@
                     </Setter.Value>
                 </Setter>
             </Style>
+            <DataTemplate x:Key="ListBoxDayStandardTemplate">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <ScrollViewer Grid.Column="0" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                        <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center"
+                            FontSize="20"
+                            TextWrapping="Wrap">
+                            <TextBlock.Style>
+                                <Style TargetType="{x:Type TextBlock}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding XPath=@Onemli}" Value="true">
+                                            <Setter Property="Foreground" Value="Red" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                            <Run Text="{Binding Converter={StaticResource DateEndTimeConverter}, Mode=OneWay}" FontWeight="Bold" />
+                            <LineBreak />
+                            <Run Text="{Binding XPath=Aciklama}" FontSize="24" FontWeight="Bold" />
+                        </TextBlock>
+                    </ScrollViewer>
+                    <local:ShadowedImage Grid.Column="1"
+                        Height="120" MaxWidth="96"
+                        HorizontalAlignment="Right"
+                        ShowShadow="True"
+                        Source="{Binding ConverterParameter=120, Converter={StaticResource Base64ImageConverter}, XPath=Resim}">
+                        <local:ShadowedImage.InputBindings>
+                            <MouseBinding Command="{Binding Tag.DosyaGör, ElementName=MiniCalendar}" CommandParameter="{Binding Mode=OneWay}" Gesture="CTRL+LeftClick" />
+                        </local:ShadowedImage.InputBindings>
+                        <local:ShadowedImage.ToolTip>
+                            <ToolTip Template="{StaticResource GreenToolTipControlTemplate}">
+                                <Image Source="{Binding ConverterParameter=800, Converter={StaticResource Base64ImageConverter}, XPath=Resim}" />
+                            </ToolTip>
+                        </local:ShadowedImage.ToolTip>
+                    </local:ShadowedImage>
+                    <Canvas Width="18" Height="18"
+                        Background="Transparent"
+                        HorizontalAlignment="Left" VerticalAlignment="Top"
+                        Style="{StaticResource CanvasDragStyle}">
+                        <TextBlock Text="B"
+                            FontSize="18" FontFamily="Wingdings" FontWeight="Bold" />
+                    </Canvas>
+                    <TextBlock HorizontalAlignment="Right" FontSize="24"><Hyperlink Command="{Binding Tag.XmlVeriSil, ElementName=MiniCalendar, Mode=OneWay}"
+                            CommandParameter="{Binding XPath=@Id}"
+                            FontFamily="Segoe UI Black"
+                            TextDecorations="{x:Null}">
+                            <Run Text="3" FontFamily="Wingdings 2" FontWeight="Bold" />
+                        </Hyperlink>
+                    </TextBlock>
+                </Grid>
+            </DataTemplate>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

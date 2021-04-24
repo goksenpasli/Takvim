@@ -202,5 +202,17 @@ namespace Takvim.Properties {
                 this["YatayAdetOranı"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool MiniTakvimAçık {
+            get {
+                return ((bool)(this["MiniTakvimAçık"]));
+            }
+            set {
+                this["MiniTakvimAçık"] = value;
+            }
+        }
     }
 }

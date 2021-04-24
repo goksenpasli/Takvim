@@ -1,4 +1,6 @@
-﻿using System;
+﻿using iCalNET.Model;
+using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -16,8 +18,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Xml;
-using iCalNET.Model;
-using Microsoft.Win32;
 
 namespace Takvim
 {
@@ -386,8 +386,8 @@ namespace Takvim
 
         public ICommand XmlVeriEkle { get; }
 
-        public ICommand XmlVeriGüncelle { get; } 
-        
+        public ICommand XmlVeriGüncelle { get; }
+
         public ICommand XmlRenkGüncelle { get; }
 
         public ICommand XmlVeriSil { get; }
@@ -407,7 +407,7 @@ namespace Takvim
             {
                 AyTekrarGun = AyTekrar ? DateTime.Now.Day : 0;
             }
-            if (e.PropertyName is "WebpQuality" && ResimData is not null)
+            if (e.PropertyName is "WebpQuality" && ResimYolu is not null)
             {
                 ResimData = ResimYolu.WebpEncode(WebpQuality);
                 Boyut = ResimData.Length / 1024;

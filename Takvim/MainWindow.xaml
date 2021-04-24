@@ -76,64 +76,8 @@
                         Background="{StaticResource BorderBackground}"
                         ItemsSource="{Binding Mode=OneWay, Source={StaticResource FilteredCvs}}"
                         ItemContainerStyle="{StaticResource GünListBoxItemContainerStyle}"
+                        ItemTemplate="{StaticResource ListBoxDayStandardTemplate}"
                         ScrollViewer.IsDeferredScrollingEnabled="True" VirtualizingStackPanel.VirtualizationMode="Recycling">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition />
-                                        <ColumnDefinition Width="Auto" />
-                                    </Grid.ColumnDefinitions>
-                                    <ScrollViewer Grid.Column="0" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-                                        <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center"
-                                            FontSize="20"
-                                            TextWrapping="Wrap">
-                                            <TextBlock.Style>
-                                                <Style TargetType="{x:Type TextBlock}">
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding XPath=@Onemli}" Value="true">
-                                                            <Setter Property="Foreground" Value="Red" />
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </TextBlock.Style>
-                                            <Run Text="{Binding Converter={StaticResource DateEndTimeConverter}, Mode=OneWay}" FontWeight="Bold" />
-                                            <LineBreak />
-                                            <Run Text="{Binding XPath=Aciklama}" FontSize="24" FontWeight="Bold" />
-                                        </TextBlock>
-                                    </ScrollViewer>
-                                    <local:ShadowedImage Grid.Column="1"
-                                        Height="120" MaxWidth="96"
-                                        HorizontalAlignment="Right"
-                                        ShowShadow="True"
-                                        Source="{Binding ConverterParameter=120, Converter={StaticResource Base64ImageConverter}, IsAsync=True, XPath=Resim}">
-                                        <local:ShadowedImage.InputBindings>
-                                            <MouseBinding Command="{Binding Tag.DosyaGör, ElementName=MiniCalendar}" CommandParameter="{Binding Mode=OneWay}" Gesture="CTRL+LeftClick" />
-                                        </local:ShadowedImage.InputBindings>
-                                        <local:ShadowedImage.ToolTip>
-                                            <ToolTip Template="{StaticResource GreenToolTipControlTemplate}">
-                                                <Image Source="{Binding ConverterParameter=600, Converter={StaticResource Base64ImageConverter}, XPath=Resim}" />
-                                            </ToolTip>
-                                        </local:ShadowedImage.ToolTip>
-                                    </local:ShadowedImage>
-                                    <Canvas Width="18" Height="18"
-                                        Background="Transparent"
-                                        HorizontalAlignment="Left" VerticalAlignment="Top"
-                                        Style="{StaticResource CanvasDragStyle}">
-                                        <TextBlock Text="B"
-                                            FontSize="18" FontFamily="Wingdings" FontWeight="Bold" />
-                                    </Canvas>
-                                    <TextBlock HorizontalAlignment="Right" FontSize="24">
-                                        <Hyperlink Command="{Binding Tag.XmlVeriSil, Mode=OneWay, ElementName=MiniCalendar}"
-                                            CommandParameter="{Binding XPath=@Id}"
-                                            FontFamily="Segoe UI Black"
-                                            TextDecorations="{x:Null}">
-                                            <Run Text="3" FontFamily="Wingdings 2" FontWeight="Bold" />
-                                        </Hyperlink>
-                                    </TextBlock>
-                                </Grid>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
                         <ListBox.InputBindings>
                             <MouseBinding Command="{Binding Tag.VeriEkleEkranı, Mode=OneWay, ElementName=MiniCalendar}" CommandParameter="{Binding ElementName=MiniCalendar, Path=Tag}" MouseAction="LeftDoubleClick" />
                         </ListBox.InputBindings>
@@ -151,7 +95,7 @@
                                         <Setter Property="ItemsPanel">
                                             <Setter.Value>
                                                 <ItemsPanelTemplate>
-                                                    <local:VirtualizingWrapPanel ItemHeight="80" ItemWidth="{Binding YatayAdetOranı, Source={x:Static properties:Settings.Default}, Converter={StaticResource WrapPanelRatioConverter}}" />
+                                                    <local:VirtualizingWrapPanel ItemWidth="{Binding YatayAdetOranı, Source={x:Static properties:Settings.Default}, Converter={StaticResource WrapPanelRatioConverter}}" />
                                                 </ItemsPanelTemplate>
                                             </Setter.Value>
                                         </Setter>
@@ -164,7 +108,9 @@
                         <ScrollViewer.DataContext>
                             <local:MainViewModel />
                         </ScrollViewer.DataContext>
-                        <local:MiniCalendarControl x:Name="MiniCalendar" Tag="{Binding ŞuAnkiGünVerisi}" />
+                        <Expander IsExpanded="{Binding MiniTakvimAçık, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Source={x:Static properties:Settings.Default}}">
+                            <local:MiniCalendarControl x:Name="MiniCalendar" Tag="{Binding ŞuAnkiGünVerisi}" />
+                        </Expander>
                     </ScrollViewer>
                 </Grid>
             </TabItem>

@@ -291,7 +291,7 @@ namespace Takvim
 
         private void Properties_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName is "KontrolSüresi" or "PopupSüresi" or "HaftaSonlarıGizle" or "UyarıSaatSüresi" or "VarsayılanTakvim" or "AyarlarGörünür" or "Panel" or "YatayAdetOranı")
+            if (e.PropertyName is "KontrolSüresi" or "PopupSüresi" or "MiniTakvimAçık" or "HaftaSonlarıGizle" or "UyarıSaatSüresi" or "VarsayılanTakvim" or "AyarlarGörünür" or "Panel" or "YatayAdetOranı")
             {
                 Properties.Settings.Default.Save();
             }

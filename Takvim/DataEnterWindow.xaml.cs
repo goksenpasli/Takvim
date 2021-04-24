@@ -30,6 +30,7 @@ namespace Takvim
                     data.ResimData = null;
                     data.PdfData = null;
                     data.Dosyalar = null;
+                    data.ResimYolu = null;
                 }
 
                 disposedValue = true;

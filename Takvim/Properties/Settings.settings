@@ -47,5 +47,8 @@
     <Setting Name="YatayAdetOranı" Type="System.Int16" Scope="User">
       <Value Profile="(Default)">2</Value>
     </Setting>
+    <Setting Name="MiniTakvimAçık" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
