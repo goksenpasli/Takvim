@@ -181,7 +181,7 @@
                                     </ToolTip>
                                 </ContentControl.ToolTip>
                             </ContentControl>
-                            <Slider Width="140"
+                            <Slider Width="139"
                                 AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" IsTabStop="False" LargeChange="1"
                                 Maximum="100" Minimum="1" SmallChange="1" TickFrequency="1"
                                 ToolTip="WEBP RESİM YÜKLEME KALİTESİ 1 EN DÜŞÜK BOYUTTUR. DEĞERİ DEĞİŞTİRİP ÖNİZLEME GÖZÜNDEN BAKIN"
@@ -229,7 +229,6 @@
                         </ListBox>
                     </local:ContentToggleButton>
                 </UniformGrid>
-
             </Grid>
         </GroupBox>
     </Microsoft_Windows_Themes:SystemDropShadowChrome>

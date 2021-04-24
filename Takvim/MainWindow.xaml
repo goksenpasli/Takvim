@@ -76,13 +76,13 @@
                         Background="{StaticResource BorderBackground}"
                         ItemsSource="{Binding Mode=OneWay, Source={StaticResource FilteredCvs}}"
                         ItemContainerStyle="{StaticResource GünListBoxItemContainerStyle}"
-                        ItemTemplate="{StaticResource ListBoxDayStandardTemplate}"
                         ScrollViewer.IsDeferredScrollingEnabled="True" VirtualizingStackPanel.VirtualizationMode="Recycling">
                         <ListBox.InputBindings>
                             <MouseBinding Command="{Binding Tag.VeriEkleEkranı, Mode=OneWay, ElementName=MiniCalendar}" CommandParameter="{Binding ElementName=MiniCalendar, Path=Tag}" MouseAction="LeftDoubleClick" />
                         </ListBox.InputBindings>
                         <ListBox.Style>
                             <Style TargetType="ListBox">
+                                <Setter Property="ItemTemplate" Value="{StaticResource ListBoxDayStandardTemplate}" />
                                 <Setter Property="ItemsPanel">
                                     <Setter.Value>
                                         <ItemsPanelTemplate>
@@ -92,6 +92,7 @@
                                 </Setter>
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding Path=Panel, Source={x:Static properties:Settings.Default}}" Value="True">
+                                        <Setter Property="ItemTemplate" Value="{StaticResource ListBoxDayStandardGroupTemplate}" />
                                         <Setter Property="ItemsPanel">
                                             <Setter.Value>
                                                 <ItemsPanelTemplate>

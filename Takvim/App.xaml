@@ -889,6 +889,65 @@
                     </TextBlock>
                 </Grid>
             </DataTemplate>
+            <DataTemplate x:Key="ListBoxDayStandardGroupTemplate">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Canvas Width="18" Height="18"
+                        Background="Transparent"
+                        HorizontalAlignment="Left" VerticalAlignment="Top"
+                        Style="{StaticResource CanvasDragStyle}">
+                        <TextBlock Text="B"
+                            FontSize="18" FontFamily="Wingdings" FontWeight="Bold" />
+                    </Canvas>
+                    <local:ShadowedImage Grid.Column="0"
+                        MaxWidth="192" MaxHeight="240"
+                        ShowShadow="True"
+                        Source="{Binding ConverterParameter=240, Converter={StaticResource Base64ImageConverter}, XPath=Resim}">
+                        <local:ShadowedImage.InputBindings>
+                            <MouseBinding Command="{Binding Tag.DosyaGör, ElementName=MiniCalendar}" CommandParameter="{Binding Mode=OneWay}" Gesture="CTRL+LeftClick" />
+                        </local:ShadowedImage.InputBindings>
+                        <local:ShadowedImage.ToolTip>
+                            <ToolTip Template="{StaticResource GreenToolTipControlTemplate}">
+                                <Image Source="{Binding ConverterParameter=800, Converter={StaticResource Base64ImageConverter}, XPath=Resim}" />
+                            </ToolTip>
+                        </local:ShadowedImage.ToolTip>
+                    </local:ShadowedImage>
+                    <StackPanel Grid.Column="1">
+                        <TextBlock FontSize="20" TextWrapping="Wrap">
+                            <TextBlock.Style>
+                                <Style TargetType="{x:Type TextBlock}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding XPath=@Onemli}" Value="true">
+                                            <Setter Property="Foreground" Value="Red" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                            <Run Text="{Binding Converter={StaticResource DateEndTimeConverter}, Mode=OneWay}" FontWeight="Bold" />
+                            <LineBreak />
+                            <Run Text="{Binding XPath=Aciklama}" FontSize="28" FontWeight="Bold" />
+                        </TextBlock>
+                        <ListBox Margin="2" Height="200" ItemsSource="{Binding XPath=Dosyalar/Dosya}" FontWeight="Normal">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Width="32" Height="32" Source="{Binding Converter={StaticResource FilePathToIconConverter}, XPath=@Yol}" />
+                                        <TextBlock VerticalAlignment="Center">
+                                            <Hyperlink Command="{Binding Tag.EkDosyaAç, Mode=OneWay, ElementName=MiniCalendar}" CommandParameter="{Binding XPath=@Yol}">
+                                                <Run Text="{Binding XPath=@Ad}" />
+                                            </Hyperlink>
+                                        </TextBlock>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </StackPanel>
+                </Grid>
+            </DataTemplate>
+
         </ResourceDictionary>
     </Application.Resources>
 </Application>
