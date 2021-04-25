@@ -16,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Threading;
 using System.Xml;
 using System.Xml.Linq;
+using Takvim.Properties;
 using Winforms = System.Windows.Forms;
 
 namespace Takvim
@@ -53,7 +54,7 @@ namespace Takvim
             {
                 SatırSayısı = 3;
                 SütünSayısı = 4;
-                Properties.Settings.Default.Save();
+                Settings.Default.Save();
             }, parameter => SatırSayısı != 3 || SütünSayısı != 4);
 
             YılaGit = new RelayCommand<object>(parameter =>
@@ -68,7 +69,7 @@ namespace Takvim
 
             AyarSıfırla = new RelayCommand<object>(parameter =>
             {
-                Properties.Settings.Default.Reset();
+                Settings.Default.Reset();
                 MessageBox.Show("Ayarlar Varsayılana Çevrildi. Yeniden Başlatın.", "TAKVİM", MessageBoxButton.OK, MessageBoxImage.Exclamation);
             }, parameter => true);
 
@@ -102,7 +103,14 @@ namespace Takvim
                 YaklaşanEtkinlikleriAl();
                 if (YaklaşanEtkinlikler.Any())
                 {
-                    SystemSounds.Exclamation.Play();
+                    if (Settings.Default.YaklaşanEtkinlikleriOku)
+                    {
+                        ListeyiOku(YaklaşanEtkinlikler.Select(z=>z.GünNotAçıklama));
+                    }
+                    else
+                    {
+                        SystemSounds.Exclamation.Play();
+                    }
                     duyurularwindow.Show();
                 }
             }, parameter => true);
@@ -125,27 +133,9 @@ namespace Takvim
                 };
             }, parameter => !string.IsNullOrWhiteSpace(AramaMetin));
 
-            WebAdreseGit = new RelayCommand<object>(parameter =>
-            {
-                Process.Start(parameter as string);
-            }, parameter => true);
+            WebAdreseGit = new RelayCommand<object>(parameter => Process.Start(parameter as string), parameter => true);
 
-            VerileriOku = new RelayCommand<object>(parameter =>
-            {
-                if (!string.IsNullOrEmpty(SeçiliTts))
-                {
-                    synthesizer.SelectVoice(SeçiliTts);
-                    synthesizer.Volume = 100;
-                    foreach (string item in FilteredCvs.View.SourceCollection.OfType<XmlNode>().Where(z => DateTime.Parse(z["Gun"]?.InnerText) == ŞuAnkiGün).Select(z => z["Aciklama"].InnerText))
-                    {
-                        synthesizer.SpeakAsync(item);
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("Önce TTS Seçimi Yapın.", "TAKVİM", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                }
-            }, parameter => true);
+            VeriOku = new RelayCommand<object>(parameter => ListeyiOku(FilteredCvs.View.SourceCollection.OfType<XmlNode>().Where(z => DateTime.Parse(z["Gun"]?.InnerText) == ŞuAnkiGün).Select(z => z["Aciklama"].InnerText)), parameter => true);
 
             VeritabanıAç = new RelayCommand<object>(parameter =>
             {
@@ -164,7 +154,7 @@ namespace Takvim
 
             PropertyChanged += MainViewModel_PropertyChanged;
 
-            Properties.Settings.Default.PropertyChanged += Properties_PropertyChanged;
+            Settings.Default.PropertyChanged += Properties_PropertyChanged;
         }
 
         public ICommand AyarSıfırla { get; }
@@ -175,7 +165,7 @@ namespace Takvim
 
         public ICommand GünGeri { get; }
 
-        public ICommand VerileriOku { get; }
+        public ICommand VeriOku { get; }
 
         public ICommand Günİleri { get; }
 
@@ -301,12 +291,12 @@ namespace Takvim
 
             if (e.PropertyName is "SeçiliRenkPaz" or "GövdeRenk" or "SeçiliRenkCmt" or "ResmiTatilRenk" or "BayramTatilRenk")
             {
-                Properties.Settings.Default.PazRenk = SeçiliRenkPaz.ConvertToColor();
-                Properties.Settings.Default.CmtRenk = SeçiliRenkCmt.ConvertToColor();
-                Properties.Settings.Default.ResmiTatil = ResmiTatilRenk.ConvertToColor();
-                Properties.Settings.Default.GövdeRenk = GövdeRenk.ConvertToColor();
-                Properties.Settings.Default.BayramRenk = BayramTatilRenk.ConvertToColor();
-                Properties.Settings.Default.Save();
+                Settings.Default.PazRenk = SeçiliRenkPaz.ConvertToColor();
+                Settings.Default.CmtRenk = SeçiliRenkCmt.ConvertToColor();
+                Settings.Default.ResmiTatil = ResmiTatilRenk.ConvertToColor();
+                Settings.Default.GövdeRenk = GövdeRenk.ConvertToColor();
+                Settings.Default.BayramRenk = BayramTatilRenk.ConvertToColor();
+                Settings.Default.Save();
             }
 
             if (e.PropertyName is "AramaMetin" && string.IsNullOrWhiteSpace(AramaMetin))
@@ -327,17 +317,22 @@ namespace Takvim
 
             void SaveColumnRowSettings()
             {
-                Properties.Settings.Default.Satır = SatırSayısı;
-                Properties.Settings.Default.Sütün = SütünSayısı;
-                Properties.Settings.Default.Save();
+                Settings.Default.Satır = SatırSayısı;
+                Settings.Default.Sütün = SütünSayısı;
+                Settings.Default.Save();
             }
         }
 
         private void Properties_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName is "KontrolSüresi" or "PopupSüresi" or "MiniTakvimAçık" or "HaftaSonlarıGizle" or "UyarıSaatSüresi" or "VarsayılanTakvim" or "AyarlarGörünür" or "Panel" or "YatayAdetOranı")
+            if (e.PropertyName is "SeçiliTts" or "KontrolSüresi" or "PopupSüresi" or "MiniTakvimAçık" or "HaftaSonlarıGizle" or "UyarıSaatSüresi" or "VarsayılanTakvim" or "AyarlarGörünür" or "Panel" or "YatayAdetOranı")
             {
-                Properties.Settings.Default.Save();
+                Settings.Default.Save();
+            }
+
+            if (e.PropertyName is "YaklaşanEtkinlikleriOku" && !string.IsNullOrEmpty(Settings.Default.SeçiliTts))
+            {
+                Settings.Default.Save();
             }
         }
 
@@ -417,6 +412,30 @@ namespace Takvim
             TtsDilleri = synthesizer.GetInstalledVoices().Select(z => z.VoiceInfo.Name);
         }
 
+        private void ListeyiOku(IEnumerable<string> Veri)
+        {
+            if (!string.IsNullOrEmpty(Settings.Default.SeçiliTts))
+            {
+                try
+                {
+                    synthesizer.SelectVoice(Settings.Default.SeçiliTts);
+                    synthesizer.Volume = 100;
+                    foreach (string item in Veri)
+                    {
+                        synthesizer.SpeakAsync(item);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "TAKVİM", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Önce TTS Seçimi Yapın.", "TAKVİM", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            }
+        }
+
         private ObservableCollection<Data> YaklaşanEtkinlikleriAl()
         {
             YaklaşanEtkinlikler = new ObservableCollection<Data>();
@@ -425,8 +444,8 @@ namespace Takvim
                 foreach (XmlNode xmlnode in xmlNodeCollection)
                 {
                     _ = DateTime.TryParseExact(xmlnode.Attributes.GetNamedItem("SaatBaslangic").Value, "H:m", new CultureInfo("tr-TR"), DateTimeStyles.None, out DateTime saat);
-                    bool yaklaşanetkinlik = DateTime.Today.Day == DateTime.Parse(xmlnode["Gun"]?.InnerText).Day && saat > DateTime.Now && saat.AddHours(-Properties.Settings.Default.UyarıSaatSüresi) < DateTime.Now && xmlnode.Attributes.GetNamedItem("Okundu")?.Value != "true";
-                    bool tekraretkinlik = DateTime.Today.Day == DateTime.Parse(xmlnode["Gun"]?.InnerText).Day && xmlnode.Attributes.GetNamedItem("AyTekrar")?.Value == "true" && saat > DateTime.Now && saat.AddHours(-Properties.Settings.Default.UyarıSaatSüresi) < DateTime.Now;
+                    bool yaklaşanetkinlik = DateTime.Today.Day == DateTime.Parse(xmlnode["Gun"]?.InnerText).Day && saat > DateTime.Now && saat.AddHours(-Settings.Default.UyarıSaatSüresi) < DateTime.Now && xmlnode.Attributes.GetNamedItem("Okundu")?.Value != "true";
+                    bool tekraretkinlik = DateTime.Today.Day == DateTime.Parse(xmlnode["Gun"]?.InnerText).Day && xmlnode.Attributes.GetNamedItem("AyTekrar")?.Value == "true" && saat > DateTime.Now && saat.AddHours(-Settings.Default.UyarıSaatSüresi) < DateTime.Now;
                     if (yaklaşanetkinlik || tekraretkinlik)
                     {
                         Data data = new()

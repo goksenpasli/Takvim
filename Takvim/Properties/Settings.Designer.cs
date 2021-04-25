@@ -214,5 +214,29 @@ namespace Takvim.Properties {
                 this["MiniTakvimAçık"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string SeçiliTts {
+            get {
+                return ((string)(this["SeçiliTts"]));
+            }
+            set {
+                this["SeçiliTts"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool YaklaşanEtkinlikleriOku {
+            get {
+                return ((bool)(this["YaklaşanEtkinlikleriOku"]));
+            }
+            set {
+                this["YaklaşanEtkinlikleriOku"] = value;
+            }
+        }
     }
 }

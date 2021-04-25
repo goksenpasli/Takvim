@@ -76,8 +76,6 @@ namespace Takvim
 
         private DateTime şuAnkiGün = DateTime.Today;
 
-        private string seçiliTts;
-
         public DateTime? AnimasyonTarih
         {
             get => animasyonTarih;
@@ -375,20 +373,6 @@ namespace Takvim
         }
 
         public IEnumerable<string> TtsDilleri { get; set; } = new List<string>();
-
-        public string SeçiliTts
-        {
-            get => seçiliTts;
-
-            set
-            {
-                if (seçiliTts != value)
-                {
-                    seçiliTts = value;
-                    OnPropertyChanged(nameof(SeçiliTts));
-                }
-            }
-        }
 
         public string Zaman
         {
