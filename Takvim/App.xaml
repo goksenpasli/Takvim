@@ -930,7 +930,10 @@
                             <LineBreak />
                             <Run Text="{Binding XPath=Aciklama}" FontSize="28" FontWeight="Bold" />
                         </TextBlock>
-                        <ListBox Margin="2" Height="200" ItemsSource="{Binding XPath=Dosyalar/Dosya}" FontWeight="Normal">
+                        <ListBox Height="200"
+                            Margin="2"
+                            ItemsSource="{Binding XPath=Dosyalar/Dosya}"
+                            FontWeight="Normal">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
@@ -947,7 +950,6 @@
                     </StackPanel>
                 </Grid>
             </DataTemplate>
-
         </ResourceDictionary>
     </Application.Resources>
 </Application>

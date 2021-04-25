@@ -1,8 +1,10 @@
 ﻿using Microsoft.Win32;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Configuration;
 using System.IO;
+using System.Speech.Synthesis;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
@@ -23,6 +25,8 @@ namespace Takvim
         public static Window duyurularwindow;
 
         public static XmlDataProvider xmlDataProvider;
+
+        private static SpeechSynthesizer synthesizer;
 
         private readonly CollectionViewSource Cvs = (CollectionViewSource)Application.Current?.MainWindow?.TryFindResource("Cvs");
 
@@ -71,6 +75,8 @@ namespace Takvim
         private string zaman;
 
         private DateTime şuAnkiGün = DateTime.Today;
+
+        private string seçiliTts;
 
         public DateTime? AnimasyonTarih
         {
@@ -364,6 +370,22 @@ namespace Takvim
                 {
                     yaklaşanEtkinlikler = value;
                     OnPropertyChanged(nameof(YaklaşanEtkinlikler));
+                }
+            }
+        }
+
+        public IEnumerable<string> TtsDilleri { get; set; } = new List<string>();
+
+        public string SeçiliTts
+        {
+            get => seçiliTts;
+
+            set
+            {
+                if (seçiliTts != value)
+                {
+                    seçiliTts = value;
+                    OnPropertyChanged(nameof(SeçiliTts));
                 }
             }
         }

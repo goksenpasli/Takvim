@@ -8,6 +8,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Media;
+using System.Speech.Synthesis;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
@@ -25,6 +26,7 @@ namespace Takvim
         {
             GenerateSystemTrayMenu();
             DatetimeTimer();
+            GetTtsLang();
             WriteXmlRootData(xmlpath);
 
             xmlDataProvider = (XmlDataProvider)Application.Current?.TryFindResource("XmlData");
@@ -43,9 +45,9 @@ namespace Takvim
 
             Ayİleri = new RelayCommand<object>(parameter => SeçiliAy++, parameter => SeçiliAy < 12);
 
-            Günİleri = new RelayCommand<object>(parameter => ŞuAnkiGün = ŞuAnkiGün.AddDays(1), parameter => true);
+            Günİleri = new RelayCommand<object>(parameter => ŞuAnkiGün = ŞuAnkiGün.AddDays(1), parameter => ŞuAnkiGün < DateTime.Parse($"31/12/{DateTime.Now.Year}"));
 
-            GünGeri = new RelayCommand<object>(parameter => ŞuAnkiGün = ŞuAnkiGün.AddDays(-1), parameter => true);
+            GünGeri = new RelayCommand<object>(parameter => ŞuAnkiGün = ŞuAnkiGün.AddDays(-1), parameter => ŞuAnkiGün > DateTime.Parse($"1/1/{DateTime.Now.Year}"));
 
             SatırSütünSıfırla = new RelayCommand<object>(parameter =>
             {
@@ -123,7 +125,27 @@ namespace Takvim
                 };
             }, parameter => !string.IsNullOrWhiteSpace(AramaMetin));
 
-            Hakkında = new RelayCommand<object>(parameter => Process.Start("https://github.com/goksenpasli"), parameter => true);
+            WebAdreseGit = new RelayCommand<object>(parameter =>
+            {
+                Process.Start(parameter as string);
+            }, parameter => true);
+
+            VerileriOku = new RelayCommand<object>(parameter =>
+            {
+                if (!string.IsNullOrEmpty(SeçiliTts))
+                {
+                    synthesizer.SelectVoice(SeçiliTts);
+                    synthesizer.Volume = 100;
+                    foreach (string item in FilteredCvs.View.SourceCollection.OfType<XmlNode>().Where(z => DateTime.Parse(z["Gun"]?.InnerText) == ŞuAnkiGün).Select(z => z["Aciklama"].InnerText))
+                    {
+                        synthesizer.SpeakAsync(item);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Önce TTS Seçimi Yapın.", "TAKVİM", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                }
+            }, parameter => true);
 
             VeritabanıAç = new RelayCommand<object>(parameter =>
             {
@@ -153,6 +175,8 @@ namespace Takvim
 
         public ICommand GünGeri { get; }
 
+        public ICommand VerileriOku { get; }
+
         public ICommand Günİleri { get; }
 
         public ICommand DuyurularPopupEkranıAç { get; }
@@ -161,7 +185,7 @@ namespace Takvim
 
         public ICommand EskiVerileriSil { get; }
 
-        public ICommand Hakkında { get; }
+        public ICommand WebAdreseGit { get; }
 
         public ICommand SatırSütünSıfırla { get; }
 
@@ -385,6 +409,12 @@ namespace Takvim
                 writer.WriteEndElement();
                 writer.Flush();
             }
+        }
+
+        private void GetTtsLang()
+        {
+            synthesizer = new SpeechSynthesizer();
+            TtsDilleri = synthesizer.GetInstalledVoices().Select(z => z.VoiceInfo.Name);
         }
 
         private ObservableCollection<Data> YaklaşanEtkinlikleriAl()
