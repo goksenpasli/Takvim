@@ -19,6 +19,10 @@ namespace Takvim
 
         private BitmapSource resim;
 
+        private readonly Base64Converter base64Converter = new();
+
+        private readonly Base64ImageConverter base64ImageConverter = new();
+
         private double zoom = 0.25;
 
         public ImageViewer(XmlElement xmldata)
@@ -60,8 +64,8 @@ namespace Takvim
                 }, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default);
             }, parameter => Resim is not null && Environment.OSVersion.Version.Major > 5 && Ocr.tesseractexsist);
 
-            PdfData = (byte[])new Base64Converter().Convert(xmldata["Pdf"]?.InnerText, null, null, CultureInfo.CurrentCulture);
-            Resim = (BitmapSource)new Base64ImageConverter().Convert(xmldata["Resim"]?.InnerText, null, null, CultureInfo.CurrentCulture);
+            PdfData = (byte[])base64Converter.Convert(xmldata["Pdf"]?.InnerText, null, null, CultureInfo.CurrentCulture);
+            Resim = (BitmapSource)base64ImageConverter.Convert(xmldata["Resim"]?.InnerText, null, null, CultureInfo.CurrentCulture);
             OcrMetin = xmldata.GetAttribute("Ocr");
 
             if (PdfData is null && Resim is not null)
@@ -119,7 +123,7 @@ namespace Takvim
             }
         }
 
-        public XmlElement Xmldata { get;}
+        public XmlElement Xmldata { get; }
 
         public ICommand Yazdır { get; }
 

@@ -126,9 +126,6 @@
                         </ListBox.Style>
                     </ListBox>
                     <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto">
-                        <ScrollViewer.DataContext>
-                            <local:MainViewModel />
-                        </ScrollViewer.DataContext>
                         <Expander IsExpanded="{Binding MiniTakvimAçık, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Source={x:Static properties:Settings.Default}}">
                             <local:MiniCalendarControl x:Name="MiniCalendar" Tag="{Binding ŞuAnkiGünVerisi}" />
                         </Expander>

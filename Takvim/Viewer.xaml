@@ -65,7 +65,7 @@
                 </Grid>
             </TabItem>
             <TabItem Header="PDF">
-                <GpMoonPdfViewer:MoonPdfViewer Grid.Column="1" PdfData="{Binding DataContext.PdfData, ElementName=Window}" />
+                <GpMoonPdfViewer:MoonPdfViewer Grid.Column="1" AcKaydetButtonEtkin="Collapsed" PdfData="{Binding DataContext.PdfData, ElementName=Window}" />
             </TabItem>
             <TabItem Header="RESİMLER">
                 <Grid>
