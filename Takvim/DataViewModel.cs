@@ -343,7 +343,7 @@ namespace Takvim
                     Width = 504,
                     AllowsTransparency = true,
                     WindowStyle = WindowStyle.None,
-                    Height = 304,
+                    Height = 454,
                     Background = Brushes.Transparent,
                     Owner = Application.Current.MainWindow,
                     ShowInTaskbar = false,

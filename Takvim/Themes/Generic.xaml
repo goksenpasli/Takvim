@@ -449,10 +449,10 @@
                         Padding="{TemplateBinding Padding}"
                         Command="{TemplateBinding Command}"
                         CommandParameter="{TemplateBinding CommandParameter}">
-                        <Grid>
+                        <Grid Width="{Binding RenderSize.Width, RelativeSource={RelativeSource AncestorType=Button}}" HorizontalAlignment="Center">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
-                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="14" />
                             </Grid.ColumnDefinitions>
                             <ContentPresenter Content="{TemplateBinding Content}"
                                 Grid.Column="0"
@@ -467,8 +467,7 @@
                                                     <Setter Property="Control.Template">
                                                         <Setter.Value>
                                                             <ControlTemplate>
-                                                                <Rectangle Margin="2"
-                                                                    Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"
+                                                                <Rectangle Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"
                                                                     StrokeThickness="1"
                                                                     SnapsToDevicePixels="True" StrokeDashArray="1 2" />
                                                             </ControlTemplate>
@@ -481,10 +480,9 @@
                                         <Setter Property="BorderBrush" Value="Black" />
                                         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
                                         <Setter Property="BorderThickness" Value="1,0,0,0" />
-                                        <Setter Property="Margin" Value="2,0,0,0" />
                                         <Setter Property="HorizontalContentAlignment" Value="Center" />
                                         <Setter Property="VerticalContentAlignment" Value="Center" />
-                                        <Setter Property="Padding" Value="1" />
+                                        <Setter Property="Padding" Value="0" />
                                         <Setter Property="Template">
                                             <Setter.Value>
                                                 <ControlTemplate TargetType="{x:Type ToggleButton}">

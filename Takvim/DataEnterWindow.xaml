@@ -5,10 +5,9 @@
     xmlns:TwainControl="clr-namespace:TwainControl;assembly=TwainControl"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:Takvim"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:properties="clr-namespace:Takvim.Properties"
     Margin="2"
     d:DataContext="{d:DesignInstance Type={x:Type local:Data}}"
-    d:DesignHeight="300" d:DesignWidth="500" Loaded="UserControl_Loaded" Unloaded="UserControl_Unloaded"
+    d:DesignHeight="450" d:DesignWidth="500" Loaded="UserControl_Loaded" Unloaded="UserControl_Unloaded"
     UseLayoutRounding="True"
     mc:Ignorable="d">
     <UserControl.Resources>
@@ -18,7 +17,7 @@
                 Storyboard.TargetName="UserControl" Storyboard.TargetProperty="Width" From="0" To="500"
                 Duration="0:0:0.2" />
             <DoubleAnimation BeginTime="0:0:0"
-                Storyboard.TargetName="UserControl" Storyboard.TargetProperty="Height" From="0" To="300"
+                Storyboard.TargetName="UserControl" Storyboard.TargetProperty="Height" From="0" To="448"
                 Duration="0:0:0.2" />
         </Storyboard>
         <Storyboard x:Key="Shrink">
@@ -26,7 +25,7 @@
                 Storyboard.TargetName="UserControl" Storyboard.TargetProperty="Width" From="500" To="0"
                 Duration="0:0:0.2" />
             <DoubleAnimation BeginTime="0:0:0"
-                Storyboard.TargetName="UserControl" Storyboard.TargetProperty="Height" From="300" To="0"
+                Storyboard.TargetName="UserControl" Storyboard.TargetProperty="Height" From="448" To="0"
                 Duration="0:0:0.2" />
         </Storyboard>
     </UserControl.Resources>
@@ -48,7 +47,8 @@
                     <TextBlock HorizontalAlignment="Right" FontSize="15" FontFamily="Segoe UI Black">
                         <Hyperlink Command="{Binding PencereKapat}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=UserControl}}">
                             <Run Text="X" />
-                        </Hyperlink></TextBlock>
+                        </Hyperlink>
+                    </TextBlock>
                 </UniformGrid>
             </GroupBox.Header>
             <GroupBox.Style>
@@ -74,9 +74,9 @@
             </GroupBox.Style>
             <Grid>
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*" />
                     <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="2*" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -104,7 +104,7 @@
                         IsChecked="{Binding AyTekrar, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
                         ToolTip="BU İŞARETLENİRSE HER AYIN AYNI GÜNÜNE İŞARET VERİLİR">
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="AY TEKRAR" VerticalAlignment="Center" />
+                            <TextBlock Text="TEKRAR" VerticalAlignment="Center" />
                             <Slider IsEnabled="{Binding AyTekrar}"
                                 Width="35"
                                 AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" Maximum="31" Minimum="1"
@@ -127,38 +127,43 @@
                     TimeValue="{Binding SaatBaşlangıç, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                     Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
                 <Expander Header="DOSYA" Grid.Row="6" Grid.ColumnSpan="2">
-                    <UniformGrid Columns="2" Rows="2">
-                        <Button Content="RESİM YÜKLE" IsEnabled="{Binding GünNotAçıklama, Converter={StaticResource StringNullableToBooleanConverter}}" Command="{Binding ResimYükle, Mode=OneWay}">
-                            <Button.ContextMenu>
-                                <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Mode=Self}}">
-                                    <MenuItem Header="RESİM İPTAL" Command="{Binding Resimİptal}" />
-                                </ContextMenu>
-                            </Button.ContextMenu>
-                        </Button>
-                        <Button Content="PDF YÜKLE" IsEnabled="{Binding GünNotAçıklama, Converter={StaticResource StringNullableToBooleanConverter}}" Command="{Binding PdfYükle, Mode=OneWay}">
-                            <Button.ContextMenu>
-                                <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Mode=Self}}">
-                                    <MenuItem Header="PDF İPTAL" Command="{Binding Pdfİptal}" />
-                                </ContextMenu>
-                            </Button.ContextMenu>
-                        </Button>
-                        <local:FileSelectorTextBox IsEnabled="{Binding GünNotAçıklama, Converter={StaticResource StringNullableToBooleanConverter}}" Dosyalar="{Binding Dosyalar, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
-                        <local:SplitButton Command="{Binding OcrUygula}" CommandParameter="{Binding ResimData}">
-                            <Grid>
-                                <ProgressBar BorderBrush="{x:Null}" IsIndeterminate="{Binding OcrSürüyor}" />
-                                <TextBlock Text="OCR UYGULA" HorizontalAlignment="Center" />
-                            </Grid>
-                            <local:SplitButton.InternalContent>
-                                <GroupBox Header="OCR">
-                                    <TextBox Text="{Binding Path=OcrMetin}"
-                                        Grid.Row="2" Grid.Column="1"
-                                        IsReadOnly="True"
-                                        Width="300" Height="300"
-                                        HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" />
-                                </GroupBox>
-                            </local:SplitButton.InternalContent>
-                        </local:SplitButton>
-                    </UniformGrid>
+                    <StackPanel>
+                        <UniformGrid Columns="2" Rows="2">
+                            <Button Content="RESİM YÜKLE" IsEnabled="{Binding GünNotAçıklama, Converter={StaticResource StringNullableToBooleanConverter}}" Command="{Binding ResimYükle, Mode=OneWay}">
+                                <Button.ContextMenu>
+                                    <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Mode=Self}}">
+                                        <MenuItem Header="RESİM İPTAL" Command="{Binding Resimİptal}" />
+                                    </ContextMenu>
+                                </Button.ContextMenu>
+                            </Button>
+                            <Button Content="PDF YÜKLE" IsEnabled="{Binding GünNotAçıklama, Converter={StaticResource StringNullableToBooleanConverter}}" Command="{Binding PdfYükle, Mode=OneWay}">
+                                <Button.ContextMenu>
+                                    <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Mode=Self}}">
+                                        <MenuItem Header="PDF İPTAL" Command="{Binding Pdfİptal}" />
+                                    </ContextMenu>
+                                </Button.ContextMenu>
+                            </Button>
+                            <local:FileSelectorTextBox IsEnabled="{Binding GünNotAçıklama, Converter={StaticResource StringNullableToBooleanConverter}}" Dosyalar="{Binding Dosyalar, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
+                            <local:SplitButton Command="{Binding OcrUygula}" CommandParameter="{Binding ResimData}">
+                                <Grid>
+                                    <ProgressBar BorderBrush="{x:Null}" IsIndeterminate="{Binding OcrSürüyor}" />
+                                    <TextBlock Text="OCR UYGULA" HorizontalAlignment="Center" />
+                                </Grid>
+                                <local:SplitButton.InternalContent>
+                                    <GroupBox Header="OCR">
+                                        <TextBox Text="{Binding Path=OcrMetin}"
+                                            Grid.Row="2" Grid.Column="1"
+                                            IsReadOnly="True"
+                                            Width="300" Height="300"
+                                            HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" />
+                                    </GroupBox>
+                                </local:SplitButton.InternalContent>
+                            </local:SplitButton>
+                        </UniformGrid>
+                        <GroupBox Header="ARŞİVLEYİCİ">
+                            <local:Compressor />
+                        </GroupBox>
+                    </StackPanel>
                 </Expander>
                 <Button Content="VERİYİ EKLE"
                     Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2"
@@ -181,7 +186,7 @@
                                     </ToolTip>
                                 </ContentControl.ToolTip>
                             </ContentControl>
-                            <Slider Width="139"
+                            <Slider Width="175"
                                 AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" IsTabStop="False" LargeChange="1"
                                 Maximum="100" Minimum="1" SmallChange="1" TickFrequency="1"
                                 ToolTip="WEBP RESİM YÜKLEME KALİTESİ 1 EN DÜŞÜK BOYUTTUR. DEĞERİ DEĞİŞTİRİP ÖNİZLEME GÖZÜNDEN BAKIN"

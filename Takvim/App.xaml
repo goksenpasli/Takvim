@@ -766,8 +766,11 @@
                                     FontSize="18" FontFamily="Wingdings" FontWeight="Bold" />
                             </Canvas>
                             <TextBlock VerticalAlignment="Center" FontSize="12" FontFamily="Segoe UI Black">
-                                <Hyperlink x:Name="Hyp" Command="{Binding DataContext.XmlVeriSil, RelativeSource={RelativeSource AncestorType=Grid}}" CommandParameter="{Binding XPath=@Id}">
-                                    <Run Text="X" />
+                                <Hyperlink x:Name="Hyp"
+                                    Command="{Binding DataContext.XmlVeriSil, RelativeSource={RelativeSource AncestorType=Grid}}"
+                                    CommandParameter="{Binding XPath=@Id}"
+                                    TextDecorations="{x:Null}">
+                                    <Run Text="3" FontSize="18" FontFamily="Wingdings 2" />
                                 </Hyperlink>
                                 <Run Text="{Binding XPath=@SaatBaslangic}" />
                             </TextBlock>
