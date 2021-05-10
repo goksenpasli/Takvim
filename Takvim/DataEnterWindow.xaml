@@ -143,7 +143,7 @@
                                     </ContextMenu>
                                 </Button.ContextMenu>
                             </Button>
-                            <local:FileSelectorTextBox IsEnabled="{Binding GünNotAçıklama, Converter={StaticResource StringNullableToBooleanConverter}}" Dosyalar="{Binding Dosyalar, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
+                            <local:FileSelectorTextBox IsEnabled="{Binding GünNotAçıklama, Converter={StaticResource StringNullableToBooleanConverter}}" Dosyalar="{Binding Dosyalar, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                             <local:SplitButton Command="{Binding OcrUygula}" CommandParameter="{Binding ResimData}">
                                 <Grid>
                                     <ProgressBar BorderBrush="{x:Null}" IsIndeterminate="{Binding OcrSürüyor}" />
@@ -161,7 +161,19 @@
                             </local:SplitButton>
                         </UniformGrid>
                         <GroupBox Header="ARŞİVLEYİCİ">
-                            <local:Compressor />
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <Button Content="ë"
+                                    Grid.Row="0"
+                                    Command="{Binding ArşivDosyasıEkle}"
+                                    CommandParameter="{Binding ElementName=Compressor, Path=DataContext.ZipView.VeriGirişKayıtYolu}"
+                                    FontFamily="Wingdings"
+                                    ToolTip="Dosya Listesine Ekle Arşivlenen Konumu Değiştirmeyin." />
+                                <local:Compressor x:Name="Compressor" Grid.Row="1" />
+                            </Grid>
                         </GroupBox>
                     </StackPanel>
                 </Expander>

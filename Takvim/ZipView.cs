@@ -13,6 +13,7 @@
         private int sıkıştırmaDerecesi = 5;
 
         private bool sürüyor;
+        private string veriGirişKayıtYolu;
 
         public int Biçim
         {
@@ -50,6 +51,20 @@
                 {
                     kayıtYolu = value;
                     OnPropertyChanged(nameof(KayıtYolu));
+                    OnPropertyChanged(nameof(Biçim));
+                }
+            }
+        }
+
+        public string VeriGirişKayıtYolu
+        {
+            get => veriGirişKayıtYolu;
+            set
+            {
+                if (veriGirişKayıtYolu != value)
+                {
+                    veriGirişKayıtYolu = value;
+                    OnPropertyChanged(nameof(VeriGirişKayıtYolu));
                 }
             }
         }

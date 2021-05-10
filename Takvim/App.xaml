@@ -942,7 +942,10 @@
                                     <StackPanel Orientation="Horizontal">
                                         <Image Width="32" Height="32" Source="{Binding Converter={StaticResource FilePathToIconConverter}, XPath=@Yol}" />
                                         <TextBlock VerticalAlignment="Center">
-                                            <Hyperlink Command="{Binding Tag.EkDosyaAç, Mode=OneWay, ElementName=MiniCalendar}" CommandParameter="{Binding XPath=@Yol}">
+                                            <Hyperlink Command="{Binding Tag.EkDosyaAç, Mode=OneWay, ElementName=MiniCalendar}" >
+                                                <Hyperlink.CommandParameter>
+                                                    <Binding Path="InnerXml" XPath="@Yol"/>
+                                                </Hyperlink.CommandParameter>
                                                 <Run Text="{Binding XPath=@Ad}" />
                                             </Hyperlink>
                                         </TextBlock>

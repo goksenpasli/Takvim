@@ -52,7 +52,7 @@
                 </GroupBox>
             </local:SplitButton.InternalContent>
         </local:SplitButton>
-        <ComboBox Grid.Row="1" SelectedIndex="{Binding ZipView.Biçim}">
+        <ComboBox Grid.Row="1" SelectedIndex="{Binding ZipView.Biçim, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             <ComboBoxItem Content="ZIP" />
             <ComboBoxItem Content="TAR" />
             <ComboBoxItem Content="LZMA ZIP" />
@@ -137,6 +137,6 @@
         </Grid>
         <Button Content="ARŞİV ÇIKART"
             Grid.Row="5" Grid.ColumnSpan="2"
-            Command="{Binding ArşivÇıkart, Mode=OneWay}" />
+            Command="{Binding ArşivSeçÇıkart, Mode=OneWay}" />
     </Grid>
 </UserControl>

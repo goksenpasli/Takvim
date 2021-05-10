@@ -205,11 +205,11 @@ namespace Takvim
 
             EkDosyaAç = new RelayCommand<object>(parameter =>
             {
-                if (parameter is XmlAttribute xmlAttribute)
+                if (parameter is string yol)
                 {
-                    Process.Start(xmlAttribute.Value);
+                    Process.Start(yol);
                 }
-            }, parameter => parameter is XmlAttribute xmlAttribute && File.Exists(xmlAttribute.Value));
+            }, parameter => parameter is string yol && File.Exists(yol));
 
             DosyaGör = new RelayCommand<object>(parameter =>
             {
@@ -222,6 +222,14 @@ namespace Takvim
                     viewer.ShowDialog();
                 }
             }, parameter => true);
+
+            ArşivDosyasıEkle = new RelayCommand<object>(parameter =>
+            {
+                if (parameter is string arşivdosyayolu)
+                {
+                    Dosyalar?.Add(arşivdosyayolu);
+                }
+            }, parameter => parameter is string arşivdosyayolu && File.Exists(arşivdosyayolu));
 
             XmlVeriSil = new RelayCommand<object>(parameter =>
             {
@@ -369,6 +377,8 @@ namespace Takvim
         public ICommand OcrUygula { get; }
 
         public ICommand Okunduİşaretle { get; }
+
+        public ICommand ArşivDosyasıEkle { get; }
 
         public ICommand Pdfİptal { get; }
 

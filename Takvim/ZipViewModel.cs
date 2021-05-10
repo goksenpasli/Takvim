@@ -12,6 +12,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Xml;
 using Takvim.Properties;
 
 namespace Takvim
@@ -73,39 +74,20 @@ namespace Takvim
                 }
             }, parameter => true);
 
-            ArşivÇıkart = new RelayCommand<object>(parameter =>
+            ArşivSeçÇıkart = new RelayCommand<object>(parameter =>
             {
                 OpenFileDialog openFileDialog = new() { Multiselect = false, Title = "Dosya Seç", Filter = "Arşiv Dosyası (*.zip;*.tar;*.gzip;*.rar;*.xz)|*.zip;*.tar;*.gzip;*.rar;*.xz" };
                 if (openFileDialog.ShowDialog() == true)
                 {
-                    try
-                    {
-                        using Stream stream = File.OpenRead(openFileDialog.FileName);
-                        using IReader reader = ReaderFactory.Open(stream);
-                        string extractpath = $"{Path.GetDirectoryName(openFileDialog.FileName)}\\{Path.GetFileNameWithoutExtension(openFileDialog.FileName)}";
-                        while (reader.MoveToNextEntry())
-                        {
-                            if (!reader.Entry.IsDirectory)
-                            {
-                                reader.WriteEntryToDirectory(extractpath, new ExtractionOptions()
-                                {
-                                    ExtractFullPath = true,
-                                    Overwrite = true
-                                });
-                            }
-                        }
-                        Process.Start(extractpath);
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message, "TAKVİM", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                    }
+                    ArşivDosyaAç(openFileDialog.FileName);
                 }
             }, parameter => true);
 
+            ArşivAç = new RelayCommand<object>(parameter => ArşivDosyaAç(parameter as string), parameter => true);
+
             ListedenDosyaSil = new RelayCommand<object>(parameter =>
             {
-                if (parameter is string dosya && ZipView?.Dosyalar.Count>0)
+                if (parameter is string dosya && ZipView?.Dosyalar.Count > 0)
                 {
                     ZipView.Dosyalar.Remove(dosya);
                 }
@@ -163,9 +145,10 @@ namespace Takvim
                     ZipView.Sürüyor = false;
                 }, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).ContinueWith(_ =>
                 {
-                    Settings.Default.SonArşivKayıtYeri.Add(ZipView.KayıtYolu);
+                    Settings.Default.SonArşivKayıtYeri.Add($@"{Path.GetDirectoryName(ZipView.KayıtYolu)}\{Path.GetFileNameWithoutExtension(ZipView.KayıtYolu)}");
                     Settings.Default.Save();
                     ZipView.Dosyalar.Clear();
+                    ZipView.VeriGirişKayıtYolu = ZipView.KayıtYolu;
                     ZipView.KayıtYolu = null;
                     ZipView.Oran = 0;
                     ZipView.DosyaAdı = null;
@@ -191,13 +174,44 @@ namespace Takvim
             }
         }
 
+        private void ArşivDosyaAç(string yol, bool klasörgöster = true)
+        {
+            try
+            {
+                using Stream stream = File.OpenRead(yol);
+                using IReader reader = ReaderFactory.Open(stream);
+                string extractpath = $"{Path.GetDirectoryName(yol)}\\{Path.GetFileNameWithoutExtension(yol)}";
+                while (reader.MoveToNextEntry())
+                {
+                    if (!reader.Entry.IsDirectory)
+                    {
+                        reader.WriteEntryToDirectory(extractpath, new ExtractionOptions()
+                        {
+                            ExtractFullPath = true,
+                            Overwrite = true
+                        });
+                    }
+                }
+                if (klasörgöster)
+                {
+                    Process.Start(extractpath);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "TAKVİM", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            }
+        }
+
         public ICommand DosyaKaydet { get; }
 
         public ICommand ListedenDosyaSil { get; }
 
+        public ICommand ArşivAç { get; }
+
         public ICommand DosyaAç { get; }
 
-        public ICommand ArşivÇıkart { get; }
+        public ICommand ArşivSeçÇıkart { get; }
 
         public ICommand ZipArşivle { get; }
     }
