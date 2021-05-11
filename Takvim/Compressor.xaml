@@ -78,7 +78,14 @@
         <local:SplitButton Grid.Row="3" Command="{Binding DosyaKaydet}">
             <local:SplitButton.Content>
                 <StackPanel Orientation="Horizontal">
-                    <Image Width="32" Height="32" Source="{Binding ConverterParameter=4, Converter={StaticResource Shell32FileIconConverter}}" />
+                    <Image Width="32" Height="32" >
+                        <Image.Source>
+                            <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
+                                <Binding Source="Shell32.dll" />
+                                <Binding Source="4" />
+                            </MultiBinding>
+                        </Image.Source>
+                    </Image>
                     <TextBlock Text="KAYIT YERİ" VerticalAlignment="Center" />
                 </StackPanel>
             </local:SplitButton.Content>
@@ -93,7 +100,13 @@
         <Button Grid.Row="3" Grid.Column="1" Command="{Binding ZipArşivle, Mode=OneWay}">
             <Button.Content>
                 <StackPanel Orientation="Horizontal">
-                    <Image Width="32" Height="32" Source="{Binding ConverterParameter=265, Converter={StaticResource Shell32FileIconConverter}}">
+                    <Image Width="32" Height="32" >
+                        <Image.Source>
+                            <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
+                                <Binding Source="Shell32.dll" />
+                                <Binding Source="265" />
+                            </MultiBinding>
+                        </Image.Source>
                         <Image.Style>
                             <Style TargetType="Image">
                                 <Setter Property="Visibility" Value="Collapsed" />

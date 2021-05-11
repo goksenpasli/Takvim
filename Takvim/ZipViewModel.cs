@@ -12,7 +12,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using System.Xml;
 using Takvim.Properties;
 
 namespace Takvim
@@ -199,7 +198,7 @@ namespace Takvim
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "TAKVİM", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                MessageBox.Show("Dosya Arşiv Dosyası Olarak Okunanmadı.\n\n" + ex.Message, "TAKVİM", MessageBoxButton.OK, MessageBoxImage.Exclamation);
             }
         }
 

@@ -1,18 +1,19 @@
 ﻿using System;
 using System.Globalization;
+using System.IO;
 using System.Windows.Data;
 
 namespace Takvim
 {
-    public class Shell32FileIconConverter : IValueConverter
+    public class SystemFileIconConverter : IMultiValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            if (parameter is string index)
+            if (values[0] is string systemfilename && File.Exists($@"{Environment.SystemDirectory}\{systemfilename}") && values[1] is string index)
             {
                 try
                 {
-                    return ExtensionMethods.IconCreate($"{Environment.SystemDirectory}\\Shell32.dll", System.Convert.ToInt32(index));
+                    return ExtensionMethods.IconCreate($@"{Environment.SystemDirectory}\{systemfilename}", System.Convert.ToInt32(index));
                 }
                 catch (Exception)
                 {
@@ -25,6 +26,9 @@ namespace Takvim
             }
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

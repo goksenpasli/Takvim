@@ -14,11 +14,12 @@
                 <ResourceDictionary Source="/PresentationFramework.Aero,Version=4.0.0.0,Culture=neutral,PublicKeyToken=31bf3856ad364e35,processorArchitecture=MSIL;component/themes/Aero.NormalColor.xaml" />
                 <ResourceDictionary Source="/Takvim;component/Themes/Generic.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <local:ZipViewModel x:Key="ZipViewModel" />
             <local:DateEndTimeConverter x:Key="DateEndTimeConverter" />
             <local:StringNullableToBooleanConverter x:Key="StringNullableToBooleanConverter" />
             <local:NullableToBooleanConverter x:Key="NullableToBooleanConverter" />
             <local:MonthToColorConverter x:Key="MonthToColorConverter" />
-            <local:Shell32FileIconConverter x:Key="Shell32FileIconConverter" />
+            <local:SystemFileIconConverter x:Key="SystemFileIconConverter" />
             <local:RegistryToIconConverter x:Key="RegistryToIconConverter" />
             <local:FilePathToIconConverter x:Key="FilePathToIconConverter" />
             <local:XmlDateConverter x:Key="XmlDateConverter" />
@@ -804,7 +805,14 @@
                                 SelectedValuePath="Name" ToolTip="Veri Renk"
                                 Validation.ErrorTemplate="{x:Null}" />
                             <Button Command="{Binding XmlVeriGüncelle, Mode=OneWay}" CommandParameter="{Binding CommandParameter, ElementName=Hyp}" ToolTip="GÜNCELLE">
-                                <Image Width="16" Height="16" Source="{Binding ConverterParameter=144, Converter={StaticResource Shell32FileIconConverter}}" />
+                                <Image Width="16" Height="16"  >
+                                    <Image.Source>
+                                        <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
+                                            <Binding Source="Shell32.dll" />
+                                            <Binding Source="144" />
+                                        </MultiBinding>
+                                    </Image.Source>
+                                </Image>
                             </Button>
                         </StackPanel>
                     </StackPanel>
@@ -940,11 +948,19 @@
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
-                                        <Image Width="32" Height="32" Source="{Binding Converter={StaticResource FilePathToIconConverter}, XPath=@Yol}" />
+                                        <Image Width="32" Height="32" Source="{Binding Converter={StaticResource FilePathToIconConverter}, XPath=@Yol}" >
+                                            <Image.InputBindings>
+                                                <MouseBinding Command="{Binding ArşivAç, Mode=OneWay, Source={StaticResource ZipViewModel}}" Gesture="CTRL+LeftClick">
+                                                    <MouseBinding.CommandParameter>
+                                                        <Binding Path="InnerXml" XPath="@Yol" />
+                                                    </MouseBinding.CommandParameter>
+                                                </MouseBinding>
+                                            </Image.InputBindings>
+                                        </Image>
                                         <TextBlock VerticalAlignment="Center">
-                                            <Hyperlink Command="{Binding Tag.EkDosyaAç, Mode=OneWay, ElementName=MiniCalendar}" >
+                                            <Hyperlink Command="{Binding Tag.EkDosyaAç, Mode=OneWay, ElementName=MiniCalendar}">
                                                 <Hyperlink.CommandParameter>
-                                                    <Binding Path="InnerXml" XPath="@Yol"/>
+                                                    <Binding Path="InnerXml" XPath="@Yol" />
                                                 </Hyperlink.CommandParameter>
                                                 <Run Text="{Binding XPath=@Ad}" />
                                             </Hyperlink>

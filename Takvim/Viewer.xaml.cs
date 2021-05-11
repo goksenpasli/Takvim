@@ -24,7 +24,7 @@ namespace Takvim
             {
                 if (disposing)
                 {
-                    DataContext = null;
+                    //DataContext = null;
                 }
 
                 disposedValue = true;

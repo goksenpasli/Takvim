@@ -145,11 +145,6 @@ namespace Takvim
                 }
             }, parameter => true);
 
-            if (FilteredCvs is not null)
-            {
-                FilteredCvs.Filter += (s, e) => e.Accepted = DateTime.Parse((e.Item as XmlNode)?["Gun"]?.InnerText) == ŞuAnkiGün;
-            }
-
             ŞuAnkiGünVerisi = Günler.FirstOrDefault(z => z.TamTarih == ŞuAnkiGün);
 
             PropertyChanged += MainViewModel_PropertyChanged;

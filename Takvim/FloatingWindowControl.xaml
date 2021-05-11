@@ -69,14 +69,28 @@
                                         <Style TargetType="ToggleButton">
                                             <Setter Property="Content">
                                                 <Setter.Value>
-                                                    <Image Source="{Binding Converter={StaticResource Shell32FileIconConverter}, ConverterParameter=144}" />
+                                                    <Image  >
+                                                        <Image.Source>
+                                                            <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
+                                                                <Binding Source="Shell32.dll" />
+                                                                <Binding Source="144" />
+                                                            </MultiBinding>
+                                                        </Image.Source>
+                                                    </Image>
                                                 </Setter.Value>
                                             </Setter>
                                             <Style.Triggers>
                                                 <Trigger Property="IsChecked" Value="True">
                                                     <Setter Property="Content">
                                                         <Setter.Value>
-                                                            <Image Source="{Binding Converter={StaticResource Shell32FileIconConverter}, ConverterParameter=47}" />
+                                                            <Image >
+                                                                <Image.Source>
+                                                                    <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
+                                                                        <Binding Source="Shell32.dll" />
+                                                                        <Binding Source="47" />
+                                                                    </MultiBinding>
+                                                                </Image.Source>
+                                                            </Image>
                                                         </Setter.Value>
                                                     </Setter>
                                                 </Trigger>

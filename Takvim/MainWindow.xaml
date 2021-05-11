@@ -9,10 +9,9 @@
     Width="800" Height="600"
     d:DataContext="{d:DesignInstance Type={x:Type local:MainViewModel}}"
     UseLayoutRounding="True" WindowState="Maximized"
-    mc:Ignorable="d">
+    mc:Ignorable="d" Loaded="Window_Loaded">
     <Window.Resources>
         <ResourceDictionary>
-            <local:ZipViewModel x:Key="ZipViewModel" />
             <local:WrapPanelRatioConverter x:Key="WrapPanelRatioConverter" />
             <CollectionViewSource x:Key="Cvs" d:DesignSource="{d:DesignInstance Type=local:Data, CreateList=True}" Source="{StaticResource XmlData}">
                 <CollectionViewSource.SortDescriptions>
@@ -49,7 +48,14 @@
             <TextBox Text="{Binding AramaMetin, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="0" />
             <local:SplitButton Grid.Column="1" Command="{Binding VeriAra, Mode=OneWay}" CommandParameter="{Binding AramaMetin}">
                 <local:SplitButton.Content>
-                    <Image Width="16" Height="16" Source="{Binding ConverterParameter=22, Converter={StaticResource Shell32FileIconConverter}}" />
+                    <Image Width="16" Height="16">
+                        <Image.Source>
+                            <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
+                                <Binding Source="Shell32.dll" />
+                                <Binding Source="22" />
+                            </MultiBinding>
+                        </Image.Source>
+                    </Image>
                 </local:SplitButton.Content>
                 <local:SplitButton.InternalContent>
                     <Menu>
@@ -404,7 +410,14 @@
                             <ToggleButton Content="HAFTA SONU" IsChecked="{Binding HaftaSonlarıGizle, Mode=TwoWay, Source={x:Static properties:Settings.Default}}" ToolTip="HAFTA SONLARINI GİZLE" />
                             <local:ContentToggleButton ToolTip="Panel Görünümü">
                                 <local:ContentToggleButton.OverContent>
-                                    <Image Width="16" Height="16" Source="{Binding ConverterParameter=96, Converter={StaticResource Shell32FileIconConverter}}" />
+                                    <Image Width="16" Height="16">
+                                        <Image.Source>
+                                            <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
+                                                <Binding Source="Shell32.dll" />
+                                                <Binding Source="96" />
+                                            </MultiBinding>
+                                        </Image.Source>
+                                    </Image>
                                 </local:ContentToggleButton.OverContent>
                                 <GroupBox Header="PANEL AYARLARI">
                                     <StackPanel>
@@ -420,36 +433,85 @@
                                 </GroupBox>
                             </local:ContentToggleButton>
                             <Button Command="{Binding AyarSıfırla, Mode=OneWay}" ToolTip="AYARLARI SIFIRLA">
-                                <Image Width="16" Height="16" Source="{Binding ConverterParameter=146, Converter={StaticResource Shell32FileIconConverter}}" />
+                                <Image Width="16" Height="16">
+                                    <Image.Source>
+                                        <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
+                                            <Binding Source="Shell32.dll" />
+                                            <Binding Source="146" />
+                                        </MultiBinding>
+                                    </Image.Source>
+                                </Image>
                             </Button>
                             <ToggleButton Grid.Column="0"
                                 IsChecked="{Binding BaşlangıçtaÇalışacak}"
                                 IsTabStop="False" ToolTip="Başlangıçta Çalıştır.">
-                                <Image Width="16" Height="16" Source="{Binding ConverterParameter=24, Converter={StaticResource Shell32FileIconConverter}}" />
+                                <Image Width="16" Height="16">
+                                    <Image.Source>
+                                        <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
+                                            <Binding Source="Shell32.dll" />
+                                            <Binding Source="24" />
+                                        </MultiBinding>
+                                    </Image.Source>
+                                </Image>
                             </ToggleButton>
                             <ToggleButton Grid.Column="0"
                                 IsEnabled="{Binding SeçiliTts, Source={x:Static properties:Settings.Default}, Converter={StaticResource StringNullableToBooleanConverter}, Mode=TwoWay}"
                                 IsChecked="{Binding YaklaşanEtkinlikleriOku, Mode=TwoWay, Source={x:Static properties:Settings.Default}}"
                                 IsTabStop="False"
                                 ToolTip="Bildirim Penceredesindeki Yaklaşan Etkinlikleri Oku. Bu İşaretlenmezse Sadece Sistem Sesine Göre Uyarı Sesi Çalar.">
-                                <Image Width="16" Height="16" Source="{Binding ConverterParameter=168, Converter={StaticResource Shell32FileIconConverter}}" />
+                                <Image Width="16" Height="16">
+                                    <Image.Source>
+                                        <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
+                                            <Binding Source="Shell32.dll" />
+                                            <Binding Source="137" />
+                                        </MultiBinding>
+                                    </Image.Source>
+                                </Image>
                             </ToggleButton>
                         </UniformGrid>
                     </TabItem>
                     <TabItem Header="DİĞER">
                         <UniformGrid Columns="2" Rows="3">
                             <Button Command="{Binding WebAdreseGit, Mode=OneWay}" CommandParameter="https://github.com/goksenpasli">
-                                <Image Width="16" Height="16" Source="{Binding ConverterParameter=14, Converter={StaticResource Shell32FileIconConverter}}" />
+                                <Image Width="16" Height="16">
+                                    <Image.Source>
+                                        <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
+                                            <Binding Source="Shell32.dll" />
+                                            <Binding Source="14" />
+                                        </MultiBinding>
+                                    </Image.Source>
+                                </Image>
                             </Button>
                             <Button Command="{Binding EskiVerileriSil, Mode=OneWay}" ToolTip="TÜM ESKİ VERİLERİ SİL">
-                                <Image Width="16" Height="16" Source="{Binding ConverterParameter=131, Converter={StaticResource Shell32FileIconConverter}}" />
+                                <Image Width="16" Height="16">
+                                    <Image.Source>
+                                        <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
+                                            <Binding Source="Shell32.dll" />
+                                            <Binding Source="131" />
+                                        </MultiBinding>
+                                    </Image.Source>
+                                </Image>
                             </Button>
                             <Button Command="{Binding VeritabanıAç, Mode=OneWay}" ToolTip="XML VERİTABANINI AÇ">
-                                <Image Width="16" Height="16" Source="{Binding ConverterParameter=72, Converter={StaticResource Shell32FileIconConverter}}" />
+                                <Image Width="16" Height="16">
+                                    <Image.Source>
+                                        <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
+                                            <Binding Source="Shell32.dll" />
+                                            <Binding Source="72" />
+                                        </MultiBinding>
+                                    </Image.Source>
+                                </Image>
                             </Button>
                             <local:ContentToggleButton ToolTip="Ezan Vakitleri">
                                 <local:ContentToggleButton.OverContent>
-                                    <Image Width="16" Height="16" Source="{Binding ConverterParameter=167, Converter={StaticResource Shell32FileIconConverter}}" />
+                                    <Image Width="16" Height="16">
+                                        <Image.Source>
+                                            <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
+                                                <Binding Source="Shell32.dll" />
+                                                <Binding Source="167" />
+                                            </MultiBinding>
+                                        </Image.Source>
+                                    </Image>
                                 </local:ContentToggleButton.OverContent>
                                 <GroupBox Header="EZAN VAKİTLERİ">
                                     <local:PrayerTimeControl />
@@ -457,7 +519,14 @@
                             </local:ContentToggleButton>
                             <local:ContentToggleButton ToolTip="Uyarı Zamanlarını Ayarlayın">
                                 <local:ContentToggleButton.OverContent>
-                                    <Image Width="16" Height="16" Source="{Binding ConverterParameter=20, Converter={StaticResource Shell32FileIconConverter}}" />
+                                    <Image Width="16" Height="16">
+                                        <Image.Source>
+                                            <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
+                                                <Binding Source="Shell32.dll" />
+                                                <Binding Source="66" />
+                                            </MultiBinding>
+                                        </Image.Source>
+                                    </Image>
                                 </local:ContentToggleButton.OverContent>
                                 <GroupBox Header="ZAMANLAR">
                                     <StackPanel>

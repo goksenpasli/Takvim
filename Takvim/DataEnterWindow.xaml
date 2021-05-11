@@ -210,7 +210,14 @@
                 <UniformGrid Grid.Row="8" Grid.Column="2" Columns="3">
                     <local:ContentToggleButton>
                         <local:ContentToggleButton.OverContent>
-                            <Image Width="32" Height="32" Source="{Binding ConverterParameter=201, Converter={StaticResource Shell32FileIconConverter}}" />
+                            <Image Width="32" Height="32">
+                                <Image.Source>
+                                    <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
+                                        <Binding Source="Shell32.dll" />
+                                        <Binding Source="201" />
+                                    </MultiBinding>
+                                </Image.Source>
+                            </Image>
                         </local:ContentToggleButton.OverContent>
                         <TwainControl:TwainCtrl Width="540" Height="465"
                             Background="White"
@@ -218,14 +225,28 @@
                     </local:ContentToggleButton>
                     <local:ContentToggleButton>
                         <local:ContentToggleButton.OverContent>
-                            <Image Width="32" Height="32" Source="{Binding ConverterParameter=195, Converter={StaticResource Shell32FileIconConverter}}" />
+                            <Image Width="32" Height="32">
+                                <Image.Source>
+                                    <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
+                                        <Binding Source="Shell32.dll" />
+                                        <Binding Source="195" />
+                                    </MultiBinding>
+                                </Image.Source>
+                            </Image>
                         </local:ContentToggleButton.OverContent>
                         <local:CameraUserControl Width="320" Height="260" />
                     </local:ContentToggleButton>
                     <local:ContentToggleButton>
                         <local:ContentToggleButton.OverContent>
                             <Canvas Width="32" Height="32">
-                                <Image Width="32" Height="32" Source="{Binding ConverterParameter=22, Converter={StaticResource Shell32FileIconConverter}}" />
+                                <Image Width="32" Height="32">
+                                    <Image.Source>
+                                        <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
+                                            <Binding Source="Shell32.dll" />
+                                            <Binding Source="22" />
+                                        </MultiBinding>
+                                    </Image.Source>
+                                </Image>
                                 <TextBlock Text="{Binding Items.Count, ElementName=Lb, Mode=OneWay, StringFormat=\{0:D2\}}"
                                     Canvas.Left="13" Canvas.Top="4"
                                     Width="16" Height="16" />

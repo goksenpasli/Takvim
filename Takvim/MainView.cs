@@ -30,7 +30,7 @@ namespace Takvim
 
         private readonly CollectionViewSource Cvs = (CollectionViewSource)Application.Current?.MainWindow?.TryFindResource("Cvs");
 
-        private readonly CollectionViewSource FilteredCvs = (CollectionViewSource)Application.Current?.MainWindow?.TryFindResource("FilteredCvs");
+        public readonly CollectionViewSource FilteredCvs = (CollectionViewSource)Application.Current?.MainWindow?.TryFindResource("FilteredCvs");
 
         private DateTime? animasyonTarih;
 
