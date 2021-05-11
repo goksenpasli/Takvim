@@ -13,15 +13,15 @@ namespace Takvim
 {
     public class ImageViewer : Data
     {
+        private readonly Base64Converter base64Converter = new();
+
+        private readonly Base64ImageConverter base64ImageConverter = new();
+
         private double angle;
 
         private int ındex;
 
         private BitmapSource resim;
-
-        private readonly Base64Converter base64Converter = new();
-
-        private readonly Base64ImageConverter base64ImageConverter = new();
 
         private double zoom = 0.25;
 

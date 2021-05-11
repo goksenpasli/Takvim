@@ -26,11 +26,11 @@ namespace Takvim
 
         public static XmlDataProvider xmlDataProvider;
 
+        private static readonly CollectionViewSource FilteredCvs = (CollectionViewSource)Application.Current?.MainWindow?.TryFindResource("FilteredCvs");
+
         private static SpeechSynthesizer synthesizer;
 
         private readonly CollectionViewSource Cvs = (CollectionViewSource)Application.Current?.MainWindow?.TryFindResource("Cvs");
-
-        public readonly CollectionViewSource FilteredCvs = (CollectionViewSource)Application.Current?.MainWindow?.TryFindResource("FilteredCvs");
 
         private DateTime? animasyonTarih;
 
@@ -64,6 +64,8 @@ namespace Takvim
 
         private bool şuAnkiAy;
 
+        private DateTime şuAnkiGün = DateTime.Today;
+
         private Data şuAnkiGünVerisi;
 
         private bool tümkayıtlar = true;
@@ -73,8 +75,6 @@ namespace Takvim
         private ObservableCollection<Data> yaklaşanEtkinlikler;
 
         private string zaman;
-
-        private DateTime şuAnkiGün = DateTime.Today;
 
         public DateTime? AnimasyonTarih
         {
@@ -230,20 +230,6 @@ namespace Takvim
             }
         }
 
-        public DateTime ŞuAnkiGün
-        {
-            get => şuAnkiGün;
-
-            set
-            {
-                if (şuAnkiGün != value)
-                {
-                    şuAnkiGün = value;
-                    OnPropertyChanged(nameof(ŞuAnkiGün));
-                }
-            }
-        }
-
         public int SeçiliGün { get; set; } = DateTime.Now.Day - 1;
 
         public Brush SeçiliRenkCmt
@@ -316,6 +302,20 @@ namespace Takvim
             }
         }
 
+        public DateTime ŞuAnkiGün
+        {
+            get => şuAnkiGün;
+
+            set
+            {
+                if (şuAnkiGün != value)
+                {
+                    şuAnkiGün = value;
+                    OnPropertyChanged(nameof(ŞuAnkiGün));
+                }
+            }
+        }
+
         public Data ŞuAnkiGünVerisi
         {
             get => şuAnkiGünVerisi;
@@ -329,6 +329,8 @@ namespace Takvim
                 }
             }
         }
+
+        public IEnumerable<string> TtsDilleri { get; set; } = new List<string>();
 
         public bool TümKayıtlar
         {
@@ -371,8 +373,6 @@ namespace Takvim
                 }
             }
         }
-
-        public IEnumerable<string> TtsDilleri { get; set; } = new List<string>();
 
         public string Zaman
         {

@@ -1,10 +1,9 @@
-﻿using System.Collections.ObjectModel;
+﻿using Microsoft.Win32;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Security.Cryptography;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Microsoft.Win32;
 
 namespace Takvim
 {
@@ -13,7 +12,7 @@ namespace Takvim
         public static readonly DependencyProperty DosyalarProperty = DependencyProperty.Register("Dosyalar", typeof(ObservableCollection<string>), typeof(FileSelectorTextBox), new PropertyMetadata(null));
 
         public static readonly DependencyProperty FileListPanelVisibilityProperty = DependencyProperty.Register("FileListPanelVisibility", typeof(Visibility), typeof(FileSelectorTextBox), new PropertyMetadata(Visibility.Visible));
-        
+
         private string filePath= "Dosya Seçilmedi";
 
         static FileSelectorTextBox() => DefaultStyleKeyProperty.OverrideMetadata(typeof(FileSelectorTextBox), new FrameworkPropertyMetadata(typeof(FileSelectorTextBox)));
@@ -24,10 +23,18 @@ namespace Takvim
             CommandBindings.Add(new CommandBinding(RemoveItem, RemoveFileCommand));
         }
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public ObservableCollection<string> Dosyalar
         {
             get => (ObservableCollection<string>)GetValue(DosyalarProperty);
             set => SetValue(DosyalarProperty, value);
+        }
+
+        public Visibility FileListPanelVisibility
+        {
+            get => (Visibility)GetValue(FileListPanelVisibilityProperty);
+            set => SetValue(FileListPanelVisibilityProperty, value);
         }
 
         public string FilePath
@@ -44,17 +51,9 @@ namespace Takvim
             }
         }
 
-        public Visibility FileListPanelVisibility
-        {
-            get => (Visibility)GetValue(FileListPanelVisibilityProperty);
-            set => SetValue(FileListPanelVisibilityProperty, value);
-        }
-
         public ICommand RemoveItem { get; } = new RoutedCommand();
 
         public ICommand SelectFile { get; } = new RoutedCommand();
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 

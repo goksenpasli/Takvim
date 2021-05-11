@@ -6,6 +6,51 @@ using System.Windows.Input;
 
 namespace Takvim
 {
+    public class RelayAsyncCommand : RelayCommand
+    {
+        private bool isExecuting;
+
+        public RelayAsyncCommand(Action execute, Func<bool> canExecute)
+            : base(execute, canExecute)
+        {
+        }
+
+        public RelayAsyncCommand(Action execute)
+            : base(execute)
+        {
+        }
+
+        public event EventHandler Ended;
+
+        public event EventHandler Started;
+
+        public bool IsExecuting => isExecuting;
+
+        public override bool CanExecute(object parameter) => base.CanExecute(parameter) && (!isExecuting);
+
+        public override void Execute(object parameter)
+        {
+            try
+            {
+                isExecuting = true;
+                Started?.Invoke(this, EventArgs.Empty);
+
+                Task task = Task.Factory.StartNew(() => execute());
+                task.ContinueWith(t => OnRunWorkerCompleted(EventArgs.Empty), TaskScheduler.FromCurrentSynchronizationContext());
+            }
+            catch (Exception ex)
+            {
+                OnRunWorkerCompleted(new RunWorkerCompletedEventArgs(null, ex, true));
+            }
+        }
+
+        private void OnRunWorkerCompleted(EventArgs e)
+        {
+            isExecuting = false;
+            Ended?.Invoke(this, e);
+        }
+    }
+
     public class RelayCommand<T> : ICommand
     {
         private readonly Predicate<T> _canExecute;
@@ -54,6 +99,17 @@ namespace Takvim
 
         protected readonly Action execute;
 
+        public RelayCommand(Action execute, Func<bool> canExecute)
+        {
+            this.execute = execute ?? throw new ArgumentNullException(nameof(execute));
+            this.canExecute = canExecute;
+        }
+
+        public RelayCommand(Action execute)
+            : this(execute, null)
+        {
+        }
+
         public event EventHandler CanExecuteChanged
         {
             add
@@ -73,64 +129,8 @@ namespace Takvim
             }
         }
 
-        public RelayCommand(Action execute, Func<bool> canExecute)
-        {
-            this.execute = execute ?? throw new ArgumentNullException(nameof(execute));
-            this.canExecute = canExecute;
-        }
-
-        public RelayCommand(Action execute)
-            : this(execute, null)
-        {
-        }
-
         public virtual bool CanExecute(object parameter) => canExecute == null || canExecute();
 
         public virtual void Execute(object parameter) => execute();
-    }
-
-    public class RelayAsyncCommand : RelayCommand
-    {
-        private bool isExecuting;
-
-        public event EventHandler Started;
-
-        public event EventHandler Ended;
-
-        public bool IsExecuting => isExecuting;
-
-        public RelayAsyncCommand(Action execute, Func<bool> canExecute)
-            : base(execute, canExecute)
-        {
-        }
-
-        public RelayAsyncCommand(Action execute)
-            : base(execute)
-        {
-        }
-
-        public override bool CanExecute(object parameter) => base.CanExecute(parameter) && (!isExecuting);
-
-        public override void Execute(object parameter)
-        {
-            try
-            {
-                isExecuting = true;
-                Started?.Invoke(this, EventArgs.Empty);
-
-                Task task = Task.Factory.StartNew(() => execute());
-                task.ContinueWith(t => OnRunWorkerCompleted(EventArgs.Empty), TaskScheduler.FromCurrentSynchronizationContext());
-            }
-            catch (Exception ex)
-            {
-                OnRunWorkerCompleted(new RunWorkerCompletedEventArgs(null, ex, true));
-            }
-        }
-
-        private void OnRunWorkerCompleted(EventArgs e)
-        {
-            isExecuting = false;
-            Ended?.Invoke(this, e);
-        }
     }
 }

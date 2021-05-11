@@ -9,7 +9,7 @@
     Width="800" Height="600"
     d:DataContext="{d:DesignInstance Type={x:Type local:MainViewModel}}"
     UseLayoutRounding="True" WindowState="Maximized"
-    mc:Ignorable="d" Loaded="Window_Loaded">
+    mc:Ignorable="d">
     <Window.Resources>
         <ResourceDictionary>
             <local:WrapPanelRatioConverter x:Key="WrapPanelRatioConverter" />

@@ -45,6 +45,8 @@ namespace Takvim
 
         private byte[] resimData;
 
+        private string resimYolu;
+
         private string saatBaşlangıç;
 
         private DateTime tamTarih;
@@ -54,8 +56,6 @@ namespace Takvim
         private int veriSayısı;
 
         private int webpQuality = 20;
-
-        private string resimYolu;
 
         public string Ay
         {

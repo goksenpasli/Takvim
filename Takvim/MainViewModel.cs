@@ -23,6 +23,14 @@ namespace Takvim
 {
     public partial class MainViewModel : InpcBase, IDataErrorInfo
     {
+        static MainViewModel()
+        {
+            if (FilteredCvs is not null)
+            {
+                FilteredCvs.Filter += (s, e) => e.Accepted = DateTime.Parse((e.Item as XmlNode)?["Gun"]?.InnerText) == DateTime.Today;
+            }
+        }
+
         public MainViewModel()
         {
             GenerateSystemTrayMenu();
@@ -158,25 +166,25 @@ namespace Takvim
 
         public ICommand Ayİleri { get; }
 
-        public ICommand GünGeri { get; }
-
-        public ICommand VeriOku { get; }
-
-        public ICommand Günİleri { get; }
-
         public ICommand DuyurularPopupEkranıAç { get; }
 
         public string Error => string.Empty;
 
         public ICommand EskiVerileriSil { get; }
 
-        public ICommand WebAdreseGit { get; }
+        public ICommand GünGeri { get; }
+
+        public ICommand Günİleri { get; }
 
         public ICommand SatırSütünSıfırla { get; }
 
         public ICommand VeriAra { get; }
 
+        public ICommand VeriOku { get; }
+
         public ICommand VeritabanıAç { get; }
+
+        public ICommand WebAdreseGit { get; }
 
         public ICommand YılaGit { get; }
 
@@ -243,6 +251,36 @@ namespace Takvim
                     TamTarih = DateTime.Today
                 };
                 data.VeriEkleEkranı.Execute(data);
+            }
+        }
+
+        private void GetTtsLang()
+        {
+            synthesizer = new SpeechSynthesizer();
+            TtsDilleri = synthesizer.GetInstalledVoices().Select(z => z.VoiceInfo.Name);
+        }
+
+        private void ListeyiOku(IEnumerable<string> Veri)
+        {
+            if (!string.IsNullOrEmpty(Settings.Default.SeçiliTts))
+            {
+                try
+                {
+                    synthesizer.SelectVoice(Settings.Default.SeçiliTts);
+                    synthesizer.Volume = 100;
+                    foreach (string item in Veri)
+                    {
+                        synthesizer.SpeakAsync(item);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "TAKVİM", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Önce TTS Seçimi Yapın.", "TAKVİM", MessageBoxButton.OK, MessageBoxImage.Exclamation);
             }
         }
 
@@ -398,36 +436,6 @@ namespace Takvim
                 writer.WriteStartElement("Veriler");
                 writer.WriteEndElement();
                 writer.Flush();
-            }
-        }
-
-        private void GetTtsLang()
-        {
-            synthesizer = new SpeechSynthesizer();
-            TtsDilleri = synthesizer.GetInstalledVoices().Select(z => z.VoiceInfo.Name);
-        }
-
-        private void ListeyiOku(IEnumerable<string> Veri)
-        {
-            if (!string.IsNullOrEmpty(Settings.Default.SeçiliTts))
-            {
-                try
-                {
-                    synthesizer.SelectVoice(Settings.Default.SeçiliTts);
-                    synthesizer.Volume = 100;
-                    foreach (string item in Veri)
-                    {
-                        synthesizer.SpeakAsync(item);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "TAKVİM", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                }
-            }
-            else
-            {
-                MessageBox.Show("Önce TTS Seçimi Yapın.", "TAKVİM", MessageBoxButton.OK, MessageBoxImage.Exclamation);
             }
         }
 

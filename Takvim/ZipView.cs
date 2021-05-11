@@ -13,6 +13,7 @@
         private int sıkıştırmaDerecesi = 5;
 
         private bool sürüyor;
+
         private string veriGirişKayıtYolu;
 
         public int Biçim
@@ -32,6 +33,7 @@
         public string DosyaAdı
         {
             get => dosyaAdı;
+
             set
             {
                 if (dosyaAdı != value)
@@ -45,6 +47,7 @@
         public string KayıtYolu
         {
             get => kayıtYolu;
+
             set
             {
                 if (kayıtYolu != value)
@@ -56,22 +59,10 @@
             }
         }
 
-        public string VeriGirişKayıtYolu
-        {
-            get => veriGirişKayıtYolu;
-            set
-            {
-                if (veriGirişKayıtYolu != value)
-                {
-                    veriGirişKayıtYolu = value;
-                    OnPropertyChanged(nameof(VeriGirişKayıtYolu));
-                }
-            }
-        }
-
         public double Oran
         {
             get => oran;
+
             set
             {
                 if (oran != value)
@@ -85,6 +76,7 @@
         public int SıkıştırmaDerecesi
         {
             get => sıkıştırmaDerecesi;
+
             set
             {
                 if (sıkıştırmaDerecesi != value)
@@ -98,12 +90,27 @@
         public bool Sürüyor
         {
             get => sürüyor;
+
             set
             {
                 if (sürüyor != value)
                 {
                     sürüyor = value;
                     OnPropertyChanged(nameof(Sürüyor));
+                }
+            }
+        }
+
+        public string VeriGirişKayıtYolu
+        {
+            get => veriGirişKayıtYolu;
+
+            set
+            {
+                if (veriGirişKayıtYolu != value)
+                {
+                    veriGirişKayıtYolu = value;
+                    OnPropertyChanged(nameof(VeriGirişKayıtYolu));
                 }
             }
         }

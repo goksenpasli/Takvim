@@ -20,20 +20,6 @@ namespace Takvim
     {
         private ZipView zipView;
 
-        public ZipView ZipView
-        {
-            get => zipView;
-
-            set
-            {
-                if (zipView != value)
-                {
-                    zipView = value;
-                    OnPropertyChanged(nameof(ZipView));
-                }
-            }
-        }
-
         public ZipViewModel()
         {
             ZipView = new ZipView();
@@ -157,18 +143,28 @@ namespace Takvim
             ZipView.PropertyChanged += ZipView_PropertyChanged;
         }
 
-        private void ZipView_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == "Biçim")
-            {
-                if ((ZipView.Biçim == 0 || ZipView.Biçim == 2) && ZipView.KayıtYolu?.EndsWith(".zip", StringComparison.OrdinalIgnoreCase) == false)
-                {
-                    ZipView.KayıtYolu = Path.ChangeExtension(ZipView.KayıtYolu, ".zip");
-                }
+        public ICommand ArşivAç { get; }
 
-                if ((ZipView.Biçim == 1) && ZipView.KayıtYolu?.EndsWith(".tar", StringComparison.OrdinalIgnoreCase) == false)
+        public ICommand ArşivSeçÇıkart { get; }
+
+        public ICommand DosyaAç { get; }
+
+        public ICommand DosyaKaydet { get; }
+
+        public ICommand ListedenDosyaSil { get; }
+
+        public ICommand ZipArşivle { get; }
+
+        public ZipView ZipView
+        {
+            get => zipView;
+
+            set
+            {
+                if (zipView != value)
                 {
-                    ZipView.KayıtYolu = Path.ChangeExtension(ZipView.KayıtYolu, ".tar");
+                    zipView = value;
+                    OnPropertyChanged(nameof(ZipView));
                 }
             }
         }
@@ -202,16 +198,20 @@ namespace Takvim
             }
         }
 
-        public ICommand DosyaKaydet { get; }
+        private void ZipView_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "Biçim")
+            {
+                if ((ZipView.Biçim == 0 || ZipView.Biçim == 2) && ZipView.KayıtYolu?.EndsWith(".zip", StringComparison.OrdinalIgnoreCase) == false)
+                {
+                    ZipView.KayıtYolu = Path.ChangeExtension(ZipView.KayıtYolu, ".zip");
+                }
 
-        public ICommand ListedenDosyaSil { get; }
-
-        public ICommand ArşivAç { get; }
-
-        public ICommand DosyaAç { get; }
-
-        public ICommand ArşivSeçÇıkart { get; }
-
-        public ICommand ZipArşivle { get; }
+                if ((ZipView.Biçim == 1) && ZipView.KayıtYolu?.EndsWith(".tar", StringComparison.OrdinalIgnoreCase) == false)
+                {
+                    ZipView.KayıtYolu = Path.ChangeExtension(ZipView.KayıtYolu, ".tar");
+                }
+            }
+        }
     }
 }

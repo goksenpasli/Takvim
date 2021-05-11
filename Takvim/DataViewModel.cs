@@ -364,6 +364,8 @@ namespace Takvim
             PropertyChanged += Data_PropertyChanged;
         }
 
+        public ICommand ArşivDosyasıEkle { get; }
+
         public ICommand CsvDosyasınaYaz { get; }
 
         public ICommand DosyaGör { get; }
@@ -377,8 +379,6 @@ namespace Takvim
         public ICommand OcrUygula { get; }
 
         public ICommand Okunduİşaretle { get; }
-
-        public ICommand ArşivDosyasıEkle { get; }
 
         public ICommand Pdfİptal { get; }
 
@@ -394,11 +394,11 @@ namespace Takvim
 
         public ICommand VeriEkleEkranı { get; }
 
+        public ICommand XmlRenkGüncelle { get; }
+
         public ICommand XmlVeriEkle { get; }
 
         public ICommand XmlVeriGüncelle { get; }
-
-        public ICommand XmlRenkGüncelle { get; }
 
         public ICommand XmlVeriSil { get; }
 
