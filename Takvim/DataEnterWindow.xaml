@@ -169,17 +169,30 @@
                                 <Button Content="ë"
                                     Grid.Row="0"
                                     Command="{Binding ArşivDosyasıEkle}"
-                                    CommandParameter="{Binding ElementName=Compressor, Path=DataContext.ZipView.VeriGirişKayıtYolu}"
+                                    CommandParameter="{Binding ElementName=Compressor, Path=DataContext.CompressorView.VeriGirişKayıtYolu}"
                                     FontFamily="Wingdings"
-                                    ToolTip="Dosya Listesine Ekle Arşivlenen Konumu Değiştirmeyin." />
+                                    IsTabStop="False" ToolTip="Arşivi Dosya Listesine Ekle" />
                                 <local:Compressor x:Name="Compressor" Grid.Row="1" />
                             </Grid>
                         </GroupBox>
                     </StackPanel>
                 </Expander>
-                <Button Content="VERİYİ EKLE"
-                    Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2"
-                    Command="{Binding XmlVeriEkle, Mode=OneWay}" />
+                <Button Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2"
+                    Command="{Binding XmlVeriEkle, Mode=OneWay}">
+                    <Button.Content>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Width="32" Height="32">
+                                <Image.Source>
+                                    <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
+                                        <Binding Source="Shell32.dll" />
+                                        <Binding Source="258" />
+                                    </MultiBinding>
+                                </Image.Source>
+                            </Image>
+                            <TextBlock Text="VERİYİ EKLE" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Button.Content>
+                </Button>
                 <GroupBox Grid.Row="0" Grid.Column="2" Grid.RowSpan="7">
                     <GroupBox.Header>
                         <StackPanel Orientation="Horizontal">
@@ -252,19 +265,21 @@
                                     Width="16" Height="16" />
                             </Canvas>
                         </local:ContentToggleButton.OverContent>
-                        <ListBox x:Name="Lb"
-                            Width="300" Height="400"
-                            ItemsSource="{Binding Mode=OneWay, Source={StaticResource FilteredCvs}}"
-                            IsSynchronizedWithCurrentItem="False"
-                            ItemContainerStyle="{StaticResource GünListBoxItemContainerStyle}"
-                            ItemTemplate="{StaticResource ListBoxEditDataTemplate}"
-                            VirtualizingStackPanel.VirtualizationMode="Recycling">
-                            <ListBox.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <VirtualizingStackPanel />
-                                </ItemsPanelTemplate>
-                            </ListBox.ItemsPanel>
-                        </ListBox>
+                        <GroupBox Header="VERİLER">
+                            <ListBox x:Name="Lb"
+                                Width="300" Height="400"
+                                ItemsSource="{Binding Mode=OneWay, Source={StaticResource FilteredCvs}}"
+                                IsSynchronizedWithCurrentItem="False"
+                                ItemContainerStyle="{StaticResource GünListBoxItemContainerStyle}"
+                                ItemTemplate="{StaticResource ListBoxEditDataTemplate}"
+                                VirtualizingStackPanel.VirtualizationMode="Recycling">
+                                <ListBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <VirtualizingStackPanel />
+                                    </ItemsPanelTemplate>
+                                </ListBox.ItemsPanel>
+                            </ListBox>
+                        </GroupBox>
                     </local:ContentToggleButton>
                 </UniformGrid>
             </Grid>

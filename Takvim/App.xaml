@@ -14,7 +14,7 @@
                 <ResourceDictionary Source="/PresentationFramework.Aero,Version=4.0.0.0,Culture=neutral,PublicKeyToken=31bf3856ad364e35,processorArchitecture=MSIL;component/themes/Aero.NormalColor.xaml" />
                 <ResourceDictionary Source="/Takvim;component/Themes/Generic.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            <local:ZipViewModel x:Key="ZipViewModel" />
+            <local:CompressorViewModel x:Key="CompressorViewModel" />
             <local:DateEndTimeConverter x:Key="DateEndTimeConverter" />
             <local:StringNullableToBooleanConverter x:Key="StringNullableToBooleanConverter" />
             <local:NullableToBooleanConverter x:Key="NullableToBooleanConverter" />
@@ -950,7 +950,7 @@
                                     <StackPanel Orientation="Horizontal">
                                         <Image Width="32" Height="32" Source="{Binding Converter={StaticResource FilePathToIconConverter}, XPath=@Yol}" >
                                             <Image.InputBindings>
-                                                <MouseBinding Command="{Binding ArşivAç, Mode=OneWay, Source={StaticResource ZipViewModel}}" Gesture="CTRL+LeftClick">
+                                                <MouseBinding Command="{Binding ArşivAç, Mode=OneWay, Source={StaticResource CompressorViewModel}}" Gesture="CTRL+LeftClick">
                                                     <MouseBinding.CommandParameter>
                                                         <Binding Path="InnerXml" XPath="@Yol" />
                                                     </MouseBinding.CommandParameter>

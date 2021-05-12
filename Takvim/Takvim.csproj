@@ -112,7 +112,7 @@
       <DependentUpon>MiniCalendarControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="ShadowedImage.cs" />
-    <Compile Include="Converters\Shell32FileIconConverter.cs" />
+    <Compile Include="Converters\SystemFileIconConverter.cs" />
     <Compile Include="Converters\StringNullableToBooleanConverter.cs" />
     <Compile Include="Converters\WrapPanelRatioConverter.cs" />
     <Compile Include="Converters\XmlIntValueToIlAdıConverter.cs" />
@@ -157,8 +157,8 @@
     <Compile Include="Converters\WebpByteArrayToImageConverter.cs" />
     <Compile Include="WebPWrapper.cs" />
     <Compile Include="Converters\XmlDateConverter.cs" />
-    <Compile Include="ZipView.cs" />
-    <Compile Include="ZipViewModel.cs" />
+    <Compile Include="CompressorView.cs" />
+    <Compile Include="CompressorViewModel.cs" />
     <Page Include="CameraUserControl.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

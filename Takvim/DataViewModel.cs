@@ -227,9 +227,16 @@ namespace Takvim
             {
                 if (parameter is string arşivdosyayolu)
                 {
-                    Dosyalar?.Add(arşivdosyayolu);
+                    if (File.Exists(arşivdosyayolu))
+                    {
+                        Dosyalar?.Add(arşivdosyayolu);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Arşiv Dosyası Bulunamadı.", "TAKVİM", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
                 }
-            }, parameter => parameter is string arşivdosyayolu && File.Exists(arşivdosyayolu));
+            }, parameter => true);
 
             XmlVeriSil = new RelayCommand<object>(parameter =>
             {

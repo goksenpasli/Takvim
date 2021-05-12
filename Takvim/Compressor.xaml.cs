@@ -10,7 +10,7 @@ namespace Takvim
         public Compressor()
         {
             InitializeComponent();
-            DataContext = new ZipViewModel();
+            DataContext = new CompressorViewModel();
         }
     }
 }

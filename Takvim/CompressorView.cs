@@ -1,7 +1,48 @@
-﻿namespace Takvim
+﻿using System.Collections.ObjectModel;
+
+namespace Takvim
 {
-    public class ZipView : Data
+    public class ArchiveData : InpcBase
     {
+        private long boyut;
+
+        private string dosyaAdı;
+
+        public long Boyut
+        {
+            get => boyut;
+
+            set
+            {
+                if (boyut != value)
+                {
+                    boyut = value;
+                    OnPropertyChanged(nameof(Boyut));
+                }
+            }
+        }
+
+        public string DosyaAdı
+        {
+            get => dosyaAdı;
+
+            set
+            {
+                if (dosyaAdı != value)
+                {
+                    dosyaAdı = value;
+                    OnPropertyChanged(nameof(DosyaAdı));
+                }
+            }
+        }
+    }
+
+    public class CompressorView : Data
+    {
+        private string arşivDosyaYolu;
+
+        private ObservableCollection<ArchiveData> arşivİçerik;
+
         private int biçim;
 
         private string dosyaAdı;
@@ -15,6 +56,34 @@
         private bool sürüyor;
 
         private string veriGirişKayıtYolu;
+
+        public string ArşivDosyaYolu
+        {
+            get { return arşivDosyaYolu; }
+
+            set
+            {
+                if (arşivDosyaYolu != value)
+                {
+                    arşivDosyaYolu = value;
+                    OnPropertyChanged(nameof(ArşivDosyaYolu));
+                }
+            }
+        }
+
+        public ObservableCollection<ArchiveData> Arşivİçerik
+        {
+            get => arşivİçerik;
+
+            set
+            {
+                if (arşivİçerik != value)
+                {
+                    arşivİçerik = value;
+                    OnPropertyChanged(nameof(Arşivİçerik));
+                }
+            }
+        }
 
         public int Biçim
         {

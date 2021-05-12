@@ -322,7 +322,7 @@
                                                         <StackPanel Orientation="Horizontal">
                                                             <Image Width="24" Height="24" Source="{Binding Converter={StaticResource FilePathToIconConverter}, XPath=@Yol}">
                                                                 <Image.InputBindings>
-                                                                    <MouseBinding Command="{Binding ArşivAç, Mode=OneWay, Source={StaticResource ZipViewModel}}" Gesture="CTRL+LeftClick">
+                                                                    <MouseBinding Command="{Binding ArşivAç, Mode=OneWay, Source={StaticResource CompressorViewModel}}" Gesture="CTRL+LeftClick">
                                                                         <MouseBinding.CommandParameter>
                                                                             <Binding Path="InnerXml" XPath="@Yol" />
                                                                         </MouseBinding.CommandParameter>
