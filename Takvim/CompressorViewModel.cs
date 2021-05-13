@@ -61,49 +61,23 @@ namespace Takvim
 
             ArşivTümünüÇıkar = new RelayCommand<object>(parameter =>
             {
-                OpenFileDialog openFileDialog = new() { Multiselect = false, Title = "Dosya Seç", Filter = "Arşiv Dosyası (*.zip;*.tar;*.gzip;*.rar;*.xz)|*.zip;*.tar;*.gzip;*.rar;*.xz" };
+                OpenFileDialog openFileDialog = new() { Multiselect = false, Title = "Dosya Seç", Filter = "Arşiv Dosyası (*.zip;*.tar;*.gzip;*.rar;*.xz;*.tar.gz;*.tar.bz2;*.tar.lz;*.tar.xz)|*.zip;*.tar;*.gzip;*.rar;*.xz;*.tar.gz;*.tar.bz2;*.tar.lz;*.tar.xz" };
                 if (openFileDialog.ShowDialog() == true)
                 {
-                    ArşivDosyaAç(openFileDialog.FileName);
-                }
-            }, parameter => true);
-
-            ArşivTekDosyaÇıkar = new RelayCommand<object>(parameter =>
-            {
-                try
-                {
-                    string seçilidosya = parameter as string;
-                    using Stream stream = File.OpenRead(CompressorView.ArşivDosyaYolu);
-                    using IReader reader = ReaderFactory.Open(stream);
-                    while (reader.MoveToNextEntry())
-                    {
-                        if (!reader.Entry.IsDirectory && reader.Entry.Key == seçilidosya)
-                        {
-                            reader.WriteEntryToDirectory(Path.GetTempPath(), new ExtractionOptions()
-                            {
-                                ExtractFullPath = true,
-                                Overwrite = true
-                            });
-                        }
-                    }
-                    Process.Start($@"{Path.GetTempPath()}\{seçilidosya}");
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Dosya Açılamadı.\n" + ex.Message, "TAKVİM", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    ArşivTümünüAyıkla(openFileDialog.FileName);
                 }
             }, parameter => true);
 
             ArşivİçerikGör = new RelayCommand<object>(parameter =>
             {
-                OpenFileDialog openFileDialog = new() { Multiselect = false, Title = "Dosya Seç", Filter = "Arşiv Dosyası (*.zip;*.tar;*.gzip;*.rar;*.xz)|*.zip;*.tar;*.gzip;*.rar;*.xz" };
+                OpenFileDialog openFileDialog = new() { Multiselect = false, Title = "Dosya Seç", Filter = "Arşiv Dosyası (*.zip;*.tar;*.gzip;*.rar;*.xz;*.tar.gz;*.tar.bz2;*.tar.lz;*.tar.xz)|*.zip;*.tar;*.gzip;*.rar;*.xz;*.tar.gz;*.tar.bz2;*.tar.lz;*.tar.xz" };
                 if (openFileDialog.ShowDialog() == true)
                 {
-                    ArşivİçeriğiniAl(openFileDialog.FileName);
+                    CompressorView.ArşivDosyaYolu = openFileDialog.FileName;
                 }
             }, parameter => true);
 
-            ArşivAç = new RelayCommand<object>(parameter => ArşivDosyaAç(parameter as string), parameter => true);
+            ArşivAç = new RelayCommand<object>(parameter => ArşivTümünüAyıkla(parameter as string), parameter => true);
 
             ListedenDosyaSil = new RelayCommand<object>(parameter =>
             {
@@ -123,7 +97,7 @@ namespace Takvim
                         case 0:
                             {
                                 using FileStream zip = File.OpenWrite(CompressorView.KayıtYolu);
-                                ZipWriterOptions zipWriterOptions = new(CompressionType.Deflate) { DeflateCompressionLevel = (SharpCompress.Compressors.Deflate.CompressionLevel)CompressorView.SıkıştırmaDerecesi };
+                                ZipWriterOptions zipWriterOptions = new(CompressionType.Deflate) { UseZip64 = true, DeflateCompressionLevel = (SharpCompress.Compressors.Deflate.CompressionLevel)CompressorView.SıkıştırmaDerecesi };
                                 using ZipWriter zipWriter = new(zip, zipWriterOptions);
 
                                 foreach (string dosya in CompressorView.Dosyalar)
@@ -208,13 +182,13 @@ namespace Takvim
 
         public ICommand ListedenDosyaSil { get; }
 
-        private void ArşivDosyaAç(string yol, bool klasörgöster = true)
+        private void ArşivTümünüAyıkla(string yol, bool klasörgöster = true)
         {
             try
             {
                 using Stream stream = File.OpenRead(yol);
                 using IReader reader = ReaderFactory.Open(stream);
-                string extractpath = $"{Path.GetDirectoryName(yol)}\\{Path.GetFileNameWithoutExtension(yol)}";
+                string extractpath = $@"{Path.GetDirectoryName(yol)}\{Path.GetFileNameWithoutExtension(yol)}";
                 while (reader.MoveToNextEntry())
                 {
                     if (!reader.Entry.IsDirectory)
@@ -234,30 +208,6 @@ namespace Takvim
             catch (Exception ex)
             {
                 MessageBox.Show("Dosya Arşiv Dosyası Olarak Okunanmadı.\n\n" + ex.Message, "TAKVİM", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-            }
-        }
-
-        private ObservableCollection<ArchiveData> ArşivİçeriğiniAl(string yol)
-        {
-            try
-            {
-                CompressorView.ArşivDosyaYolu = yol;
-                CompressorView.Arşivİçerik = new ObservableCollection<ArchiveData>();
-                using Stream stream = File.OpenRead(yol);
-                using IReader reader = ReaderFactory.Open(stream);
-                string extractpath = $"{Path.GetDirectoryName(yol)}\\{Path.GetFileNameWithoutExtension(yol)}";
-                while (reader.MoveToNextEntry())
-                {
-                    if (!reader.Entry.IsDirectory)
-                    {
-                        CompressorView.Arşivİçerik.Add(new ArchiveData() { DosyaAdı = reader.Entry.Key, Boyut = reader.Entry.Size });
-                    }
-                }
-                return CompressorView.Arşivİçerik;
-            }
-            catch (Exception)
-            {
-                return null;
             }
         }
 

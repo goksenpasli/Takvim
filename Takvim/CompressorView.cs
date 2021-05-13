@@ -2,42 +2,7 @@
 
 namespace Takvim
 {
-    public class ArchiveData : InpcBase
-    {
-        private long boyut;
-
-        private string dosyaAdı;
-
-        public long Boyut
-        {
-            get => boyut;
-
-            set
-            {
-                if (boyut != value)
-                {
-                    boyut = value;
-                    OnPropertyChanged(nameof(Boyut));
-                }
-            }
-        }
-
-        public string DosyaAdı
-        {
-            get => dosyaAdı;
-
-            set
-            {
-                if (dosyaAdı != value)
-                {
-                    dosyaAdı = value;
-                    OnPropertyChanged(nameof(DosyaAdı));
-                }
-            }
-        }
-    }
-
-    public class CompressorView : Data
+    public class CompressorView : InpcBase
     {
         private string arşivDosyaYolu;
 
@@ -56,6 +21,8 @@ namespace Takvim
         private bool sürüyor;
 
         private string veriGirişKayıtYolu;
+
+        private ObservableCollection<string> dosyalar;
 
         public string ArşivDosyaYolu
         {
@@ -81,6 +48,19 @@ namespace Takvim
                 {
                     arşivİçerik = value;
                     OnPropertyChanged(nameof(Arşivİçerik));
+                }
+            }
+        }
+
+        public ObservableCollection<string> Dosyalar
+        {
+            get => dosyalar;
+            set
+            {
+                if (dosyalar != value)
+                {
+                    dosyalar = value;
+                    OnPropertyChanged(nameof(Dosyalar));
                 }
             }
         }

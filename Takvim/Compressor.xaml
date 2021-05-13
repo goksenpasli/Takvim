@@ -5,7 +5,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:properties="clr-namespace:Takvim.Properties"
     d:DataContext="{d:DesignInstance Type=local:CompressorViewModel}"
-    d:DesignHeight="140" d:DesignWidth="250" UseLayoutRounding="True"
+    d:DesignHeight="140" d:DesignWidth="300" UseLayoutRounding="True"
     mc:Ignorable="d">
     <Grid>
         <Grid.Style>
@@ -23,7 +23,7 @@
             <RowDefinition Height="28" />
             <RowDefinition Height="23" />
             <RowDefinition Height="20" />
-            <RowDefinition Height="23" />
+            <RowDefinition Height="17" />
             <RowDefinition Height="20" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -63,24 +63,40 @@
                 </GroupBox>
             </local:SplitButton.InternalContent>
         </local:SplitButton>
-        <ComboBox Grid.Row="1" Grid.ColumnSpan="2" SelectedIndex="{Binding CompressorView.Biçim, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+        <ComboBox Grid.Row="1" Grid.ColumnSpan="2"
+            VerticalContentAlignment="Center"
+            SelectedIndex="{Binding CompressorView.Biçim, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             <ComboBoxItem>
                 <ComboBoxItem.Content>
-                    <StackPanel Orientation="Horizontal">
+                    <UniformGrid Columns="2">
                         <TextBlock Text="ZIP" VerticalAlignment="Center" />
-                        <Slider Width="220"
+                        <Slider Width="135"
                             AutoToolTipPlacement="TopLeft" Maximum="9" SmallChange="1" ToolTip="0 Sıkıştırmasız 9 En Yüksek Sıkıştırma."
                             Value="{Binding CompressorView.SıkıştırmaDerecesi}" />
-                    </StackPanel>
+                    </UniformGrid>
                 </ComboBoxItem.Content>
             </ComboBoxItem>
-            <ComboBoxItem Content="TAR" />
-            <ComboBoxItem Content="LZMA ZIP" />
+            <ComboBoxItem>
+                <ComboBoxItem.Content>
+                    <TextBlock>
+                        <Run Text="7" FontFamily="Wingdings 3" FontWeight="Bold" />
+                        <Run Text="TAR" />
+                    </TextBlock>
+                </ComboBoxItem.Content>
+            </ComboBoxItem>
+            <ComboBoxItem>
+                <ComboBoxItem.Content>
+                    <TextBlock>
+                        <Run Text="6" FontFamily="Wingdings" FontWeight="Bold" />
+                        <Run Text="LZMA ZIP" />
+                    </TextBlock>
+                </ComboBoxItem.Content>
+            </ComboBoxItem>
         </ComboBox>
-
         <TextBox Text="{Binding CompressorView.KayıtYolu}"
             Grid.Row="2" Grid.ColumnSpan="2"
-            IsReadOnly="True" />
+            IsReadOnly="True"
+            VerticalContentAlignment="Center" />
         <local:SplitButton Grid.Row="3" Command="{Binding DosyaKaydet}">
             <local:SplitButton.Content>
                 <StackPanel Orientation="Horizontal">
@@ -114,24 +130,6 @@
                             </MultiBinding>
                         </Image.Source>
                     </Image>
-                    <Image Width="16" Height="16">
-                        <Image.Source>
-                            <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
-                                <Binding Source="Shell32.dll" />
-                                <Binding Source="265" />
-                            </MultiBinding>
-                        </Image.Source>
-                        <Image.Style>
-                            <Style TargetType="Image">
-                                <Setter Property="Visibility" Value="Collapsed" />
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding CompressorView.Biçim}" Value="2">
-                                        <Setter Property="Visibility" Value="Visible" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Image.Style>
-                    </Image>
                     <TextBlock Text="SIKIŞTIR" VerticalAlignment="Center" />
                 </StackPanel>
             </Button.Content>
@@ -159,7 +157,6 @@
             <ProgressBar Maximum="{Binding CompressorView.Dosyalar.Count}" Value="{Binding CompressorView.Oran}" />
             <TextBlock Text="{Binding CompressorView.DosyaAdı}"
                 TextTrimming="CharacterEllipsis"
-                Width="248"
                 HorizontalAlignment="Center" VerticalAlignment="Center" />
         </Grid>
         <UniformGrid Grid.Row="5" Grid.ColumnSpan="2" Columns="2">
@@ -174,7 +171,7 @@
                                 </MultiBinding>
                             </Image.Source>
                         </Image>
-                        <TextBlock Text="ARŞİV ÇIKART" VerticalAlignment="Center" />
+                        <TextBlock Text="ARŞİV ÇIKAR" VerticalAlignment="Center" />
                     </StackPanel>
                 </Button.Content>
             </Button>
@@ -191,26 +188,8 @@
                     <TextBlock Text="ARŞİV İÇERİK GÖR" VerticalAlignment="Center" />
                 </StackPanel>
                 <local:SplitButton.InternalContent>
-                    <GroupBox Header="ARŞİV İÇERİK">
-                        <ListView Width="300" Height="250" ItemsSource="{Binding CompressorView.Arşivİçerik}">
-                            <ListView.View>
-                                <GridView>
-                                    <GridViewColumn Header="AÇ" Width="32">
-                                        <GridViewColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <TextBlock>
-                                                    <Hyperlink Command="{Binding DataContext.ArşivTekDosyaÇıkar, RelativeSource={RelativeSource AncestorType=local:SplitButton}}" CommandParameter="{Binding DosyaAdı}">
-                                                        <Run Text="AÇ" />
-                                                    </Hyperlink>
-                                                </TextBlock>
-                                            </DataTemplate>
-                                        </GridViewColumn.CellTemplate>
-                                    </GridViewColumn>
-                                    <GridViewColumn Header="DOSYA" Width="120" DisplayMemberBinding="{Binding DosyaAdı}" />
-                                    <GridViewColumn Header="BOYUT" Width="120" DisplayMemberBinding="{Binding Boyut}" />
-                                </GridView>
-                            </ListView.View>
-                        </ListView>
+                    <GroupBox Header="ARŞİV İÇERİK" Width="320" Height="250">
+                        <local:ArchiveViewer DataContext="{Binding Mode=OneWay}" ArchivePath="{Binding CompressorView.ArşivDosyaYolu}" />
                     </GroupBox>
                 </local:SplitButton.InternalContent>
             </local:SplitButton>

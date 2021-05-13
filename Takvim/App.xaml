@@ -14,6 +14,7 @@
                 <ResourceDictionary Source="/PresentationFramework.Aero,Version=4.0.0.0,Culture=neutral,PublicKeyToken=31bf3856ad364e35,processorArchitecture=MSIL;component/themes/Aero.NormalColor.xaml" />
                 <ResourceDictionary Source="/Takvim;component/Themes/Generic.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <local:FileExtToArchiveViewerContentCoverter x:Key="FileExtToArchiveViewerContentCoverter" />
             <local:CompressorViewModel x:Key="CompressorViewModel" />
             <local:DateEndTimeConverter x:Key="DateEndTimeConverter" />
             <local:StringNullableToBooleanConverter x:Key="StringNullableToBooleanConverter" />
@@ -805,7 +806,7 @@
                                 SelectedValuePath="Name" ToolTip="Veri Renk"
                                 Validation.ErrorTemplate="{x:Null}" />
                             <Button Command="{Binding XmlVeriGüncelle, Mode=OneWay}" CommandParameter="{Binding CommandParameter, ElementName=Hyp}" ToolTip="GÜNCELLE">
-                                <Image Width="16" Height="16"  >
+                                <Image Width="16" Height="16">
                                     <Image.Source>
                                         <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
                                             <Binding Source="Shell32.dll" />
@@ -941,14 +942,13 @@
                             <LineBreak />
                             <Run Text="{Binding XPath=Aciklama}" FontSize="28" FontWeight="Bold" />
                         </TextBlock>
-                        <ListBox Height="200"
-                            Margin="2"
-                            ItemsSource="{Binding XPath=Dosyalar/Dosya}"
-                            FontWeight="Normal">
+                        <ListBox Margin="2" ItemsSource="{Binding XPath=Dosyalar/Dosya}" FontWeight="Normal">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
-                                        <Image Width="32" Height="32" Source="{Binding Converter={StaticResource FilePathToIconConverter}, XPath=@Yol}" >
+                                        <Image Width="32" Height="32"
+                                            VerticalAlignment="Center"
+                                            Source="{Binding Converter={StaticResource FilePathToIconConverter}, XPath=@Yol}">
                                             <Image.InputBindings>
                                                 <MouseBinding Command="{Binding ArşivAç, Mode=OneWay, Source={StaticResource CompressorViewModel}}" Gesture="CTRL+LeftClick">
                                                     <MouseBinding.CommandParameter>
@@ -965,6 +965,27 @@
                                                 <Run Text="{Binding XPath=@Ad}" />
                                             </Hyperlink>
                                         </TextBlock>
+                                        <Expander VerticalAlignment="Bottom" ExpandDirection="Right">
+                                            <Expander.Style>
+                                                <Style TargetType="Expander">
+                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Converter={StaticResource FileExtToArchiveViewerContentCoverter}, XPath=@Ext}" Value="true">
+                                                            <Setter Property="Visibility" Value="Visible" />
+                                                            <Setter Property="Content">
+                                                                <Setter.Value>
+                                                                    <Grid>
+                                                                        <local:ArchiveViewer Width="300" Height="250"
+                                                                            DataContext="{Binding}"
+                                                                            ArchivePath="{Binding XPath=@Yol}" />
+                                                                    </Grid>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Expander.Style>
+                                        </Expander>
                                     </StackPanel>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
@@ -972,6 +993,7 @@
                     </StackPanel>
                 </Grid>
             </DataTemplate>
+
         </ResourceDictionary>
     </Application.Resources>
 </Application>

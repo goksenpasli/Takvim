@@ -85,6 +85,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ArchiveData.cs" />
+    <Compile Include="ArchiveViewer.xaml.cs">
+      <DependentUpon>ArchiveViewer.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CameraUserControl.xaml.cs">
       <DependentUpon>CameraUserControl.xaml</DependentUpon>
     </Compile>
@@ -104,6 +108,8 @@
     <Compile Include="Converters\DateAnimationConverter.cs" />
     <Compile Include="Converters\DateEndTimeConverter.cs" />
     <Compile Include="Converters\DatePassedBooleanConverter.cs" />
+    <Compile Include="Converters\FileExtToArchiveViewerContentCoverter.cs" />
+    <Compile Include="Converters\FilePathToArchiveContentCoverter.cs" />
     <Compile Include="Converters\MonthToColorConverter.cs" />
     <Compile Include="Converters\RegistryToIconConverter.cs" />
     <Compile Include="DataView.cs" />
@@ -159,6 +165,10 @@
     <Compile Include="Converters\XmlDateConverter.cs" />
     <Compile Include="CompressorView.cs" />
     <Compile Include="CompressorViewModel.cs" />
+    <Page Include="ArchiveViewer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="CameraUserControl.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
