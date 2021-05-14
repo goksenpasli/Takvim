@@ -17,7 +17,33 @@ namespace Takvim
 {
     internal static class ExtensionMethods
     {
+        public const uint FILE_ATTRIBUTE_NORMAL = 0x00000080;
+
+        public const uint SHGFI_ICON = 0x000000100;
+
+        public const uint SHGFI_LARGEICON = 0x000000000;
+
+        public const uint SHGFI_OPENICON = 0x000000002;
+
+        public const uint SHGFI_SMALLICON = 0x000000001;
+
+        public const uint SHGFI_USEFILEATTRIBUTES = 0x000000010;
+
         private static readonly IntPtr hwnd = Process.GetCurrentProcess().Handle;
+
+        public enum FolderType
+        {
+            Closed,
+
+            Open
+        }
+
+        public enum IconSize
+        {
+            Large,
+
+            Small
+        }
 
         internal enum Format
         {
@@ -76,24 +102,33 @@ namespace Takvim
         [DllImport("shell32.dll", CharSet = CharSet.Unicode)]
         public static extern IntPtr ExtractIcon(this IntPtr hInst, string lpszExeFileName, int nIconIndex);
 
-        public static BitmapSource IconCreate(this string xmlfilepath)
+        public static BitmapSource IconCreate(this string path, IconSize size)
         {
-            if (File.Exists(xmlfilepath))
+            uint flags = SHGFI_ICON | SHGFI_USEFILEATTRIBUTES;
+
+            if (IconSize.Small == size)
             {
-                try
-                {
-                    using Icon icon = Icon.ExtractAssociatedIcon(xmlfilepath);
-                    BitmapSource bitmapsource = Imaging.CreateBitmapSourceFromHIcon(icon.Handle, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
-                    icon.Dispose();
-                    bitmapsource.Freeze();
-                    return bitmapsource;
-                }
-                catch (Exception)
-                {
-                    return null;
-                }
+                flags += SHGFI_SMALLICON;
             }
-            return null;
+            else
+            {
+                flags += SHGFI_LARGEICON;
+            }
+            SHFILEINFO shfi = new();
+
+            IntPtr res = SHGetFileInfo(path, FILE_ATTRIBUTE_NORMAL, out shfi, (uint)Marshal.SizeOf(shfi), flags);
+
+            if (res == IntPtr.Zero)
+            {
+                throw Marshal.GetExceptionForHR(Marshal.GetHRForLastWin32Error());
+            }
+
+            Icon.FromHandle(shfi.hIcon);
+            using Icon icon = (Icon)Icon.FromHandle(shfi.hIcon).Clone();
+            DestroyIcon(shfi.hIcon);
+            BitmapSource bitmapsource = Imaging.CreateBitmapSourceFromHIcon(icon.Handle, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+            bitmapsource.Freeze();
+            return bitmapsource;
         }
 
         public static BitmapSource IconCreate(this string filepath, int iconindex)
@@ -168,6 +203,9 @@ namespace Takvim
 
             return null;
         }
+
+        [DllImport("shell32.dll", CharSet = CharSet.Auto)]
+        public static extern IntPtr SHGetFileInfo(string pszPath, uint dwFileAttributes, out SHFILEINFO psfi, uint cbFileInfo, uint uFlags);
 
         public static ImageSource ToBitmapImage(this Image bitmap, ImageFormat format, double decodeheight = 0)
         {
@@ -284,5 +322,21 @@ namespace Takvim
                 return null;
             }
         }
+
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
+        public struct SHFILEINFO
+        {
+            public IntPtr hIcon;
+
+            public int iIcon;
+
+            public uint dwAttributes;
+
+            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 260)]
+            public string szDisplayName;
+
+            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 80)]
+            public string szTypeName;
+        };
     }
 }

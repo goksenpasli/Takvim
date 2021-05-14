@@ -1,10 +1,12 @@
 ﻿using SharpCompress.Common;
 using SharpCompress.Readers;
 using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace Takvim
@@ -12,14 +14,17 @@ namespace Takvim
     /// <summary>
     /// Interaction logic for ArchiveViewer.xaml
     /// </summary>
-    public partial class ArchiveViewer : UserControl
+    public partial class ArchiveViewer : UserControl, INotifyPropertyChanged
     {
         public static readonly DependencyProperty ArchivePathProperty = DependencyProperty.Register("ArchivePath", typeof(string), typeof(ArchiveViewer), new PropertyMetadata(null));
+
+        private string aramaMetni;
 
         public ArchiveViewer()
         {
             InitializeComponent();
-            DataContext=this;
+            Grid.DataContext = this;
+            Cvs = Grid.TryFindResource("Cvs") as CollectionViewSource;
 
             ArşivTekDosyaÇıkar = new RelayCommand<object>(parameter =>
             {
@@ -37,6 +42,7 @@ namespace Takvim
                                 ExtractFullPath = true,
                                 Overwrite = true
                             });
+                            break;
                         }
                     }
                     Process.Start($@"{Path.GetTempPath()}\{seçilidosya}");
@@ -46,6 +52,24 @@ namespace Takvim
                     MessageBox.Show("Dosya Açılamadı.\n" + ex.Message, "TAKVİM", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                 }
             }, parameter => true);
+
+            PropertyChanged += ArchiveViewer_PropertyChanged;
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public string AramaMetni
+        {
+            get => aramaMetni;
+
+            set
+            {
+                if (aramaMetni != value)
+                {
+                    aramaMetni = value;
+                    OnPropertyChanged(nameof(AramaMetni));
+                }
+            }
         }
 
         public string ArchivePath
@@ -55,5 +79,24 @@ namespace Takvim
         }
 
         public ICommand ArşivTekDosyaÇıkar { get; }
+
+        private CollectionViewSource Cvs { get; set; }
+
+        protected virtual void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
+        private void ArchiveViewer_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "AramaMetni")
+            {
+                if (string.IsNullOrWhiteSpace(AramaMetni) && Cvs.View is not null)
+                {
+                    Cvs.View.Filter = null;
+                }
+                else
+                {
+                    Cvs.Filter += (s, e) => e.Accepted = (e.Item as ArchiveData)?.DosyaAdı.Contains(AramaMetni) ?? false;
+                }
+            }
+        }
     }
 }

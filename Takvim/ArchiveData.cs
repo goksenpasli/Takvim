@@ -6,7 +6,12 @@
 
         private string dosyaAdı;
 
-        private long crc;
+        private string crc;
+
+        private long sıkıştırılmışBoyut;
+
+        private double oran;
+        private string uzantı;
 
         public long Boyut
         {
@@ -18,6 +23,32 @@
                 {
                     boyut = value;
                     OnPropertyChanged(nameof(Boyut));
+                }
+            }
+        }
+
+        public long SıkıştırılmışBoyut
+        {
+            get => sıkıştırılmışBoyut;
+            set
+            {
+                if (sıkıştırılmışBoyut != value)
+                {
+                    sıkıştırılmışBoyut = value;
+                    OnPropertyChanged(nameof(SıkıştırılmışBoyut));
+                }
+            }
+        }
+
+        public double Oran
+        {
+            get => oran;
+            set
+            {
+                if (oran != value)
+                {
+                    oran = value;
+                    OnPropertyChanged(nameof(Oran));
                 }
             }
         }
@@ -36,7 +67,20 @@
             }
         }
 
-        public long Crc
+        public string Uzantı
+        {
+            get => uzantı;
+            set
+            {
+                if (uzantı != value)
+                {
+                    uzantı = value;
+                    OnPropertyChanged(nameof(Uzantı));
+                }
+            }
+        }
+
+        public string Crc
         {
             get => crc;
 

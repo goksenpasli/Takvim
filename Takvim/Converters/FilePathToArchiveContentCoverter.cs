@@ -3,7 +3,6 @@ using System;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Windows.Data;
 
 namespace Takvim
@@ -24,7 +23,7 @@ namespace Takvim
                     {
                         if (!reader.Entry.IsDirectory)
                         {
-                            Arşivİçerik.Add(new ArchiveData() { DosyaAdı = reader.Entry.Key, Boyut = reader.Entry.Size, Crc = reader.Entry.Crc });
+                            Arşivİçerik.Add(new ArchiveData() {SıkıştırılmışBoyut = reader.Entry.CompressedSize, DosyaAdı = reader.Entry.Key, Boyut = reader.Entry.Size, Crc = reader.Entry.Crc.ToString("X"), Oran = (double)reader.Entry.CompressedSize / reader.Entry.Size });
                         }
                     }
                     return Arşivİçerik;

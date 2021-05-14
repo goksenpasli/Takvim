@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Windows.Data;
+using static Takvim.ExtensionMethods;
 
 namespace Takvim
 {
@@ -10,7 +11,7 @@ namespace Takvim
         {
             try
             {
-                return (value as string).IconCreate();
+                return (value as string).IconCreate(IconSize.Large);
             }
             catch (Exception)
             {

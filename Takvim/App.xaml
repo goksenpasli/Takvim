@@ -14,6 +14,7 @@
                 <ResourceDictionary Source="/PresentationFramework.Aero,Version=4.0.0.0,Culture=neutral,PublicKeyToken=31bf3856ad364e35,processorArchitecture=MSIL;component/themes/Aero.NormalColor.xaml" />
                 <ResourceDictionary Source="/Takvim;component/Themes/Generic.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <local:FilePathToArchiveContentCoverter x:Key="FilePathToArchiveContentCoverter" />
             <local:FileExtToArchiveViewerContentCoverter x:Key="FileExtToArchiveViewerContentCoverter" />
             <local:CompressorViewModel x:Key="CompressorViewModel" />
             <local:DateEndTimeConverter x:Key="DateEndTimeConverter" />
@@ -835,18 +836,6 @@
                     </DrawingGroup>
                 </DrawingBrush.Drawing>
             </DrawingBrush>
-            <Style x:Key="SimpleHourProgress" TargetType="{x:Type ProgressBar}">
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="{x:Type ProgressBar}">
-                            <Grid>
-                                <Border Name="PART_Track" />
-                                <Border Name="PART_Indicator" Background="{TemplateBinding Foreground}" HorizontalAlignment="Left" />
-                            </Grid>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Style>
             <DataTemplate x:Key="ListBoxDayStandardTemplate">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -958,14 +947,14 @@
                                             </Image.InputBindings>
                                         </Image>
                                         <TextBlock VerticalAlignment="Center">
-                                            <Hyperlink Command="{Binding Tag.EkDosyaAç, Mode=OneWay, ElementName=MiniCalendar}">
+                                            <Hyperlink x:Name="Hyp" Command="{Binding Tag.EkDosyaAç, Mode=OneWay, ElementName=MiniCalendar}">
                                                 <Hyperlink.CommandParameter>
                                                     <Binding Path="InnerXml" XPath="@Yol" />
                                                 </Hyperlink.CommandParameter>
                                                 <Run Text="{Binding XPath=@Ad}" />
                                             </Hyperlink>
                                         </TextBlock>
-                                        <Expander VerticalAlignment="Bottom" ExpandDirection="Right">
+                                        <Expander IsEnabled="{Binding ElementName=Hyp, Path=IsEnabled}" VerticalAlignment="Bottom" ExpandDirection="Right">
                                             <Expander.Style>
                                                 <Style TargetType="Expander">
                                                     <Setter Property="Visibility" Value="Collapsed" />
@@ -993,7 +982,28 @@
                     </StackPanel>
                 </Grid>
             </DataTemplate>
-
+            <Style x:Key="SimpleProgressBar" TargetType="{x:Type ProgressBar}">
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="Foreground" Value="Green" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ProgressBar}">
+                            <Border Name="PART_Track"
+                                MinHeight="14"
+                                Background="{x:Null}"
+                                BorderBrush="#888888"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="2">
+                                <Border Name="PART_Indicator"
+                                    Background="{TemplateBinding Foreground}"
+                                    BorderBrush="{x:Null}"
+                                    Margin="1" HorizontalAlignment="Left"
+                                    CornerRadius="1" />
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
