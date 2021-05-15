@@ -1,4 +1,6 @@
-﻿namespace Takvim
+﻿using System;
+
+namespace Takvim
 {
     public class ArchiveData : InpcBase
     {
@@ -11,7 +13,8 @@
         private long sıkıştırılmışBoyut;
 
         private double oran;
-        private string uzantı;
+
+        private DateTime? düzenlenmeZamanı;
 
         public long Boyut
         {
@@ -53,6 +56,19 @@
             }
         }
 
+        public DateTime? DüzenlenmeZamanı
+        {
+            get { return düzenlenmeZamanı; }
+            set
+            {
+                if (düzenlenmeZamanı != value)
+                {
+                    düzenlenmeZamanı = value;
+                    OnPropertyChanged(nameof(DüzenlenmeZamanı));
+                }
+            }
+        }
+
         public string DosyaAdı
         {
             get => dosyaAdı;
@@ -63,19 +79,6 @@
                 {
                     dosyaAdı = value;
                     OnPropertyChanged(nameof(DosyaAdı));
-                }
-            }
-        }
-
-        public string Uzantı
-        {
-            get => uzantı;
-            set
-            {
-                if (uzantı != value)
-                {
-                    uzantı = value;
-                    OnPropertyChanged(nameof(Uzantı));
                 }
             }
         }

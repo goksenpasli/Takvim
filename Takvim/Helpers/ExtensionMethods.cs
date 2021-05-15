@@ -27,6 +27,8 @@ namespace Takvim
 
         public const uint SHGFI_SMALLICON = 0x000000001;
 
+        public const uint SHGFI_TYPENAME = 0x000000400;
+
         public const uint SHGFI_USEFILEATTRIBUTES = 0x000000010;
 
         private static readonly IntPtr hwnd = Process.GetCurrentProcess().Handle;
@@ -129,6 +131,21 @@ namespace Takvim
             BitmapSource bitmapsource = Imaging.CreateBitmapSourceFromHIcon(icon.Handle, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
             bitmapsource.Freeze();
             return bitmapsource;
+        }
+
+        public static string GetFileType(this string filename)
+        {
+            SHFILEINFO shinfo = new();
+            SHGetFileInfo
+                (
+                        filename,
+                        FILE_ATTRIBUTE_NORMAL,
+                        out  shinfo, (uint)Marshal.SizeOf(shinfo),
+                        SHGFI_TYPENAME |
+                        SHGFI_USEFILEATTRIBUTES
+                    );
+
+            return shinfo.szTypeName;
         }
 
         public static BitmapSource IconCreate(this string filepath, int iconindex)

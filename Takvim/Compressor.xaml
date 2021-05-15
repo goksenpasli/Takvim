@@ -154,7 +154,7 @@
             </Button.Style>
         </Button>
         <Grid Grid.Row="4" Grid.ColumnSpan="2">
-            <ProgressBar Maximum="{Binding CompressorView.Dosyalar.Count}" Value="{Binding CompressorView.Oran}" />
+            <ProgressBar Maximum="{Binding CompressorView.Dosyalar.Count}" Value="{Binding CompressorView.Oran}" Style="{StaticResource SimpleProgressBar}" />
             <TextBlock Text="{Binding CompressorView.DosyaAdı}"
                 TextTrimming="CharacterEllipsis"
                 HorizontalAlignment="Center" VerticalAlignment="Center" />
@@ -188,7 +188,7 @@
                     <TextBlock Text="ARŞİV İÇERİK GÖR" VerticalAlignment="Center" />
                 </StackPanel>
                 <local:SplitButton.InternalContent>
-                    <GroupBox Header="ARŞİV İÇERİK" Width="320" Height="250">
+                    <GroupBox Header="ARŞİV İÇERİK" Width="520" Height="250">
                         <local:ArchiveViewer DataContext="{Binding Mode=OneWay}" ArchivePath="{Binding CompressorView.ArşivDosyaYolu}" />
                     </GroupBox>
                 </local:SplitButton.InternalContent>

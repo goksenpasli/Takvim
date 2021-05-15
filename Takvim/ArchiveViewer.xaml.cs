@@ -18,6 +18,8 @@ namespace Takvim
     {
         public static readonly DependencyProperty ArchivePathProperty = DependencyProperty.Register("ArchivePath", typeof(string), typeof(ArchiveViewer), new PropertyMetadata(null));
 
+        private static double toplamOran;
+
         private string aramaMetni;
 
         public ArchiveViewer()
@@ -56,7 +58,20 @@ namespace Takvim
             PropertyChanged += ArchiveViewer_PropertyChanged;
         }
 
+        public static event EventHandler<PropertyChangedEventArgs> StaticPropertyChanged;
+
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public static double ToplamOran
+        {
+            get => toplamOran;
+
+            set
+            {
+                toplamOran = value;
+                StaticPropertyChanged?.Invoke(null, new(nameof(ToplamOran)));
+            }
+        }
 
         public string AramaMetni
         {

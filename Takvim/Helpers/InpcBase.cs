@@ -1,9 +1,12 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 
 namespace Takvim
 {
     public abstract class InpcBase : INotifyPropertyChanged, INotifyPropertyChanging
     {
+        public static event EventHandler<PropertyChangedEventArgs> StaticPropertyChanged;
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public event PropertyChangingEventHandler PropertyChanging;

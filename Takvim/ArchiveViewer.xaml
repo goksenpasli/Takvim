@@ -4,15 +4,24 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:Takvim"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DataContext="{d:DesignInstance Type=local:ArchiveViewer}"
-    d:DesignHeight="250" d:DesignWidth="400" UseLayoutRounding="True"
+    d:DesignHeight="250" d:DesignWidth="500" UseLayoutRounding="True"
     mc:Ignorable="d">
     <Grid x:Name="Grid">
         <Grid.Resources>
             <CollectionViewSource x:Key="Cvs" d:DesignSource="{d:DesignInstance Type=local:ArchiveData, CreateList=True}" Source="{Binding ArchivePath, Converter={StaticResource FilePathToArchiveContentCoverter}}" />
         </Grid.Resources>
-        <ListView Foreground="Black"
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <ListView x:Name="Lv"
+            Foreground="Black"
             ItemsSource="{Binding Mode=OneWay, Source={StaticResource Cvs}}"
-            AlternationCount="2" IsSynchronizedWithCurrentItem="False" SelectionMode="Single">
+            AlternationCount="2" SelectionMode="Single">
             <ListView.ItemContainerStyle>
                 <Style TargetType="{x:Type ListViewItem}">
                     <Setter Property="Template">
@@ -47,7 +56,7 @@
                     <GridViewColumn Width="28">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <Image Width="16" Height="16" Source="{Binding DosyaAdı,  Converter={StaticResource FilePathToIconConverter}}"/>
+                                <Image Width="16" Height="16" Source="{Binding DosyaAdı, Converter={StaticResource FilePathToIconConverter}}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
@@ -63,6 +72,7 @@
                     </GridViewColumn>
                     <GridViewColumn Header="BOYUT" Width="80" DisplayMemberBinding="{Binding Boyut, Mode=OneWay}" />
                     <GridViewColumn Header="SIKIŞTIRILMIŞ&#x0a;BOYUT" Width="80" DisplayMemberBinding="{Binding SıkıştırılmışBoyut, Mode=OneWay}" />
+                    <GridViewColumn Header="TİP" Width="70" DisplayMemberBinding="{Binding DosyaAdı, Converter={StaticResource FilePathToFileDescriptionConverter}, Mode=OneWay}" />
                     <GridViewColumn Header="ORAN" Width="45">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
@@ -77,5 +87,29 @@
                 </GridView>
             </ListView.View>
         </ListView>
+        <ProgressBar Grid.Column="1"
+            Width="16"
+            Foreground="#FFEB3D95"
+            Style="{StaticResource SimpleProgressBar}"
+            Maximum="1" Orientation="Vertical"
+            Value="{Binding Path=(local:ArchiveViewer.ToplamOran)}" />
+        <StatusBar Grid.Row="1" Grid.ColumnSpan="2">
+            <StatusBar.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                    </Grid>
+                </ItemsPanelTemplate>
+            </StatusBar.ItemsPanel>
+            <StatusBarItem Grid.Column="0">
+                <TextBlock Text="{Binding ElementName=Lv, Path=SelectedItem.DosyaAdı}" />
+            </StatusBarItem>
+            <StatusBarItem Grid.Column="1">
+                <TextBlock Text="{Binding ElementName=Lv, Path=SelectedItem.DüzenlenmeZamanı}" />
+            </StatusBarItem>
+        </StatusBar>
     </Grid>
 </UserControl>

@@ -15,6 +15,7 @@
                 <ResourceDictionary Source="/Takvim;component/Themes/Generic.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <local:FilePathToArchiveContentCoverter x:Key="FilePathToArchiveContentCoverter" />
+            <local:FilePathToFileDescriptionConverter x:Key="FilePathToFileDescriptionConverter" />
             <local:FileExtToArchiveViewerContentCoverter x:Key="FileExtToArchiveViewerContentCoverter" />
             <local:CompressorViewModel x:Key="CompressorViewModel" />
             <local:DateEndTimeConverter x:Key="DateEndTimeConverter" />
@@ -1000,6 +1001,15 @@
                                     Margin="1" HorizontalAlignment="Left"
                                     CornerRadius="1" />
                             </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="Orientation" Value="Vertical">
+                                    <Setter TargetName="PART_Track" Property="LayoutTransform">
+                                        <Setter.Value>
+                                            <RotateTransform Angle="-90" />
+                                        </Setter.Value>
+                                    </Setter>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
