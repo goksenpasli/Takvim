@@ -82,7 +82,7 @@ namespace Takvim
             }
         }
 
-        public ObservableCollection<string> Dosyalar
+        public new ObservableCollection<string> Dosyalar
         {
             get => dosyalar;
 

@@ -30,7 +30,7 @@
             </CollectionViewSource>
         </ResourceDictionary>
     </Window.Resources>
-    <Grid>
+    <Grid x:Name="Grid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="Auto" />
@@ -39,34 +39,6 @@
             <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="2"
-            Margin="2">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <TextBox Text="{Binding AramaMetin, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="0" />
-            <local:SplitButton Grid.Column="1" Command="{Binding VeriAra, Mode=OneWay}" CommandParameter="{Binding AramaMetin}">
-                <local:SplitButton.Content>
-                    <Image Width="16" Height="16">
-                        <Image.Source>
-                            <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
-                                <Binding Source="Shell32.dll" />
-                                <Binding Source="22" />
-                            </MultiBinding>
-                        </Image.Source>
-                    </Image>
-                </local:SplitButton.Content>
-                <local:SplitButton.InternalContent>
-                    <Menu>
-                        <MenuItem Header="TÜM KAYITLAR"
-                            IsCheckable="True"
-                            IsChecked="{Binding TümKayıtlar, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                            ToolTip="İşaretli İse Tüm Kayıtlarda Arama Yapılır. İşaretsiz İse Bugünden Sonraki Kayıtlarda Arama Yapılır." />
-                    </Menu>
-                </local:SplitButton.InternalContent>
-            </local:SplitButton>
-        </Grid>
         <TabControl Grid.Row="0" Grid.Column="0" Grid.RowSpan="2"
             SelectedIndex="{Binding VarsayılanTakvim, Mode=OneWay, Source={x:Static properties:Settings.Default}}">
             <TabItem>
@@ -104,12 +76,12 @@
                         ItemsSource="{Binding Mode=OneWay, Source={StaticResource FilteredCvs}}"
                         ItemContainerStyle="{StaticResource GünListBoxItemContainerStyle}"
                         ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.IsDeferredScrollingEnabled="True"
-                        VirtualizingStackPanel.VirtualizationMode="Recycling">
+                        VirtualizingPanel.VirtualizationMode="Recycling">
                         <ListBox.InputBindings>
-                            <MouseBinding Command="{Binding Tag.VeriEkleEkranı, Mode=OneWay, ElementName=MiniCalendar}" CommandParameter="{Binding ŞuAnkiGünVerisi}" MouseAction="LeftDoubleClick" />
+                            <MouseBinding Command="{Binding DataContext.ŞuAnkiGünVerisi.VeriEkleEkranı, ElementName=Grid}" CommandParameter="{Binding ŞuAnkiGünVerisi}" MouseAction="LeftDoubleClick" />
                         </ListBox.InputBindings>
                         <ListBox.Style>
-                            <Style TargetType="ListBox">
+                            <Style TargetType="{x:Type ListBox}">
                                 <Setter Property="ItemTemplate" Value="{StaticResource ListBoxDayStandardTemplate}" />
                                 <Setter Property="ItemsPanel">
                                     <Setter.Value>
@@ -119,12 +91,12 @@
                                     </Setter.Value>
                                 </Setter>
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding Path=Panel, Source={x:Static properties:Settings.Default}}" Value="True">
+                                    <DataTrigger Binding="{Binding Panel, Source={x:Static properties:Settings.Default}}" Value="True">
                                         <Setter Property="ItemTemplate" Value="{StaticResource ListBoxDayStandardGroupTemplate}" />
                                         <Setter Property="ItemsPanel">
                                             <Setter.Value>
                                                 <ItemsPanelTemplate>
-                                                    <local:VirtualizingWrapPanel ItemWidth="{Binding YatayAdetOranı, Source={x:Static properties:Settings.Default}, Converter={StaticResource WrapPanelRatioConverter}}" />
+                                                    <local:VirtualizingWrapPanel ItemWidth="{Binding YatayAdetOranı, Converter={StaticResource WrapPanelRatioConverter}, Source={x:Static properties:Settings.Default}}" />
                                                 </ItemsPanelTemplate>
                                             </Setter.Value>
                                         </Setter>
@@ -134,8 +106,20 @@
                         </ListBox.Style>
                     </ListBox>
                     <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto">
-                        <Expander IsExpanded="{Binding MiniTakvimAçık, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Source={x:Static properties:Settings.Default}}">
-                            <local:MiniCalendarControl x:Name="MiniCalendar" Tag="{Binding ŞuAnkiGünVerisi}" />
+                        <Expander IsExpanded="{Binding MiniTakvimAçık, Mode=TwoWay, Source={x:Static properties:Settings.Default}, UpdateSourceTrigger=PropertyChanged}">
+                            <Expander.Style>
+                                <Style TargetType="Expander">
+                                    <Style.Triggers>
+                                        <Trigger Property="IsExpanded" Value="True">
+                                            <Setter Property="Content">
+                                                <Setter.Value>
+                                                    <local:MiniCalendarControl />
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Expander.Style>
                         </Expander>
                     </ScrollViewer>
                 </Grid>
@@ -173,9 +157,9 @@
                                 HorizontalAlignment="Center" VerticalAlignment="Center"
                                 FontWeight="Bold" />
                         </GroupBox.Header>
-                        <ItemsControl Background="{Binding DataContext.GövdeRenk, RelativeSource={RelativeSource AncestorType=Window}}" ItemsSource="{Binding AyGünler}" ItemTemplate="{StaticResource ListBoxAyDataTemplate}">
+                        <ItemsControl Background="{Binding DataContext.GövdeRenk, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" ItemsSource="{Binding AyGünler}" ItemTemplate="{StaticResource ListBoxAyDataTemplate}">
                             <ItemsControl.Template>
-                                <ControlTemplate TargetType="ItemsControl">
+                                <ControlTemplate TargetType="{x:Type ItemsControl}">
                                     <ScrollViewer Padding="{TemplateBinding Padding}"
                                         CanContentScroll="True" Focusable="False" HorizontalScrollBarVisibility="Auto"
                                         VerticalScrollBarVisibility="Auto">
@@ -238,12 +222,12 @@
                                 <Setter Property="BorderBrush" Value="#FF145CD6" />
                                 <Setter Property="Template" Value="{StaticResource ListBoxItemControlTemplate}" />
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding Path=TamTarih, Converter={StaticResource AnimationtoBooleanConverter}}" Value="true">
+                                    <DataTrigger Binding="{Binding TamTarih, Converter={StaticResource AnimationtoBooleanConverter}}" Value="true">
                                         <DataTrigger.EnterActions>
                                             <BeginStoryboard x:Name="Sb" Storyboard="{StaticResource TimerColorAnimation}" />
                                         </DataTrigger.EnterActions>
                                     </DataTrigger>
-                                    <DataTrigger Binding="{Binding Path=TamTarih, Mode=OneWay}" Value="false">
+                                    <DataTrigger Binding="{Binding TamTarih, Mode=OneWay}" Value="false">
                                         <DataTrigger.EnterActions>
                                             <StopStoryboard BeginStoryboardName="Sb" />
                                         </DataTrigger.EnterActions>
@@ -277,6 +261,32 @@
                 </Grid>
             </TabItem>
         </TabControl>
+        <Grid Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="2"
+            Margin="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBox Text="{Binding AramaMetin, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="0" />
+            <local:SplitButton Grid.Column="1" Command="{Binding VeriAra, Mode=OneWay}" CommandParameter="{Binding AramaMetin}">
+                <local:SplitButton.InternalContent>
+                    <Menu>
+                        <MenuItem Header="TÜM KAYITLAR"
+                            IsCheckable="True"
+                            IsChecked="{Binding TümKayıtlar, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            ToolTip="İşaretli İse Tüm Kayıtlarda Arama Yapılır. İşaretsiz İse Bugünden Sonraki Kayıtlarda Arama Yapılır." />
+                    </Menu>
+                </local:SplitButton.InternalContent>
+                <Image Width="16" Height="16">
+                    <Image.Source>
+                        <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
+                            <Binding Source="Shell32.dll" />
+                            <Binding Source="22" />
+                        </MultiBinding>
+                    </Image.Source>
+                </Image>
+            </local:SplitButton>
+        </Grid>
         <Grid Grid.Row="1" Grid.Column="3" Grid.RowSpan="2">
             <Grid.RowDefinitions>
                 <RowDefinition />
@@ -284,8 +294,12 @@
             </Grid.RowDefinitions>
             <GroupBox Grid.Row="0" Margin="2">
                 <GroupBox.Header>
-                    <Button Command="{Binding Tag.CsvDosyasınaYaz, Mode=OneWay, ElementName=MiniCalendar}" CommandParameter="{Binding Günler}" Tag=".csv">
-                        <Image Width="24" Height="24" Source="{Binding Tag, Converter={StaticResource RegistryToIconConverter}, RelativeSource={RelativeSource AncestorType={x:Type Button}}}" />
+                    <Button Command="{Binding ŞuAnkiGünVerisi.CsvDosyasınaYaz, Mode=OneWay}" CommandParameter="{Binding Günler}">
+                        <Image Width="24" Height="24">
+                            <Image.Source>
+                                <Binding Converter="{StaticResource FilePathToIconConverter}" Source=".csv" />
+                            </Image.Source>
+                        </Image>
                     </Button>
                 </GroupBox.Header>
                 <ListBox Background="Transparent"
@@ -302,7 +316,7 @@
                                         <TextBlock Text="B"
                                             FontSize="18" FontFamily="Wingdings" FontWeight="Bold" />
                                     </Canvas>
-                                    <local:SplitButton Content="DOSYA AÇ" Command="{Binding Tag.DosyaGör, ElementName=MiniCalendar}" CommandParameter="{Binding Mode=OneWay}">
+                                    <local:SplitButton Content="DOSYA AÇ" Command="{Binding DataContext.ŞuAnkiGünVerisi.DosyaGör, ElementName=Grid}" CommandParameter="{Binding Mode=OneWay}">
                                         <local:SplitButton.Style>
                                             <Style BasedOn="{StaticResource {x:Type local:SplitButton}}" TargetType="{x:Type local:SplitButton}">
                                                 <Setter Property="BorderBrush" Value="Yellow" />
@@ -322,14 +336,9 @@
                                                     <DataTemplate>
                                                         <StackPanel Orientation="Horizontal">
                                                             <Image Width="24" Height="24" Source="{Binding Converter={StaticResource FilePathToIconConverter}, XPath=@Yol}" />
-                                                            <TextBlock VerticalAlignment="Center">
-                                                                <Hyperlink Command="{Binding Tag.EkDosyaAç, Mode=OneWay, ElementName=MiniCalendar}">
-                                                                    <Hyperlink.CommandParameter>
-                                                                        <Binding Path="InnerXml" XPath="@Yol" />
-                                                                    </Hyperlink.CommandParameter>
+                                                            <TextBlock VerticalAlignment="Center"><Hyperlink Command="{Binding DataContext.ŞuAnkiGünVerisi.EkDosyaAç, ElementName=Grid}" CommandParameter="{Binding InnerXml, XPath=@Yol}">
                                                                     <Run Text="{Binding XPath=@Ad}" />
-                                                                </Hyperlink>
-                                                            </TextBlock>
+                                                                </Hyperlink></TextBlock>
                                                         </StackPanel>
                                                     </DataTemplate>
                                                 </ListBox.ItemTemplate>
@@ -337,17 +346,12 @@
                                         </local:SplitButton.InternalContent>
                                     </local:SplitButton>
                                 </StackPanel>
-                                <TextBlock Width="100" TextWrapping="Wrap">
-                                    <Hyperlink Command="{Binding DataContext.YılaGit, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="{Binding Mode=OneWay, XPath=Gun}">
+                                <TextBlock Width="96" TextWrapping="Wrap"><Hyperlink Command="{Binding DataContext.YılaGit, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" CommandParameter="{Binding Mode=OneWay, XPath=Gun}">
                                         <Run Text="{Binding Converter={StaticResource XmlDateConverter}, StringFormat=\{0:dd/MM/yyyy\}, XPath=Gun}" />
-                                    </Hyperlink>
-                                    <LineBreak />
-                                    <Run Text="{Binding XPath=Aciklama}"
+                                    </Hyperlink><LineBreak /><Run Text="{Binding XPath=Aciklama}"
                                         Foreground="Green"
                                         FontWeight="Bold"
-                                        ToolTip="{Binding XPath=Aciklama}" />
-                                    <Run Text="{Binding XPath=@SaatBaslangic}" />
-                                </TextBlock>
+                                        ToolTip="{Binding XPath=Aciklama}" /><Run Text=" " /><Run Text="{Binding XPath=@SaatBaslangic}" /></TextBlock>
                             </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
@@ -448,7 +452,7 @@
                                 </Image>
                             </ToggleButton>
                             <ToggleButton Grid.Column="0"
-                                IsEnabled="{Binding SeçiliTts, Source={x:Static properties:Settings.Default}, Converter={StaticResource StringNullableToBooleanConverter}, Mode=TwoWay}"
+                                IsEnabled="{Binding SeçiliTts, Converter={StaticResource StringNullableToBooleanConverter}, Mode=TwoWay, Source={x:Static properties:Settings.Default}}"
                                 IsChecked="{Binding YaklaşanEtkinlikleriOku, Mode=TwoWay, Source={x:Static properties:Settings.Default}}"
                                 IsTabStop="False"
                                 ToolTip="Bildirim Penceredesindeki Yaklaşan Etkinlikleri Oku. Bu İşaretlenmezse Sadece Sistem Sesine Göre Uyarı Sesi Çalar.">
@@ -542,11 +546,9 @@
                                 <local:SplitButton.InternalContent>
                                     <GroupBox Header="TTS AYARLARI">
                                         <StackPanel>
-                                            <TextBlock>
-                                                <Hyperlink Command="{Binding WebAdreseGit}" CommandParameter="https://github.com/goksenpasli/Takvim">
+                                            <TextBlock><Hyperlink Command="{Binding WebAdreseGit}" CommandParameter="https://github.com/goksenpasli/Takvim">
                                                     <Run Text="TÜRKÇE TTS REGISTRY AYARI" />
-                                                </Hyperlink>
-                                            </TextBlock>
+                                                </Hyperlink></TextBlock>
                                             <HeaderedContentControl Header="Varsayılan Okuma Motorunu Seçin.">
                                                 <ComboBox ItemsSource="{Binding TtsDilleri}" SelectedItem="{Binding SeçiliTts, Mode=TwoWay, Source={x:Static properties:Settings.Default}}" />
                                             </HeaderedContentControl>

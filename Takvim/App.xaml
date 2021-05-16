@@ -675,7 +675,7 @@
                                                 Validation.ErrorTemplate="{x:Null}" />
                                             <Button Content="="
                                                 Width="18" Height="16"
-                                                Command="{Binding Tag.XmlRenkGüncelle, Mode=OneWay, ElementName=MiniCalendar}"
+                                                Command="{Binding DataContext.ŞuAnkiGünVerisi.XmlRenkGüncelle, ElementName=Grid}"
                                                 CommandParameter="{Binding Mode=OneWay}"
                                                 FontFamily="Wingdings" />
                                         </StackPanel>
@@ -876,7 +876,7 @@
                         ShowShadow="True"
                         Source="{Binding ConverterParameter=120, Converter={StaticResource Base64ImageConverter}, XPath=Resim}">
                         <local:ShadowedImage.InputBindings>
-                            <MouseBinding Command="{Binding Tag.DosyaGör, ElementName=MiniCalendar}" CommandParameter="{Binding Mode=OneWay}" Gesture="CTRL+LeftClick" />
+                            <MouseBinding Command="{Binding DataContext.ŞuAnkiGünVerisi.DosyaGör, ElementName=Grid}" CommandParameter="{Binding Mode=OneWay}" Gesture="CTRL+LeftClick" />
                         </local:ShadowedImage.InputBindings>
                         <local:ShadowedImage.ToolTip>
                             <ToolTip Template="{StaticResource GreenToolTipControlTemplate}">
@@ -885,7 +885,7 @@
                         </local:ShadowedImage.ToolTip>
                     </local:ShadowedImage>
                     <TextBlock Grid.Column="3" HorizontalAlignment="Right" FontSize="24">
-                        <Hyperlink Command="{Binding Tag.XmlVeriSil, ElementName=MiniCalendar, Mode=OneWay}"
+                        <Hyperlink Command="{Binding DataContext.ŞuAnkiGünVerisi.XmlVeriSil, ElementName=Grid}"
                             CommandParameter="{Binding XPath=@Id}"
                             FontFamily="Segoe UI Black"
                             TextDecorations="{x:Null}">
@@ -912,7 +912,7 @@
                         ShowShadow="True"
                         Source="{Binding ConverterParameter=240, Converter={StaticResource Base64ImageConverter}, XPath=Resim}">
                         <local:ShadowedImage.InputBindings>
-                            <MouseBinding Command="{Binding Tag.DosyaGör, ElementName=MiniCalendar}" CommandParameter="{Binding Mode=OneWay}" Gesture="CTRL+LeftClick" />
+                            <MouseBinding Command="{Binding DataContext.ŞuAnkiGünVerisi.DosyaGör, ElementName=Grid}" CommandParameter="{Binding Mode=OneWay}" Gesture="CTRL+LeftClick" />
                         </local:ShadowedImage.InputBindings>
                         <local:ShadowedImage.ToolTip>
                             <ToolTip Template="{StaticResource GreenToolTipControlTemplate}">
@@ -943,7 +943,7 @@
                                             VerticalAlignment="Center"
                                             Source="{Binding Converter={StaticResource FilePathToIconConverter}, XPath=@Yol}" />
                                         <TextBlock VerticalAlignment="Center">
-                                            <Hyperlink x:Name="Hyp" Command="{Binding Tag.EkDosyaAç, Mode=OneWay, ElementName=MiniCalendar}">
+                                            <Hyperlink x:Name="Hyp" Command="{Binding DataContext.ŞuAnkiGünVerisi.EkDosyaAç, ElementName=Grid}">
                                                 <Hyperlink.CommandParameter>
                                                     <Binding Path="InnerXml" XPath="@Yol" />
                                                 </Hyperlink.CommandParameter>

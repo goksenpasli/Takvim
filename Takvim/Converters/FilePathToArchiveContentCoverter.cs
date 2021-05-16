@@ -12,7 +12,7 @@ namespace Takvim
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is string yol)
+            if (value is string yol && File.Exists(yol))
             {
                 try
                 {
