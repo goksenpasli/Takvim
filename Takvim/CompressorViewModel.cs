@@ -19,11 +19,11 @@ namespace Takvim
 {
     public class CompressorViewModel : InpcBase
     {
-        private CompressorView zipView;
+        private readonly string[] imageextension = new string[] { ".jpg", ".jpeg", ".png", ".bmp" };
 
         private Visibility textBlockVisible;
 
-        private readonly string[] imageextension = new string[] { ".jpg", ".jpeg", ".png", ".bmp" };
+        private CompressorView zipView;
 
         public CompressorViewModel()
         {
@@ -109,9 +109,9 @@ namespace Takvim
                                 {
                                     if (CompressorView.ResimleriWebpZiple && imageextension.Contains(Path.GetExtension(dosya).ToLower()))
                                     {
-                                        string webpfilename = Path.GetFileNameWithoutExtension(dosya) + ".webp";
-                                        File.WriteAllBytes(webpfilename, dosya.WebpEncode(CompressorView.WebpQuality));
-                                        zipWriter.Write(Path.GetFileName(webpfilename), webpfilename);
+                                        WriteWebpFile(dosya, out string webpfilename, out string tempfile);
+                                        zipWriter.Write(Path.GetFileName(webpfilename), tempfile);
+                                        File.Delete(tempfile);
                                     }
                                     else
                                     {
@@ -131,9 +131,9 @@ namespace Takvim
                                 {
                                     if (CompressorView.ResimleriWebpZiple && imageextension.Contains(Path.GetExtension(dosya).ToLower()))
                                     {
-                                        string webpfilename = Path.GetFileNameWithoutExtension(dosya) + ".webp";
-                                        File.WriteAllBytes(webpfilename, dosya.WebpEncode(CompressorView.WebpQuality));
-                                        tarWriter.Write(Path.GetFileName(webpfilename), webpfilename);
+                                        WriteWebpFile(dosya, out string webpfilename, out string tempfile);
+                                        tarWriter.Write(Path.GetFileName(webpfilename), tempfile);
+                                        File.Delete(tempfile);
                                     }
                                     else
                                     {
@@ -154,9 +154,9 @@ namespace Takvim
                                 {
                                     if (CompressorView.ResimleriWebpZiple && imageextension.Contains(Path.GetExtension(dosya).ToLower()))
                                     {
-                                        string webpfilename = Path.GetFileNameWithoutExtension(dosya) + ".webp";
-                                        File.WriteAllBytes(webpfilename, dosya.WebpEncode(CompressorView.WebpQuality));
-                                        zipWriter.Write(Path.GetFileName(webpfilename), webpfilename);
+                                        WriteWebpFile(dosya, out string webpfilename, out string tempfile);
+                                        zipWriter.Write(Path.GetFileName(webpfilename), tempfile);
+                                        File.Delete(tempfile);
                                     }
                                     else
                                     {
@@ -183,6 +183,13 @@ namespace Takvim
             }, parameter => true);
 
             CompressorView.PropertyChanged += ZipView_PropertyChanged;
+
+            void WriteWebpFile(string dosya, out string webpfilename, out string tempfile)
+            {
+                webpfilename = Path.GetFileNameWithoutExtension(dosya) + ".webp";
+                tempfile = $@"{Path.GetTempPath()}\{webpfilename}";
+                File.WriteAllBytes(tempfile, dosya.WebpEncode(CompressorView.WebpQuality));
+            }
         }
 
         public ICommand ArşivAç { get; }
@@ -211,6 +218,10 @@ namespace Takvim
             }
         }
 
+        public ICommand DosyaKaydet { get; }
+
+        public ICommand ListedenDosyaSil { get; }
+
         public Visibility TextBlockVisible
         {
             get => textBlockVisible;
@@ -224,10 +235,6 @@ namespace Takvim
                 }
             }
         }
-
-        public ICommand DosyaKaydet { get; }
-
-        public ICommand ListedenDosyaSil { get; }
 
         private void ArşivTümünüAyıkla(string yol, bool klasörgöster = true)
         {
