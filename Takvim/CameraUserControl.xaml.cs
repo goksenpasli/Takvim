@@ -23,7 +23,7 @@ namespace Takvim
             InitializeComponent();
             DataContext = this;
 
-            ResimYükle = new RelayCommand<object>(parameter =>
+            KameradanResimYükle = new RelayCommand<object>(parameter =>
             {
                 if (parameter is Data data)
                 {
@@ -79,7 +79,7 @@ namespace Takvim
 
         public ICommand Oynat { get; }
 
-        public ICommand ResimYükle { get; }
+        public ICommand KameradanResimYükle { get; }
 
         public double Rotation
         {

@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -21,6 +22,8 @@ namespace Takvim
         private CompressorView zipView;
 
         private Visibility textBlockVisible;
+
+        private readonly string[] imageextension = new string[] { ".jpg", ".jpeg", ".png", ".bmp" };
 
         public CompressorViewModel()
         {
@@ -104,7 +107,16 @@ namespace Takvim
 
                                 foreach (string dosya in CompressorView.Dosyalar)
                                 {
-                                    zipWriter.Write(Path.GetFileName(dosya), dosya);
+                                    if (CompressorView.ResimleriWebpZiple && imageextension.Contains(Path.GetExtension(dosya).ToLower()))
+                                    {
+                                        string webpfilename = Path.GetFileNameWithoutExtension(dosya) + ".webp";
+                                        File.WriteAllBytes(webpfilename, dosya.WebpEncode(CompressorView.WebpQuality));
+                                        zipWriter.Write(Path.GetFileName(webpfilename), webpfilename);
+                                    }
+                                    else
+                                    {
+                                        zipWriter.Write(Path.GetFileName(dosya), dosya);
+                                    }
                                     CompressorView.Oran++;
                                     CompressorView.DosyaAdı = Path.GetFileName(dosya);
                                 }
@@ -117,7 +129,17 @@ namespace Takvim
                                 using IWriter tarWriter = WriterFactory.Open(tar, ArchiveType.Tar, CompressionType.None);
                                 foreach (string dosya in CompressorView.Dosyalar)
                                 {
-                                    tarWriter.Write(Path.GetFileName(dosya), dosya);
+                                    if (CompressorView.ResimleriWebpZiple && imageextension.Contains(Path.GetExtension(dosya).ToLower()))
+                                    {
+                                        string webpfilename = Path.GetFileNameWithoutExtension(dosya) + ".webp";
+                                        File.WriteAllBytes(webpfilename, dosya.WebpEncode(CompressorView.WebpQuality));
+                                        tarWriter.Write(Path.GetFileName(webpfilename), webpfilename);
+                                    }
+                                    else
+                                    {
+                                        tarWriter.Write(Path.GetFileName(dosya), dosya);
+                                    }
+
                                     CompressorView.Oran++;
                                     CompressorView.DosyaAdı = Path.GetFileName(dosya);
                                 }
@@ -130,7 +152,16 @@ namespace Takvim
                                 using IWriter zipWriter = WriterFactory.Open(zip, ArchiveType.Zip, CompressionType.LZMA);
                                 foreach (string dosya in CompressorView.Dosyalar)
                                 {
-                                    zipWriter.Write(Path.GetFileName(dosya), dosya);
+                                    if (CompressorView.ResimleriWebpZiple && imageextension.Contains(Path.GetExtension(dosya).ToLower()))
+                                    {
+                                        string webpfilename = Path.GetFileNameWithoutExtension(dosya) + ".webp";
+                                        File.WriteAllBytes(webpfilename, dosya.WebpEncode(CompressorView.WebpQuality));
+                                        zipWriter.Write(Path.GetFileName(webpfilename), webpfilename);
+                                    }
+                                    else
+                                    {
+                                        zipWriter.Write(Path.GetFileName(dosya), dosya);
+                                    }
                                     CompressorView.Oran++;
                                     CompressorView.DosyaAdı = Path.GetFileName(dosya);
                                 }

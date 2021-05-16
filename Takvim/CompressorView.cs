@@ -2,7 +2,7 @@
 
 namespace Takvim
 {
-    public class CompressorView : InpcBase
+    public class CompressorView : Data
     {
         private string arşivDosyaYolu;
 
@@ -12,17 +12,19 @@ namespace Takvim
 
         private string dosyaAdı;
 
+        private ObservableCollection<string> dosyalar;
+
         private string kayıtYolu;
 
         private double oran;
+
+        private bool resimleriWebpZiple;
 
         private int sıkıştırmaDerecesi = 5;
 
         private bool sürüyor;
 
         private string veriGirişKayıtYolu;
-
-        private ObservableCollection<string> dosyalar;
 
         public string ArşivDosyaYolu
         {
@@ -48,19 +50,6 @@ namespace Takvim
                 {
                     arşivİçerik = value;
                     OnPropertyChanged(nameof(Arşivİçerik));
-                }
-            }
-        }
-
-        public ObservableCollection<string> Dosyalar
-        {
-            get => dosyalar;
-            set
-            {
-                if (dosyalar != value)
-                {
-                    dosyalar = value;
-                    OnPropertyChanged(nameof(Dosyalar));
                 }
             }
         }
@@ -93,6 +82,20 @@ namespace Takvim
             }
         }
 
+        public ObservableCollection<string> Dosyalar
+        {
+            get => dosyalar;
+
+            set
+            {
+                if (dosyalar != value)
+                {
+                    dosyalar = value;
+                    OnPropertyChanged(nameof(Dosyalar));
+                }
+            }
+        }
+
         public string KayıtYolu
         {
             get => kayıtYolu;
@@ -118,6 +121,20 @@ namespace Takvim
                 {
                     oran = value;
                     OnPropertyChanged(nameof(Oran));
+                }
+            }
+        }
+
+        public bool ResimleriWebpZiple
+        {
+            get => resimleriWebpZiple;
+
+            set
+            {
+                if (resimleriWebpZiple != value)
+                {
+                    resimleriWebpZiple = value;
+                    OnPropertyChanged(nameof(ResimleriWebpZiple));
                 }
             }
         }
