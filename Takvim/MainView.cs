@@ -28,7 +28,7 @@ namespace Takvim
 
         private static readonly CollectionViewSource FilteredCvs = (CollectionViewSource)Application.Current?.MainWindow?.TryFindResource("FilteredCvs");
 
-        private static SpeechSynthesizer synthesizer;
+        private static readonly SpeechSynthesizer synthesizer = new() { Volume = 100 };
 
         private readonly CollectionViewSource Cvs = (CollectionViewSource)Application.Current?.MainWindow?.TryFindResource("Cvs");
 

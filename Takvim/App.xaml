@@ -874,7 +874,15 @@
                         </TextBlock.Style>
                         <Run Text="{Binding Converter={StaticResource DateEndTimeConverter}, Mode=OneWay}" FontWeight="Bold" />
                         <LineBreak />
-                        <Run Text="{Binding XPath=Aciklama}" FontSize="24" FontWeight="Bold" />
+                        <Run Text="{Binding XPath=Aciklama}" FontSize="24" FontWeight="Bold">
+                            <Run.InputBindings>
+                                <MouseBinding Command="{Binding DataContext.MetinOku, ElementName=Grid}" Gesture="CTRL+LeftClick">
+                                    <MouseBinding.CommandParameter>
+                                        <Binding Path="InnerXml" XPath="Aciklama" />
+                                    </MouseBinding.CommandParameter>
+                                </MouseBinding>
+                            </Run.InputBindings>
+                        </Run>
                     </TextBlock>
                     <local:ShadowedImage Grid.Column="2"
                         Height="120" MaxWidth="96"
@@ -939,7 +947,15 @@
                             </TextBlock.Style>
                             <Run Text="{Binding Converter={StaticResource DateEndTimeConverter}, Mode=OneWay}" FontWeight="Bold" />
                             <LineBreak />
-                            <Run Text="{Binding XPath=Aciklama}" FontSize="28" FontWeight="Bold" />
+                            <Run Text="{Binding XPath=Aciklama}" FontSize="28" FontWeight="Bold">
+                                <Run.InputBindings>
+                                    <MouseBinding Command="{Binding DataContext.MetinOku, ElementName=Grid}" Gesture="CTRL+LeftClick">
+                                        <MouseBinding.CommandParameter>
+                                            <Binding Path="InnerXml" XPath="Aciklama" />
+                                        </MouseBinding.CommandParameter>
+                                    </MouseBinding>
+                                </Run.InputBindings>
+                            </Run>
                         </TextBlock>
                         <ListBox Margin="2" ItemsSource="{Binding XPath=Dosyalar/Dosya}" FontWeight="Normal">
                             <ListBox.ItemTemplate>

@@ -8,7 +8,6 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Media;
-using System.Speech.Synthesis;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
@@ -143,6 +142,15 @@ namespace Takvim
 
             WebAdreseGit = new RelayCommand<object>(parameter => Process.Start(parameter as string), parameter => true);
 
+            MetinOku = new RelayCommand<object>(parameter =>
+            {
+                if (parameter is string metin  && CheckTtsSelected())
+                {
+                    synthesizer.SelectVoice(Settings.Default.SeçiliTts);
+                    synthesizer.SpeakAsync(metin);
+                }
+            }, parameter => true);
+
             VeriOku = new RelayCommand<object>(parameter => ListeyiOku(FilteredCvs.View.SourceCollection.OfType<XmlNode>().Where(z => DateTime.Parse(z["Gun"]?.InnerText) == ŞuAnkiGün).Select(z => z["Aciklama"].InnerText)), parameter => true);
 
             VeritabanıAç = new RelayCommand<object>(parameter =>
@@ -176,6 +184,8 @@ namespace Takvim
 
         public ICommand Günİleri { get; }
 
+        public ICommand MetinOku { get; }
+
         public ICommand SatırSütünSıfırla { get; }
 
         public ICommand VeriAra { get; }
@@ -203,6 +213,8 @@ namespace Takvim
             ÜçAylıkGünler = new ObservableCollection<Data>(Günler?.Where(z => z.TamTarih.Month == SeçiliAy - 1 || z.TamTarih.Month == SeçiliAy || z.TamTarih.Month == SeçiliAy + 1));
             AyGünler = new ObservableCollection<Data>(ÜçAylıkGünler.Where(z => z.TamTarih.Month == SeçiliAy));
         }
+
+        private bool CheckTtsSelected() => !string.IsNullOrEmpty(Settings.Default.SeçiliTts);
 
         private void DatetimeTimer()
         {
@@ -254,20 +266,15 @@ namespace Takvim
             }
         }
 
-        private void GetTtsLang()
-        {
-            synthesizer = new SpeechSynthesizer();
-            TtsDilleri = synthesizer.GetInstalledVoices().Select(z => z.VoiceInfo.Name);
-        }
+        private void GetTtsLang() => TtsDilleri = synthesizer.GetInstalledVoices().Select(z => z.VoiceInfo.Name);
 
         private void ListeyiOku(IEnumerable<string> Veri)
         {
-            if (!string.IsNullOrEmpty(Settings.Default.SeçiliTts))
+            if (CheckTtsSelected())
             {
                 try
                 {
                     synthesizer.SelectVoice(Settings.Default.SeçiliTts);
-                    synthesizer.Volume = 100;
                     foreach (string item in Veri)
                     {
                         synthesizer.SpeakAsync(item);
