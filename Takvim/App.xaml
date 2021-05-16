@@ -607,7 +607,7 @@
             </Style>
             <DataTemplate x:Key="ListBoxAyDataTemplate">
                 <Border BorderBrush="Black" BorderThickness="1" Margin="1">
-                    <StackPanel Background="Transparent">
+                    <StackPanel Background="Transparent" d:DataContext="{d:DesignInstance Type=local:Data}">
                         <StackPanel.InputBindings>
                             <MouseBinding Command="{Binding VeriEkleEkranı, Mode=OneWay}" CommandParameter="{Binding Mode=OneWay}" MouseAction="LeftClick" />
                         </StackPanel.InputBindings>
@@ -938,15 +938,7 @@
                                     <StackPanel Orientation="Horizontal">
                                         <Image Width="32" Height="32"
                                             VerticalAlignment="Center"
-                                            Source="{Binding Converter={StaticResource FilePathToIconConverter}, XPath=@Yol}">
-                                            <Image.InputBindings>
-                                                <MouseBinding Command="{Binding ArşivAç, Mode=OneWay, Source={StaticResource CompressorViewModel}}" Gesture="CTRL+LeftClick">
-                                                    <MouseBinding.CommandParameter>
-                                                        <Binding Path="InnerXml" XPath="@Yol" />
-                                                    </MouseBinding.CommandParameter>
-                                                </MouseBinding>
-                                            </Image.InputBindings>
-                                        </Image>
+                                            Source="{Binding Converter={StaticResource FilePathToIconConverter}, XPath=@Yol}" />
                                         <TextBlock VerticalAlignment="Center">
                                             <Hyperlink x:Name="Hyp" Command="{Binding Tag.EkDosyaAç, Mode=OneWay, ElementName=MiniCalendar}">
                                                 <Hyperlink.CommandParameter>
@@ -983,6 +975,11 @@
                     </StackPanel>
                 </Grid>
             </DataTemplate>
+            <LinearGradientBrush x:Key="PinkProgressBackground" ice:Freeze="True" StartPoint="0.5,0" EndPoint="0.5,1">
+                <GradientStop ice:Freeze="True" Offset="0" Color="#FFD82E83" />
+                <GradientStop ice:Freeze="True" Offset="1" Color="#FFD82E83" />
+                <GradientStop ice:Freeze="True" Offset="0.5" Color="#FFE83A92" />
+            </LinearGradientBrush>
             <Style x:Key="SimpleProgressBar" TargetType="{x:Type ProgressBar}">
                 <Setter Property="BorderThickness" Value="1" />
                 <Setter Property="Foreground" Value="Green" />

@@ -8,7 +8,6 @@ using System.Windows.Data;
 
 namespace Takvim
 {
-    
     public class FileExtToArchiveViewerContentCoverter : IValueConverter
     {
         private string[] SupportedExtensions { get; } = new string[] { ".zip", ".tar", ".rar" };

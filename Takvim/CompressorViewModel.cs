@@ -20,6 +20,8 @@ namespace Takvim
     {
         private CompressorView zipView;
 
+        private Visibility textBlockVisible;
+
         public CompressorViewModel()
         {
             CompressorView = new CompressorView();
@@ -77,7 +79,7 @@ namespace Takvim
                 }
             }, parameter => true);
 
-            ArşivAç = new RelayCommand<object>(parameter => ArşivTümünüAyıkla(parameter as string), parameter => true);
+            ArşivAç = new RelayCommand<object>(parameter => ArşivTümünüAyıkla(parameter as string), parameter => !string.IsNullOrWhiteSpace(parameter as string));
 
             ListedenDosyaSil = new RelayCommand<object>(parameter =>
             {
@@ -174,6 +176,20 @@ namespace Takvim
                 {
                     zipView = value;
                     OnPropertyChanged(nameof(CompressorView));
+                }
+            }
+        }
+
+        public Visibility TextBlockVisible
+        {
+            get => textBlockVisible;
+
+            set
+            {
+                if (textBlockVisible != value)
+                {
+                    textBlockVisible = value;
+                    OnPropertyChanged(nameof(TextBlockVisible));
                 }
             }
         }

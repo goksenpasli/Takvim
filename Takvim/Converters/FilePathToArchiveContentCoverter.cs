@@ -38,7 +38,7 @@ namespace Takvim
                         }
                     }
 
-                    ArchiveViewer.ToplamOran = (double)Arşivİçerik.Sum(z => z.SıkıştırılmışBoyut) / Arşivİçerik.Sum(z => z.Boyut);
+                    ArchiveViewer.ToplamOran = (double)Arşivİçerik.Sum(z => z.SıkıştırılmışBoyut) / Arşivİçerik.Sum(z => z.Boyut) * 100;
                     return Arşivİçerik;
                 }
                 catch (Exception)

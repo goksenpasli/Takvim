@@ -320,15 +320,7 @@
                                                 <ListBox.ItemTemplate>
                                                     <DataTemplate>
                                                         <StackPanel Orientation="Horizontal">
-                                                            <Image Width="24" Height="24" Source="{Binding Converter={StaticResource FilePathToIconConverter}, XPath=@Yol}">
-                                                                <Image.InputBindings>
-                                                                    <MouseBinding Command="{Binding ArşivAç, Mode=OneWay, Source={StaticResource CompressorViewModel}}" Gesture="CTRL+LeftClick">
-                                                                        <MouseBinding.CommandParameter>
-                                                                            <Binding Path="InnerXml" XPath="@Yol" />
-                                                                        </MouseBinding.CommandParameter>
-                                                                    </MouseBinding>
-                                                                </Image.InputBindings>
-                                                            </Image>
+                                                            <Image Width="24" Height="24" Source="{Binding Converter={StaticResource FilePathToIconConverter}, XPath=@Yol}" />
                                                             <TextBlock VerticalAlignment="Center">
                                                                 <Hyperlink Command="{Binding Tag.EkDosyaAç, Mode=OneWay, ElementName=MiniCalendar}">
                                                                     <Hyperlink.CommandParameter>
@@ -487,7 +479,7 @@
                                     <Image.Source>
                                         <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
                                             <Binding Source="Shell32.dll" />
-                                            <Binding Source="131" />
+                                            <Binding Source="152" />
                                         </MultiBinding>
                                     </Image.Source>
                                 </Image>

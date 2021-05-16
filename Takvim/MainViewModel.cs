@@ -113,7 +113,7 @@ namespace Takvim
                 {
                     if (Settings.Default.YaklaşanEtkinlikleriOku)
                     {
-                        ListeyiOku(YaklaşanEtkinlikler.Select(z=>z.GünNotAçıklama));
+                        ListeyiOku(YaklaşanEtkinlikler.Select(z => z.GünNotAçıklama));
                     }
                     else
                     {
@@ -131,7 +131,7 @@ namespace Takvim
                     {
                         if (TümKayıtlar)
                         {
-                            e.Accepted = node?["Aciklama"]?.InnerText.Contains(AramaMetin) == true || (e.Item as XmlNode)?.Attributes.GetNamedItem("Ocr")?.InnerText.Contains(AramaMetin, StringComparison.OrdinalIgnoreCase) == true;
+                            e.Accepted = node?["Aciklama"]?.InnerText.Contains(AramaMetin, StringComparison.OrdinalIgnoreCase) == true || (e.Item as XmlNode)?.Attributes.GetNamedItem("Ocr")?.InnerText.Contains(AramaMetin, StringComparison.OrdinalIgnoreCase) == true;
                         }
                         else
                         {

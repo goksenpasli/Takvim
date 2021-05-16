@@ -109,7 +109,7 @@ namespace Takvim
                 }
                 else
                 {
-                    Cvs.Filter += (s, e) => e.Accepted = (e.Item as ArchiveData)?.DosyaAdı.Contains(AramaMetni) ?? false;
+                    Cvs.Filter += (s, e) => e.Accepted = (e.Item as ArchiveData)?.DosyaAdı.Contains(AramaMetni, StringComparison.OrdinalIgnoreCase) ?? false;
                 }
             }
         }

@@ -8,6 +8,7 @@
     mc:Ignorable="d">
     <Grid x:Name="Grid">
         <Grid.Resources>
+            <local:CompressorViewModel x:Key="CompressorViewModel" />
             <CollectionViewSource x:Key="Cvs" d:DesignSource="{d:DesignInstance Type=local:ArchiveData, CreateList=True}" Source="{Binding ArchivePath, Converter={StaticResource FilePathToArchiveContentCoverter}}" />
         </Grid.Resources>
         <Grid.ColumnDefinitions>
@@ -21,7 +22,7 @@
         <ListView x:Name="Lv"
             Foreground="Black"
             ItemsSource="{Binding Mode=OneWay, Source={StaticResource Cvs}}"
-            AlternationCount="2" SelectionMode="Single">
+            AlternationCount="2" IsSynchronizedWithCurrentItem="False" SelectionMode="Single">
             <ListView.ItemContainerStyle>
                 <Style TargetType="{x:Type ListViewItem}">
                     <Setter Property="Template">
@@ -54,6 +55,23 @@
             <ListView.View>
                 <GridView>
                     <GridViewColumn Width="28">
+                        <GridViewColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <StackPanel DataContext="{Binding DataContext, ElementName=Grid}" Orientation="Horizontal">
+                                    <Image Width="16" Height="16" ToolTip="Tümünü Ayıkla CTRL Tuşu İle Beraber Tıklayın.">
+                                        <Image.Source>
+                                            <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
+                                                <Binding Source="cabview.dll" />
+                                                <Binding Source="0" />
+                                            </MultiBinding>
+                                        </Image.Source>
+                                        <Image.InputBindings>
+                                            <MouseBinding Command="{Binding ArşivAç, Mode=OneWay, Source={StaticResource CompressorViewModel}}" CommandParameter="{Binding ArchivePath}" Gesture="CTRL+LeftClick" />
+                                        </Image.InputBindings>
+                                    </Image>
+                                </StackPanel>
+                            </DataTemplate>
+                        </GridViewColumn.HeaderTemplate>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <Image Width="16" Height="16" Source="{Binding DosyaAdı, Converter={StaticResource FilePathToIconConverter}}" />
@@ -87,12 +105,16 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <ProgressBar Grid.Column="1"
-            Width="16"
-            Foreground="#FFEB3D95"
-            Style="{StaticResource SimpleProgressBar}"
-            Maximum="1" Orientation="Vertical"
-            Value="{Binding Path=(local:ArchiveViewer.ToplamOran)}" />
+        <Grid Grid.Column="1">
+            <ProgressBar Width="16"
+                Foreground="{StaticResource PinkProgressBackground}"
+                Style="{StaticResource SimpleProgressBar}"
+                Maximum="100" Orientation="Vertical"
+                Value="{Binding Path=(local:ArchiveViewer.ToplamOran)}" />
+            <TextBlock Text="{Binding Path=(local:ArchiveViewer.ToplamOran), Mode=OneWay, StringFormat=\{0:F0\}}"
+                HorizontalAlignment="Center" VerticalAlignment="Center"
+                FontSize="11" FontWeight="Bold" />
+        </Grid>
         <StatusBar Grid.Row="1" Grid.ColumnSpan="2">
             <StatusBar.ItemsPanel>
                 <ItemsPanelTemplate>
