@@ -103,7 +103,8 @@
                         Background="{StaticResource BorderBackground}"
                         ItemsSource="{Binding Mode=OneWay, Source={StaticResource FilteredCvs}}"
                         ItemContainerStyle="{StaticResource GünListBoxItemContainerStyle}"
-                        ScrollViewer.IsDeferredScrollingEnabled="True" VirtualizingStackPanel.VirtualizationMode="Recycling">
+                        ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.IsDeferredScrollingEnabled="True"
+                        VirtualizingStackPanel.VirtualizationMode="Recycling">
                         <ListBox.InputBindings>
                             <MouseBinding Command="{Binding Tag.VeriEkleEkranı, Mode=OneWay, ElementName=MiniCalendar}" CommandParameter="{Binding ŞuAnkiGünVerisi}" MouseAction="LeftDoubleClick" />
                         </ListBox.InputBindings>

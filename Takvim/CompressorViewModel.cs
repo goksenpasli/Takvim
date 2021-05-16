@@ -118,7 +118,7 @@ namespace Takvim
                                         zipWriter.Write(Path.GetFileName(dosya), dosya);
                                     }
                                     CompressorView.Oran++;
-                                    CompressorView.DosyaAdı = Path.GetFileName(dosya);
+                                    //CompressorView.DosyaAdı = Path.GetFileName(dosya);
                                 }
                                 break;
                             }
@@ -141,7 +141,7 @@ namespace Takvim
                                     }
 
                                     CompressorView.Oran++;
-                                    CompressorView.DosyaAdı = Path.GetFileName(dosya);
+                                    //CompressorView.DosyaAdı = Path.GetFileName(dosya);
                                 }
                                 break;
                             }
@@ -163,7 +163,7 @@ namespace Takvim
                                         zipWriter.Write(Path.GetFileName(dosya), dosya);
                                     }
                                     CompressorView.Oran++;
-                                    CompressorView.DosyaAdı = Path.GetFileName(dosya);
+                                    //CompressorView.DosyaAdı = Path.GetFileName(dosya);
                                 }
                                 break;
                             }
