@@ -34,6 +34,11 @@ namespace Takvim
                 mainWindow.IsVisibleChanged += MainWindow_IsVisibleChanged;
                 mainWindow.StateChanged += MainWindow_StateChanged;
                 mainWindow.Loaded += MainWindow_Loaded;
+
+                if (e.Args.Length > 0 && e.Args[0] == "/RESET")
+                {
+                    Settings.Default.Reset();
+                }
                 if (e.Args.Length > 0 && e.Args[0] == "/MINIMIZE")
                 {
                     MainViewModel.AppNotifyIcon.Visible = true;

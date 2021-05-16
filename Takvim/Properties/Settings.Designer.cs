@@ -205,7 +205,7 @@ namespace Takvim.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool MiniTakvimAçık {
             get {
                 return ((bool)(this["MiniTakvimAçık"]));

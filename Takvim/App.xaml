@@ -679,7 +679,10 @@
                                                 CommandParameter="{Binding Mode=OneWay}"
                                                 FontFamily="Wingdings" />
                                         </StackPanel>
-                                        <Expander BorderBrush="{Binding Converter={StaticResource StringToBrushConverter}, XPath=@Renk}" BorderThickness="2" VerticalAlignment="Center">
+                                        <Expander x:Name="Exp"
+                                            BorderBrush="{Binding Converter={StaticResource StringToBrushConverter}, XPath=@Renk}"
+                                            BorderThickness="2"
+                                            VerticalAlignment="Center">
                                             <Expander.Style>
                                                 <Style TargetType="Expander">
                                                     <Style.Triggers>
@@ -715,12 +718,15 @@
                                                     </TextBlock>
                                                 </StackPanel>
                                             </Expander.Header>
-                                            <Image Width="48" Height="48" Source="{Binding ConverterParameter=48, Converter={StaticResource Base64ImageConverter}, IsAsync=True, XPath=Resim}">
+                                            <Image Width="48" Height="48">
                                                 <Image.Style>
                                                     <Style TargetType="{x:Type Image}">
                                                         <Style.Triggers>
                                                             <DataTrigger Binding="{Binding XPath=Resim}" Value="{x:Null}">
                                                                 <Setter Property="Visibility" Value="Collapsed" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding ElementName=Exp, Path=IsExpanded}" Value="true">
+                                                                <Setter Property="Source" Value="{Binding ConverterParameter=48, Converter={StaticResource Base64ImageConverter}, IsAsync=True, XPath=Resim}" />
                                                             </DataTrigger>
                                                         </Style.Triggers>
                                                     </Style>

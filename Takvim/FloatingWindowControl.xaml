@@ -49,7 +49,7 @@
                         </TextBlock>
                     </UniformGrid>
                 </GroupBox.Header>
-                <ItemsControl Height="118" ItemsSource="{Binding YaklaşanEtkinlikler}">
+                <ItemsControl Height="118" ItemsSource="{Binding YaklaşanEtkinlikler}" ScrollViewer.VerticalScrollBarVisibility="Auto">
                     <ItemsControl.Template>
                         <ControlTemplate TargetType="ItemsControl">
                             <ScrollViewer Padding="{TemplateBinding Padding}"
@@ -69,7 +69,7 @@
                                         <Style TargetType="ToggleButton">
                                             <Setter Property="Content">
                                                 <Setter.Value>
-                                                    <Image  >
+                                                    <Image>
                                                         <Image.Source>
                                                             <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
                                                                 <Binding Source="Shell32.dll" />
@@ -83,7 +83,7 @@
                                                 <Trigger Property="IsChecked" Value="True">
                                                     <Setter Property="Content">
                                                         <Setter.Value>
-                                                            <Image >
+                                                            <Image>
                                                                 <Image.Source>
                                                                     <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
                                                                         <Binding Source="Shell32.dll" />
@@ -105,10 +105,11 @@
                                         </ToolTip>
                                     </Image.ToolTip>
                                 </Image>
-                                <TextBlock Height="32"
+                                <TextBlock Width="150"
                                     Foreground="Red"
                                     VerticalAlignment="Center"
-                                    FontSize="12" FontStyle="Italic" FontWeight="Bold">
+                                    FontSize="12" FontStyle="Italic" FontWeight="Bold"
+                                    TextWrapping="Wrap">
                                     <Run Text="{Binding TamTarih}" Language="tr-tr" />
                                     <LineBreak />
                                     <Run Text="{Binding GünNotAçıklama}">
