@@ -536,7 +536,8 @@
                                 Grid.ColumnSpan="2"
                                 AllowsTransparency="True" Focusable="False"
                                 IsOpen="{Binding IsChecked, ElementName=Tb}"
-                                Placement="Bottom" PopupAnimation="Slide" StaysOpen="False">
+                                Placement="Bottom" PopupAnimation="Slide"
+                                StaysOpen="{TemplateBinding StayOpen}">
                                 <ContentPresenter Content="{TemplateBinding InternalContent}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                             </Popup>
                         </Grid>

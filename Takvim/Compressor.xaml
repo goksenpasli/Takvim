@@ -3,7 +3,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:Takvim"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:properties="clr-namespace:Takvim.Properties"
     MaxWidth="315" MaxHeight="140"
     d:DataContext="{d:DesignInstance Type=local:CompressorViewModel}"
     d:DesignHeight="140" d:DesignWidth="315" UseLayoutRounding="True"
@@ -140,8 +139,8 @@
             Visibility="{Binding TextBlockVisible}"
             IsReadOnly="True"
             VerticalContentAlignment="Center" />
-        <local:SplitButton Grid.Row="3" Command="{Binding DosyaKaydet}">
-            <local:SplitButton.Content>
+        <Button Grid.Row="3" Command="{Binding DosyaKaydet}">
+            <Button.Content>
                 <StackPanel Orientation="Horizontal">
                     <Image Width="16" Height="16">
                         <Image.Source>
@@ -153,15 +152,8 @@
                     </Image>
                     <TextBlock Text="KAYIT YERİ" Visibility="{Binding TextBlockVisible}" VerticalAlignment="Center" />
                 </StackPanel>
-            </local:SplitButton.Content>
-            <local:SplitButton.InternalContent>
-                <GroupBox Header="SON KAYIT YOLU">
-                    <ListBox Width="250" Height="250"
-                        ItemsSource="{Binding Path=SonArşivKayıtYeri, Source={x:Static properties:Settings.Default}}"
-                        SelectedItem="{Binding CompressorView.KayıtYolu}" />
-                </GroupBox>
-            </local:SplitButton.InternalContent>
-        </local:SplitButton>
+            </Button.Content>
+        </Button>
         <Button Grid.Row="3" Grid.Column="1" Command="{Binding Arşivle, Mode=OneWay}">
             <Button.Content>
                 <StackPanel Orientation="Horizontal">
@@ -233,10 +225,18 @@
                 </local:SplitButton.InternalContent>
             </local:SplitButton>
         </UniformGrid>
-        <ProgressBar Grid.Row="6" Grid.ColumnSpan="2"
+        <Grid Grid.Row="6" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <ProgressBar  Grid.Column="0" Grid.ColumnSpan="2"
             Height="16"
             Style="{StaticResource SimpleProgressBar}"
             Maximum="{Binding CompressorView.Dosyalar.Count}"
             Value="{Binding CompressorView.Oran}" />
+            <Image Width="16" Height="16" Source="{Binding CompressorView.DosyaAdı, Converter={StaticResource FilePathToIconConverter}}"/>
+            <TextBlock Grid.Column="1" Text="{Binding CompressorView.DosyaAdı}" TextTrimming="CharacterEllipsis" MaxWidth="300" VerticalAlignment="Center" Foreground="White"/>
+        </Grid>
     </Grid>
 </UserControl>

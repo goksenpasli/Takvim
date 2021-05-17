@@ -45,6 +45,15 @@
                         <Run Text="{Binding TamTarih, StringFormat=\{0:d\}}" Language="tr-tr" />
                     </TextBlock>
                     <TextBlock HorizontalAlignment="Right" FontSize="15" FontFamily="Segoe UI Black">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding DataContext.CompressorView.Sürüyor, ElementName=Compressor}" Value="true">
+                                        <Setter Property="IsEnabled" Value="False" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
                         <Hyperlink Command="{Binding PencereKapat}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=UserControl}}">
                             <Run Text="X" />
                         </Hyperlink>

@@ -78,7 +78,7 @@
                         ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.IsDeferredScrollingEnabled="True"
                         VirtualizingPanel.VirtualizationMode="Recycling">
                         <ListBox.InputBindings>
-                            <MouseBinding Command="{Binding DataContext.ŞuAnkiGünVerisi.VeriEkleEkranı, ElementName=Grid}" CommandParameter="{Binding ŞuAnkiGünVerisi}" MouseAction="LeftDoubleClick" />
+                            <MouseBinding Command="{Binding ŞuAnkiGünVerisi.VeriEkleEkranı}" CommandParameter="{Binding ŞuAnkiGünVerisi}" MouseAction="LeftDoubleClick" />
                         </ListBox.InputBindings>
                         <ListBox.Style>
                             <Style TargetType="{x:Type ListBox}">
@@ -318,7 +318,7 @@
                                     </Canvas>
                                     <local:SplitButton Content="DOSYA AÇ" Command="{Binding DataContext.ŞuAnkiGünVerisi.DosyaGör, ElementName=Grid}" CommandParameter="{Binding Mode=OneWay}">
                                         <local:SplitButton.Style>
-                                            <Style BasedOn="{StaticResource {x:Type local:SplitButton}}" TargetType="{x:Type local:SplitButton}">
+                                            <Style BasedOn="{StaticResource {x:Type local:SplitButton}}" TargetType="local:SplitButton">
                                                 <Setter Property="BorderBrush" Value="Yellow" />
                                                 <Setter Property="BorderThickness" Value="2" />
                                                 <Style.Triggers>
