@@ -18,9 +18,9 @@ namespace Takvim
 {
     public class CompressorViewModel : InpcBase
     {
-        private readonly string[] imageextension = new string[] { ".jpg", ".jpeg", ".png", ".bmp" };
+        private readonly string[] imageextension = new string[] { ".jpg", ".jpeg", ".png", ".bmp", ".tif", ".tiff" };
 
-        private Visibility textBlockVisible;
+        private Visibility elementVisible;
 
         private CompressorView zipView;
 
@@ -140,7 +140,6 @@ namespace Takvim
                                         {
                                             tarWriter.Write(Path.GetFileName(dosya), dosya);
                                         }
-
                                         CompressorView.Oran++;
                                         CompressorView.DosyaAdı = Path.GetFileName(dosya);
                                     }
@@ -233,16 +232,16 @@ namespace Takvim
 
         public ICommand ListedenDosyaSil { get; }
 
-        public Visibility TextBlockVisible
+        public Visibility ElementVisible
         {
-            get => textBlockVisible;
+            get => elementVisible;
 
             set
             {
-                if (textBlockVisible != value)
+                if (elementVisible != value)
                 {
-                    textBlockVisible = value;
-                    OnPropertyChanged(nameof(TextBlockVisible));
+                    elementVisible = value;
+                    OnPropertyChanged(nameof(ElementVisible));
                 }
             }
         }
@@ -278,6 +277,11 @@ namespace Takvim
 
         private void ZipView_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
+            if (e.PropertyName == "ResimleriWebpZiple" && CompressorView.ResimleriWebpZiple && CompressorView.Dosyalar?.All(z => imageextension.Contains(Path.GetExtension(z))) == true)
+            {
+                CompressorView.Biçim = 1;
+            }
+
             if (e.PropertyName == "Biçim")
             {
                 if ((CompressorView.Biçim == 0 || CompressorView.Biçim == 2) && CompressorView.KayıtYolu?.EndsWith(".zip", StringComparison.OrdinalIgnoreCase) == false)

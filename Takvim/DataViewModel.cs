@@ -16,7 +16,6 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Animation;
 using System.Xml;
 
 namespace Takvim
@@ -169,29 +168,7 @@ namespace Takvim
                 }
             }, parameter => true);
 
-            PencereKapat = new RelayCommand<object>(parameter =>
-            {
-                if (parameter is FrameworkElement userControl && userControl.TryFindResource("Shrink") is Storyboard storyboard)
-                {
-                    Window window = Window.GetWindow(userControl);
-                    bool windowclosed = false;
-
-                    storyboard.Completed += (s, e) =>
-                    {
-                        windowclosed = true;
-                        window.Close();
-                    };
-                    window.Closing += (s, e) =>
-                      {
-                          if (!windowclosed)
-                          {
-                              storyboard.Begin();
-                              e.Cancel = true;
-                          }
-                      };
-                    window.Close();
-                }
-            }, parameter => true);
+            PencereKapat = new RelayCommand<object>(parameter => (parameter as Window)?.Close(), parameter => true);
 
             OcrUygula = new RelayCommand<object>(parameter =>
             {

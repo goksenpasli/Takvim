@@ -227,11 +227,6 @@
                                             <BeginStoryboard x:Name="Sb" Storyboard="{StaticResource TimerColorAnimation}" />
                                         </DataTrigger.EnterActions>
                                     </DataTrigger>
-                                    <DataTrigger Binding="{Binding TamTarih, Mode=OneWay}" Value="false">
-                                        <DataTrigger.EnterActions>
-                                            <StopStoryboard BeginStoryboardName="Sb" />
-                                        </DataTrigger.EnterActions>
-                                    </DataTrigger>
                                 </Style.Triggers>
                             </Style>
                         </ListBox.ItemContainerStyle>
@@ -239,7 +234,7 @@
                             <GroupStyle ContainerStyle="{StaticResource ListBoxYılGroupStyle}">
                                 <GroupStyle.Panel>
                                     <ItemsPanelTemplate>
-                                        <UniformGrid Columns="{Binding SütünSayısı}" Rows="{Binding SatırSayısı}" />
+                                        <UniformGrid d:DataContext="{d:DesignInstance Type=local:MainViewModel}" Columns="{Binding SütünSayısı}" Rows="{Binding SatırSayısı}" />
                                     </ItemsPanelTemplate>
                                 </GroupStyle.Panel>
                             </GroupStyle>
@@ -348,10 +343,14 @@
                                 </StackPanel>
                                 <TextBlock Width="96" TextWrapping="Wrap"><Hyperlink Command="{Binding DataContext.YılaGit, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" CommandParameter="{Binding Mode=OneWay, XPath=Gun}">
                                         <Run Text="{Binding Converter={StaticResource XmlDateConverter}, StringFormat=\{0:dd/MM/yyyy\}, XPath=Gun}" />
-                                    </Hyperlink><LineBreak /><Run Text="{Binding XPath=Aciklama}"
+                                    </Hyperlink>
+                                    <LineBreak />
+                                    <Run Text="{Binding XPath=Aciklama}"
                                         Foreground="Green"
                                         FontWeight="Bold"
-                                        ToolTip="{Binding XPath=Aciklama}" /><Run Text=" " /><Run Text="{Binding XPath=@SaatBaslangic}" /></TextBlock>
+                                        ToolTip="{Binding XPath=Aciklama}" />
+                                    <Run Text="{Binding XPath=@SaatBaslangic}" />
+                                </TextBlock>
                             </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>

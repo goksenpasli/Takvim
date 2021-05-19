@@ -3,7 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:Takvim"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    MaxWidth="315" MaxHeight="140"
+    MaxHeight="140"
     d:DataContext="{d:DesignInstance Type=local:CompressorViewModel}"
     d:DesignHeight="140" d:DesignWidth="315" UseLayoutRounding="True"
     mc:Ignorable="d">
@@ -41,7 +41,7 @@
                             </MultiBinding>
                         </Image.Source>
                     </Image>
-                    <TextBlock Text="DOSYALARI SEÇ" Visibility="{Binding TextBlockVisible}" VerticalAlignment="Center" />
+                    <TextBlock Text="DOSYALARI SEÇ" Visibility="{Binding ElementVisible}" VerticalAlignment="Center" />
                 </StackPanel>
             </local:SplitButton.Content>
             <local:SplitButton.InternalContent>
@@ -64,7 +64,7 @@
             </local:SplitButton.InternalContent>
         </local:SplitButton>
         <ComboBox Grid.Row="1"
-            Visibility="{Binding TextBlockVisible}"
+            Visibility="{Binding ElementVisible}"
             VerticalContentAlignment="Center"
             SelectedIndex="{Binding CompressorView.Biçim, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             <ComboBoxItem HorizontalContentAlignment="Stretch">
@@ -119,24 +119,28 @@
             </ComboBoxItem>
         </ComboBox>
         <CheckBox Grid.Row="1" Grid.Column="1"
-            Visibility="{Binding TextBlockVisible}"
-            VerticalAlignment="Center"
+            Visibility="{Binding ElementVisible}"
+            VerticalAlignment="Center" HorizontalContentAlignment="Stretch"
             IsChecked="{Binding CompressorView.ResimleriWebpZiple}"
             ToolTip="İşaretlenirse Arşive Eklenen Resimler Webp Olarak Eklenir.">
             <CheckBox.Content>
-                <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                <Grid VerticalAlignment="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
                     <TextBlock Text="WEBP SIKIŞTIR" VerticalAlignment="Center" />
-                    <Slider Width="50"
+                    <Slider Grid.Column="1"
                         AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" IsTabStop="False" LargeChange="1"
                         Maximum="100" Minimum="1" SmallChange="1" TickFrequency="1"
                         ToolTip="ARŞİVE WEBP RESİM EKLEME KALİTESİ 1 EN DÜŞÜK BOYUTTUR."
                         Value="{Binding CompressorView.WebpQuality, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                </StackPanel>
+                </Grid>
             </CheckBox.Content>
         </CheckBox>
         <TextBox Text="{Binding CompressorView.KayıtYolu}"
             Grid.Row="2" Grid.ColumnSpan="2"
-            Visibility="{Binding TextBlockVisible}"
+            Visibility="{Binding ElementVisible}"
             IsReadOnly="True"
             VerticalContentAlignment="Center" />
         <Button Grid.Row="3" Command="{Binding DosyaKaydet}">
@@ -150,7 +154,7 @@
                             </MultiBinding>
                         </Image.Source>
                     </Image>
-                    <TextBlock Text="KAYIT YERİ" Visibility="{Binding TextBlockVisible}" VerticalAlignment="Center" />
+                    <TextBlock Text="KAYIT YERİ" Visibility="{Binding ElementVisible}" VerticalAlignment="Center" />
                 </StackPanel>
             </Button.Content>
         </Button>
@@ -165,7 +169,7 @@
                             </MultiBinding>
                         </Image.Source>
                     </Image>
-                    <TextBlock Text="SIKIŞTIR" Visibility="{Binding TextBlockVisible}" VerticalAlignment="Center" />
+                    <TextBlock Text="SIKIŞTIR" Visibility="{Binding ElementVisible}" VerticalAlignment="Center" />
                 </StackPanel>
             </Button.Content>
             <Button.Style>
@@ -189,7 +193,7 @@
             </Button.Style>
         </Button>
         <UniformGrid Grid.Row="4" Grid.ColumnSpan="2"
-            Visibility="{Binding TextBlockVisible}"
+            Visibility="{Binding ElementVisible}"
             Columns="2">
             <Button Command="{Binding ArşivTümünüÇıkar, Mode=OneWay}">
                 <Button.Content>
@@ -202,7 +206,7 @@
                                 </MultiBinding>
                             </Image.Source>
                         </Image>
-                        <TextBlock Text="ARŞİV ÇIKAR" Visibility="{Binding TextBlockVisible}" VerticalAlignment="Center" />
+                        <TextBlock Text="ARŞİV ÇIKAR" Visibility="{Binding ElementVisible}" VerticalAlignment="Center" />
                     </StackPanel>
                 </Button.Content>
             </Button>
@@ -216,27 +220,32 @@
                             </MultiBinding>
                         </Image.Source>
                     </Image>
-                    <TextBlock Text="ARŞİV İÇERİK GÖR" Visibility="{Binding TextBlockVisible}" VerticalAlignment="Center" />
+                    <TextBlock Text="ARŞİV İÇERİK GÖR" Visibility="{Binding ElementVisible}" VerticalAlignment="Center" />
                 </StackPanel>
                 <local:SplitButton.InternalContent>
                     <GroupBox Header="ARŞİV İÇERİK" Width="520" Height="250">
-                        <local:ArchiveViewer DataContext="{Binding Mode=OneWay}" ArchivePath="{Binding CompressorView.ArşivDosyaYolu}" />
+                        <local:ArchiveViewer ArchivePath="{Binding CompressorView.ArşivDosyaYolu}" />
                     </GroupBox>
                 </local:SplitButton.InternalContent>
             </local:SplitButton>
         </UniformGrid>
         <Grid Grid.Row="6" Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <ProgressBar  Grid.Column="0" Grid.ColumnSpan="2"
-            Height="16"
-            Style="{StaticResource SimpleProgressBar}"
-            Maximum="{Binding CompressorView.Dosyalar.Count}"
-            Value="{Binding CompressorView.Oran}" />
-            <Image Width="16" Height="16" Source="{Binding CompressorView.DosyaAdı, Converter={StaticResource FilePathToIconConverter}}"/>
-            <TextBlock Grid.Column="1" Text="{Binding CompressorView.DosyaAdı}" TextTrimming="CharacterEllipsis" MaxWidth="300" VerticalAlignment="Center" Foreground="White"/>
+            <ProgressBar Grid.Column="0" Grid.ColumnSpan="2"
+                Height="16"
+                Style="{StaticResource SimpleProgressBar}"
+                Maximum="{Binding CompressorView.Dosyalar.Count}"
+                Value="{Binding CompressorView.Oran}" />
+            <Image Width="16" Height="16" Source="{Binding CompressorView.DosyaAdı, Converter={StaticResource FilePathToIconConverter}}" />
+            <TextBlock Text="{Binding CompressorView.DosyaAdı}"
+                TextTrimming="CharacterEllipsis"
+                Grid.Column="1"
+                MaxWidth="300"
+                Foreground="White"
+                HorizontalAlignment="Left" VerticalAlignment="Center" />
         </Grid>
     </Grid>
 </UserControl>

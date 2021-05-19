@@ -42,7 +42,7 @@
                 <UniformGrid Columns="2">
                     <TextBlock>
                         <Run Text="VERİ GİR" />
-                        <Run Text="{Binding TamTarih, StringFormat=\{0:d\}}" Language="tr-tr" />
+                        <Run Text="{Binding TamTarih, StringFormat=\{0:D\}}" Language="tr-tr" />
                     </TextBlock>
                     <TextBlock HorizontalAlignment="Right" FontSize="15" FontFamily="Segoe UI Black">
                         <TextBlock.Style>
@@ -51,10 +51,13 @@
                                     <DataTrigger Binding="{Binding DataContext.CompressorView.Sürüyor, ElementName=Compressor}" Value="true">
                                         <Setter Property="IsEnabled" Value="False" />
                                     </DataTrigger>
+                                    <DataTrigger Binding="{Binding DataContext.ArayüzEtkin, ElementName=Twain}" Value="false">
+                                        <Setter Property="IsEnabled" Value="False" />
+                                    </DataTrigger>
                                 </Style.Triggers>
                             </Style>
                         </TextBlock.Style>
-                        <Hyperlink Command="{Binding PencereKapat}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=UserControl}}">
+                        <Hyperlink Command="{Binding PencereKapat}" CommandParameter="{Binding Parent, RelativeSource={RelativeSource AncestorType=UserControl}}">
                             <Run Text="X" />
                         </Hyperlink>
                     </TextBlock>
@@ -83,8 +86,7 @@
             </GroupBox.Style>
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="2*" />
-                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="3*" />
                     <ColumnDefinition Width="2*" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
@@ -95,16 +97,14 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <Button Content="ICAL TAKVİM EKLE" Grid.ColumnSpan="2" Command="{Binding IcalEkle}" />
+                <Button Content="ICAL TAKVİM EKLE" Command="{Binding IcalEkle}" />
                 <TextBox Text="{Binding GünNotAçıklama, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                    Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="2"
+                    Grid.Row="1"
                     AcceptsReturn="True" TextWrapping="Wrap"
                     Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
                     VerticalScrollBarVisibility="Visible" />
-                <UniformGrid Grid.Row="3" Grid.ColumnSpan="2"
-                    Columns="3" Rows="1">
+                <UniformGrid Grid.Row="2" Columns="3" Rows="1">
                     <CheckBox Content="ÖNEMLİ Mİ"
                         Foreground="Red"
                         VerticalAlignment="Center"
@@ -126,26 +126,52 @@
                         IsChecked="{Binding KilitliMi, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
                         ToolTip="BU İŞARETLENİRSE TARİH KİLİTLENİR TAŞIMA YAPILMAZ" />
                 </UniformGrid>
-                <Slider Grid.Row="4" Grid.ColumnSpan="2"
+                <Slider Grid.Row="3"
                     AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="1" IsSnapToTickEnabled="True" LargeChange="0.5"
                     Maximum="24" Minimum="0" SmallChange="0.5" TickFrequency="0.5"
                     ToolTip="ETKİNLİK SÜRESİ SAAT"
                     Value="{Binding EtkinlikSüresi, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
-                <local:TimePicker Grid.Row="5" Grid.ColumnSpan="2"
+                <local:TimePicker Grid.Row="4"
                     ClearButtonVisible="Visible"
                     TimeValue="{Binding SaatBaşlangıç, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                     Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
-                <Expander Header="DOSYA" Grid.Row="6" Grid.ColumnSpan="2">
+                <Expander Header="DOSYA"
+                    Grid.Row="5" Grid.ColumnSpan="2"
+                    IsExpanded="True">
                     <StackPanel>
                         <UniformGrid Columns="2" Rows="2">
-                            <Button Content="RESİM YÜKLE" IsEnabled="{Binding GünNotAçıklama, Converter={StaticResource StringNullableToBooleanConverter}}" Command="{Binding ResimYükle, Mode=OneWay}">
+                            <Button IsEnabled="{Binding GünNotAçıklama, Converter={StaticResource StringNullableToBooleanConverter}}" Command="{Binding ResimYükle, Mode=OneWay}">
+                                <Button.Content>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Width="16" Height="16">
+                                            <Image.Source>
+                                                <Binding Converter="{StaticResource FilePathToIconConverter}" Source=".jpg" />
+                                            </Image.Source>
+                                        </Image>
+                                        <TextBlock VerticalAlignment="Center">
+                                            <Run Text="RESİM YÜKLE" />
+                                            <Run Text="{Binding Mode=OneWay, Path=ResimData.Length, StringFormat={}{0} Byte}" Foreground="Red" />
+                                        </TextBlock>
+                                    </StackPanel>
+                                </Button.Content>
                                 <Button.ContextMenu>
                                     <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Mode=Self}}">
                                         <MenuItem Header="RESİM İPTAL" Command="{Binding Resimİptal}" />
                                     </ContextMenu>
                                 </Button.ContextMenu>
                             </Button>
-                            <Button Content="PDF YÜKLE" IsEnabled="{Binding GünNotAçıklama, Converter={StaticResource StringNullableToBooleanConverter}}" Command="{Binding PdfYükle, Mode=OneWay}">
+                            <Button IsEnabled="{Binding GünNotAçıklama, Converter={StaticResource StringNullableToBooleanConverter}}" Command="{Binding PdfYükle, Mode=OneWay}">
+                                <Button.Content>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Width="16" Height="16">
+                                            <Image.Source>
+                                                <Binding Converter="{StaticResource FilePathToIconConverter}" Source=".pdf" />
+                                            </Image.Source>
+                                        </Image>
+                                        <TextBlock Text="PDF YÜKLE" />
+
+                                    </StackPanel>
+                                </Button.Content>
                                 <Button.ContextMenu>
                                     <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Mode=Self}}">
                                         <MenuItem Header="PDF İPTAL" Command="{Binding Pdfİptal}" />
@@ -169,7 +195,7 @@
                                 </local:SplitButton.InternalContent>
                             </local:SplitButton>
                         </UniformGrid>
-                        <GroupBox Header="ARŞİVLEYİCİ">
+                        <Expander Header="ARŞİVLEYİCİ">
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
@@ -183,11 +209,10 @@
                                     IsTabStop="False" ToolTip="Arşivi Dosya Listesine Ekle" />
                                 <local:Compressor x:Name="Compressor" Grid.Row="1" />
                             </Grid>
-                        </GroupBox>
+                        </Expander>
                     </StackPanel>
                 </Expander>
-                <Button Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2"
-                    Command="{Binding XmlVeriEkle, Mode=OneWay}">
+                <Button Grid.Row="6" Grid.Column="0" Command="{Binding XmlVeriEkle, Mode=OneWay}">
                     <Button.Content>
                         <StackPanel Orientation="Horizontal">
                             <Image Width="32" Height="32">
@@ -202,34 +227,16 @@
                         </StackPanel>
                     </Button.Content>
                 </Button>
-                <GroupBox Grid.Row="0" Grid.Column="2" Grid.RowSpan="7">
+                <GroupBox Grid.Row="0" Grid.Column="2" Grid.RowSpan="5">
                     <GroupBox.Header>
-                        <StackPanel Orientation="Horizontal">
-                            <ContentControl IsEnabled="{Binding ResimData, Converter={StaticResource NullableToBooleanConverter}, Mode=OneWay}"
-                                Width="16" Height="16"
-                                HorizontalAlignment="Left" VerticalAlignment="Center"
-                                Template="{StaticResource Eye}">
-                                <ContentControl.ToolTip>
-                                    <ToolTip Template="{StaticResource GreenToolTipControlTemplate}">
-                                        <Grid>
-                                            <Image Source="{Binding ResimData, ConverterParameter=800, Converter={StaticResource WebpByteArrayToImageConverter}, Mode=OneWay}" />
-                                            <Viewbox Width="200" Height="200">
-                                                <TextBlock Text="{Binding Boyut, StringFormat=\{0\} KB}" Foreground="Red" />
-                                            </Viewbox>
-                                        </Grid>
-                                    </ToolTip>
-                                </ContentControl.ToolTip>
-                            </ContentControl>
-                            <Slider Width="175"
-                                AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" IsTabStop="False" LargeChange="1"
-                                Maximum="100" Minimum="1" SmallChange="1" TickFrequency="1"
-                                ToolTip="WEBP RESİM YÜKLEME KALİTESİ 1 EN DÜŞÜK BOYUTTUR. DEĞERİ DEĞİŞTİRİP ÖNİZLEME GÖZÜNDEN BAKIN"
-                                Value="{Binding WebpQuality, Delay=1000, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                        </StackPanel>
+                        <Slider AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" IsTabStop="False" LargeChange="1"
+                            Maximum="100" Minimum="1" SmallChange="1" TickFrequency="1"
+                            ToolTip="WEBP RESİM YÜKLEME KALİTESİ 1 EN DÜŞÜK BOYUTTUR."
+                            Value="{Binding WebpQuality, Delay=1000, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                     </GroupBox.Header>
                     <Image Source="{Binding ResimData, ConverterParameter=96, Converter={StaticResource WebpByteArrayToImageConverter}, Mode=OneWay}" />
                 </GroupBox>
-                <UniformGrid Grid.Row="8" Grid.Column="2" Columns="3">
+                <UniformGrid Grid.Row="6" Grid.Column="2" Columns="3">
                     <local:ContentToggleButton>
                         <local:ContentToggleButton.OverContent>
                             <Image Width="32" Height="32">
@@ -241,7 +248,8 @@
                                 </Image.Source>
                             </Image>
                         </local:ContentToggleButton.OverContent>
-                        <TwainControl:TwainCtrl Width="540" Height="465"
+                        <TwainControl:TwainCtrl x:Name="Twain"
+                            Width="540" Height="465"
                             Background="White"
                             PropertyChanged="TwainCtrl_PropertyChanged" />
                     </local:ContentToggleButton>

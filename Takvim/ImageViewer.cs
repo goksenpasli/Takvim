@@ -19,7 +19,11 @@ namespace Takvim
 
         private double angle;
 
+        private Visibility ımgTabVisible;
+
         private int ındex;
+
+        private Visibility pdfTabVisible;
 
         private BitmapSource resim;
 
@@ -71,11 +75,20 @@ namespace Takvim
             if (PdfData is null && Resim is not null)
             {
                 Index = 0;
+                PdfTabVisible = Visibility.Collapsed;
             }
 
             if (PdfData is not null && Resim is null)
             {
                 Index = 1;
+                ImgTabVisible = Visibility.Collapsed;
+            }
+
+            if (PdfData is null && Resim is null)
+            {
+                Index = 2;
+                PdfTabVisible = Visibility.Collapsed;
+                ImgTabVisible = Visibility.Collapsed;
             }
         }
 
@@ -89,6 +102,20 @@ namespace Takvim
                 {
                     angle = value;
                     OnPropertyChanged(nameof(Angle));
+                }
+            }
+        }
+
+        public Visibility ImgTabVisible
+        {
+            get { return ımgTabVisible; }
+
+            set
+            {
+                if (ımgTabVisible != value)
+                {
+                    ımgTabVisible = value;
+                    OnPropertyChanged(nameof(ImgTabVisible));
                 }
             }
         }
@@ -108,6 +135,20 @@ namespace Takvim
         }
 
         public new ICommand OcrUygula { get; }
+
+        public Visibility PdfTabVisible
+        {
+            get { return pdfTabVisible; }
+
+            set
+            {
+                if (pdfTabVisible != value)
+                {
+                    pdfTabVisible = value;
+                    OnPropertyChanged(nameof(PdfTabVisible));
+                }
+            }
+        }
 
         public BitmapSource Resim
         {

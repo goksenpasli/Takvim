@@ -26,7 +26,7 @@ namespace Takvim
         {
             if (d is Compressor compressor && (bool)e.NewValue && compressor.DataContext is CompressorViewModel compressorViewModel)
             {
-                compressorViewModel.TextBlockVisible = Visibility.Collapsed;
+                compressorViewModel.ElementVisible = Visibility.Collapsed;
                 compressor.Width = 90;
             }
         }
