@@ -24,7 +24,6 @@
             <local:NullableToBooleanConverter x:Key="NullableToBooleanConverter" />
             <local:MonthToColorConverter x:Key="MonthToColorConverter" />
             <local:SystemFileIconConverter x:Key="SystemFileIconConverter" />
-            <local:RegistryToIconConverter x:Key="RegistryToIconConverter" />
             <local:FilePathToIconConverter x:Key="FilePathToIconConverter" />
             <local:XmlDateConverter x:Key="XmlDateConverter" />
             <local:Base64ImageConverter x:Key="Base64ImageConverter" />

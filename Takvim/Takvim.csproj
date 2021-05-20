@@ -111,7 +111,6 @@
     <Compile Include="Converters\FileExtToArchiveViewerContentCoverter.cs" />
     <Compile Include="Converters\FilePathToArchiveContentCoverter.cs" />
     <Compile Include="Converters\MonthToColorConverter.cs" />
-    <Compile Include="Converters\RegistryToIconConverter.cs" />
     <Compile Include="DataView.cs" />
     <Compile Include="MainView.cs" />
     <Compile Include="MiniCalendarControl.xaml.cs">

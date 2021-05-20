@@ -140,7 +140,7 @@ namespace Takvim
                 (
                         filename,
                         FILE_ATTRIBUTE_NORMAL,
-                        out  shinfo, (uint)Marshal.SizeOf(shinfo),
+                        out shinfo, (uint)Marshal.SizeOf(shinfo),
                         SHGFI_TYPENAME |
                         SHGFI_USEFILEATTRIBUTES
                     );
@@ -290,6 +290,7 @@ namespace Takvim
 
         public static ImageSource WebpDecode(this byte[] rawWebp, double decodeheight = 0)
         {
+            GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced, true);
             using WebP webp = new();
             WebPDecoderOptions options = new() { use_threads = 1 };
             using Bitmap bmp = webp.Decode(rawWebp, options);
