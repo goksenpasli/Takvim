@@ -222,7 +222,13 @@
                                 <Setter Property="BorderBrush" Value="#FF145CD6" />
                                 <Setter Property="Template" Value="{StaticResource ListBoxItemControlTemplate}" />
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding TamTarih, Converter={StaticResource AnimationtoBooleanConverter}}" Value="true">
+                                    <DataTrigger Value="true">
+                                        <DataTrigger.Binding>
+                                            <MultiBinding Converter="{StaticResource AnimationtoBooleanConverter}">
+                                                <Binding Path="TamTarih" />
+                                                <Binding Mode="OneWay" />
+                                            </MultiBinding>
+                                        </DataTrigger.Binding>
                                         <DataTrigger.EnterActions>
                                             <BeginStoryboard x:Name="Sb" Storyboard="{StaticResource TimerColorAnimation}" />
                                         </DataTrigger.EnterActions>

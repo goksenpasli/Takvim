@@ -15,7 +15,7 @@
     </Window.Resources>
     <Grid>
         <TabControl SelectedIndex="{Binding Index}">
-            <TabItem Visibility="{Binding ImgTabVisible}" Header="RESİM">
+            <TabItem Header="RESİM" Visibility="{Binding ImgTabVisible}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
@@ -87,30 +87,20 @@
                         HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
                         DataContext="{StaticResource MultipleImageViewer}"
                         ItemsSource="{Binding TopluDosyalar}"
+                        Style="{StaticResource HorizontalListBoxStyle}"
                         d:DataContext="{d:DesignInstance Type={x:Type local:MultipleImageViewer}}"
+                        ItemsPanel="{StaticResource HorizontalItemsPanelTemplate}"
                         VirtualizingStackPanel.VirtualizationMode="Recycling">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <Border Background="{Binding VeriRenk}" BorderBrush="Black" BorderThickness="1">
-                                    <Canvas>
-                                        <TextBlock Text="{Binding GünNotAçıklama}"
-                                            Canvas.Top="0"
-                                            Width="144" Height="16"
-                                            TextWrapping="Wrap" />
-                                        <ScrollViewer Canvas.Bottom="0"
-                                            Width="144" Height="176"
-                                            HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                                            <local:ShadowedImage RenderTransformOrigin="0.5,0.5" ShowShadow="True" Source="{Binding Resim, ConverterParameter=128, Converter={StaticResource Base64ImageConverter}, IsAsync=True, Mode=OneWay}" />
-                                        </ScrollViewer>
-                                    </Canvas>
+                                <Border BorderBrush="{Binding VeriRenk}" BorderThickness="5">
+                                    <StackPanel Width="250">
+                                        <TextBlock Text="{Binding GünNotAçıklama}" />
+                                        <local:ShadowedImage RenderTransformOrigin="0.5,0.5" ShowShadow="True" Source="{Binding Resim, ConverterParameter=128, Converter={StaticResource Base64ImageConverter}, IsAsync=True, Mode=OneWay}" />
+                                    </StackPanel>
                                 </Border>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
-                        <ListBox.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <local:VirtualizingWrapPanel ItemHeight="205" ItemWidth="160" />
-                            </ItemsPanelTemplate>
-                        </ListBox.ItemsPanel>
                     </ListBox>
                     <Grid Grid.Column="1" Grid.RowSpan="2">
                         <Grid.RowDefinitions>

@@ -13,6 +13,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/PresentationFramework.Aero,Version=4.0.0.0,Culture=neutral,PublicKeyToken=31bf3856ad364e35,processorArchitecture=MSIL;component/themes/Aero.NormalColor.xaml" />
                 <ResourceDictionary Source="/Takvim;component/Themes/Generic.xaml" />
+                <ResourceDictionary Source="/Takvim;component/Themes/HorizontalListBox.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <local:FilePathToArchiveContentCoverter x:Key="FilePathToArchiveContentCoverter" />
             <local:FilePathToFileDescriptionConverter x:Key="FilePathToFileDescriptionConverter" />
@@ -44,6 +45,10 @@
             <local:WebpByteArrayToImageConverter x:Key="WebpByteArrayToImageConverter" />
             <Storyboard x:Key="TimerColorAnimation" RepeatBehavior="Forever" Timeline.DesiredFrameRate="3">
                 <ColorAnimation Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)" From="Yellow" To="Red"
+                    Duration="00:00:01" />
+            </Storyboard>
+            <Storyboard x:Key="TimerImportantColorAnimation" RepeatBehavior="Forever" Timeline.DesiredFrameRate="3">
+                <ColorAnimation Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)" From="Blue" To="Red"
                     Duration="00:00:01" />
             </Storyboard>
             <LinearGradientBrush x:Key="GroupBoxBackGround" ice:Freeze="True" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0" EndPoint="0.5,1">
@@ -688,6 +693,9 @@
                                                     <Style.Triggers>
                                                         <DataTrigger Binding="{Binding XPath=@Onemli}" Value="true">
                                                             <Setter Property="IsExpanded" Value="True" />
+                                                            <DataTrigger.EnterActions>
+                                                                <BeginStoryboard x:Name="Sb" Storyboard="{StaticResource TimerImportantColorAnimation}" />
+                                                            </DataTrigger.EnterActions>
                                                         </DataTrigger>
                                                         <DataTrigger Binding="{Binding ElementName=TgButton, Path=IsChecked}" Value="true">
                                                             <Setter Property="IsExpanded" Value="True" />
@@ -1036,6 +1044,10 @@
                     </Setter.Value>
                 </Setter>
             </Style>
+            <LinearGradientBrush x:Key="SliderWebpBackground" ice:Freeze="True" MappingMode="RelativeToBoundingBox" StartPoint="0,0.5" EndPoint="1,0.5">
+                <GradientStop ice:Freeze="True" Offset="1" Color="Red" />
+                <GradientStop ice:Freeze="True" Color="White" />
+            </LinearGradientBrush>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

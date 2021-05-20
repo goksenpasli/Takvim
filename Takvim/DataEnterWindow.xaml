@@ -104,34 +104,35 @@
                     AcceptsReturn="True" TextWrapping="Wrap"
                     Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
                     VerticalScrollBarVisibility="Visible" />
-                <UniformGrid Grid.Row="2" Columns="3" Rows="1">
+                <UniformGrid Grid.Row="2" Grid.ColumnSpan="2"
+                    Columns="3" Rows="1">
                     <CheckBox Content="ÖNEMLİ Mİ"
                         Foreground="Red"
                         VerticalAlignment="Center"
                         IsChecked="{Binding ÖnemliMi, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
-                    <CheckBox VerticalAlignment="Center" VerticalContentAlignment="Center"
+                    <CheckBox HorizontalAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center"
                         IsChecked="{Binding AyTekrar, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
                         ToolTip="BU İŞARETLENİRSE HER AYIN AYNI GÜNÜNE İŞARET VERİLİR">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="TEKRAR" VerticalAlignment="Center" />
                             <Slider IsEnabled="{Binding AyTekrar}"
-                                Width="35"
+                                Width="80"
                                 AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" Maximum="31" Minimum="1"
                                 SmallChange="1" ToolTip="AYIN KAÇINCI GÜNÜ TEKRAR EDİLECEK"
                                 Value="{Binding AyTekrarGun, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         </StackPanel>
                     </CheckBox>
                     <CheckBox Content="KİLİTLİ Mİ"
-                        VerticalAlignment="Center"
+                        HorizontalAlignment="Right" VerticalAlignment="Center"
                         IsChecked="{Binding KilitliMi, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
                         ToolTip="BU İŞARETLENİRSE TARİH KİLİTLENİR TAŞIMA YAPILMAZ" />
                 </UniformGrid>
-                <Slider Grid.Row="3"
+                <Slider Grid.Row="3" Grid.ColumnSpan="2"
                     AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="1" IsSnapToTickEnabled="True" LargeChange="0.5"
                     Maximum="24" Minimum="0" SmallChange="0.5" TickFrequency="0.5"
                     ToolTip="ETKİNLİK SÜRESİ SAAT"
                     Value="{Binding EtkinlikSüresi, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
-                <local:TimePicker Grid.Row="4"
+                <local:TimePicker Grid.Row="4" Grid.ColumnSpan="2"
                     ClearButtonVisible="Visible"
                     TimeValue="{Binding SaatBaşlangıç, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                     Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
@@ -227,15 +228,16 @@
                         </StackPanel>
                     </Button.Content>
                 </Button>
-                <GroupBox Grid.Row="0" Grid.Column="2" Grid.RowSpan="5">
-                    <GroupBox.Header>
-                        <Slider AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" IsTabStop="False" LargeChange="1"
-                            Maximum="100" Minimum="1" SmallChange="1" TickFrequency="1"
-                            ToolTip="WEBP RESİM YÜKLEME KALİTESİ 1 EN DÜŞÜK BOYUTTUR."
-                            Value="{Binding WebpQuality, Delay=1000, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                    </GroupBox.Header>
+                <Slider Grid.Row="0" Grid.Column="2"
+                    Background="{StaticResource SliderWebpBackground}"
+                    AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" IsTabStop="False" LargeChange="1"
+                    Maximum="100" Minimum="1" SmallChange="1" TickFrequency="1"
+                    ToolTip="WEBP RESİM YÜKLEME KALİTESİ 1 EN DÜŞÜK BOYUTTUR."
+                    Value="{Binding WebpQuality, Delay=1000, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <Border Grid.Row="1" Grid.Column="2"
+                    BorderBrush="Black" BorderThickness="1">
                     <Image Source="{Binding ResimData, ConverterParameter=96, Converter={StaticResource WebpByteArrayToImageConverter}, Mode=OneWay}" />
-                </GroupBox>
+                </Border>
                 <UniformGrid Grid.Row="6" Grid.Column="2" Columns="3">
                     <local:ContentToggleButton>
                         <local:ContentToggleButton.OverContent>
