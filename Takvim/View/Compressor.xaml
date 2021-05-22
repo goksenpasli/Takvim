@@ -131,6 +131,7 @@
                     </Grid.ColumnDefinitions>
                     <TextBlock Text="WEBP SIKIŞTIR" VerticalAlignment="Center" />
                     <Slider Grid.Column="1"
+                        IsEnabled="{Binding CompressorView.ResimleriWebpZiple}"
                         AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" IsTabStop="False" LargeChange="1"
                         Maximum="100" Minimum="1" SmallChange="1" TickFrequency="1"
                         ToolTip="ARŞİVE WEBP RESİM EKLEME KALİTESİ 1 EN DÜŞÜK BOYUTTUR."

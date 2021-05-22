@@ -317,6 +317,7 @@ namespace Takvim
                 using WebP webp = new();
                 using MemoryStream ms = new(resim);
                 using Bitmap bmp = Image.FromStream(ms) as Bitmap;
+                resim = null;
                 return webp.EncodeLossy(bmp, kalite);
             }
             catch (Exception ex)

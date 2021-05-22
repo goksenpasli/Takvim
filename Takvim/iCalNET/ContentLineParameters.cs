@@ -9,8 +9,7 @@ namespace iCalNET.Model
 
         public ContentLineParameters(string source)
         {
-            MatchCollection matches = Regex.Matches(source, ParameterPattern);
-            foreach (Match match in matches)
+            foreach (Match match in Regex.Matches(source, ParameterPattern))
             {
                 ContentLineParameter contentLineParameter = new(match.Groups[1].ToString());
                 this[contentLineParameter.Name] = contentLineParameter;

@@ -13,7 +13,9 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Xml;
@@ -133,7 +135,6 @@ namespace Takvim
                     ResimYolu = openFileDialog.FileName;
                     ResimData = ResimYolu.WebpEncode(WebpQuality);
                     DosyaUzantı = ".webp";
-                    Boyut = ResimData.Length / 1024;
                 }
             }, parameter => Environment.OSVersion.Version.Major > 5);
 
@@ -164,6 +165,7 @@ namespace Takvim
                         using FileStream imageFile = new(saveFileDialog.FileName, FileMode.Create);
                         imageFile.Write(bytes, 0, bytes.Length);
                         imageFile.Flush();
+                        bytes = null;
                     }
                 }
             }, parameter => true);
@@ -269,6 +271,20 @@ namespace Takvim
 
             Pdfİptal = new RelayCommand<object>(parameter => PdfData = null, parameter => PdfData?.Length > 0);
 
+            PrintXmlData = new RelayCommand<object>(parameter =>
+            {
+                if (parameter is IEnumerable<XmlNode> list)
+                {
+                    FlowDocument fd = new();
+                    foreach (XmlNode item in list)
+                    {
+                        fd.Blocks.Add(new Paragraph(new Run(item.Attributes.GetNamedItem("SaatBaslangic").InnerText + " " + item["Aciklama"].InnerText)));
+                    }
+                    PrintDialog pd = new();
+                    pd.PrintDocument(((IDocumentPaginatorSource)fd).DocumentPaginator, "Yazdır");
+                }
+            }, parameter => true);
+
             Okunduİşaretle = new RelayCommand<object>(parameter =>
             {
                 if (parameter is int id)
@@ -369,6 +385,8 @@ namespace Takvim
         public ICommand PdfYükle { get; }
 
         public ICommand PencereKapat { get; }
+
+        public ICommand PrintXmlData { get; }
 
         public ICommand Resimİptal { get; }
 

@@ -46,7 +46,7 @@
                     <Grid HorizontalAlignment="Center">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="70" />
+                            <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
                         <Button Content="ç"
@@ -54,11 +54,14 @@
                             Command="{Binding GünGeri}"
                             FontFamily="Wingdings"
                             ToolTip="ÖNCEKİ GÜN" />
-                        <TextBlock Text="{Binding ŞuAnkiGün, StringFormat=\{0:d\}}"
-                            Grid.Column="1"
-                            HorizontalAlignment="Center" VerticalAlignment="Center"
+                        <TextBlock Grid.Column="1"
+                            Padding="10,0" HorizontalAlignment="Center" VerticalAlignment="Center"
                             FontWeight="Bold"
-                            Language="tr-tr" />
+                            Language="tr-tr" ToolTip="Bugüne Git.">
+                            <Hyperlink Command="{Binding GünBugün}">
+                                <Run Text="{Binding ŞuAnkiGün, StringFormat=\{0:d\}}" />
+                            </Hyperlink>
+                        </TextBlock>
                         <Button Content="è"
                             Grid.Column="2"
                             Command="{Binding Günİleri}"
@@ -161,7 +164,7 @@
                             <ItemsControl.Template>
                                 <ControlTemplate TargetType="{x:Type ItemsControl}">
                                     <ScrollViewer Padding="{TemplateBinding Padding}"
-                                        CanContentScroll="True" Focusable="False" HorizontalScrollBarVisibility="Auto"
+                                        CanContentScroll="True" Focusable="False" HorizontalScrollBarVisibility="Disabled"
                                         VerticalScrollBarVisibility="Auto">
                                         <ItemsPresenter />
                                     </ScrollViewer>
@@ -337,9 +340,11 @@
                                                     <DataTemplate>
                                                         <StackPanel Orientation="Horizontal">
                                                             <Image Width="24" Height="24" Source="{Binding Converter={StaticResource FilePathToIconConverter}, XPath=@Yol}" />
-                                                            <TextBlock VerticalAlignment="Center"><Hyperlink Command="{Binding DataContext.ŞuAnkiGünVerisi.EkDosyaAç, ElementName=Grid}" CommandParameter="{Binding InnerXml, XPath=@Yol}">
+                                                            <TextBlock VerticalAlignment="Center">
+                                                                <Hyperlink Command="{Binding DataContext.ŞuAnkiGünVerisi.EkDosyaAç, ElementName=Grid}" CommandParameter="{Binding InnerXml, XPath=@Yol}">
                                                                     <Run Text="{Binding XPath=@Ad}" />
-                                                                </Hyperlink></TextBlock>
+                                                                </Hyperlink>
+                                                            </TextBlock>
                                                         </StackPanel>
                                                     </DataTemplate>
                                                 </ListBox.ItemTemplate>

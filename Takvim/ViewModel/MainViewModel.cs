@@ -55,6 +55,8 @@ namespace Takvim
 
             Günİleri = new RelayCommand<object>(parameter => ŞuAnkiGün = ŞuAnkiGün.AddDays(1), parameter => ŞuAnkiGün < DateTime.Parse($"31/12/{DateTime.Now.Year}"));
 
+            GünBugün = new RelayCommand<object>(parameter => ŞuAnkiGün = DateTime.Today);
+
             GünGeri = new RelayCommand<object>(parameter => ŞuAnkiGün = ŞuAnkiGün.AddDays(-1), parameter => ŞuAnkiGün > DateTime.Parse($"1/1/{DateTime.Now.Year}"));
 
             SatırSütünSıfırla = new RelayCommand<object>(parameter =>
@@ -179,6 +181,8 @@ namespace Takvim
         public string Error => string.Empty;
 
         public ICommand EskiVerileriSil { get; }
+
+        public ICommand GünBugün { get; }
 
         public ICommand GünGeri { get; }
 

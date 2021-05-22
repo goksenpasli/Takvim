@@ -1,6 +1,7 @@
 ﻿<UserControl x:Class="Takvim.DataEnterWindow" x:Name="UserControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:GpMoonPdfViewer="clr-namespace:GpMoonPdfViewer;assembly=GpMoonPdfViewer"
     xmlns:Microsoft_Windows_Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero"
     xmlns:TwainControl="clr-namespace:TwainControl;assembly=TwainControl"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:Takvim"
@@ -169,8 +170,10 @@
                                                 <Binding Converter="{StaticResource FilePathToIconConverter}" Source=".pdf" />
                                             </Image.Source>
                                         </Image>
-                                        <TextBlock Text="PDF YÜKLE" />
-
+                                        <TextBlock VerticalAlignment="Center">
+                                            <Run Text="PDF YÜKLE" />
+                                            <Run Text="{Binding Mode=OneWay, Path=PdfData.Length, StringFormat={}{0} Byte}" Foreground="Red" />
+                                        </TextBlock>
                                     </StackPanel>
                                 </Button.Content>
                                 <Button.ContextMenu>
@@ -236,7 +239,14 @@
                     Value="{Binding WebpQuality, Delay=1000, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 <Border Grid.Row="1" Grid.Column="2"
                     BorderBrush="Black" BorderThickness="1">
-                    <Image Source="{Binding ResimData, ConverterParameter=96, Converter={StaticResource WebpByteArrayToImageConverter}, Mode=OneWay}" />
+                    <TabControl TabStripPlacement="Bottom">
+                        <TabItem Header="RESİM">
+                            <Image Source="{Binding ResimData, ConverterParameter=96, Converter={StaticResource WebpByteArrayToImageConverter}, Mode=OneWay}" />
+                        </TabItem>
+                        <TabItem Header="PDF" IsEnabled="{Binding PdfData, Converter={StaticResource NullableToBooleanConverter}}">
+                            <GpMoonPdfViewer:MoonPdfViewer AcKaydetButtonEtkin="Collapsed" PdfData="{Binding DataContext.PdfData, ElementName=UserControl}" />
+                        </TabItem>
+                    </TabControl>
                 </Border>
                 <UniformGrid Grid.Row="6" Grid.Column="2" Columns="3">
                     <local:ContentToggleButton>

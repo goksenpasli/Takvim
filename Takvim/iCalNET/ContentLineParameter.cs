@@ -14,8 +14,7 @@ namespace iCalNET.Model
             Match match = Regex.Match(source, NameValuePattern);
             Name = match.Groups[1].ToString().Trim();
             string valueString = match.Groups[2].ToString();
-            MatchCollection matches = Regex.Matches(valueString, ValueListPattern);
-            foreach (Match paramMatch in matches)
+            foreach (Match paramMatch in Regex.Matches(valueString, ValueListPattern))
             {
                 Values.Add(paramMatch.Groups[1].ToString().Trim());
             }

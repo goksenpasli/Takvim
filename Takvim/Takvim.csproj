@@ -85,14 +85,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ArchiveData.cs" />
-    <Compile Include="ArchiveViewer.xaml.cs">
+    <Compile Include="Converters\Base64Converter.cs" />
+    <Compile Include="Converters\DateNowBooleanConverter.cs" />
+    <Compile Include="Converters\FilePathToFileDescriptionConverter.cs" />
+    <Compile Include="ViewModel\ArchiveData.cs" />
+    <Compile Include="View\ArchiveViewer.xaml.cs">
       <DependentUpon>ArchiveViewer.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CameraUserControl.xaml.cs">
+    <Compile Include="View\CameraUserControl.xaml.cs">
       <DependentUpon>CameraUserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Compressor.xaml.cs">
+    <Compile Include="View\Compressor.xaml.cs">
       <DependentUpon>Compressor.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\ContentSlider.cs" />
@@ -111,22 +114,22 @@
     <Compile Include="Converters\FileExtToArchiveViewerContentCoverter.cs" />
     <Compile Include="Converters\FilePathToArchiveContentCoverter.cs" />
     <Compile Include="Converters\MonthToColorConverter.cs" />
-    <Compile Include="DataView.cs" />
-    <Compile Include="MainView.cs" />
-    <Compile Include="MiniCalendarControl.xaml.cs">
+    <Compile Include="ViewModel\DataView.cs" />
+    <Compile Include="ViewModel\MainView.cs" />
+    <Compile Include="View\MiniCalendarControl.xaml.cs">
       <DependentUpon>MiniCalendarControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ShadowedImage.cs" />
+    <Compile Include="ViewModel\ShadowedImage.cs" />
     <Compile Include="Converters\SystemFileIconConverter.cs" />
     <Compile Include="Converters\StringNullableToBooleanConverter.cs" />
     <Compile Include="Converters\WrapPanelRatioConverter.cs" />
     <Compile Include="Converters\XmlIntValueToIlAdıConverter.cs" />
     <Compile Include="Helpers\CursorHelper.cs" />
     <Compile Include="Controls\FileSelectorTextBox.cs" />
-    <Compile Include="FloatingWindowControl.xaml.cs">
+    <Compile Include="View\FloatingWindowControl.xaml.cs">
       <DependentUpon>FloatingWindowControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DataViewModel.cs" />
+    <Compile Include="ViewModel\DataViewModel.cs" />
     <Compile Include="Helpers\ExtensionMethods.cs" />
     <Compile Include="Converters\FeastoftheSacrificeDateToHolidayConverter.cs" />
     <Compile Include="Converters\FilePathToIconConverter.cs" />
@@ -137,18 +140,18 @@
     <Compile Include="iCalNET\ContentLineParameters.cs" />
     <Compile Include="iCalNET\vCalendar.cs" />
     <Compile Include="iCalNET\VEvent.cs" />
-    <Compile Include="ImageViewer.cs" />
+    <Compile Include="ViewModel\ImageViewer.cs" />
     <Compile Include="Helpers\InpcBase.cs" />
     <Compile Include="Controls\MaskedTextBox.cs" />
     <Compile Include="Converters\NullableToBooleanConverter.cs" />
     <Compile Include="Controls\MovableControl.cs" />
-    <Compile Include="MultipleImage.cs" />
-    <Compile Include="MultipleImageViewer.cs" />
-    <Compile Include="Ocr.cs" />
+    <Compile Include="ViewModel\MultipleImage.cs" />
+    <Compile Include="ViewModel\MultipleImageViewer.cs" />
+    <Compile Include="Helpers\Ocr.cs" />
     <Compile Include="Converters\RamadanDateToHolidayConverter.cs" />
     <Compile Include="Converters\RamadanDateToVisibilityConverter.cs" />
-    <Compile Include="Prayer.cs" />
-    <Compile Include="PrayerTimeControl.xaml.cs">
+    <Compile Include="ViewModel\Prayer.cs" />
+    <Compile Include="View\PrayerTimeControl.xaml.cs">
       <DependentUpon>PrayerTimeControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Helpers\RelayCommand.cs" />
@@ -156,34 +159,34 @@
     <Compile Include="Converters\SelectedDateToDataListConverter.cs" />
     <Compile Include="Converters\StringToBrushConverter.cs" />
     <Compile Include="Controls\TimePicker.cs" />
-    <Compile Include="Viewer.xaml.cs">
+    <Compile Include="View\Viewer.xaml.cs">
       <DependentUpon>Viewer.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\WebpByteArrayToImageConverter.cs" />
-    <Compile Include="WebPWrapper.cs" />
+    <Compile Include="Helpers\WebPWrapper.cs" />
     <Compile Include="Converters\XmlDateConverter.cs" />
-    <Compile Include="CompressorView.cs" />
-    <Compile Include="CompressorViewModel.cs" />
-    <Page Include="ArchiveViewer.xaml">
+    <Compile Include="ViewModel\CompressorView.cs" />
+    <Compile Include="ViewModel\CompressorViewModel.cs" />
+    <Page Include="View\ArchiveViewer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="CameraUserControl.xaml">
+    <Page Include="View\CameraUserControl.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Compressor.xaml">
+    <Page Include="View\Compressor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="DataEnterWindow.xaml">
+    <Page Include="View\DataEnterWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="FloatingWindowControl.xaml">
+    <Page Include="View\FloatingWindowControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainWindow.xaml">
+    <Page Include="View\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -191,19 +194,19 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DataEnterWindow.xaml.cs">
+    <Compile Include="View\DataEnterWindow.xaml.cs">
       <DependentUpon>DataEnterWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\GünTatilConverter.cs" />
-    <Compile Include="MainViewModel.cs" />
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="MiniCalendarControl.xaml">
+    <Page Include="View\MiniCalendarControl.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="PrayerTimeControl.xaml">
+    <Page Include="View\PrayerTimeControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -215,7 +218,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Viewer.xaml">
+    <Page Include="View\Viewer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
