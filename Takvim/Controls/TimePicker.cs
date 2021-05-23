@@ -17,7 +17,7 @@ namespace Takvim
 
         public TimePicker() => GenerateTime(Interval);
 
-        public static List<string> Saatler { get; set; }
+        public static IList<string> Saatler { get; set; }
 
         public Visibility ClearButtonVisible
         {

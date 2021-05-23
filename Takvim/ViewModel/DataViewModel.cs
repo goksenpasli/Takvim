@@ -28,113 +28,106 @@ namespace Takvim
         {
             XmlVeriEkle = new RelayCommand<object>(parameter =>
             {
-                if (OcrTask?.Status != TaskStatus.Running)
+                XmlDocument document = MainViewModel.xmlDataProvider.Document;
+                XmlNode rootNode = document.CreateElement("Veri");
+
+                XmlAttribute Id = document.CreateAttribute("Id");
+                Id.Value = new Random().Next(1, int.MaxValue).ToString();
+                XmlAttribute Saat = document.CreateAttribute("Saat");
+                Saat.Value = EtkinlikSüresi.ToString();
+                XmlAttribute SaatBaslangic = document.CreateAttribute("SaatBaslangic");
+                SaatBaslangic.Value = SaatBaşlangıç;
+                XmlAttribute Tekrar = document.CreateAttribute("AyTekrar");
+                Tekrar.Value = AyTekrar.ToString().ToLower();
+
+                rootNode.Attributes.Append(Id);
+                rootNode.Attributes.Append(Saat);
+                rootNode.Attributes.Append(SaatBaslangic);
+                rootNode.Attributes.Append(Tekrar);
+
+                XmlAttribute Renk = document.CreateAttribute("Renk");
+                VeriRenk = typeof(Brushes).GetProperties(BindingFlags.Public | BindingFlags.Static).Select(pi => (Brush)pi.GetValue(null, null)).Where(z => z != Brushes.Black && z != Brushes.White && z != Brushes.Transparent).OrderBy(_ => Guid.NewGuid()).Take(1).First();
+                Renk.Value = VeriRenk.ToString();
+                rootNode.Attributes.Append(Renk);
+
+                if (ÖnemliMi)
                 {
-                    XmlDocument document = MainViewModel.xmlDataProvider.Document;
-                    XmlNode rootNode = document.CreateElement("Veri");
-
-                    XmlAttribute Id = document.CreateAttribute("Id");
-                    Id.Value = new Random().Next(1, int.MaxValue).ToString();
-                    XmlAttribute Saat = document.CreateAttribute("Saat");
-                    Saat.Value = EtkinlikSüresi.ToString();
-                    XmlAttribute SaatBaslangic = document.CreateAttribute("SaatBaslangic");
-                    SaatBaslangic.Value = SaatBaşlangıç;
-                    XmlAttribute Tekrar = document.CreateAttribute("AyTekrar");
-                    Tekrar.Value = AyTekrar.ToString().ToLower();
-
-                    rootNode.Attributes.Append(Id);
-                    rootNode.Attributes.Append(Saat);
-                    rootNode.Attributes.Append(SaatBaslangic);
-                    rootNode.Attributes.Append(Tekrar);
-
-                    XmlAttribute Renk = document.CreateAttribute("Renk");
-                    VeriRenk = typeof(Brushes).GetProperties(BindingFlags.Public | BindingFlags.Static).Select(pi => (Brush)pi.GetValue(null, null)).Where(z => z != Brushes.Black && z != Brushes.White && z != Brushes.Transparent).OrderBy(_ => Guid.NewGuid()).Take(1).First();
-                    Renk.Value = VeriRenk.ToString();
-                    rootNode.Attributes.Append(Renk);
-
-                    if (ÖnemliMi)
-                    {
-                        XmlAttribute Onemli = document.CreateAttribute("Onemli");
-                        Onemli.Value = ÖnemliMi.ToString().ToLower();
-                        rootNode.Attributes.Append(Onemli);
-                    }
-
-                    XmlAttribute TekrarGun = document.CreateAttribute("TekrarGun");
-                    TekrarGun.Value = AyTekrarGun.ToString();
-                    rootNode.Attributes.Append(TekrarGun);
-
-                    if (KilitliMi)
-                    {
-                        XmlAttribute Kilitli = document.CreateAttribute("Kilitli");
-                        Kilitli.Value = KilitliMi.ToString().ToLower();
-                        rootNode.Attributes.Append(Kilitli);
-                    }
-
-                    XmlAttribute Okundu = document.CreateAttribute("Okundu");
-                    Okundu.Value = "false";
-                    rootNode.Attributes.Append(Okundu);
-
-                    if (OcrMetin != null)
-                    {
-                        XmlAttribute Ocr = document.CreateAttribute("Ocr");
-                        Ocr.Value = OcrMetin;
-                        rootNode.Attributes.Append(Ocr);
-                    }
-
-                    XmlNode Gun = document.CreateElement("Gun");
-                    Gun.InnerText = TamTarih.ToString("o");
-                    rootNode.AppendChild(Gun);
-
-                    XmlNode Aciklama = document.CreateElement("Aciklama");
-                    Aciklama.InnerText = GünNotAçıklama;
-                    rootNode.AppendChild(Aciklama);
-
-                    if (ResimData != null && DosyaUzantı != null)
-                    {
-                        XmlNode Resim = document.CreateElement("Resim");
-                        rootNode.AppendChild(Resim);
-                        XmlAttribute ResimExt = document.CreateAttribute("Ext");
-                        ResimExt.Value = DosyaUzantı;
-                        Resim.Attributes.Append(ResimExt);
-                        Resim.InnerText = Convert.ToBase64String(ResimData);
-                    }
-
-                    if (PdfData != null && DosyaUzantı != null)
-                    {
-                        XmlNode Pdf = document.CreateElement("Pdf");
-                        rootNode.AppendChild(Pdf);
-                        XmlAttribute PdfExt = document.CreateAttribute("Ext");
-                        PdfExt.Value = DosyaUzantı;
-                        Pdf.Attributes.Append(PdfExt);
-                        Pdf.InnerText = Convert.ToBase64String(PdfData);
-                    }
-
-                    if (Dosyalar != null)
-                    {
-                        XmlNode xmlnodeDosyalar = document.CreateElement("Dosyalar");
-                        rootNode.AppendChild(xmlnodeDosyalar);
-                        WriteFileListtoXml(document, xmlnodeDosyalar);
-                    }
-                    document.DocumentElement.AppendChild(rootNode);
-                    document.Save(MainViewModel.xmlpath);
-                    VeriSayısı++;
-                    MainViewModel.xmlDataProvider.Refresh();
-                    CollectionViewSource.GetDefaultView((Application.Current.MainWindow.DataContext as MainViewModel)?.AyGünler).Refresh();
+                    XmlAttribute Onemli = document.CreateAttribute("Onemli");
+                    Onemli.Value = ÖnemliMi.ToString().ToLower();
+                    rootNode.Attributes.Append(Onemli);
                 }
-                else
+
+                XmlAttribute TekrarGun = document.CreateAttribute("TekrarGun");
+                TekrarGun.Value = AyTekrarGun.ToString();
+                rootNode.Attributes.Append(TekrarGun);
+
+                if (KilitliMi)
                 {
-                    MessageBox.Show("Ocr İşlemi Sürüyor Bitmesini Bekleyin.", "TAKVİM", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    XmlAttribute Kilitli = document.CreateAttribute("Kilitli");
+                    Kilitli.Value = KilitliMi.ToString().ToLower();
+                    rootNode.Attributes.Append(Kilitli);
                 }
+
+                XmlAttribute Okundu = document.CreateAttribute("Okundu");
+                Okundu.Value = "false";
+                rootNode.Attributes.Append(Okundu);
+
+                if (OcrMetin != null)
+                {
+                    XmlAttribute Ocr = document.CreateAttribute("Ocr");
+                    Ocr.Value = OcrMetin;
+                    rootNode.Attributes.Append(Ocr);
+                }
+
+                XmlNode Gun = document.CreateElement("Gun");
+                Gun.InnerText = TamTarih.ToString("o");
+                rootNode.AppendChild(Gun);
+
+                XmlNode Aciklama = document.CreateElement("Aciklama");
+                Aciklama.InnerText = GünNotAçıklama;
+                rootNode.AppendChild(Aciklama);
+
+                if (ResimData != null && DosyaUzantı != null)
+                {
+                    XmlNode Resim = document.CreateElement("Resim");
+                    rootNode.AppendChild(Resim);
+                    XmlAttribute ResimExt = document.CreateAttribute("Ext");
+                    ResimExt.Value = DosyaUzantı;
+                    Resim.Attributes.Append(ResimExt);
+                    Resim.InnerText = Convert.ToBase64String(ResimData);
+                }
+
+                if (PdfData != null && DosyaUzantı != null)
+                {
+                    XmlNode Pdf = document.CreateElement("Pdf");
+                    rootNode.AppendChild(Pdf);
+                    XmlAttribute PdfExt = document.CreateAttribute("Ext");
+                    PdfExt.Value = DosyaUzantı;
+                    Pdf.Attributes.Append(PdfExt);
+                    Pdf.InnerText = Convert.ToBase64String(PdfData);
+                }
+
+                if (Dosyalar != null)
+                {
+                    XmlNode xmlnodeDosyalar = document.CreateElement("Dosyalar");
+                    rootNode.AppendChild(xmlnodeDosyalar);
+                    WriteFileListtoXml(document, xmlnodeDosyalar);
+                }
+                document.DocumentElement.AppendChild(rootNode);
+                document.Save(MainViewModel.xmlpath);
+                VeriSayısı++;
+                MainViewModel.xmlDataProvider.Refresh();
+                CollectionViewSource.GetDefaultView((Application.Current.MainWindow.DataContext as MainViewModel)?.AyGünler).Refresh();
             }, parameter => !string.IsNullOrWhiteSpace(GünNotAçıklama) && DateTime.TryParseExact(SaatBaşlangıç, "H:m", new CultureInfo("tr-TR"), DateTimeStyles.None, out _));
 
             ResimYükle = new RelayCommand<object>(parameter =>
             {
-                OpenFileDialog openFileDialog = new() { Multiselect = false, Filter = "Resim Dosyaları (*.jpg;*.jpeg;*.tif;*.tiff;*.png)|*.jpg;*.jpeg;*.tif;*.tiff;*.png" };
+                OpenFileDialog openFileDialog = new() { Multiselect = false, Filter = "Resim Dosyaları (*.jpg;*.jpeg;*.tif;*.tiff;*.png;*.webp)|*.jpg;*.jpeg;*.tif;*.tiff;*.png;*.webp" };
                 if (openFileDialog.ShowDialog() == true)
                 {
                     ResimYolu = openFileDialog.FileName;
-                    ResimData = ResimYolu.WebpEncode(WebpQuality);
                     DosyaUzantı = ".webp";
+                    ResimData = Path.GetExtension(ResimYolu.ToLower())==".webp" ? File.ReadAllBytes(ResimYolu) : ResimYolu.WebpEncode(WebpQuality);
                 }
             }, parameter => Environment.OSVersion.Version.Major > 5);
 
@@ -406,7 +399,7 @@ namespace Takvim
 
         public string this[string columnName] => columnName switch
         {
-            "SaatBaşlangıç" when string.IsNullOrWhiteSpace(SaatBaşlangıç) || SaatBaşlangıç == "__:__" => "Başlangıç Saatini Boş Bırakmayın.",
+            "SaatBaşlangıç" when !DateTime.TryParseExact(SaatBaşlangıç, "H:m", new CultureInfo("tr-TR"), DateTimeStyles.None, out _) || string.IsNullOrWhiteSpace(SaatBaşlangıç) => "Başlangıç Saatini Boş Bırakmayın.",
             "GünNotAçıklama" when string.IsNullOrWhiteSpace(GünNotAçıklama) => "Açıklamayı Boş Bırakmayın.",
             "VeriRenk" when VeriRenk == null => "Renk Boş Bırakmayın.",
             "EtkinlikSüresi" when EtkinlikSüresi is > 24 or < 0 => "Etkinlik Süresini 0-24 Arasında Girin.",
@@ -419,7 +412,7 @@ namespace Takvim
             {
                 AyTekrarGun = AyTekrar ? DateTime.Now.Day : 0;
             }
-            if (e.PropertyName is "WebpQuality" && ResimYolu is not null)
+            if (e.PropertyName is "WebpQuality" && ResimYolu is not null && Path.GetExtension(ResimYolu.ToLower()) != ".webp")
             {
                 ResimData = ResimYolu.WebpEncode(WebpQuality);
                 Boyut = ResimData.Length / 1024;

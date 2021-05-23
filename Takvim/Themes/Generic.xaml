@@ -712,6 +712,7 @@
                                         </Border>
                                     </Popup>
                                     <local:MaskedTextBox x:Name="PART_EditableTextBox"
+                                        VerticalAlignment="Center"
                                         HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                         VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                                         ClearButtonVisibility="{Binding ClearButtonVisible, RelativeSource={RelativeSource AncestorType={x:Type local:TimePicker}}}"

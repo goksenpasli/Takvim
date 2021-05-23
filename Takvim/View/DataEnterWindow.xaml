@@ -87,8 +87,8 @@
             </GroupBox.Style>
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="3*" />
-                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -128,93 +128,66 @@
                         IsChecked="{Binding KilitliMi, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
                         ToolTip="BU İŞARETLENİRSE TARİH KİLİTLENİR TAŞIMA YAPILMAZ" />
                 </UniformGrid>
-                <Slider Grid.Row="3" Grid.ColumnSpan="2"
-                    AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="1" IsSnapToTickEnabled="True" LargeChange="0.5"
-                    Maximum="24" Minimum="0" SmallChange="0.5" TickFrequency="0.5"
-                    ToolTip="ETKİNLİK SÜRESİ SAAT"
-                    Value="{Binding EtkinlikSüresi, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
-                <local:TimePicker Grid.Row="4" Grid.ColumnSpan="2"
-                    ClearButtonVisible="Visible"
-                    TimeValue="{Binding SaatBaşlangıç, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                    Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
-                <Expander Header="DOSYA"
-                    Grid.Row="5" Grid.ColumnSpan="2"
-                    IsExpanded="True">
-                    <StackPanel>
-                        <UniformGrid Columns="2" Rows="2">
-                            <Button IsEnabled="{Binding GünNotAçıklama, Converter={StaticResource StringNullableToBooleanConverter}}" Command="{Binding ResimYükle, Mode=OneWay}">
-                                <Button.Content>
-                                    <StackPanel Orientation="Horizontal">
-                                        <Image Width="16" Height="16">
-                                            <Image.Source>
-                                                <Binding Converter="{StaticResource FilePathToIconConverter}" Source=".jpg" />
-                                            </Image.Source>
-                                        </Image>
-                                        <TextBlock VerticalAlignment="Center">
-                                            <Run Text="RESİM YÜKLE" />
-                                            <Run Text="{Binding Mode=OneWay, Path=ResimData.Length, StringFormat={}{0} Byte}" Foreground="Red" />
-                                        </TextBlock>
-                                    </StackPanel>
-                                </Button.Content>
-                                <Button.ContextMenu>
-                                    <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Mode=Self}}">
-                                        <MenuItem Header="RESİM İPTAL" Command="{Binding Resimİptal}" />
-                                    </ContextMenu>
-                                </Button.ContextMenu>
-                            </Button>
-                            <Button IsEnabled="{Binding GünNotAçıklama, Converter={StaticResource StringNullableToBooleanConverter}}" Command="{Binding PdfYükle, Mode=OneWay}">
-                                <Button.Content>
-                                    <StackPanel Orientation="Horizontal">
-                                        <Image Width="16" Height="16">
-                                            <Image.Source>
-                                                <Binding Converter="{StaticResource FilePathToIconConverter}" Source=".pdf" />
-                                            </Image.Source>
-                                        </Image>
-                                        <TextBlock VerticalAlignment="Center">
-                                            <Run Text="PDF YÜKLE" />
-                                            <Run Text="{Binding Mode=OneWay, Path=PdfData.Length, StringFormat={}{0} Byte}" Foreground="Red" />
-                                        </TextBlock>
-                                    </StackPanel>
-                                </Button.Content>
-                                <Button.ContextMenu>
-                                    <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Mode=Self}}">
-                                        <MenuItem Header="PDF İPTAL" Command="{Binding Pdfİptal}" />
-                                    </ContextMenu>
-                                </Button.ContextMenu>
-                            </Button>
-                            <local:FileSelectorTextBox IsEnabled="{Binding GünNotAçıklama, Converter={StaticResource StringNullableToBooleanConverter}}" Dosyalar="{Binding Dosyalar, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                            <local:SplitButton Command="{Binding OcrUygula}" CommandParameter="{Binding ResimData}">
-                                <Grid>
-                                    <ProgressBar BorderBrush="{x:Null}" IsIndeterminate="{Binding OcrSürüyor}" />
-                                    <TextBlock Text="OCR UYGULA" HorizontalAlignment="Center" />
-                                </Grid>
-                                <local:SplitButton.InternalContent>
-                                    <GroupBox Header="OCR">
-                                        <TextBox Text="{Binding Path=OcrMetin}"
-                                            Grid.Row="2" Grid.Column="1"
-                                            IsReadOnly="True"
-                                            Width="300" Height="300"
-                                            HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" />
-                                    </GroupBox>
-                                </local:SplitButton.InternalContent>
-                            </local:SplitButton>
-                        </UniformGrid>
-                        <Expander Header="ARŞİVLEYİCİ">
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition />
-                                </Grid.RowDefinitions>
-                                <Button Content="ë"
-                                    Grid.Row="0"
-                                    Command="{Binding ArşivDosyasıEkle}"
-                                    CommandParameter="{Binding ElementName=Compressor, Path=DataContext.CompressorView.VeriGirişKayıtYolu}"
-                                    FontFamily="Wingdings"
-                                    IsTabStop="False" ToolTip="Arşivi Dosya Listesine Ekle" />
-                                <local:Compressor x:Name="Compressor" Grid.Row="1" />
-                            </Grid>
-                        </Expander>
-                    </StackPanel>
+                <UniformGrid Grid.Row="3" Grid.ColumnSpan="2" Columns="2">
+                    <local:TimePicker ClearButtonVisible="Visible" TimeValue="{Binding SaatBaşlangıç, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
+                    <Slider AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="1" IsSnapToTickEnabled="True" LargeChange="0.5"
+                        Maximum="24" Minimum="0" SmallChange="0.5" TickFrequency="0.5"
+                        ToolTip="ETKİNLİK SÜRESİ SAAT"
+                        Value="{Binding EtkinlikSüresi, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
+                </UniformGrid>
+                <UniformGrid Grid.Row="4" Grid.ColumnSpan="2"
+                    IsEnabled="{Binding GünNotAçıklama, Converter={StaticResource StringNullableToBooleanConverter}}"
+                    Columns="3" Rows="1">
+                    <Button Command="{Binding ResimYükle, Mode=OneWay}">
+                        <Button.Content>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Width="16" Height="16">
+                                    <Image.Source>
+                                        <Binding Converter="{StaticResource FilePathToIconConverter}" Source=".jpg" />
+                                    </Image.Source>
+                                </Image>
+                                <TextBlock Text="RESİM YÜKLE" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </Button.Content>
+                        <Button.ContextMenu>
+                            <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Mode=Self}}">
+                                <MenuItem Header="RESİM İPTAL" Command="{Binding Resimİptal}" />
+                            </ContextMenu>
+                        </Button.ContextMenu>
+                    </Button>
+                    <Button Command="{Binding PdfYükle, Mode=OneWay}">
+                        <Button.Content>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Width="16" Height="16">
+                                    <Image.Source>
+                                        <Binding Converter="{StaticResource FilePathToIconConverter}" Source=".pdf" />
+                                    </Image.Source>
+                                </Image>
+                                <TextBlock Text="PDF YÜKLE" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </Button.Content>
+                        <Button.ContextMenu>
+                            <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Mode=Self}}">
+                                <MenuItem Header="PDF İPTAL" Command="{Binding Pdfİptal}" />
+                            </ContextMenu>
+                        </Button.ContextMenu>
+                    </Button>
+                    <local:FileSelectorTextBox Dosyalar="{Binding Dosyalar, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                </UniformGrid>
+                <Expander Header="ARŞİVLEYİCİ" Grid.Row="5" Grid.ColumnSpan="2">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Button Content="ë"
+                            Grid.Row="0"
+                            Command="{Binding ArşivDosyasıEkle}"
+                            CommandParameter="{Binding ElementName=Compressor, Path=DataContext.CompressorView.VeriGirişKayıtYolu}"
+                            FontFamily="Wingdings"
+                            IsTabStop="False" ToolTip="Arşivi Dosya Listesine Ekle" />
+                        <local:Compressor x:Name="Compressor" Grid.Row="1" />
+                    </Grid>
                 </Expander>
                 <Button Grid.Row="6" Grid.Column="0" Command="{Binding XmlVeriEkle, Mode=OneWay}">
                     <Button.Content>
@@ -239,11 +212,33 @@
                     Value="{Binding WebpQuality, Delay=1000, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 <Border Grid.Row="1" Grid.Column="2"
                     BorderBrush="Black" BorderThickness="1">
-                    <TabControl TabStripPlacement="Bottom">
-                        <TabItem Header="RESİM">
+                    <TabControl TabStripPlacement="Left">
+                        <TabItem IsEnabled="{Binding ResimData, Converter={StaticResource NullableToBooleanConverter}}">
+                            <TabItem.LayoutTransform>
+                                <TransformGroup>
+                                    <RotateTransform Angle="-90" />
+                                </TransformGroup>
+                            </TabItem.LayoutTransform>
+                            <TabItem.Header>
+                                <TextBlock VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5">
+                                    <Run Text="RESİM" />
+                                    <Run Text="{Binding Mode=OneWay, Path=ResimData.Length, StringFormat={}{0} Byte}" Foreground="Red" />
+                                </TextBlock>
+                            </TabItem.Header>
                             <Image Source="{Binding ResimData, ConverterParameter=96, Converter={StaticResource WebpByteArrayToImageConverter}, Mode=OneWay}" />
                         </TabItem>
-                        <TabItem Header="PDF" IsEnabled="{Binding PdfData, Converter={StaticResource NullableToBooleanConverter}}">
+                        <TabItem IsEnabled="{Binding PdfData, Converter={StaticResource NullableToBooleanConverter}}">
+                            <TabItem.LayoutTransform>
+                                <TransformGroup>
+                                    <RotateTransform Angle="-90" />
+                                </TransformGroup>
+                            </TabItem.LayoutTransform>
+                            <TabItem.Header>
+                                <TextBlock VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5">
+                                    <Run Text="PDF" />
+                                    <Run Text="{Binding Mode=OneWay, Path=PdfData.Length, StringFormat={}{0} Byte}" Foreground="Red" />
+                                </TextBlock>
+                            </TabItem.Header>
                             <GpMoonPdfViewer:MoonPdfViewer AcKaydetButtonEtkin="Collapsed" PdfData="{Binding DataContext.PdfData, ElementName=UserControl}" />
                         </TabItem>
                     </TabControl>

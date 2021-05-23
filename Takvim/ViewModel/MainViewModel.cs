@@ -146,7 +146,7 @@ namespace Takvim
 
             MetinOku = new RelayCommand<object>(parameter =>
             {
-                if (parameter is string metin  && CheckTtsSelected())
+                if (parameter is string metin && CheckTtsSelected())
                 {
                     synthesizer.SelectVoice(Settings.Default.SeçiliTts);
                     synthesizer.SpeakAsync(metin);
@@ -377,6 +377,11 @@ namespace Takvim
             if (e.PropertyName is "YaklaşanEtkinlikleriOku" && !string.IsNullOrEmpty(Settings.Default.SeçiliTts))
             {
                 Settings.Default.Save();
+            }
+
+            if (e.PropertyName is "Panel" && Settings.Default.Panel)
+            {
+                Settings.Default.YatayAdetOranı = (short)(SystemParameters.PrimaryScreenWidth / 250);
             }
         }
 

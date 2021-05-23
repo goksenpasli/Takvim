@@ -172,7 +172,7 @@
                             </ItemsControl.Template>
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
-                                    <UniformGrid Columns="7" FirstColumn="{Binding AyGünler/Offset}" />
+                                    <UniformGrid d:DataContext="{d:DesignInstance Type=local:MainViewModel}" Columns="7" FirstColumn="{Binding AyGünler/Offset}" />
                                 </ItemsPanelTemplate>
                             </ItemsControl.ItemsPanel>
                         </ItemsControl>
@@ -433,7 +433,7 @@
                                             IsChecked="{Binding Panel, Mode=TwoWay, Source={x:Static properties:Settings.Default}}"
                                             ToolTip="İŞARETLENİRSE VERİLER YAN YANA DİZİLİR" />
                                         <Slider IsEnabled="{Binding Panel, Mode=OneWay, Source={x:Static properties:Settings.Default}}"
-                                            AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" Maximum="10" Minimum="2"
+                                            AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" Maximum="20" Minimum="2"
                                             SmallChange="1" ToolTip="Ekran Genişliği Seçili Rakama Oranlanır."
                                             Value="{Binding YatayAdetOranı, Delay=500, Mode=TwoWay, Source={x:Static properties:Settings.Default}}" />
                                     </StackPanel>
