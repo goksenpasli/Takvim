@@ -5,7 +5,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     MaxHeight="140"
     d:DataContext="{d:DesignInstance Type=local:CompressorViewModel}"
-    d:DesignHeight="140" d:DesignWidth="315" UseLayoutRounding="True"
+    d:DesignHeight="140" d:DesignWidth="450" UseLayoutRounding="True"
     mc:Ignorable="d">
     <Grid>
         <Grid.Style>
@@ -63,64 +63,55 @@
                 </GroupBox>
             </local:SplitButton.InternalContent>
         </local:SplitButton>
-        <ComboBox Grid.Row="1"
-            Visibility="{Binding ElementVisible}"
-            VerticalContentAlignment="Center"
+        <ListBox Grid.Row="1"
+            Background="{x:Null}"
+            BorderBrush="{x:Null}"
             SelectedIndex="{Binding CompressorView.Biçim, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-            <ComboBoxItem HorizontalContentAlignment="Stretch">
-                <ComboBoxItem.Content>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-                        <Image Grid.Column="0" Width="16" Height="16">
-                            <Image.Source>
-                                <Binding Converter="{StaticResource FilePathToIconConverter}" Source=".zip" />
-                            </Image.Source>
-                        </Image>
-                        <TextBlock Text="ZIP" Grid.Column="1" VerticalAlignment="Center" />
-                        <Slider Grid.Column="2"
-                            AutoToolTipPlacement="TopLeft" Maximum="9" SmallChange="1" ToolTip="0 Sıkıştırmasız 9 En Yüksek Sıkıştırma."
-                            Value="{Binding CompressorView.SıkıştırmaDerecesi}" />
-                    </Grid>
-                </ComboBoxItem.Content>
-            </ComboBoxItem>
-            <ComboBoxItem>
-                <ComboBoxItem.Content>
+            <ListBox.Resources>
+                <Style TargetType="{x:Type ListBoxItem}">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate>
+                                <RadioButton Content="{TemplateBinding ContentPresenter.Content}"
+                                    VerticalAlignment="Center" VerticalContentAlignment="Center"
+                                    IsChecked="{Binding Path=IsSelected, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}" />
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListBox.Resources>
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid Columns="3" Rows="1" />
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+            <ListBoxItem VerticalAlignment="Center" IsSelected="True" ToolTip="Standart Sıkıştırma">
+                <ListBoxItem.Content>
                     <StackPanel Orientation="Horizontal">
-                        <Image Width="16" Height="16">
-                            <Image.Source>
-                                <Binding Converter="{StaticResource FilePathToIconConverter}" Source=".tar" />
-                            </Image.Source>
-                        </Image>
-                        <TextBlock VerticalAlignment="Center">
-                            <Run Text="7" FontFamily="Wingdings 3" FontWeight="Bold" />
-                            <Run Text="TAR" />
-                        </TextBlock>
+                        <TextBlock Text="ZIP" VerticalAlignment="Center" />
+                        <ComboBox IsEnabled="{Binding Path=IsSelected, RelativeSource={RelativeSource AncestorType=ListBoxItem}, Mode=TwoWay}"
+                            SelectedValue="{Binding CompressorView.SıkıştırmaDerecesi}"
+                            SelectedValuePath="Content" ToolTip="0 Sıkıştırmasız 9 En Yüksek Sıkıştırma.">
+                            <ComboBoxItem Content="0" />
+                            <ComboBoxItem Content="1" />
+                            <ComboBoxItem Content="2" />
+                            <ComboBoxItem Content="3" />
+                            <ComboBoxItem Content="4" />
+                            <ComboBoxItem Content="5" />
+                            <ComboBoxItem Content="6" />
+                            <ComboBoxItem Content="7" />
+                            <ComboBoxItem Content="8" />
+                            <ComboBoxItem Content="9" />
+                        </ComboBox>
                     </StackPanel>
-                </ComboBoxItem.Content>
-            </ComboBoxItem>
-            <ComboBoxItem>
-                <ComboBoxItem.Content>
-                    <StackPanel Orientation="Horizontal">
-                        <Image Width="16" Height="16">
-                            <Image.Source>
-                                <Binding Converter="{StaticResource FilePathToIconConverter}" Source=".zip" />
-                            </Image.Source>
-                        </Image>
-                        <TextBlock VerticalAlignment="Center">
-                            <Run Text="6" FontFamily="Wingdings" FontWeight="Bold" />
-                            <Run Text="LZMA ZIP" />
-                        </TextBlock>
-                    </StackPanel>
-                </ComboBoxItem.Content>
-            </ComboBoxItem>
-        </ComboBox>
+                </ListBoxItem.Content>
+            </ListBoxItem>
+            <ListBoxItem Content="TAR" VerticalAlignment="Center" ToolTip="Sıkıştırma Yok" />
+            <ListBoxItem Content="LZMA ZIP" VerticalAlignment="Center" ToolTip="Standart Sıkıştırmaya Nazaran Daha Kuvvetli Sıkıştırma" />
+        </ListBox>
         <CheckBox Grid.Row="1" Grid.Column="1"
             Visibility="{Binding ElementVisible}"
-            VerticalAlignment="Center" HorizontalContentAlignment="Stretch"
+            VerticalAlignment="Center" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center"
             IsChecked="{Binding CompressorView.ResimleriWebpZiple}"
             ToolTip="İşaretlenirse Arşive Eklenen Resimler Webp Olarak Eklenir.">
             <CheckBox.Content>
