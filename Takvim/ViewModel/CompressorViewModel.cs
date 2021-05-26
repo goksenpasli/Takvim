@@ -104,85 +104,29 @@ namespace Takvim
                           {
                               case 0:
                                   {
-                                      using ZipWriter zipWriter = new(stream, new ZipWriterOptions(CompressionType.Deflate) { UseZip64 = true, DeflateCompressionLevel = (SharpCompress.Compressors.Deflate.CompressionLevel)CompressorView.SıkıştırmaDerecesi });
-                                      foreach (string dosya in CompressorView.Dosyalar)
-                                      {
-                                          if (CompressorView.ResimleriWebpZiple && imageextension.Contains(Path.GetExtension(dosya).ToLower()))
-                                          {
-                                              WriteWebpFile(dosya, out string webpfilename, out string tempfile);
-                                              zipWriter.Write(Path.GetFileName(webpfilename), tempfile);
-                                              File.Delete(tempfile);
-                                          }
-                                          else
-                                          {
-                                              zipWriter.Write(Path.GetFileName(dosya), dosya);
-                                          }
-                                          CompressorView.Oran++;
-                                          CompressorView.DosyaAdı = Path.GetFileName(dosya);
-                                      }
+                                      using ZipWriter writer = new(stream, new ZipWriterOptions(CompressionType.Deflate) { UseZip64 = true, DeflateCompressionLevel = (SharpCompress.Compressors.Deflate.CompressionLevel)CompressorView.SıkıştırmaDerecesi });
+                                      WriteData(writer);
                                       break;
                                   }
 
                               case 1:
                                   {
-                                      using IWriter tarWriter = WriterFactory.Open(stream, ArchiveType.Tar, CompressionType.None);
-                                      foreach (string dosya in CompressorView.Dosyalar)
-                                      {
-                                          if (CompressorView.ResimleriWebpZiple && imageextension.Contains(Path.GetExtension(dosya).ToLower()))
-                                          {
-                                              WriteWebpFile(dosya, out string webpfilename, out string tempfile);
-                                              tarWriter.Write(Path.GetFileName(webpfilename), tempfile);
-                                              File.Delete(tempfile);
-                                          }
-                                          else
-                                          {
-                                              tarWriter.Write(Path.GetFileName(dosya), dosya);
-                                          }
-                                          CompressorView.Oran++;
-                                          CompressorView.DosyaAdı = Path.GetFileName(dosya);
-                                      }
+                                      using IWriter writer = WriterFactory.Open(stream, ArchiveType.Tar, CompressionType.None);
+                                      WriteData(writer);
                                       break;
                                   }
 
                               case 2:
                                   {
-                                      using IWriter zipWriter = WriterFactory.Open(stream, ArchiveType.Zip, CompressionType.LZMA);
-                                      foreach (string dosya in CompressorView.Dosyalar)
-                                      {
-                                          if (CompressorView.ResimleriWebpZiple && imageextension.Contains(Path.GetExtension(dosya).ToLower()))
-                                          {
-                                              WriteWebpFile(dosya, out string webpfilename, out string tempfile);
-                                              zipWriter.Write(Path.GetFileName(webpfilename), tempfile);
-                                              File.Delete(tempfile);
-                                          }
-                                          else
-                                          {
-                                              zipWriter.Write(Path.GetFileName(dosya), dosya);
-                                          }
-                                          CompressorView.Oran++;
-                                          CompressorView.DosyaAdı = Path.GetFileName(dosya);
-                                      }
+                                      using IWriter writer = WriterFactory.Open(stream, ArchiveType.Zip, CompressionType.LZMA);
+                                      WriteData(writer);
                                       break;
                                   }
 
                               case 3:
                                   {
-                                      using IWriter zipWriter = WriterFactory.Open(stream, ArchiveType.Tar, CompressionType.GZip);
-                                      foreach (string dosya in CompressorView.Dosyalar)
-                                      {
-                                          if (CompressorView.ResimleriWebpZiple && imageextension.Contains(Path.GetExtension(dosya).ToLower()))
-                                          {
-                                              WriteWebpFile(dosya, out string webpfilename, out string tempfile);
-                                              zipWriter.Write(Path.GetFileName(webpfilename), tempfile);
-                                              File.Delete(tempfile);
-                                          }
-                                          else
-                                          {
-                                              zipWriter.Write(Path.GetFileName(dosya), dosya);
-                                          }
-                                          CompressorView.Oran++;
-                                          CompressorView.DosyaAdı = Path.GetFileName(dosya);
-                                      }
+                                      using IWriter writer = WriterFactory.Open(stream, ArchiveType.Tar, CompressionType.GZip);
+                                      WriteData(writer);
                                       break;
                                   }
                           }
@@ -210,6 +154,25 @@ namespace Takvim
                 webpfilename = Path.GetFileNameWithoutExtension(dosya) + ".webp";
                 tempfile = $@"{Path.GetTempPath()}\{webpfilename}";
                 File.WriteAllBytes(tempfile, dosya.WebpEncode(CompressorView.WebpQuality));
+            }
+
+            void WriteData(IWriter writer)
+            {
+                foreach (string dosya in CompressorView.Dosyalar)
+                {
+                    if (CompressorView.ResimleriWebpZiple && imageextension.Contains(Path.GetExtension(dosya).ToLower()))
+                    {
+                        WriteWebpFile(dosya, out string webpfilename, out string tempfile);
+                        writer.Write(Path.GetFileName(webpfilename), tempfile);
+                        File.Delete(tempfile);
+                    }
+                    else
+                    {
+                        writer.Write(Path.GetFileName(dosya), dosya);
+                    }
+                    CompressorView.Oran++;
+                    CompressorView.DosyaAdı = Path.GetFileName(dosya);
+                }
             }
         }
 
@@ -241,8 +204,6 @@ namespace Takvim
 
         public ICommand DosyaKaydet { get; }
 
-        public ICommand ListedenDosyaSil { get; }
-
         public Visibility ElementVisible
         {
             get => elementVisible;
@@ -256,6 +217,8 @@ namespace Takvim
                 }
             }
         }
+
+        public ICommand ListedenDosyaSil { get; }
 
         private void ArşivTümünüAyıkla(string yol, bool klasörgöster = true)
         {
