@@ -845,17 +845,15 @@
                                 <local:Data />
                             </StackPanel.DataContext>
                             <local:TimePicker TimeValue="{Binding SaatBaşlangıç, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{x:Null}" />
-                            <local:MaskedTextBox Width="35"
-                                IncludePrompt="False" Mask="00" PromptChar="_"
-                                ValueType="{x:Type System:Double}"
-                                Value="{Binding EtkinlikSüresi, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+                            <local:NumericUpDownControl IsReadOnly="True"
+                                Maximum="24" Minimum="0" SmallChange="0.5" ToolTip="ETKİNLİK SÜRESİ SAAT"
+                                Value="{Binding EtkinlikSüresi, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
                             <CheckBox VerticalAlignment="Center" VerticalContentAlignment="Center" IsChecked="{Binding AyTekrar}">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="AY TEKRAR" VerticalAlignment="Center" />
-                                    <Slider IsEnabled="{Binding AyTekrar}"
-                                        Width="35"
-                                        AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" Maximum="31" Minimum="0"
-                                        SmallChange="1" ToolTip="AYIN KAÇINCI GÜNÜ TEKRAR EDİLECEK"
+                                    <local:NumericUpDownControl IsEnabled="{Binding AyTekrar}"
+                                        IsReadOnly="True"
+                                        Maximum="31" Minimum="1" SmallChange="1"
                                         Value="{Binding AyTekrarGun, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                 </StackPanel>
                             </CheckBox>
