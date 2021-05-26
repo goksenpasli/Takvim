@@ -127,7 +127,7 @@ namespace Takvim
                 {
                     ResimYolu = openFileDialog.FileName;
                     DosyaUzantı = ".webp";
-                    ResimData = Path.GetExtension(ResimYolu.ToLower())==".webp" ? File.ReadAllBytes(ResimYolu) : ResimYolu.WebpEncode(WebpQuality);
+                    ResimData = Path.GetExtension(ResimYolu.ToLower()) == ".webp" ? File.ReadAllBytes(ResimYolu) : ResimYolu.WebpEncode(WebpQuality);
                 }
             }, parameter => Environment.OSVersion.Version.Major > 5);
 
@@ -167,7 +167,7 @@ namespace Takvim
 
             OcrUygula = new RelayCommand<object>(parameter =>
             {
-                OcrTask = Task.Factory.StartNew(() =>
+                Task OcrTask = Task.Factory.StartNew(() =>
                 {
                     OcrSürüyor = true;
                     OcrMetin = (parameter as byte[]).WebpDecode().ToTiffJpegByteArray(ExtensionMethods.Format.Jpg).OcrYap();

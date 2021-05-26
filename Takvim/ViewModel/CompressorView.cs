@@ -28,7 +28,7 @@ namespace Takvim
 
         public string ArşivDosyaYolu
         {
-            get { return arşivDosyaYolu; }
+            get => arşivDosyaYolu;
 
             set
             {

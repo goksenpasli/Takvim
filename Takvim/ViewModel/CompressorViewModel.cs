@@ -29,20 +29,21 @@ namespace Takvim
             CompressorView = new CompressorView();
             DosyaKaydet = new RelayCommand<object>(parameter =>
             {
-                SaveFileDialog saveFileDialog = new() { Filter = "Zip Dosyası (*.zip)|*.zip|Tar Dosyası (*.tar)|*.tar", AddExtension = true, Title = "Kaydet" };
+                SaveFileDialog saveFileDialog = new() { Filter = "Zip Dosyası (*.zip)|*.zip|Tar Dosyası (*.tar)|*.tar|Tgz Dosyası (*.tgz)|*.tgz", AddExtension = true, Title = "Kaydet" };
                 switch (CompressorView.Biçim)
                 {
                     case 0:
                     case 2:
-                        {
-                            saveFileDialog.FilterIndex = 1;
-                            break;
-                        }
+                        saveFileDialog.FilterIndex = 1;
+                        break;
+
                     case 1:
-                        {
-                            saveFileDialog.FilterIndex = 2;
-                            break;
-                        }
+                        saveFileDialog.FilterIndex = 2;
+                        break;
+
+                    case 3:
+                        saveFileDialog.FilterIndex = 3;
+                        break;
                 }
                 if (saveFileDialog.ShowDialog() == true)
                 {
@@ -65,7 +66,7 @@ namespace Takvim
 
             ArşivTümünüÇıkar = new RelayCommand<object>(parameter =>
             {
-                OpenFileDialog openFileDialog = new() { Multiselect = false, Title = "Dosya Seç", Filter = "Arşiv Dosyası (*.zip;*.tar;*.gzip;*.rar;*.xz;*.tar.gz;*.tar.bz2;*.tar.lz;*.tar.xz)|*.zip;*.tar;*.gzip;*.rar;*.xz;*.tar.gz;*.tar.bz2;*.tar.lz;*.tar.xz" };
+                OpenFileDialog openFileDialog = new() { Multiselect = false, Title = "Dosya Seç", Filter = "Arşiv Dosyası (*.zip;*.tar;*.gzip;*.rar;*.xz;*.tar.gz;*.tar.bz2;*.tar.lz;*.tar.xz;*.tgz)|*.zip;*.tar;*.gzip;*.rar;*.xz;*.tar.gz;*.tar.bz2;*.tar.lz;*.tar.xz;*.tgz" };
                 if (openFileDialog.ShowDialog() == true)
                 {
                     ArşivTümünüAyıkla(openFileDialog.FileName);
@@ -74,7 +75,7 @@ namespace Takvim
 
             ArşivİçerikGör = new RelayCommand<object>(parameter =>
             {
-                OpenFileDialog openFileDialog = new() { Multiselect = false, Title = "Dosya Seç", Filter = "Arşiv Dosyası (*.zip;*.tar;*.gzip;*.rar;*.xz;*.tar.gz;*.tar.bz2;*.tar.lz;*.tar.xz)|*.zip;*.tar;*.gzip;*.rar;*.xz;*.tar.gz;*.tar.bz2;*.tar.lz;*.tar.xz" };
+                OpenFileDialog openFileDialog = new() { Multiselect = false, Title = "Dosya Seç", Filter = "Arşiv Dosyası (*.zip;*.tar;*.gzip;*.rar;*.xz;*.tar.gz;*.tar.bz2;*.tar.lz;*.tar.xz;*.tgz)|*.zip;*.tar;*.gzip;*.rar;*.xz;*.tar.gz;*.tar.bz2;*.tar.lz;*.tar.xz;*.tgz" };
                 if (openFileDialog.ShowDialog() == true)
                 {
                     CompressorView.ArşivDosyaYolu = openFileDialog.FileName;
@@ -94,103 +95,113 @@ namespace Takvim
             Arşivle = new RelayCommand<object>(parameter =>
             {
                 Task.Factory.StartNew(() =>
-                {
-                    try
-                    {
-                        CompressorView.Sürüyor = true;
-                        switch (CompressorView.Biçim)
-                        {
-                            case 0:
-                                {
-                                    using FileStream zip = File.OpenWrite(CompressorView.KayıtYolu);
-                                    ZipWriterOptions zipWriterOptions = new(CompressionType.Deflate) { UseZip64 = true, DeflateCompressionLevel = (SharpCompress.Compressors.Deflate.CompressionLevel)CompressorView.SıkıştırmaDerecesi };
-                                    using ZipWriter zipWriter = new(zip, zipWriterOptions);
+                  {
+                      try
+                      {
+                          CompressorView.Sürüyor = true;
+                          using FileStream stream = File.OpenWrite(CompressorView.KayıtYolu);
+                          switch (CompressorView.Biçim)
+                          {
+                              case 0:
+                                  {
+                                      using ZipWriter zipWriter = new(stream, new ZipWriterOptions(CompressionType.Deflate) { UseZip64 = true, DeflateCompressionLevel = (SharpCompress.Compressors.Deflate.CompressionLevel)CompressorView.SıkıştırmaDerecesi });
+                                      foreach (string dosya in CompressorView.Dosyalar)
+                                      {
+                                          if (CompressorView.ResimleriWebpZiple && imageextension.Contains(Path.GetExtension(dosya).ToLower()))
+                                          {
+                                              WriteWebpFile(dosya, out string webpfilename, out string tempfile);
+                                              zipWriter.Write(Path.GetFileName(webpfilename), tempfile);
+                                              File.Delete(tempfile);
+                                          }
+                                          else
+                                          {
+                                              zipWriter.Write(Path.GetFileName(dosya), dosya);
+                                          }
+                                          CompressorView.Oran++;
+                                          CompressorView.DosyaAdı = Path.GetFileName(dosya);
+                                      }
+                                      break;
+                                  }
 
-                                    foreach (string dosya in CompressorView.Dosyalar)
-                                    {
-                                        if (CompressorView.ResimleriWebpZiple && imageextension.Contains(Path.GetExtension(dosya).ToLower()))
-                                        {
-                                            WriteWebpFile(dosya, out string webpfilename, out string tempfile);
-                                            zipWriter.Write(Path.GetFileName(webpfilename), tempfile);
-                                            File.Delete(tempfile);
-                                        }
-                                        else
-                                        {
-                                            zipWriter.Write(Path.GetFileName(dosya), dosya);
-                                        }
-                                        CompressorView.Oran++;
-                                        CompressorView.DosyaAdı = Path.GetFileName(dosya);
-                                    }
-                                    break;
-                                }
+                              case 1:
+                                  {
+                                      using IWriter tarWriter = WriterFactory.Open(stream, ArchiveType.Tar, CompressionType.None);
+                                      foreach (string dosya in CompressorView.Dosyalar)
+                                      {
+                                          if (CompressorView.ResimleriWebpZiple && imageextension.Contains(Path.GetExtension(dosya).ToLower()))
+                                          {
+                                              WriteWebpFile(dosya, out string webpfilename, out string tempfile);
+                                              tarWriter.Write(Path.GetFileName(webpfilename), tempfile);
+                                              File.Delete(tempfile);
+                                          }
+                                          else
+                                          {
+                                              tarWriter.Write(Path.GetFileName(dosya), dosya);
+                                          }
+                                          CompressorView.Oran++;
+                                          CompressorView.DosyaAdı = Path.GetFileName(dosya);
+                                      }
+                                      break;
+                                  }
 
-                            case 1:
-                                {
-                                    using FileStream tar = File.OpenWrite(CompressorView.KayıtYolu);
-                                    using IWriter tarWriter = WriterFactory.Open(tar, ArchiveType.Tar, CompressionType.None);
-                                    foreach (string dosya in CompressorView.Dosyalar)
-                                    {
-                                        if (CompressorView.ResimleriWebpZiple && imageextension.Contains(Path.GetExtension(dosya).ToLower()))
-                                        {
-                                            WriteWebpFile(dosya, out string webpfilename, out string tempfile);
-                                            tarWriter.Write(Path.GetFileName(webpfilename), tempfile);
-                                            File.Delete(tempfile);
-                                        }
-                                        else
-                                        {
-                                            tarWriter.Write(Path.GetFileName(dosya), dosya);
-                                        }
-                                        CompressorView.Oran++;
-                                        CompressorView.DosyaAdı = Path.GetFileName(dosya);
-                                    }
-                                    break;
-                                }
+                              case 2:
+                                  {
+                                      using IWriter zipWriter = WriterFactory.Open(stream, ArchiveType.Zip, CompressionType.LZMA);
+                                      foreach (string dosya in CompressorView.Dosyalar)
+                                      {
+                                          if (CompressorView.ResimleriWebpZiple && imageextension.Contains(Path.GetExtension(dosya).ToLower()))
+                                          {
+                                              WriteWebpFile(dosya, out string webpfilename, out string tempfile);
+                                              zipWriter.Write(Path.GetFileName(webpfilename), tempfile);
+                                              File.Delete(tempfile);
+                                          }
+                                          else
+                                          {
+                                              zipWriter.Write(Path.GetFileName(dosya), dosya);
+                                          }
+                                          CompressorView.Oran++;
+                                          CompressorView.DosyaAdı = Path.GetFileName(dosya);
+                                      }
+                                      break;
+                                  }
 
-                            case 2:
-                                {
-                                    using FileStream zip = File.OpenWrite(CompressorView.KayıtYolu);
-                                    using IWriter zipWriter = WriterFactory.Open(zip, ArchiveType.Zip, CompressionType.LZMA);
-                                    foreach (string dosya in CompressorView.Dosyalar)
-                                    {
-                                        if (CompressorView.ResimleriWebpZiple && imageextension.Contains(Path.GetExtension(dosya).ToLower()))
-                                        {
-                                            WriteWebpFile(dosya, out string webpfilename, out string tempfile);
-                                            zipWriter.Write(Path.GetFileName(webpfilename), tempfile);
-                                            File.Delete(tempfile);
-                                        }
-                                        else
-                                        {
-                                            zipWriter.Write(Path.GetFileName(dosya), dosya);
-                                        }
-                                        CompressorView.Oran++;
-                                        CompressorView.DosyaAdı = Path.GetFileName(dosya);
-                                    }
-                                    break;
-                                }
-                        }
+                              case 3:
+                                  {
+                                      using IWriter zipWriter = WriterFactory.Open(stream, ArchiveType.Tar, CompressionType.GZip);
+                                      foreach (string dosya in CompressorView.Dosyalar)
+                                      {
+                                          if (CompressorView.ResimleriWebpZiple && imageextension.Contains(Path.GetExtension(dosya).ToLower()))
+                                          {
+                                              WriteWebpFile(dosya, out string webpfilename, out string tempfile);
+                                              zipWriter.Write(Path.GetFileName(webpfilename), tempfile);
+                                              File.Delete(tempfile);
+                                          }
+                                          else
+                                          {
+                                              zipWriter.Write(Path.GetFileName(dosya), dosya);
+                                          }
+                                          CompressorView.Oran++;
+                                          CompressorView.DosyaAdı = Path.GetFileName(dosya);
+                                      }
+                                      break;
+                                  }
+                          }
 
-                        CompressorView.Sürüyor = false;
-                    }
-                    catch (Exception Ex)
-                    {
-                        MessageBox.Show(Ex.Message, "TAKVİM", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                    }
-                }, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).ContinueWith(_ =>
-                {
-                    CompressorView.Dosyalar.Clear();
-                    CompressorView.VeriGirişKayıtYolu = CompressorView.KayıtYolu;
-                    CompressorView.KayıtYolu = null;
-                    CompressorView.Oran = 0;
-                    CompressorView.DosyaAdı = null;
-                }, TaskScheduler.FromCurrentSynchronizationContext());
-            }, parameter =>
-            {
-                if (CompressorView.Dosyalar is not null)
-                {
-                    return !CompressorView.Dosyalar.Contains(CompressorView.KayıtYolu);
-                }
-                return true;
-            });
+                          CompressorView.Sürüyor = false;
+                      }
+                      catch (Exception Ex)
+                      {
+                          MessageBox.Show(Ex.Message, "TAKVİM", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                      }
+                  }, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).ContinueWith(_ =>
+                  {
+                      CompressorView.Dosyalar.Clear();
+                      CompressorView.VeriGirişKayıtYolu = CompressorView.KayıtYolu;
+                      CompressorView.KayıtYolu = null;
+                      CompressorView.Oran = 0;
+                      CompressorView.DosyaAdı = null;
+                  }, TaskScheduler.FromCurrentSynchronizationContext());
+            }, parameter => CompressorView.Dosyalar?.Contains(CompressorView.KayıtYolu) != true);
 
             CompressorView.PropertyChanged += ZipView_PropertyChanged;
 
@@ -292,6 +303,10 @@ namespace Takvim
                 if ((CompressorView.Biçim == 1) && CompressorView.KayıtYolu?.EndsWith(".tar", StringComparison.OrdinalIgnoreCase) == false)
                 {
                     CompressorView.KayıtYolu = Path.ChangeExtension(CompressorView.KayıtYolu, ".tar");
+                }
+                if ((CompressorView.Biçim == 3) && CompressorView.KayıtYolu?.EndsWith(".tgz", StringComparison.OrdinalIgnoreCase) == false)
+                {
+                    CompressorView.KayıtYolu = Path.ChangeExtension(CompressorView.KayıtYolu, ".tgz");
                 }
             }
         }

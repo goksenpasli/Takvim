@@ -27,6 +27,12 @@
                 </ComboBox>
                 <GroupBox Header="AYARLAR" Grid.Row="1">
                     <UniformGrid Columns="1">
+                        <UniformGrid.Resources>
+                            <Style TargetType="CheckBox">
+                                <Setter Property="VerticalAlignment" Value="Center" />
+                                <Setter Property="VerticalContentAlignment" Value="Center" />
+                            </Style>
+                        </UniformGrid.Resources>
                         <Slider AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" Maximum="600" Minimum="72"
                             SmallChange="1" Ticks="72,96,120,150,200,300,450,600" ToolTip="ÇÖZÜNÜRLÜK"
                             Value="{Binding Çözünürlük, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />

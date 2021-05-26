@@ -130,14 +130,9 @@ namespace Takvim
                 {
                     if (e.Item is XmlNode node)
                     {
-                        if (TümKayıtlar)
-                        {
-                            e.Accepted = node?["Aciklama"]?.InnerText.Contains(AramaMetin, StringComparison.OrdinalIgnoreCase) == true || (e.Item as XmlNode)?.Attributes.GetNamedItem("Ocr")?.InnerText.Contains(AramaMetin, StringComparison.OrdinalIgnoreCase) == true;
-                        }
-                        else
-                        {
-                            e.Accepted = DateTime.Parse(node?["Gun"]?.InnerText) > DateTime.Today && node?["Aciklama"]?.InnerText.Contains(AramaMetin) == true || (e.Item as XmlNode)?.Attributes.GetNamedItem("Ocr")?.InnerText.Contains(AramaMetin, StringComparison.OrdinalIgnoreCase) == true;
-                        }
+                        e.Accepted = TümKayıtlar
+                            ? node?["Aciklama"]?.InnerText.Contains(AramaMetin, StringComparison.OrdinalIgnoreCase) == true || (e.Item as XmlNode)?.Attributes.GetNamedItem("Ocr")?.InnerText.Contains(AramaMetin, StringComparison.OrdinalIgnoreCase) == true
+                            : DateTime.Parse(node?["Gun"]?.InnerText) > DateTime.Today && node?["Aciklama"]?.InnerText.Contains(AramaMetin) == true || (e.Item as XmlNode)?.Attributes.GetNamedItem("Ocr")?.InnerText.Contains(AramaMetin, StringComparison.OrdinalIgnoreCase) == true;
                     }
                 };
             }, parameter => !string.IsNullOrWhiteSpace(AramaMetin));

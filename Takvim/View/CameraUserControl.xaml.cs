@@ -49,7 +49,7 @@ namespace Takvim
 
         public CapDevice Device
         {
-            get { return device; }
+            get => device;
 
             set
             {
@@ -83,7 +83,7 @@ namespace Takvim
 
         public double Rotation
         {
-            get { return rotation; }
+            get => rotation;
 
             set
             {

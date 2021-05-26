@@ -96,8 +96,6 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <Button Content="ICAL TAKVİM EKLE" Command="{Binding IcalEkle}" />
                 <TextBox Text="{Binding GünNotAçıklama, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
@@ -105,76 +103,98 @@
                     AcceptsReturn="True" TextWrapping="Wrap"
                     Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
                     VerticalScrollBarVisibility="Visible" />
-                <UniformGrid Grid.Row="2" Grid.ColumnSpan="2"
-                    Columns="3" Rows="1">
-                    <CheckBox Content="ÖNEMLİ Mİ"
-                        Foreground="Red"
-                        VerticalAlignment="Center"
-                        IsChecked="{Binding ÖnemliMi, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
-                    <CheckBox HorizontalAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center"
-                        IsChecked="{Binding AyTekrar, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
-                        ToolTip="BU İŞARETLENİRSE HER AYIN AYNI GÜNÜNE İŞARET VERİLİR">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="TEKRAR" VerticalAlignment="Center" />
-                            <Slider IsEnabled="{Binding AyTekrar}"
-                                Width="80"
-                                AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" Maximum="31" Minimum="1"
-                                SmallChange="1" ToolTip="AYIN KAÇINCI GÜNÜ TEKRAR EDİLECEK"
-                                Value="{Binding AyTekrarGun, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                        </StackPanel>
-                    </CheckBox>
-                    <CheckBox Content="KİLİTLİ Mİ"
-                        HorizontalAlignment="Right" VerticalAlignment="Center"
-                        IsChecked="{Binding KilitliMi, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
-                        ToolTip="BU İŞARETLENİRSE TARİH KİLİTLENİR TAŞIMA YAPILMAZ" />
-                </UniformGrid>
-                <UniformGrid Grid.Row="3" Grid.ColumnSpan="2" Columns="2">
-                    <local:TimePicker ClearButtonVisible="Visible" TimeValue="{Binding SaatBaşlangıç, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
-                    <Slider AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="1" IsSnapToTickEnabled="True" LargeChange="0.5"
-                        Maximum="24" Minimum="0" SmallChange="0.5" TickFrequency="0.5"
-                        ToolTip="ETKİNLİK SÜRESİ SAAT"
-                        Value="{Binding EtkinlikSüresi, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
-                </UniformGrid>
-                <UniformGrid Grid.Row="4" Grid.ColumnSpan="2"
-                    IsEnabled="{Binding GünNotAçıklama, Converter={StaticResource StringNullableToBooleanConverter}}"
-                    Columns="3" Rows="1">
-                    <Button Command="{Binding ResimYükle, Mode=OneWay}">
-                        <Button.Content>
+                <GroupBox Header="AYARLAR" Grid.Row="2" Grid.ColumnSpan="2">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <local:TimePicker Grid.Row="0" Grid.Column="0"
+                            ClearButtonVisible="Visible"
+                            TimeValue="{Binding SaatBaşlangıç, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                            Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
+                        <local:NumericUpDownControl Grid.Row="1"
+                            Maximum="24" Minimum="0" SmallChange="0.5" ToolTip="ETKİNLİK SÜRESİ SAAT"
+                            Value="{Binding EtkinlikSüresi, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
+                        <Rectangle Grid.Column="1" Grid.RowSpan="3"
+                            Width="1"
+                            Margin="2" VerticalAlignment="Stretch"
+                            Stroke="Gray" />
+                        <Button Grid.Column="2" IsEnabled="{Binding GünNotAçıklama, Converter={StaticResource StringNullableToBooleanConverter}}" Command="{Binding ResimYükle, Mode=OneWay}">
+                            <Button.Content>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Width="16" Height="16">
+                                        <Image.Source>
+                                            <Binding Converter="{StaticResource FilePathToIconConverter}" Source=".jpg" />
+                                        </Image.Source>
+                                    </Image>
+                                    <TextBlock Text="RESİM YÜKLE" VerticalAlignment="Center" />
+                                </StackPanel>
+                            </Button.Content>
+                            <Button.ContextMenu>
+                                <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Mode=Self}}">
+                                    <MenuItem Header="RESİM İPTAL" Command="{Binding Resimİptal}" />
+                                </ContextMenu>
+                            </Button.ContextMenu>
+                        </Button>
+                        <Button Grid.Row="1" Grid.Column="2"
+                            IsEnabled="{Binding GünNotAçıklama, Converter={StaticResource StringNullableToBooleanConverter}}"
+                            Command="{Binding PdfYükle, Mode=OneWay}">
+                            <Button.Content>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Width="16" Height="16">
+                                        <Image.Source>
+                                            <Binding Converter="{StaticResource FilePathToIconConverter}" Source=".pdf" />
+                                        </Image.Source>
+                                    </Image>
+                                    <TextBlock Text="PDF YÜKLE" VerticalAlignment="Center" />
+                                </StackPanel>
+                            </Button.Content>
+                            <Button.ContextMenu>
+                                <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Mode=Self}}">
+                                    <MenuItem Header="PDF İPTAL" Command="{Binding Pdfİptal}" />
+                                </ContextMenu>
+                            </Button.ContextMenu>
+                        </Button>
+                        <local:FileSelectorTextBox Grid.Row="2" Grid.Column="2"
+                            IsEnabled="{Binding GünNotAçıklama, Converter={StaticResource StringNullableToBooleanConverter}}"
+                            Dosyalar="{Binding Dosyalar, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <Rectangle Grid.Column="3" Grid.RowSpan="3"
+                            Width="1"
+                            Margin="2" VerticalAlignment="Stretch"
+                            Stroke="Gray" />
+                        <CheckBox Content="ÖNEMLİ Mİ"
+                            Grid.Column="4"
+                            Foreground="Red"
+                            VerticalAlignment="Center"
+                            IsChecked="{Binding ÖnemliMi, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
+                        <CheckBox Grid.Row="1" Grid.Column="4"
+                            VerticalAlignment="Center" VerticalContentAlignment="Center"
+                            IsChecked="{Binding AyTekrar, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
+                            ToolTip="BU İŞARETLENİRSE HER AYIN AYNI GÜNÜNE İŞARET VERİLİR">
                             <StackPanel Orientation="Horizontal">
-                                <Image Width="16" Height="16">
-                                    <Image.Source>
-                                        <Binding Converter="{StaticResource FilePathToIconConverter}" Source=".jpg" />
-                                    </Image.Source>
-                                </Image>
-                                <TextBlock Text="RESİM YÜKLE" VerticalAlignment="Center" />
+                                <TextBlock Text="TEKRAR" VerticalAlignment="Center" />
+                                <local:NumericUpDownControl IsEnabled="{Binding AyTekrar}"
+                                    Maximum="31" Minimum="1" SmallChange="1"
+                                    Value="{Binding AyTekrarGun, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                             </StackPanel>
-                        </Button.Content>
-                        <Button.ContextMenu>
-                            <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Mode=Self}}">
-                                <MenuItem Header="RESİM İPTAL" Command="{Binding Resimİptal}" />
-                            </ContextMenu>
-                        </Button.ContextMenu>
-                    </Button>
-                    <Button Command="{Binding PdfYükle, Mode=OneWay}">
-                        <Button.Content>
-                            <StackPanel Orientation="Horizontal">
-                                <Image Width="16" Height="16">
-                                    <Image.Source>
-                                        <Binding Converter="{StaticResource FilePathToIconConverter}" Source=".pdf" />
-                                    </Image.Source>
-                                </Image>
-                                <TextBlock Text="PDF YÜKLE" VerticalAlignment="Center" />
-                            </StackPanel>
-                        </Button.Content>
-                        <Button.ContextMenu>
-                            <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Mode=Self}}">
-                                <MenuItem Header="PDF İPTAL" Command="{Binding Pdfİptal}" />
-                            </ContextMenu>
-                        </Button.ContextMenu>
-                    </Button>
-                    <local:FileSelectorTextBox Dosyalar="{Binding Dosyalar, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                </UniformGrid>
-                <Expander Header="ARŞİVLEYİCİ" Grid.Row="5" Grid.ColumnSpan="2">
+                        </CheckBox>
+                        <CheckBox Content="KİLİTLİ Mİ"
+                            Grid.Row="2" Grid.Column="4"
+                            VerticalAlignment="Center"
+                            IsChecked="{Binding KilitliMi, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
+                            ToolTip="BU İŞARETLENİRSE TARİH KİLİTLENİR TAŞIMA YAPILMAZ" />
+                    </Grid>
+                </GroupBox>
+                <Expander Header="ARŞİVLEYİCİ" Grid.Row="3" Grid.ColumnSpan="2">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
@@ -189,7 +209,7 @@
                         <local:Compressor x:Name="Compressor" Grid.Row="1" />
                     </Grid>
                 </Expander>
-                <Button Grid.Row="6" Grid.Column="0" Command="{Binding XmlVeriEkle, Mode=OneWay}">
+                <Button Grid.Row="4" Grid.Column="0" Command="{Binding XmlVeriEkle, Mode=OneWay}">
                     <Button.Content>
                         <StackPanel Orientation="Horizontal">
                             <Image Width="32" Height="32">
@@ -243,7 +263,7 @@
                         </TabItem>
                     </TabControl>
                 </Border>
-                <UniformGrid Grid.Row="6" Grid.Column="2" Columns="3">
+                <UniformGrid Grid.Row="4" Grid.Column="2" Columns="3">
                     <local:ContentToggleButton>
                         <local:ContentToggleButton.OverContent>
                             <Image Width="32" Height="32">
@@ -257,7 +277,6 @@
                         </local:ContentToggleButton.OverContent>
                         <TwainControl:TwainCtrl x:Name="Twain"
                             Width="540" Height="465"
-                            Background="White"
                             PropertyChanged="TwainCtrl_PropertyChanged" />
                     </local:ContentToggleButton>
                     <local:ContentToggleButton>

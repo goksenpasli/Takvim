@@ -7,13 +7,13 @@ using System.Windows.Input;
 
 namespace Takvim
 {
-    public class FileSelectorTextBox : TextBox,INotifyPropertyChanged
+    public class FileSelectorTextBox : TextBox, INotifyPropertyChanged
     {
         public static readonly DependencyProperty DosyalarProperty = DependencyProperty.Register("Dosyalar", typeof(ObservableCollection<string>), typeof(FileSelectorTextBox), new PropertyMetadata(null));
 
         public static readonly DependencyProperty FileListPanelVisibilityProperty = DependencyProperty.Register("FileListPanelVisibility", typeof(Visibility), typeof(FileSelectorTextBox), new PropertyMetadata(Visibility.Visible));
 
-        private string filePath= "Dosya Seçilmedi";
+        private string filePath = "Dosya Seçilmedi";
 
         static FileSelectorTextBox() => DefaultStyleKeyProperty.OverrideMetadata(typeof(FileSelectorTextBox), new FrameworkPropertyMetadata(typeof(FileSelectorTextBox)));
 

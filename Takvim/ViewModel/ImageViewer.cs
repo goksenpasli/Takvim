@@ -108,7 +108,7 @@ namespace Takvim
 
         public Visibility ImgTabVisible
         {
-            get { return ımgTabVisible; }
+            get => ımgTabVisible;
 
             set
             {
@@ -138,7 +138,7 @@ namespace Takvim
 
         public Visibility PdfTabVisible
         {
-            get { return pdfTabVisible; }
+            get => pdfTabVisible;
 
             set
             {

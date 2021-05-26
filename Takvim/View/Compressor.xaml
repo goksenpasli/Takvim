@@ -82,10 +82,11 @@
             </ListBox.Resources>
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <UniformGrid Columns="3" Rows="1" />
+                    <VirtualizingStackPanel Orientation="Horizontal" />
                 </ItemsPanelTemplate>
             </ListBox.ItemsPanel>
-            <ListBoxItem VerticalAlignment="Center" IsSelected="True" ToolTip="Standart Sıkıştırma">
+            <ListBoxItem VerticalAlignment="Center" VerticalContentAlignment="Center"
+                IsSelected="True" ToolTip="Standart Sıkıştırma">
                 <ListBoxItem.Content>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="ZIP" VerticalAlignment="Center" />
@@ -106,8 +107,15 @@
                     </StackPanel>
                 </ListBoxItem.Content>
             </ListBoxItem>
-            <ListBoxItem Content="TAR" VerticalAlignment="Center" ToolTip="Sıkıştırma Yok" />
-            <ListBoxItem Content="LZMA ZIP" VerticalAlignment="Center" ToolTip="Standart Sıkıştırmaya Nazaran Daha Kuvvetli Sıkıştırma" />
+            <ListBoxItem Content="TAR"
+                VerticalAlignment="Center" VerticalContentAlignment="Center"
+                ToolTip="Sıkıştırma Yok" />
+            <ListBoxItem Content="LZMA ZIP"
+                VerticalAlignment="Center" VerticalContentAlignment="Center"
+                ToolTip="Standart Sıkıştırmaya Nazaran Daha Kuvvetli Sıkıştırma" />
+            <ListBoxItem Content="TGZ"
+                VerticalAlignment="Center" VerticalContentAlignment="Center"
+                ToolTip="Metin Dosyaları İçin Uygun" />
         </ListBox>
         <CheckBox Grid.Row="1" Grid.Column="1"
             Visibility="{Binding ElementVisible}"

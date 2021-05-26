@@ -256,33 +256,29 @@ namespace Takvim
             switch (format)
             {
                 case Format.TiffRenkli:
-                    {
-                        TiffBitmapEncoder encoder = new() { Compression = TiffCompressOption.Zip };
-                        encoder.Frames.Add(BitmapFrame.Create((BitmapSource)bitmapsource));
-                        encoder.Save(outStream);
-                        return outStream.ToArray();
-                    }
+                    TiffBitmapEncoder tifzipencoder = new() { Compression = TiffCompressOption.Zip };
+                    tifzipencoder.Frames.Add(BitmapFrame.Create((BitmapSource)bitmapsource));
+                    tifzipencoder.Save(outStream);
+                    return outStream.ToArray();
+
                 case Format.Tiff:
-                    {
-                        TiffBitmapEncoder encoder = new() { Compression = TiffCompressOption.Ccitt4 };
-                        encoder.Frames.Add(BitmapFrame.Create((BitmapSource)bitmapsource));
-                        encoder.Save(outStream);
-                        return outStream.ToArray();
-                    }
+                    TiffBitmapEncoder tifccittencoder = new() { Compression = TiffCompressOption.Ccitt4 };
+                    tifccittencoder.Frames.Add(BitmapFrame.Create((BitmapSource)bitmapsource));
+                    tifccittencoder.Save(outStream);
+                    return outStream.ToArray();
+
                 case Format.Jpg:
-                    {
-                        JpegBitmapEncoder encoder = new() { QualityLevel = 75 };
-                        encoder.Frames.Add(BitmapFrame.Create((BitmapSource)bitmapsource));
-                        encoder.Save(outStream);
-                        return outStream.ToArray();
-                    }
+                    JpegBitmapEncoder jpgencoder = new() { QualityLevel = 75 };
+                    jpgencoder.Frames.Add(BitmapFrame.Create((BitmapSource)bitmapsource));
+                    jpgencoder.Save(outStream);
+                    return outStream.ToArray();
+
                 case Format.Png:
-                    {
-                        PngBitmapEncoder encoder = new();
-                        encoder.Frames.Add(BitmapFrame.Create((BitmapSource)bitmapsource));
-                        encoder.Save(outStream);
-                        return outStream.ToArray();
-                    }
+                    PngBitmapEncoder pngencoder = new();
+                    pngencoder.Frames.Add(BitmapFrame.Create((BitmapSource)bitmapsource));
+                    pngencoder.Save(outStream);
+                    return outStream.ToArray();
+
                 default:
                     throw new ArgumentOutOfRangeException(nameof(format), format, null);
             }

@@ -213,6 +213,9 @@
                 <WrapPanel Width="300" Height="350"
                     IsItemsHost="True" Orientation="Horizontal" />
             </ItemsPanelTemplate>
+            <Style TargetType="Rectangle">
+                <Setter Property="RenderOptions.EdgeMode" Value="Aliased" />
+            </Style>
             <Style x:Key="RunItemCountStyle" TargetType="{x:Type Run}">
                 <Setter Property="Text" Value="{Binding VeriSayısı}" />
                 <Style.Triggers>

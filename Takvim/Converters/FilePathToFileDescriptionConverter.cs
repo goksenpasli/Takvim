@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Globalization;
 using System.Windows.Data;
-using static Takvim.ExtensionMethods;
 
 namespace Takvim
 {
-
     public class FilePathToFileDescriptionConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

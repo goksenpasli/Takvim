@@ -58,7 +58,7 @@ namespace Takvim
 
         public DateTime? DüzenlenmeZamanı
         {
-            get { return düzenlenmeZamanı; }
+            get => düzenlenmeZamanı;
             set
             {
                 if (düzenlenmeZamanı != value)

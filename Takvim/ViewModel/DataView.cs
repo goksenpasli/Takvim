@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Threading.Tasks;
 using System.Windows.Media;
 
 namespace Takvim
@@ -34,8 +33,6 @@ namespace Takvim
         private string ocrMetin;
 
         private bool ocrSürüyor;
-
-        private Task OcrTask;
 
         private short offset;
 

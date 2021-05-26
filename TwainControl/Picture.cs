@@ -178,33 +178,29 @@ namespace TwainControl
                 switch (format)
                 {
                     case Format.TiffRenkli:
-                        {
-                            TiffBitmapEncoder encoder = new TiffBitmapEncoder { Compression = TiffCompressOption.Zip };
-                            encoder.Frames.Add(BitmapFrame.Create(bitmapsource));
-                            encoder.Save(outStream);
-                            return outStream.ToArray();
-                        }
+                        TiffBitmapEncoder tifzipencoder = new TiffBitmapEncoder { Compression = TiffCompressOption.Zip };
+                        tifzipencoder.Frames.Add(BitmapFrame.Create(bitmapsource));
+                        tifzipencoder.Save(outStream);
+                        return outStream.ToArray();
+
                     case Format.Tiff:
-                        {
-                            TiffBitmapEncoder encoder = new TiffBitmapEncoder { Compression = TiffCompressOption.Ccitt4 };
-                            encoder.Frames.Add(BitmapFrame.Create(bitmapsource));
-                            encoder.Save(outStream);
-                            return outStream.ToArray();
-                        }
+                        TiffBitmapEncoder tifccittencoder = new TiffBitmapEncoder { Compression = TiffCompressOption.Ccitt4 };
+                        tifccittencoder.Frames.Add(BitmapFrame.Create(bitmapsource));
+                        tifccittencoder.Save(outStream);
+                        return outStream.ToArray();
+
                     case Format.Jpg:
-                        {
-                            JpegBitmapEncoder encoder = new JpegBitmapEncoder { QualityLevel = 75 };
-                            encoder.Frames.Add(BitmapFrame.Create(bitmapsource));
-                            encoder.Save(outStream);
-                            return outStream.ToArray();
-                        }
+                        JpegBitmapEncoder jpgencoder = new JpegBitmapEncoder { QualityLevel = 75 };
+                        jpgencoder.Frames.Add(BitmapFrame.Create(bitmapsource));
+                        jpgencoder.Save(outStream);
+                        return outStream.ToArray();
+
                     case Format.Png:
-                        {
-                            PngBitmapEncoder encoder = new PngBitmapEncoder();
-                            encoder.Frames.Add(BitmapFrame.Create(bitmapsource));
-                            encoder.Save(outStream);
-                            return outStream.ToArray();
-                        }
+                        PngBitmapEncoder pngencoder = new PngBitmapEncoder();
+                        pngencoder.Frames.Add(BitmapFrame.Create(bitmapsource));
+                        pngencoder.Save(outStream);
+                        return outStream.ToArray();
+
                     default:
                         throw new ArgumentOutOfRangeException(nameof(format), format, null);
                 }

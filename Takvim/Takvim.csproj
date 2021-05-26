@@ -85,6 +85,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controls\NumericUpDownControl.cs" />
     <Compile Include="Converters\Base64Converter.cs" />
     <Compile Include="Converters\DateNowBooleanConverter.cs" />
     <Compile Include="Converters\FilePathToFileDescriptionConverter.cs" />

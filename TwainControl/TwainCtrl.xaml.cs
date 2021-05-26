@@ -119,16 +119,13 @@ namespace TwainControl
                                 switch (Bw)
                                 {
                                     case true:
-                                        {
-                                            File.WriteAllBytes(saveFileDialog.FileName, resim.ToTiffJpegByteArray(Picture.Format.Tiff));
-                                            break;
-                                        }
+                                        File.WriteAllBytes(saveFileDialog.FileName, resim.ToTiffJpegByteArray(Picture.Format.Tiff));
+                                        break;
+
                                     case null:
                                     case false:
-                                        {
-                                            File.WriteAllBytes(saveFileDialog.FileName, resim.ToTiffJpegByteArray(Picture.Format.TiffRenkli));
-                                            break;
-                                        }
+                                        File.WriteAllBytes(saveFileDialog.FileName, resim.ToTiffJpegByteArray(Picture.Format.TiffRenkli));
+                                        break;
                                 }
                                 break;
 

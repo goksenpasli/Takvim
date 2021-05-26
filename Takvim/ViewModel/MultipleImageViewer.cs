@@ -20,7 +20,7 @@ namespace Takvim
                     {
                         TopluDosyalar.Add(new MultipleImage()
                         {
-                            VeriRenk = (Brush)brushConverter.ConvertFromString(item.Attributes.GetNamedItem("Renk").InnerText)??Brushes.Transparent,
+                            VeriRenk = (Brush)brushConverter.ConvertFromString(item.Attributes.GetNamedItem("Renk").InnerText) ?? Brushes.Transparent,
                             Resim = item["Resim"].InnerText,
                             GünNotAçıklama = item["Aciklama"].InnerText
                         });
