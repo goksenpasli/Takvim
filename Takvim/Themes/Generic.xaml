@@ -4,12 +4,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:Takvim"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-    <SolidColorBrush x:Key="ScrollBar.MouseOver.Background" Color="#DADADA" />
-    <SolidColorBrush x:Key="ScrollBar.MouseOver.Border" Color="#DADADA" />
-    <SolidColorBrush x:Key="ScrollBar.Pressed.Background" Color="#606060" />
-    <SolidColorBrush x:Key="ScrollBar.Pressed.Border" Color="#606060" />
-    <SolidColorBrush x:Key="ScrollBar.Disabled.Background" Color="#F0F0F0" />
-    <SolidColorBrush x:Key="ScrollBar.Disabled.Border" Color="#F0F0F0" />
     <local:FilePathToIconConverter x:Key="FilePathToIconConverter" />
     <StreamGeometry x:Key="ArrowGeometry">M0,0L4,4 8,0z</StreamGeometry>
     <Style TargetType="local:MaskedTextBox">
@@ -53,7 +47,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-    <Style TargetType="local:ContentSlider">
+    <Style BasedOn="{StaticResource {x:Type Slider}}" TargetType="local:ContentSlider">
         <Setter Property="Stylus.IsPressAndHoldEnabled" Value="False" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderBrush" Value="Transparent" />
@@ -443,7 +437,7 @@
             </Trigger>
         </Style.Triggers>
     </Style>
-    <Style TargetType="local:SplitButton">
+    <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="local:SplitButton">
         <Setter Property="SnapsToDevicePixels" Value="true" />
         <Setter Property="Template">
             <Setter.Value>
@@ -560,7 +554,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-    <Style TargetType="local:ContentToggleButton">
+    <Style BasedOn="{StaticResource {x:Type ToggleButton}}" TargetType="local:ContentToggleButton">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:ContentToggleButton">
@@ -736,78 +730,149 @@
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Focusable" Value="false" />
         <Setter Property="IsTabStop" Value="false" />
+        <Setter Property="Background" Value="Black" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RepeatButton}">
-                    <Border x:Name="border" SnapsToDevicePixels="true">
-                        <ContentPresenter x:Name="contentPresenter"
-                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                            Focusable="False"
-                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
-                    </Border>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="true">
-                            <Setter TargetName="border" Property="Background" Value="{StaticResource ScrollBar.MouseOver.Background}" />
-                            <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource ScrollBar.MouseOver.Border}" />
-                        </Trigger>
-                        <Trigger Property="IsPressed" Value="true">
-                            <Setter TargetName="border" Property="Background" Value="{StaticResource ScrollBar.Pressed.Background}" />
-                            <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource ScrollBar.Pressed.Border}" />
-                        </Trigger>
-                        <Trigger Property="IsEnabled" Value="false">
-                            <Setter TargetName="contentPresenter" Property="Opacity" Value="0.56" />
-                            <Setter TargetName="border" Property="Background" Value="{StaticResource ScrollBar.Disabled.Background}" />
-                            <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource ScrollBar.Disabled.Border}" />
-                        </Trigger>
-                    </ControlTemplate.Triggers>
+                    <ContentPresenter x:Name="contentPresenter"
+                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                        Focusable="False"
+                        SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="true">
+                <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
+            </Trigger>
+        </Style.Triggers>
     </Style>
+    <ControlTemplate x:Key="HorizontalNumericUpDown" TargetType="{x:Type ScrollBar}">
+        <Border BorderBrush="Gray" BorderThickness="1">
+            <Grid SnapsToDevicePixels="true">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBox Text="{Binding Value, RelativeSource={RelativeSource TemplatedParent}}"
+                    Grid.Row="0" Grid.Column="1"
+                    IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource TemplatedParent}}"
+                    MinWidth="18" MinHeight="18"
+                    BorderThickness="0"
+                    VerticalContentAlignment="Center" />
+                <RepeatButton x:Name="PART_LineUpButton"
+                    Grid.Row="0" Grid.Column="0"
+                    Visibility="{Binding NumericUpDownButtonsVisibility, RelativeSource={RelativeSource TemplatedParent}}"
+                    Command="{x:Static ScrollBar.LineDownCommand}"
+                    Style="{StaticResource ScrollBarButton}">
+                    <Path x:Name="Up"
+                        Width="9.5" Height="8.5"
+                        Stroke="{Binding ElementName=PART_LineUpButton, Path=Background}"
+                        StrokeLineJoin="Round"
+                        Data="M0,0L5,5 10,0z"
+                        Fill="{Binding ElementName=PART_LineUpButton, Path=Background}"
+                        RenderTransformOrigin="0.5,0.5" Stretch="Fill">
+                        <Path.RenderTransform>
+                            <RotateTransform Angle="90" />
+                        </Path.RenderTransform>
+                    </Path>
+                </RepeatButton>
+                <RepeatButton x:Name="PART_LineDownButton"
+                    Grid.Row="1" Grid.Column="2"
+                    Visibility="{Binding NumericUpDownButtonsVisibility, RelativeSource={RelativeSource TemplatedParent}}"
+                    Command="{x:Static ScrollBar.LineUpCommand}"
+                    Style="{StaticResource ScrollBarButton}">
+                    <Path x:Name="Down"
+                        Width="9.5" Height="8.5"
+                        Stroke="{Binding ElementName=PART_LineDownButton, Path=Background}"
+                        StrokeLineJoin="Round"
+                        Data="M0,0L5,5 10,0z"
+                        Fill="{Binding ElementName=PART_LineDownButton, Path=Background}"
+                        RenderTransformOrigin="0.5,0.5" Stretch="Fill">
+                        <Path.RenderTransform>
+                            <RotateTransform Angle="-90" />
+                        </Path.RenderTransform>
+                    </Path>
+                </RepeatButton>
+            </Grid>
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter TargetName="Up" Property="Stroke" Value="Gray" />
+                <Setter TargetName="Down" Property="Stroke" Value="Gray" />
+                <Setter TargetName="Up" Property="Fill" Value="Gray" />
+                <Setter TargetName="Down" Property="Fill" Value="Gray" />
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+    <ControlTemplate x:Key="VerticalNumericUpDown" TargetType="{x:Type ScrollBar}">
+        <Border BorderBrush="Gray" BorderThickness="1">
+            <Grid SnapsToDevicePixels="true">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <TextBox Text="{Binding Value, RelativeSource={RelativeSource TemplatedParent}}"
+                    Grid.Row="0" Grid.Column="0" Grid.RowSpan="2"
+                    IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource TemplatedParent}}"
+                    MinWidth="18" MinHeight="18"
+                    BorderThickness="0"
+                    VerticalContentAlignment="Center" />
+                <RepeatButton x:Name="PART_LineUpButton"
+                    Grid.Row="0" Grid.Column="1"
+                    Visibility="{Binding NumericUpDownButtonsVisibility, RelativeSource={RelativeSource TemplatedParent}}"
+                    Command="{x:Static ScrollBar.LineDownCommand}"
+                    Style="{StaticResource ScrollBarButton}">
+                    <Path x:Name="Up"
+                        Width="9.5" Height="8.5"
+                        Stroke="{Binding ElementName=PART_LineUpButton, Path=Background}"
+                        StrokeLineJoin="Round"
+                        Data="M0,0L5,5 10,0z"
+                        Fill="{Binding ElementName=PART_LineUpButton, Path=Background}"
+                        RenderTransformOrigin="0.5,0.5" Stretch="Fill">
+                        <Path.RenderTransform>
+                            <RotateTransform Angle="-180" />
+                        </Path.RenderTransform>
+                    </Path>
+                </RepeatButton>
+                <RepeatButton x:Name="PART_LineDownButton"
+                    Grid.Row="1" Grid.Column="1"
+                    Visibility="{Binding NumericUpDownButtonsVisibility, RelativeSource={RelativeSource TemplatedParent}}"
+                    Command="{x:Static ScrollBar.LineUpCommand}"
+                    Style="{StaticResource ScrollBarButton}">
+                    <Path x:Name="Down"
+                        Width="9.5" Height="8.5"
+                        Stroke="{Binding ElementName=PART_LineDownButton, Path=Background}"
+                        StrokeLineJoin="Round"
+                        Data="M0,0L5,5 10,0z"
+                        Fill="{Binding ElementName=PART_LineDownButton, Path=Background}"
+                        Stretch="Fill" />
+                </RepeatButton>
+            </Grid>
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter TargetName="Up" Property="Stroke" Value="Gray" />
+                <Setter TargetName="Down" Property="Stroke" Value="Gray" />
+                <Setter TargetName="Up" Property="Fill" Value="Gray" />
+                <Setter TargetName="Down" Property="Fill" Value="Gray" />
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
     <Style TargetType="local:NumericUpDownControl">
-        <Setter Property="Background" Value="White" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type ScrollBar}">
-                    <Border BorderBrush="Gray" BorderThickness="1">
-                        <Grid SnapsToDevicePixels="true">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" MinWidth="12" />
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition />
-                                <RowDefinition />
-                            </Grid.RowDefinitions>
-                            <TextBox Text="{Binding Value, RelativeSource={RelativeSource TemplatedParent}}"
-                                Grid.Row="0" Grid.Column="0" Grid.RowSpan="2"
-                                IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource TemplatedParent}}"
-                                MinWidth="18" MinHeight="18"
-                                Background="{TemplateBinding Background}"
-                                BorderThickness="0"
-                                VerticalContentAlignment="Center" />
-                            <RepeatButton x:Name="PART_LineUpButton"
-                                Grid.Row="0" Grid.Column="1"
-                                Command="{x:Static ScrollBar.LineDownCommand}"
-                                Style="{StaticResource ScrollBarButton}">
-                                <Path Width="10" Height="9"
-                                    Stroke="Black" StrokeLineJoin="Round"
-                                    Data="F1 M 10.4353,9.1327L 5.95154,1.36817L 1.46913,9.13347L 10.4353,9.1327 Z " Fill="Black" Stretch="Fill" />
-                            </RepeatButton>
-                            <RepeatButton x:Name="PART_LineDownButton"
-                                Grid.Row="1" Grid.Column="1"
-                                Command="{x:Static ScrollBar.LineUpCommand}"
-                                Style="{StaticResource ScrollBarButton}">
-                                <Path Width="10" Height="9"
-                                    Stroke="Black" StrokeLineJoin="Round"
-                                    Data="F1 M 10.4353,1.25082L 5.95154,9.01535L 1.46913,1.25005L 10.4353,1.25082 Z " Fill="Black" Stretch="Fill" />
-                            </RepeatButton>
-                        </Grid>
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-
+        <Style.Triggers>
+            <Trigger Property="Orientation" Value="Horizontal">
+                <Setter Property="Template" Value="{StaticResource HorizontalNumericUpDown}" />
+            </Trigger>
+            <Trigger Property="Orientation" Value="Vertical">
+                <Setter Property="Template" Value="{StaticResource VerticalNumericUpDown}" />
+            </Trigger>
+        </Style.Triggers>
     </Style>
 </ResourceDictionary>

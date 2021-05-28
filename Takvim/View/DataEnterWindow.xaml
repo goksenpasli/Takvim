@@ -122,7 +122,6 @@
                             TimeValue="{Binding SaatBaşlangıç, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                             Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
                         <local:NumericUpDownControl Grid.Row="1"
-                            IsReadOnly="True"
                             Maximum="24" Minimum="0" SmallChange="0.5" ToolTip="ETKİNLİK SÜRESİ SAAT"
                             Value="{Binding EtkinlikSüresi, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
                         <Rectangle Grid.Column="1" Grid.RowSpan="3"
@@ -184,7 +183,6 @@
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="TEKRAR" VerticalAlignment="Center" />
                                 <local:NumericUpDownControl IsEnabled="{Binding AyTekrar}"
-                                    IsReadOnly="True"
                                     Maximum="31" Minimum="1" SmallChange="1"
                                     Value="{Binding AyTekrarGun, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                             </StackPanel>
@@ -227,10 +225,10 @@
                     </Button.Content>
                 </Button>
                 <local:NumericUpDownControl Grid.Row="0" Grid.Column="2"
-                    Background="{StaticResource SliderWebpBackground}"
+                    IsReadOnly="True"
                     LargeChange="1" Maximum="100" Minimum="1" SmallChange="1"
                     ToolTip="WEBP RESİM YÜKLEME KALİTESİ 1 EN DÜŞÜK BOYUTTUR."
-                    Value="{Binding WebpQuality, Delay=1000, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    Value="{Binding WebpQuality, Delay=500, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 <Border Grid.Row="1" Grid.Column="2"
                     BorderBrush="Black" BorderThickness="1">
                     <TabControl TabStripPlacement="Left">

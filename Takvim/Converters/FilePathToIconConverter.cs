@@ -11,7 +11,7 @@ namespace Takvim
         {
             try
             {
-                return (value as string).IconCreate(IconSize.Large);
+                return value is string path ? path.IconCreate(IconSize.Large) : null;
             }
             catch (Exception)
             {

@@ -120,10 +120,10 @@ namespace Takvim
 
             IntPtr res = SHGetFileInfo(path, FILE_ATTRIBUTE_NORMAL, out shfi, (uint)Marshal.SizeOf(shfi), flags);
 
-            if (res == IntPtr.Zero)
-            {
-                throw Marshal.GetExceptionForHR(Marshal.GetHRForLastWin32Error());
-            }
+            //if (res == IntPtr.Zero)
+            //{
+            //    throw Marshal.GetExceptionForHR(Marshal.GetHRForLastWin32Error());
+            //}
 
             Icon.FromHandle(shfi.hIcon);
             using Icon icon = (Icon)Icon.FromHandle(shfi.hIcon).Clone();

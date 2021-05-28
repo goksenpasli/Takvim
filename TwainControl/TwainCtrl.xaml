@@ -28,7 +28,7 @@
                 <GroupBox Header="AYARLAR" Grid.Row="1">
                     <UniformGrid Columns="1">
                         <UniformGrid.Resources>
-                            <Style TargetType="CheckBox">
+                            <Style TargetType="CheckBox" BasedOn="{StaticResource {x:Type CheckBox}}">
                                 <Setter Property="VerticalAlignment" Value="Center" />
                                 <Setter Property="VerticalContentAlignment" Value="Center" />
                             </Style>
