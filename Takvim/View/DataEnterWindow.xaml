@@ -103,7 +103,7 @@
                     AcceptsReturn="True" TextWrapping="Wrap"
                     Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
                     VerticalScrollBarVisibility="Visible" />
-                <GroupBox Header="AYARLAR" Grid.Row="2" Grid.ColumnSpan="2">
+                <GroupBox Grid.Row="2" Grid.ColumnSpan="2">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition />
@@ -224,34 +224,25 @@
                         </StackPanel>
                     </Button.Content>
                 </Button>
-                <local:NumericUpDownControl Grid.Row="0" Grid.Column="2"
-                    IsReadOnly="True"
-                    LargeChange="1" Maximum="100" Minimum="1" SmallChange="1"
-                    ToolTip="WEBP RESİM YÜKLEME KALİTESİ 1 EN DÜŞÜK BOYUTTUR."
-                    Value="{Binding WebpQuality, Delay=500, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                <Border Grid.Row="1" Grid.Column="2"
+                <Border Grid.Row="0" Grid.Column="2" Grid.RowSpan="2"
                     BorderBrush="Black" BorderThickness="1">
-                    <TabControl TabStripPlacement="Left">
+                    <TabControl TabStripPlacement="Bottom">
                         <TabItem IsEnabled="{Binding ResimData, Converter={StaticResource NullableToBooleanConverter}}">
-                            <TabItem.LayoutTransform>
-                                <TransformGroup>
-                                    <RotateTransform Angle="-90" />
-                                </TransformGroup>
-                            </TabItem.LayoutTransform>
                             <TabItem.Header>
-                                <TextBlock VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5">
-                                    <Run Text="RESİM" />
-                                    <Run Text="{Binding Mode=OneWay, Path=ResimData.Length, StringFormat={}{0} Byte}" Foreground="Red" />
-                                </TextBlock>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5">
+                                        <Run Text="RESİM" />
+                                        <Run Text="{Binding Mode=OneWay, Path=ResimData.Length, StringFormat={}{0} Byte}" Foreground="Red" />
+                                    </TextBlock>
+                                    <local:NumericUpDownControl IsReadOnly="True"
+                                        LargeChange="1" Maximum="100" Minimum="1" SmallChange="1"
+                                        ToolTip="WEBP RESİM YÜKLEME KALİTESİ 1 EN DÜŞÜK BOYUTTUR."
+                                        Value="{Binding WebpQuality, Delay=500, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                </StackPanel>
                             </TabItem.Header>
                             <Image Source="{Binding ResimData, ConverterParameter=96, Converter={StaticResource WebpByteArrayToImageConverter}, Mode=OneWay}" />
                         </TabItem>
                         <TabItem IsEnabled="{Binding PdfData, Converter={StaticResource NullableToBooleanConverter}}">
-                            <TabItem.LayoutTransform>
-                                <TransformGroup>
-                                    <RotateTransform Angle="-90" />
-                                </TransformGroup>
-                            </TabItem.LayoutTransform>
                             <TabItem.Header>
                                 <TextBlock VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5">
                                     <Run Text="PDF" />

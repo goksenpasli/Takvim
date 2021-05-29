@@ -47,10 +47,6 @@
     <ApplicationIcon>icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="GpMoonPdfViewer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>.\GpMoonPdfViewer.dll</HintPath>
-    </Reference>
     <Reference Include="PdfSharp-wpf, Version=1.51.5185.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>.\PdfSharp-wpf.dll</HintPath>
@@ -279,6 +275,10 @@
     <Content Include="PdfSharp-wpf.dll" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\GpMoonPdfViewer\GpMoonPdfViewer\GpMoonPdfViewer.csproj">
+      <Project>{1dc5b602-b301-4e37-80d5-3ca7bf58aaf5}</Project>
+      <Name>GpMoonPdfViewer</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TwainControl\TwainControl.csproj">
       <Project>{e18bdb1b-1d7c-4f60-85b1-53eae13074c4}</Project>
       <Name>TwainControl</Name>
