@@ -253,23 +253,10 @@
     <Resource Include="icon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="GpMoonPdfViewer.dll" />
-    <Content Include="libmupdf32.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="libmupdf64.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="libwebp_x64.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="libwebp_x86.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="MoonPdfLib.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="MouseKeyboardActivityMonitor.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="PdfSharp-wpf.dll" />

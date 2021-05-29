@@ -249,7 +249,7 @@
                                     <Run Text="{Binding Mode=OneWay, Path=PdfData.Length, StringFormat={}{0} Byte}" Foreground="Red" />
                                 </TextBlock>
                             </TabItem.Header>
-                            <GpMoonPdfViewer:MoonPdfViewer AcKaydetButtonEtkin="Collapsed" PdfData="{Binding DataContext.PdfData, ElementName=UserControl}" />
+                            <GpMoonPdfViewer:MoonPdfViewer AcKaydetButtonEtkin="Collapsed" PdfData="{Binding DataContext.PdfData, ElementName=UserControl}" ToolBarVisible="Collapsed" />
                         </TabItem>
                     </TabControl>
                 </Border>
