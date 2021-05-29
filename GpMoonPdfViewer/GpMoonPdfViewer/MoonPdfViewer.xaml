@@ -10,7 +10,7 @@
     <UserControl.Resources>
         <local:PdfSayfaSayıToBitmapConverter x:Key="PdfSayfaSayıToBitmapConverter" />
         <local:NullableToBooleanConverter x:Key="NullableToBooleanConverter" />
-        <ContextMenu x:Key="ContextMenuStyle" IsEnabled="{Binding ControlsActive}">
+        <ContextMenu x:Key="ContextMenuStyle" Visibility="{Binding ContextMenuVisible}" IsEnabled="{Binding ControlsActive}">
             <MenuItem Header="YAKINLAŞTIR" Click="ZoomUp_Click">
                 <MenuItem.Icon>
                     <Image Height="24" Source="Icons/zoomin.png" />
@@ -213,7 +213,7 @@
                 Grid.Column="1"
                 AllowDrop="True"
                 ContextMenu="{StaticResource ContextMenuStyle}"
-                Loaded="Mpp_Loaded" MinZoomFactor="0.25" PageMargin="0,2,4,2" PreviewMouseWheel="Mpp_PreviewMouseWheel"
+                Loaded="Mpp_Loaded" MinZoomFactor="0.1" PageMargin="0,2,4,2" PreviewMouseWheel="Mpp_PreviewMouseWheel"
                 ScrollBar.Scroll="Mpp_Scroll" ViewType="SinglePage" />
         </Grid>
     </Grid>

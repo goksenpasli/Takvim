@@ -24,6 +24,8 @@ namespace GpMoonPdfViewer
 
         private Visibility acKaydetButtonEtkin;
 
+        private Visibility contextMenuVisible;
+
         private bool controlsActive;
 
         private double customZoomLevel = 1;
@@ -56,6 +58,20 @@ namespace GpMoonPdfViewer
                 {
                     acKaydetButtonEtkin = value;
                     OnPropertyChanged(nameof(AcKaydetButtonEtkin));
+                }
+            }
+        }
+
+        public Visibility ContextMenuVisible
+        {
+            get => contextMenuVisible;
+
+            set
+            {
+                if (contextMenuVisible != value)
+                {
+                    contextMenuVisible = value;
+                    OnPropertyChanged(nameof(ContextMenuVisible));
                 }
             }
         }

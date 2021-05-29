@@ -85,6 +85,7 @@
     <Compile Include="Converters\Base64Converter.cs" />
     <Compile Include="Converters\DateNowBooleanConverter.cs" />
     <Compile Include="Converters\FilePathToFileDescriptionConverter.cs" />
+    <Compile Include="Converters\XmlPdfDataConverter.cs" />
     <Compile Include="ViewModel\ArchiveData.cs" />
     <Compile Include="View\ArchiveViewer.xaml.cs">
       <DependentUpon>ArchiveViewer.xaml</DependentUpon>

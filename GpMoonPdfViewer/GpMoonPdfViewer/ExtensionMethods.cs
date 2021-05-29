@@ -50,26 +50,27 @@ namespace GpMoonPdfViewer
         {
             if (bitmap != null)
             {
-                MemoryStream memoryStream = new MemoryStream();
-                bitmap.Save(memoryStream, format);
-                memoryStream.Position = 0;
-                BitmapImage image = new BitmapImage();
-                image.BeginInit();
-                if (decodeheight != 0)
+                using (MemoryStream memoryStream = new MemoryStream())
                 {
-                    image.DecodePixelHeight = bitmap.Height > (int)decodeheight ? (int)decodeheight : bitmap.Height;
-                }
+                    bitmap.Save(memoryStream, format);
+                    memoryStream.Position = 0;
+                    BitmapImage image = new BitmapImage();
+                    image.BeginInit();
+                    if (decodeheight != 0)
+                    {
+                        image.DecodePixelHeight = bitmap.Height > (int)decodeheight ? (int)decodeheight : bitmap.Height;
+                    }
 
-                image.CacheOption = BitmapCacheOption.None;
-                image.StreamSource = memoryStream;
-                image.EndInit();
-                bitmap.Dispose();
-                if (!image.IsFrozen && image.CanFreeze)
-                {
-                    image.Freeze();
+                    image.CacheOption = BitmapCacheOption.OnLoad;
+                    image.StreamSource = memoryStream;
+                    image.EndInit();
+                    bitmap.Dispose();
+                    if (!image.IsFrozen && image.CanFreeze)
+                    {
+                        image.Freeze();
+                    }
+                    return image;
                 }
-
-                return image;
             }
 
             return null;

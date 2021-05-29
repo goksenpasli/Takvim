@@ -1,6 +1,7 @@
 ﻿<Application x:Class="Takvim.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:GpMoonPdfViewer="clr-namespace:GpMoonPdfViewer;assembly=GpMoonPdfViewer"
     xmlns:System="clr-namespace:System;assembly=mscorlib"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:ice="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
@@ -27,6 +28,7 @@
             <local:SystemFileIconConverter x:Key="SystemFileIconConverter" />
             <local:FilePathToIconConverter x:Key="FilePathToIconConverter" />
             <local:XmlDateConverter x:Key="XmlDateConverter" />
+            <local:XmlPdfDataConverter x:Key="XmlPdfDataConverter" />
             <local:Base64ImageConverter x:Key="Base64ImageConverter" />
             <local:AyTekrarDataConverter x:Key="AyTekrarDataConverter" />
             <local:AyTekrarConverter x:Key="AyTekrarConverter" />
@@ -975,19 +977,29 @@
                         <TextBlock Text="B"
                             FontSize="18" FontFamily="Wingdings" FontWeight="Bold" />
                     </Canvas>
-                    <local:ShadowedImage Grid.Column="1"
-                        MaxWidth="192" MaxHeight="240"
-                        ShowShadow="True"
-                        Source="{Binding ConverterParameter=240, Converter={StaticResource Base64ImageConverter}, XPath=Resim}">
-                        <local:ShadowedImage.InputBindings>
-                            <MouseBinding Command="{Binding DataContext.ŞuAnkiGünVerisi.DosyaGör, ElementName=Grid}" CommandParameter="{Binding Mode=OneWay}" Gesture="CTRL+LeftClick" />
-                        </local:ShadowedImage.InputBindings>
-                        <local:ShadowedImage.ToolTip>
-                            <ToolTip Template="{StaticResource GreenToolTipControlTemplate}">
-                                <Image Source="{Binding ConverterParameter=800, Converter={StaticResource Base64ImageConverter}, XPath=Resim}" />
-                            </ToolTip>
-                        </local:ShadowedImage.ToolTip>
-                    </local:ShadowedImage>
+                    <StackPanel Grid.Column="1" Orientation="Horizontal">
+                        <local:ShadowedImage MaxWidth="192" MaxHeight="240"
+                            ShowShadow="True"
+                            Source="{Binding ConverterParameter=240, Converter={StaticResource Base64ImageConverter}, XPath=Resim}">
+                            <local:ShadowedImage.InputBindings>
+                                <MouseBinding Command="{Binding DataContext.ŞuAnkiGünVerisi.DosyaGör, ElementName=Grid}" CommandParameter="{Binding Mode=OneWay}" Gesture="CTRL+LeftClick" />
+                            </local:ShadowedImage.InputBindings>
+                            <local:ShadowedImage.ToolTip>
+                                <ToolTip Template="{StaticResource GreenToolTipControlTemplate}">
+                                    <Image Source="{Binding ConverterParameter=800, Converter={StaticResource Base64ImageConverter}, XPath=Resim}" />
+                                </ToolTip>
+                            </local:ShadowedImage.ToolTip>
+                        </local:ShadowedImage>
+                        <GpMoonPdfViewer:MoonPdfViewer ContextMenuVisible="Collapsed" CustomZoomLevel="0.2" ToolBarVisible="Collapsed">
+                            <GpMoonPdfViewer:MoonPdfViewer.Style>
+                                <Style TargetType="GpMoonPdfViewer:MoonPdfViewer">
+                                    <Style.Setters>
+                                        <Setter Property="PdfData" Value="{Binding Path=DataContext, Converter={StaticResource XmlPdfDataConverter}, RelativeSource={RelativeSource TemplatedParent}}" />
+                                    </Style.Setters>
+                                </Style>
+                            </GpMoonPdfViewer:MoonPdfViewer.Style>
+                        </GpMoonPdfViewer:MoonPdfViewer>
+                    </StackPanel>
                     <StackPanel Grid.Column="2">
                         <TextBlock FontSize="20" TextWrapping="Wrap">
                             <TextBlock.Style>
