@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace Takvim
+namespace Extensions
 
 {
     public class MaskedTextBox : TextBox

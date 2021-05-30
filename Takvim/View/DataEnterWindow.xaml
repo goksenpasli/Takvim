@@ -6,7 +6,7 @@
     xmlns:TwainControl="clr-namespace:TwainControl;assembly=TwainControl"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:Takvim"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Margin="2"
+    Margin="2" xmlns:Extensions="clr-namespace:Extensions;assembly=Extensions"
     d:DataContext="{d:DesignInstance Type={x:Type local:Data}}"
     d:DesignHeight="450" d:DesignWidth="500" Loaded="UserControl_Loaded" Unloaded="UserControl_Unloaded"
     UseLayoutRounding="True"
@@ -117,11 +117,11 @@
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
-                        <local:TimePicker Grid.Row="0" Grid.Column="0"
+                        <Extensions:TimePicker Grid.Row="0" Grid.Column="0"
                             ClearButtonVisible="Visible"
                             TimeValue="{Binding SaatBaşlangıç, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                             Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
-                        <local:NumericUpDownControl Grid.Row="1"
+                        <Extensions:NumericUpDownControl Grid.Row="1"
                             Maximum="24" Minimum="0" SmallChange="0.5" ToolTip="ETKİNLİK SÜRESİ SAAT"
                             Value="{Binding EtkinlikSüresi, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
                         <Rectangle Grid.Column="1" Grid.RowSpan="3"
@@ -164,7 +164,7 @@
                                 </ContextMenu>
                             </Button.ContextMenu>
                         </Button>
-                        <local:FileSelectorTextBox Grid.Row="2" Grid.Column="2"
+                        <Extensions:FileSelectorTextBox Grid.Row="2" Grid.Column="2"
                             IsEnabled="{Binding GünNotAçıklama, Converter={StaticResource StringNullableToBooleanConverter}}"
                             Dosyalar="{Binding Dosyalar, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         <Rectangle Grid.Column="3" Grid.RowSpan="3"
@@ -182,7 +182,7 @@
                             ToolTip="BU İŞARETLENİRSE HER AYIN AYNI GÜNÜNE İŞARET VERİLİR">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="TEKRAR" VerticalAlignment="Center" />
-                                <local:NumericUpDownControl IsEnabled="{Binding AyTekrar}"
+                                <Extensions:NumericUpDownControl IsEnabled="{Binding AyTekrar}"
                                     Maximum="31" Minimum="1" SmallChange="1"
                                     Value="{Binding AyTekrarGun, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                             </StackPanel>
@@ -234,7 +234,7 @@
                                         <Run Text="RESİM" />
                                         <Run Text="{Binding Mode=OneWay, Path=ResimData.Length, StringFormat={}{0} Byte}" Foreground="Red" />
                                     </TextBlock>
-                                    <local:NumericUpDownControl IsReadOnly="True"
+                                    <Extensions:NumericUpDownControl IsReadOnly="True"
                                         LargeChange="1" Maximum="100" Minimum="1" SmallChange="1"
                                         ToolTip="WEBP RESİM YÜKLEME KALİTESİ 1 EN DÜŞÜK BOYUTTUR."
                                         Value="{Binding WebpQuality, Delay=500, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
@@ -254,8 +254,8 @@
                     </TabControl>
                 </Border>
                 <UniformGrid Grid.Row="4" Grid.Column="2" Columns="3">
-                    <local:ContentToggleButton>
-                        <local:ContentToggleButton.OverContent>
+                    <Extensions:ContentToggleButton>
+                        <Extensions:ContentToggleButton.OverContent>
                             <Image Width="32" Height="32">
                                 <Image.Source>
                                     <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
@@ -264,13 +264,13 @@
                                     </MultiBinding>
                                 </Image.Source>
                             </Image>
-                        </local:ContentToggleButton.OverContent>
+                        </Extensions:ContentToggleButton.OverContent>
                         <TwainControl:TwainCtrl x:Name="Twain"
                             Width="540" Height="465"
                             PropertyChanged="TwainCtrl_PropertyChanged" />
-                    </local:ContentToggleButton>
-                    <local:ContentToggleButton>
-                        <local:ContentToggleButton.OverContent>
+                    </Extensions:ContentToggleButton>
+                    <Extensions:ContentToggleButton>
+                        <Extensions:ContentToggleButton.OverContent>
                             <Image Width="32" Height="32">
                                 <Image.Source>
                                     <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
@@ -279,11 +279,11 @@
                                     </MultiBinding>
                                 </Image.Source>
                             </Image>
-                        </local:ContentToggleButton.OverContent>
+                        </Extensions:ContentToggleButton.OverContent>
                         <local:CameraUserControl Width="320" Height="260" />
-                    </local:ContentToggleButton>
-                    <local:ContentToggleButton>
-                        <local:ContentToggleButton.OverContent>
+                    </Extensions:ContentToggleButton>
+                    <Extensions:ContentToggleButton>
+                        <Extensions:ContentToggleButton.OverContent>
                             <Canvas Width="32" Height="32">
                                 <Image Width="32" Height="32">
                                     <Image.Source>
@@ -297,7 +297,7 @@
                                     Canvas.Left="13" Canvas.Top="4"
                                     Width="16" Height="16" />
                             </Canvas>
-                        </local:ContentToggleButton.OverContent>
+                        </Extensions:ContentToggleButton.OverContent>
                         <GroupBox Header="VERİLER">
                             <ListBox x:Name="Lb"
                                 Width="300" Height="400"
@@ -313,7 +313,7 @@
                                 </ListBox.ItemsPanel>
                             </ListBox>
                         </GroupBox>
-                    </local:ContentToggleButton>
+                    </Extensions:ContentToggleButton>
                 </UniformGrid>
             </Grid>
         </GroupBox>

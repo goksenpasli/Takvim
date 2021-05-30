@@ -39,9 +39,11 @@
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="PresentationFramework.Aero" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -50,6 +52,15 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\ContentSlider.cs" />
+    <Compile Include="Controls\ContentToggleButton.cs" />
+    <Compile Include="Controls\FilePathToIconConverter.cs" />
+    <Compile Include="Controls\FileSelectorTextBox.cs" />
+    <Compile Include="Controls\MaskedTextBox.cs" />
+    <Compile Include="Controls\NumericUpDownControl.cs" />
+    <Compile Include="Controls\SplitButton.cs" />
+    <Compile Include="Controls\TimePicker.cs" />
+    <Compile Include="Controls\VirtualizingWrapPanel.cs" />
     <Compile Include="CursorHelper.cs" />
     <Compile Include="ExtensionMethods.cs" />
     <Compile Include="InpcBase.cs" />
@@ -64,6 +75,12 @@
     <Content Include="libwebp_x86.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

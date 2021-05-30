@@ -1,6 +1,7 @@
 ﻿<Application x:Class="Takvim.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Extensions="clr-namespace:Extensions;assembly=Extensions"
     xmlns:GpMoonPdfViewer="clr-namespace:GpMoonPdfViewer;assembly=GpMoonPdfViewer"
     xmlns:System="clr-namespace:System;assembly=mscorlib"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -13,8 +14,8 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/PresentationFramework.Aero,Version=4.0.0.0,Culture=neutral,PublicKeyToken=31bf3856ad364e35,processorArchitecture=MSIL;component/themes/Aero.NormalColor.xaml" />
-                <ResourceDictionary Source="/Takvim;component/Themes/Generic.xaml" />
                 <ResourceDictionary Source="/Takvim;component/Themes/HorizontalListBox.xaml" />
+                <ResourceDictionary Source="/Extensions;component/Themes/Generic.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <local:DateNowBooleanConverter x:Key="DateNowBooleanConverter" />
             <local:FilePathToArchiveContentCoverter x:Key="FilePathToArchiveContentCoverter" />
@@ -846,14 +847,14 @@
                             <StackPanel.DataContext>
                                 <local:Data />
                             </StackPanel.DataContext>
-                            <local:TimePicker TimeValue="{Binding SaatBaşlangıç, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{x:Null}" />
-                            <local:NumericUpDownControl IsReadOnly="True"
+                            <Extensions:TimePicker TimeValue="{Binding SaatBaşlangıç, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{x:Null}" />
+                            <Extensions:NumericUpDownControl IsReadOnly="True"
                                 Maximum="24" Minimum="0" SmallChange="0.5" ToolTip="ETKİNLİK SÜRESİ SAAT"
                                 Value="{Binding EtkinlikSüresi, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
                             <CheckBox VerticalAlignment="Center" VerticalContentAlignment="Center" IsChecked="{Binding AyTekrar}">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="AY TEKRAR" VerticalAlignment="Center" />
-                                    <local:NumericUpDownControl IsEnabled="{Binding AyTekrar}"
+                                    <Extensions:NumericUpDownControl IsEnabled="{Binding AyTekrar}"
                                         IsReadOnly="True"
                                         Maximum="31" Minimum="1" SmallChange="1"
                                         Value="{Binding AyTekrarGun, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />

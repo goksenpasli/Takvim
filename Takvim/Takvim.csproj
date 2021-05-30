@@ -28,7 +28,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
+    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -80,7 +80,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Controls\NumericUpDownControl.cs" />
     <Compile Include="Converters\Base64Converter.cs" />
     <Compile Include="Converters\DateNowBooleanConverter.cs" />
     <Compile Include="Converters\FilePathToFileDescriptionConverter.cs" />
@@ -95,10 +94,6 @@
     <Compile Include="View\Compressor.xaml.cs">
       <DependentUpon>Compressor.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\ContentSlider.cs" />
-    <Compile Include="Controls\ContentToggleButton.cs" />
-    <Compile Include="Controls\SplitButton.cs" />
-    <Compile Include="Controls\VirtualizingWrapPanel.cs" />
     <Compile Include="Converters\AyTekrarConverter.cs" />
     <Compile Include="Converters\AyTekrarDataConverter.cs" />
     <Compile Include="Converters\Base64ImageConverter.cs" />
@@ -121,7 +116,6 @@
     <Compile Include="Converters\StringNullableToBooleanConverter.cs" />
     <Compile Include="Converters\WrapPanelRatioConverter.cs" />
     <Compile Include="Converters\XmlIntValueToIlAdıConverter.cs" />
-    <Compile Include="Controls\FileSelectorTextBox.cs" />
     <Compile Include="View\FloatingWindowControl.xaml.cs">
       <DependentUpon>FloatingWindowControl.xaml</DependentUpon>
     </Compile>
@@ -136,9 +130,8 @@
     <Compile Include="iCalNET\vCalendar.cs" />
     <Compile Include="iCalNET\VEvent.cs" />
     <Compile Include="ViewModel\ImageViewer.cs" />
-    <Compile Include="Controls\MaskedTextBox.cs" />
     <Compile Include="Converters\NullableToBooleanConverter.cs" />
-    <Compile Include="Controls\MovableControl.cs" />
+    <Compile Include="Helpers\MovableControl.cs" />
     <Compile Include="ViewModel\MultipleImage.cs" />
     <Compile Include="ViewModel\MultipleImageViewer.cs" />
     <Compile Include="Helpers\Ocr.cs" />
@@ -151,7 +144,6 @@
     <Compile Include="Converters\AnimationtoBooleanConverter.cs" />
     <Compile Include="Converters\SelectedDateToDataListConverter.cs" />
     <Compile Include="Converters\StringToBrushConverter.cs" />
-    <Compile Include="Controls\TimePicker.cs" />
     <Compile Include="View\Viewer.xaml.cs">
       <DependentUpon>Viewer.xaml</DependentUpon>
     </Compile>
@@ -201,10 +193,6 @@
     <Page Include="View\PrayerTimeControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\Generic.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="Themes\HorizontalListBox.xaml">
       <SubType>Designer</SubType>

@@ -1,6 +1,7 @@
 ﻿<UserControl x:Class="Takvim.MiniCalendarControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Extensions="clr-namespace:Extensions;assembly=Extensions"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:Takvim"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:properties="clr-namespace:Takvim.Properties"
@@ -61,9 +62,9 @@
                 </ItemsControl.Template>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <local:SplitButton Command="{Binding VeriEkleEkranı, Mode=OneWay}" CommandParameter="{Binding Mode=OneWay}">
-                            <local:SplitButton.Style>
-                                <Style BasedOn="{StaticResource ResourceKey={x:Type local:SplitButton}}" TargetType="local:SplitButton">
+                        <Extensions:SplitButton Command="{Binding VeriEkleEkranı, Mode=OneWay}" CommandParameter="{Binding Mode=OneWay}">
+                            <Extensions:SplitButton.Style>
+                                <Style BasedOn="{StaticResource {x:Type Extensions:SplitButton}}" TargetType="Extensions:SplitButton">
                                     <Setter Property="Background" Value="{Binding TamTarih.Month, Converter={StaticResource MonthToColorConverter}, Mode=OneWay}" />
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding GünAdı}" Value="Cmt">
@@ -106,8 +107,8 @@
                                         </MultiDataTrigger>
                                     </Style.Triggers>
                                 </Style>
-                            </local:SplitButton.Style>
-                            <local:SplitButton.Content>
+                            </Extensions:SplitButton.Style>
+                            <Extensions:SplitButton.Content>
                                 <Border Width="32" Height="32"
                                     local:MovableControl.MoveData="True"
                                     local:MovableControl.PlacedData="{Binding}"
@@ -140,8 +141,8 @@
                                         </Style>
                                     </Border.Style>
                                 </Border>
-                            </local:SplitButton.Content>
-                            <local:SplitButton.InternalContent>
+                            </Extensions:SplitButton.Content>
+                            <Extensions:SplitButton.InternalContent>
                                 <GroupBox Header="VERİLER">
                                     <TabControl Width="420" Height="300">
                                         <TabItem Header="LİSTE">
@@ -151,7 +152,7 @@
                                                 VirtualizingStackPanel.VirtualizationMode="Recycling">
                                                 <ListBox.ItemsPanel>
                                                     <ItemsPanelTemplate>
-                                                        <local:VirtualizingWrapPanel />
+                                                        <Extensions:VirtualizingWrapPanel />
                                                     </ItemsPanelTemplate>
                                                 </ListBox.ItemsPanel>
                                             </ListBox>
@@ -160,7 +161,7 @@
                                             <ListBox ItemsSource="{Binding Converter={StaticResource SelectedDateToDataListConverter}, Mode=OneWay}" VirtualizingStackPanel.VirtualizationMode="Recycling">
                                                 <ListBox.ItemsPanel>
                                                     <ItemsPanelTemplate>
-                                                        <local:VirtualizingWrapPanel ItemHeight="128" ItemWidth="128" />
+                                                        <Extensions:VirtualizingWrapPanel ItemHeight="128" ItemWidth="128" />
                                                     </ItemsPanelTemplate>
                                                 </ListBox.ItemsPanel>
                                                 <ListBox.ItemTemplate>
@@ -183,8 +184,8 @@
                                         </TabItem>
                                     </TabControl>
                                 </GroupBox>
-                            </local:SplitButton.InternalContent>
-                        </local:SplitButton>
+                            </Extensions:SplitButton.InternalContent>
+                        </Extensions:SplitButton>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
                 <ItemsControl.ItemsPanel>

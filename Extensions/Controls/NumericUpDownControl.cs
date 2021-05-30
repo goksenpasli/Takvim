@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls.Primitives;
 
-namespace Takvim
+namespace Extensions
 {
     public class NumericUpDownControl : ScrollBar
     {

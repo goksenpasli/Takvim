@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 
-namespace Takvim
+namespace Extensions
 {
     public class ContentSlider : Slider
     {

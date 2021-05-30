@@ -1,6 +1,7 @@
 ﻿<UserControl x:Class="Takvim.Compressor"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Extensions="clr-namespace:Extensions;assembly=Extensions"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:Takvim"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     MaxHeight="140"
@@ -30,8 +31,8 @@
             <ColumnDefinition Width="1*" />
             <ColumnDefinition Width="1*" />
         </Grid.ColumnDefinitions>
-        <local:SplitButton Grid.Column="0" Grid.ColumnSpan="2" Command="{Binding ArşivlenecekDosyalarıSeç, Mode=OneWay}">
-            <local:SplitButton.Content>
+        <Extensions:SplitButton Grid.Column="0" Grid.ColumnSpan="2" Command="{Binding ArşivlenecekDosyalarıSeç, Mode=OneWay}">
+            <Extensions:SplitButton.Content>
                 <StackPanel Orientation="Horizontal">
                     <Image Width="16" Height="16">
                         <Image.Source>
@@ -43,8 +44,8 @@
                     </Image>
                     <TextBlock Text="DOSYALARI SEÇ" Visibility="{Binding ElementVisible}" VerticalAlignment="Center" />
                 </StackPanel>
-            </local:SplitButton.Content>
-            <local:SplitButton.InternalContent>
+            </Extensions:SplitButton.Content>
+            <Extensions:SplitButton.InternalContent>
                 <GroupBox Header="DOSYALAR">
                     <ListBox Width="250" Height="250" ItemsSource="{Binding CompressorView.Dosyalar}">
                         <ListBox.ItemTemplate>
@@ -61,8 +62,8 @@
                         </ListBox.ItemTemplate>
                     </ListBox>
                 </GroupBox>
-            </local:SplitButton.InternalContent>
-        </local:SplitButton>
+            </Extensions:SplitButton.InternalContent>
+        </Extensions:SplitButton>
         <ListBox Grid.Row="1"
             Background="{x:Null}"
             BorderBrush="{x:Null}"
@@ -129,7 +130,7 @@
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
                     <TextBlock Text="WEBP SIKIŞTIR" VerticalAlignment="Center" />
-                    <local:NumericUpDownControl Grid.Column="1"
+                    <Extensions:NumericUpDownControl Grid.Column="1"
                         IsTabStop="False" LargeChange="1" Maximum="100" Minimum="1"
                         SmallChange="1" ToolTip="ARŞİVE WEBP RESİM EKLEME KALİTESİ 1 EN DÜŞÜK BOYUTTUR."
                         Value="{Binding CompressorView.WebpQuality, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
@@ -208,7 +209,7 @@
                     </StackPanel>
                 </Button.Content>
             </Button>
-            <local:SplitButton Command="{Binding ArşivİçerikGör, Mode=OneWay}">
+            <Extensions:SplitButton Command="{Binding ArşivİçerikGör, Mode=OneWay}">
                 <StackPanel Orientation="Horizontal">
                     <Image Width="16" Height="16">
                         <Image.Source>
@@ -220,12 +221,12 @@
                     </Image>
                     <TextBlock Text="ARŞİV İÇERİK GÖR" Visibility="{Binding ElementVisible}" VerticalAlignment="Center" />
                 </StackPanel>
-                <local:SplitButton.InternalContent>
+                <Extensions:SplitButton.InternalContent>
                     <GroupBox Header="ARŞİV İÇERİK" Width="520" Height="250">
                         <local:ArchiveViewer ArchivePath="{Binding CompressorView.ArşivDosyaYolu}" />
                     </GroupBox>
-                </local:SplitButton.InternalContent>
-            </local:SplitButton>
+                </Extensions:SplitButton.InternalContent>
+            </Extensions:SplitButton>
         </UniformGrid>
         <Grid Grid.Row="6" Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>

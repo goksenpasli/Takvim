@@ -5,7 +5,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:properties="clr-namespace:Takvim.Properties"
     xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
-    Title="TAKVİM"
+    Title="TAKVİM" xmlns:Extensions="clr-namespace:Extensions;assembly=Extensions"
     Width="800" Height="600"
     d:DataContext="{d:DesignInstance Type={x:Type local:MainViewModel}}"
     UseLayoutRounding="True" WindowState="Maximized"
@@ -99,7 +99,7 @@
                                         <Setter Property="ItemsPanel">
                                             <Setter.Value>
                                                 <ItemsPanelTemplate>
-                                                    <local:VirtualizingWrapPanel ItemWidth="{Binding YatayAdetOranı, Converter={StaticResource WrapPanelRatioConverter}, Source={x:Static properties:Settings.Default}}" />
+                                                    <Extensions:VirtualizingWrapPanel ItemWidth="{Binding YatayAdetOranı, Converter={StaticResource WrapPanelRatioConverter}, Source={x:Static properties:Settings.Default}}" />
                                                 </ItemsPanelTemplate>
                                             </Setter.Value>
                                         </Setter>
@@ -203,14 +203,14 @@
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
-                    <local:ContentSlider Grid.Row="0" Grid.Column="0"
+                    <Extensions:ContentSlider Grid.Row="0" Grid.Column="0"
                         IsDirectionReversed="True" IsSnapToTickEnabled="True" IsTabStop="False" Maximum="12"
                         Minimum="1" Orientation="Vertical"
                         Value="{Binding SatırSayısı}">
-                        <local:ContentSlider.OverContent>
+                        <Extensions:ContentSlider.OverContent>
                             <TextBlock Text="{Binding SatırSayısı}" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                        </local:ContentSlider.OverContent>
-                    </local:ContentSlider>
+                        </Extensions:ContentSlider.OverContent>
+                    </Extensions:ContentSlider>
                     <Button Content="R"
                         Grid.Row="1" Grid.Column="0"
                         Command="{Binding SatırSütünSıfırla, Mode=OneWay}"
@@ -254,14 +254,14 @@
                             </ItemsPanelTemplate>
                         </ListBox.ItemsPanel>
                     </ListBox>
-                    <local:ContentSlider Grid.Row="2" Grid.Column="2"
+                    <Extensions:ContentSlider Grid.Row="2" Grid.Column="2"
                         VerticalAlignment="Center"
                         IsSnapToTickEnabled="True" IsTabStop="False" Maximum="12" Minimum="1"
                         Value="{Binding SütünSayısı}">
-                        <local:ContentSlider.OverContent>
+                        <Extensions:ContentSlider.OverContent>
                             <TextBlock Text="{Binding SütünSayısı}" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                        </local:ContentSlider.OverContent>
-                    </local:ContentSlider>
+                        </Extensions:ContentSlider.OverContent>
+                    </Extensions:ContentSlider>
                 </Grid>
             </TabItem>
         </TabControl>
@@ -272,15 +272,15 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <TextBox Text="{Binding AramaMetin, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="0" />
-            <local:SplitButton Grid.Column="1" Command="{Binding VeriAra, Mode=OneWay}" CommandParameter="{Binding AramaMetin}">
-                <local:SplitButton.InternalContent>
+            <Extensions:SplitButton Grid.Column="1" Command="{Binding VeriAra, Mode=OneWay}" CommandParameter="{Binding AramaMetin}">
+                <Extensions:SplitButton.InternalContent>
                     <Menu>
                         <MenuItem Header="TÜM KAYITLAR"
                             IsCheckable="True"
                             IsChecked="{Binding TümKayıtlar, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             ToolTip="İşaretli İse Tüm Kayıtlarda Arama Yapılır. İşaretsiz İse Bugünden Sonraki Kayıtlarda Arama Yapılır." />
                     </Menu>
-                </local:SplitButton.InternalContent>
+                </Extensions:SplitButton.InternalContent>
                 <Image Width="16" Height="16">
                     <Image.Source>
                         <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
@@ -289,7 +289,7 @@
                         </MultiBinding>
                     </Image.Source>
                 </Image>
-            </local:SplitButton>
+            </Extensions:SplitButton>
         </Grid>
         <Grid Grid.Row="1" Grid.Column="3" Grid.RowSpan="2">
             <Grid.RowDefinitions>
@@ -320,9 +320,9 @@
                                         <TextBlock Text="B"
                                             FontSize="18" FontFamily="Wingdings" FontWeight="Bold" />
                                     </Canvas>
-                                    <local:SplitButton Content="DOSYA AÇ" Command="{Binding DataContext.ŞuAnkiGünVerisi.DosyaGör, ElementName=Grid}" CommandParameter="{Binding Mode=OneWay}">
-                                        <local:SplitButton.Style>
-                                            <Style BasedOn="{StaticResource {x:Type local:SplitButton}}" TargetType="local:SplitButton">
+                                    <Extensions:SplitButton Content="DOSYA AÇ" Command="{Binding DataContext.ŞuAnkiGünVerisi.DosyaGör, ElementName=Grid}" CommandParameter="{Binding Mode=OneWay}">
+                                        <Extensions:SplitButton.Style>
+                                            <Style BasedOn="{StaticResource {x:Type Extensions:SplitButton}}" TargetType="Extensions:SplitButton">
                                                 <Setter Property="BorderBrush" Value="Yellow" />
                                                 <Setter Property="BorderThickness" Value="2" />
                                                 <Style.Triggers>
@@ -331,8 +331,8 @@
                                                     </DataTrigger>
                                                 </Style.Triggers>
                                             </Style>
-                                        </local:SplitButton.Style>
-                                        <local:SplitButton.InternalContent>
+                                        </Extensions:SplitButton.Style>
+                                        <Extensions:SplitButton.InternalContent>
                                             <ListBox Width="200" Height="200"
                                                 ItemsSource="{Binding XPath=Dosyalar/Dosya}"
                                                 FontWeight="Normal">
@@ -349,8 +349,8 @@
                                                     </DataTemplate>
                                                 </ListBox.ItemTemplate>
                                             </ListBox>
-                                        </local:SplitButton.InternalContent>
-                                    </local:SplitButton>
+                                        </Extensions:SplitButton.InternalContent>
+                                    </Extensions:SplitButton>
                                 </StackPanel>
                                 <TextBlock Width="96" TextWrapping="Wrap"><Hyperlink Command="{Binding DataContext.YılaGit, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" CommandParameter="{Binding Mode=OneWay, XPath=Gun}">
                                         <Run Text="{Binding Converter={StaticResource XmlDateConverter}, StringFormat=\{0:dd/MM/yyyy\}, XPath=Gun}" />
@@ -415,8 +415,8 @@
                                 <ComboBoxItem Content="YIL" />
                             </ComboBox>
                             <ToggleButton Content="HAFTA SONU" IsChecked="{Binding HaftaSonlarıGizle, Mode=TwoWay, Source={x:Static properties:Settings.Default}}" ToolTip="HAFTA SONLARINI GİZLE" />
-                            <local:ContentToggleButton ToolTip="Panel Görünümü">
-                                <local:ContentToggleButton.OverContent>
+                            <Extensions:ContentToggleButton ToolTip="Panel Görünümü">
+                                <Extensions:ContentToggleButton.OverContent>
                                     <Image Width="16" Height="16">
                                         <Image.Source>
                                             <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
@@ -425,7 +425,7 @@
                                             </MultiBinding>
                                         </Image.Source>
                                     </Image>
-                                </local:ContentToggleButton.OverContent>
+                                </Extensions:ContentToggleButton.OverContent>
                                 <GroupBox Header="PANEL AYARLARI">
                                     <StackPanel>
                                         <CheckBox Content="PANEL ŞEKLİNDE DİZ"
@@ -438,7 +438,7 @@
                                             Value="{Binding YatayAdetOranı, Delay=500, Mode=TwoWay, Source={x:Static properties:Settings.Default}}" />
                                     </StackPanel>
                                 </GroupBox>
-                            </local:ContentToggleButton>
+                            </Extensions:ContentToggleButton>
                             <Button Command="{Binding AyarSıfırla, Mode=OneWay}" ToolTip="AYARLARI SIFIRLA">
                                 <Image Width="16" Height="16">
                                     <Image.Source>
@@ -509,8 +509,8 @@
                                     </Image.Source>
                                 </Image>
                             </Button>
-                            <local:ContentToggleButton ToolTip="Ezan Vakitleri">
-                                <local:ContentToggleButton.OverContent>
+                            <Extensions:ContentToggleButton ToolTip="Ezan Vakitleri">
+                                <Extensions:ContentToggleButton.OverContent>
                                     <Image Width="16" Height="16">
                                         <Image.Source>
                                             <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
@@ -519,13 +519,13 @@
                                             </MultiBinding>
                                         </Image.Source>
                                     </Image>
-                                </local:ContentToggleButton.OverContent>
+                                </Extensions:ContentToggleButton.OverContent>
                                 <GroupBox Header="EZAN VAKİTLERİ">
                                     <local:PrayerTimeControl />
                                 </GroupBox>
-                            </local:ContentToggleButton>
-                            <local:ContentToggleButton ToolTip="Uyarı Zamanlarını Ayarlayın">
-                                <local:ContentToggleButton.OverContent>
+                            </Extensions:ContentToggleButton>
+                            <Extensions:ContentToggleButton ToolTip="Uyarı Zamanlarını Ayarlayın">
+                                <Extensions:ContentToggleButton.OverContent>
                                     <Image Width="16" Height="16">
                                         <Image.Source>
                                             <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
@@ -534,7 +534,7 @@
                                             </MultiBinding>
                                         </Image.Source>
                                     </Image>
-                                </local:ContentToggleButton.OverContent>
+                                </Extensions:ContentToggleButton.OverContent>
                                 <GroupBox Header="ZAMANLAR">
                                     <StackPanel>
                                         <Slider VerticalAlignment="Center"
@@ -551,9 +551,9 @@
                                             Value="{Binding UyarıSaatSüresi, Mode=TwoWay, Source={x:Static properties:Settings.Default}}" />
                                     </StackPanel>
                                 </GroupBox>
-                            </local:ContentToggleButton>
-                            <local:SplitButton Content="KAYIT OKU" Command="{Binding VeriOku}">
-                                <local:SplitButton.InternalContent>
+                            </Extensions:ContentToggleButton>
+                            <Extensions:SplitButton Content="KAYIT OKU" Command="{Binding VeriOku}">
+                                <Extensions:SplitButton.InternalContent>
                                     <GroupBox Header="TTS AYARLARI">
                                         <StackPanel>
                                             <TextBlock><Hyperlink Command="{Binding WebAdreseGit}" CommandParameter="https://github.com/goksenpasli/Takvim">
@@ -564,8 +564,8 @@
                                             </HeaderedContentControl>
                                         </StackPanel>
                                     </GroupBox>
-                                </local:SplitButton.InternalContent>
-                            </local:SplitButton>
+                                </Extensions:SplitButton.InternalContent>
+                            </Extensions:SplitButton>
                         </UniformGrid>
                     </TabItem>
                 </TabControl>

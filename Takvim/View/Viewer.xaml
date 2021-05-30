@@ -1,6 +1,7 @@
 ﻿<Window x:Class="Takvim.Viewer" x:Name="Window"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Extensions="clr-namespace:Extensions;assembly=Extensions"
     xmlns:GpMoonPdfViewer="clr-namespace:GpMoonPdfViewer;assembly=GpMoonPdfViewer"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:ice="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
@@ -33,7 +34,7 @@
                             Command="{Binding ResimSakla}"
                             CommandParameter="{Binding Xmldata}" />
                         <Button Content="RESİM YAZDIR" Command="{Binding Yazdır}" CommandParameter="{Binding Path=Resim}" />
-                        <local:SplitButton Command="{Binding OcrUygula}">
+                        <Extensions:SplitButton Command="{Binding OcrUygula}">
                             <Grid>
                                 <ProgressBar Width="80"
                                     Background="{x:Null}"
@@ -41,7 +42,7 @@
                                     IsIndeterminate="{Binding OcrSürüyor}" />
                                 <TextBlock Text="OCR UYGULA" HorizontalAlignment="Center" />
                             </Grid>
-                            <local:SplitButton.InternalContent>
+                            <Extensions:SplitButton.InternalContent>
                                 <GroupBox Header="OCR">
                                     <TextBox Text="{Binding Path=OcrMetin}"
                                         Grid.Row="2" Grid.Column="1"
@@ -49,8 +50,8 @@
                                         Width="300" Height="300"
                                         HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" />
                                 </GroupBox>
-                            </local:SplitButton.InternalContent>
-                        </local:SplitButton>
+                            </Extensions:SplitButton.InternalContent>
+                        </Extensions:SplitButton>
                     </ToolBarPanel>
                     <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                         <Image RenderOptions.BitmapScalingMode="Fant" RenderTransformOrigin="0.5,0.5" Source="{Binding Resim}">
