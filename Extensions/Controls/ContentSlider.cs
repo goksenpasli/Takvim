@@ -13,6 +13,8 @@ namespace Extensions
             set => SetValue(OverContentProperty, value);
         }
 
+        static ContentSlider()=> DefaultStyleKeyProperty.OverrideMetadata(typeof(ContentSlider), new FrameworkPropertyMetadata(typeof(ContentSlider)));
+
         public override string ToString() => OverContent.ToString();
     }
 }

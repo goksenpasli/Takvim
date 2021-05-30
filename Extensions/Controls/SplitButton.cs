@@ -20,5 +20,7 @@ namespace Extensions
             get => (bool)GetValue(StayOpenProperty);
             set => SetValue(StayOpenProperty, value);
         }
+
+        static SplitButton() => DefaultStyleKeyProperty.OverrideMetadata(typeof(SplitButton), new FrameworkPropertyMetadata(typeof(SplitButton)));
     }
 }
