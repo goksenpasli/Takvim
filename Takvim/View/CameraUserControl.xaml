@@ -21,7 +21,7 @@
                         DisplayMemberPath="Name"
                         SelectedItem="{Binding SeçiliKamera}" />
                     <UniformGrid IsEnabled="{Binding SeçiliKamera, Converter={StaticResource NullableToBooleanConverter}}" Columns="4">
-                        <Button Content="RESİM AKTAR" Command="{Binding KameradanResimYükle}" CommandParameter="{Binding DataContext, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ContentToggleButton}}}" />
+                        <Button Content="RESİM AKTAR" Command="{Binding KameradanResimYükle}" CommandParameter="{Binding Parent.DataContext, RelativeSource={RelativeSource FindAncestor, AncestorType=UserControl}}" />
                         <Button Content="DURDUR" Command="{Binding Durdur}" />
                         <Button Content="OYNAT" Command="{Binding Oynat}" />
                         <Slider AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" Maximum="360" Minimum="0"

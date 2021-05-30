@@ -977,29 +977,48 @@
                         <TextBlock Text="B"
                             FontSize="18" FontFamily="Wingdings" FontWeight="Bold" />
                     </Canvas>
-                    <StackPanel Grid.Column="1" Orientation="Horizontal">
-                        <local:ShadowedImage MaxWidth="192" MaxHeight="240"
-                            ShowShadow="True"
-                            Source="{Binding ConverterParameter=240, Converter={StaticResource Base64ImageConverter}, XPath=Resim}">
-                            <local:ShadowedImage.InputBindings>
-                                <MouseBinding Command="{Binding DataContext.ŞuAnkiGünVerisi.DosyaGör, ElementName=Grid}" CommandParameter="{Binding Mode=OneWay}" Gesture="CTRL+LeftClick" />
-                            </local:ShadowedImage.InputBindings>
-                            <local:ShadowedImage.ToolTip>
-                                <ToolTip Template="{StaticResource GreenToolTipControlTemplate}">
-                                    <Image Source="{Binding ConverterParameter=800, Converter={StaticResource Base64ImageConverter}, XPath=Resim}" />
-                                </ToolTip>
-                            </local:ShadowedImage.ToolTip>
-                        </local:ShadowedImage>
-                        <GpMoonPdfViewer:MoonPdfViewer ContextMenuVisible="Collapsed" CustomZoomLevel="0.2" ToolBarVisible="Collapsed">
-                            <GpMoonPdfViewer:MoonPdfViewer.Style>
-                                <Style TargetType="GpMoonPdfViewer:MoonPdfViewer">
-                                    <Style.Setters>
-                                        <Setter Property="PdfData" Value="{Binding Path=DataContext, Converter={StaticResource XmlPdfDataConverter}, RelativeSource={RelativeSource TemplatedParent}}" />
-                                    </Style.Setters>
-                                </Style>
-                            </GpMoonPdfViewer:MoonPdfViewer.Style>
-                        </GpMoonPdfViewer:MoonPdfViewer>
-                    </StackPanel>
+                    <Viewbox Grid.Column="1" MaxWidth="384" MaxHeight="240">
+                        <StackPanel Orientation="Horizontal">
+                            <local:ShadowedImage MaxWidth="192" MaxHeight="240"
+                                ShowShadow="True"
+                                Source="{Binding ConverterParameter=240, Converter={StaticResource Base64ImageConverter}, XPath=Resim}">
+                                <local:ShadowedImage.ToolTip>
+                                    <ToolTip Template="{StaticResource GreenToolTipControlTemplate}">
+                                        <Image Source="{Binding ConverterParameter=800, Converter={StaticResource Base64ImageConverter}, XPath=Resim}" />
+                                    </ToolTip>
+                                </local:ShadowedImage.ToolTip>
+                            </local:ShadowedImage>
+                            <Canvas Width="192" Height="240">
+                                <GpMoonPdfViewer:MoonPdfViewer MaxWidth="192" MaxHeight="240"
+                                    ContextMenuVisible="Collapsed" CustomZoomLevel="0.285" ToolBarVisible="Collapsed">
+                                    <GpMoonPdfViewer:MoonPdfViewer.Style>
+                                        <Style TargetType="GpMoonPdfViewer:MoonPdfViewer">
+                                            <Style.Setters>
+                                                <Setter Property="PdfData" Value="{Binding Path=DataContext, Converter={StaticResource XmlPdfDataConverter}, RelativeSource={RelativeSource TemplatedParent}}" />
+                                            </Style.Setters>
+                                        </Style>
+                                    </GpMoonPdfViewer:MoonPdfViewer.Style>
+                                    <GpMoonPdfViewer:MoonPdfViewer.ToolTip>
+                                        <ToolTip Template="{StaticResource GreenToolTipControlTemplate}">
+                                            <GpMoonPdfViewer:MoonPdfViewer ToolBarVisible="Collapsed">
+                                                <GpMoonPdfViewer:MoonPdfViewer.Style>
+                                                    <Style TargetType="GpMoonPdfViewer:MoonPdfViewer">
+                                                        <Style.Setters>
+                                                            <Setter Property="PdfData" Value="{Binding Path=DataContext, Converter={StaticResource XmlPdfDataConverter}, RelativeSource={RelativeSource TemplatedParent}}" />
+                                                        </Style.Setters>
+                                                    </Style>
+                                                </GpMoonPdfViewer:MoonPdfViewer.Style>
+                                            </GpMoonPdfViewer:MoonPdfViewer>
+                                        </ToolTip>
+                                    </GpMoonPdfViewer:MoonPdfViewer.ToolTip>
+                                </GpMoonPdfViewer:MoonPdfViewer>
+                                <Button Content="AÇ"
+                                    Canvas.Left="0" Canvas.Top="0"
+                                    Command="{Binding DataContext.ŞuAnkiGünVerisi.DosyaGör, ElementName=Grid}"
+                                    CommandParameter="{Binding Mode=OneWay}" />
+                            </Canvas>
+                        </StackPanel>
+                    </Viewbox>
                     <StackPanel Grid.Column="2">
                         <TextBlock FontSize="20" TextWrapping="Wrap">
                             <TextBlock.Style>
