@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using Extensions;
+using System.Collections.ObjectModel;
 using System.Windows.Media;
 using System.Xml;
 

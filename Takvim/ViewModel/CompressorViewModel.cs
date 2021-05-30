@@ -1,4 +1,5 @@
-﻿using Microsoft.Win32;
+﻿using Extensions;
+using Microsoft.Win32;
 using SharpCompress.Common;
 using SharpCompress.Readers;
 using SharpCompress.Writers;

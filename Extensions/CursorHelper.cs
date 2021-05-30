@@ -9,7 +9,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Microsoft.Win32.SafeHandles;
 
-namespace Takvim
+namespace Extensions
 {
     public static class CursorHelper
     {

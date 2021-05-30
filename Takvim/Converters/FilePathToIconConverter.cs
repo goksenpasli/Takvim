@@ -1,7 +1,8 @@
-﻿using System;
+﻿using Extensions;
+using System;
 using System.Globalization;
 using System.Windows.Data;
-using static Takvim.ExtensionMethods;
+using static Extensions.ExtensionMethods;
 
 namespace Takvim
 {

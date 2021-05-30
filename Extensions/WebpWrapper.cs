@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 using System.Security;
 using System.Windows;
 
-namespace Takvim
+namespace Extensions
 {
     public sealed class WebP : IDisposable
     {

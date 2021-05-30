@@ -60,7 +60,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Compile Include="Commands.cs" />
-    <Compile Include="ExtensionMethods.cs" />
     <Compile Include="MoonPdfViewer.xaml.cs">
       <DependentUpon>MoonPdfViewer.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -107,6 +106,12 @@
     <Content Include="libmupdf64.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Extensions\Extensions.csproj">
+      <Project>{22b9a127-5e74-4534-bfc4-a3349544c52c}</Project>
+      <Name>Extensions</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

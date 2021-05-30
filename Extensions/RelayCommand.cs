@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace Takvim
+namespace Extensions
 {
     public class RelayAsyncCommand : RelayCommand
     {

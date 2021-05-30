@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 
-namespace Takvim
+namespace Extensions
 {
     public abstract class InpcBase : INotifyPropertyChanged, INotifyPropertyChanging
     {

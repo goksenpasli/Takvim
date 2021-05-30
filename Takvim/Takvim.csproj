@@ -47,8 +47,7 @@
     <ApplicationIcon>icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="PdfSharp-wpf, Version=1.51.5185.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="PdfSharp-wpf">
       <HintPath>.\PdfSharp-wpf.dll</HintPath>
     </Reference>
     <Reference Include="PresentationFramework.Aero" />
@@ -122,13 +121,11 @@
     <Compile Include="Converters\StringNullableToBooleanConverter.cs" />
     <Compile Include="Converters\WrapPanelRatioConverter.cs" />
     <Compile Include="Converters\XmlIntValueToIlAdıConverter.cs" />
-    <Compile Include="Helpers\CursorHelper.cs" />
     <Compile Include="Controls\FileSelectorTextBox.cs" />
     <Compile Include="View\FloatingWindowControl.xaml.cs">
       <DependentUpon>FloatingWindowControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\DataViewModel.cs" />
-    <Compile Include="Helpers\ExtensionMethods.cs" />
     <Compile Include="Converters\FeastoftheSacrificeDateToHolidayConverter.cs" />
     <Compile Include="Converters\FilePathToIconConverter.cs" />
     <Compile Include="iCalNET\CalendarParameter.cs" />
@@ -139,7 +136,6 @@
     <Compile Include="iCalNET\vCalendar.cs" />
     <Compile Include="iCalNET\VEvent.cs" />
     <Compile Include="ViewModel\ImageViewer.cs" />
-    <Compile Include="Helpers\InpcBase.cs" />
     <Compile Include="Controls\MaskedTextBox.cs" />
     <Compile Include="Converters\NullableToBooleanConverter.cs" />
     <Compile Include="Controls\MovableControl.cs" />
@@ -152,7 +148,6 @@
     <Compile Include="View\PrayerTimeControl.xaml.cs">
       <DependentUpon>PrayerTimeControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\RelayCommand.cs" />
     <Compile Include="Converters\AnimationtoBooleanConverter.cs" />
     <Compile Include="Converters\SelectedDateToDataListConverter.cs" />
     <Compile Include="Converters\StringToBrushConverter.cs" />
@@ -161,7 +156,6 @@
       <DependentUpon>Viewer.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\WebpByteArrayToImageConverter.cs" />
-    <Compile Include="Helpers\WebPWrapper.cs" />
     <Compile Include="Converters\XmlDateConverter.cs" />
     <Compile Include="ViewModel\CompressorView.cs" />
     <Compile Include="ViewModel\CompressorViewModel.cs" />
@@ -254,15 +248,10 @@
     <Resource Include="icon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="libwebp_x64.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="libwebp_x86.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="PdfSharp-wpf.dll" />
-  </ItemGroup>
-  <ItemGroup>
+    <ProjectReference Include="..\Extensions\Extensions.csproj">
+      <Project>{22b9a127-5e74-4534-bfc4-a3349544c52c}</Project>
+      <Name>Extensions</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GpMoonPdfViewer\GpMoonPdfViewer\GpMoonPdfViewer.csproj">
       <Project>{1dc5b602-b301-4e37-80d5-3ca7bf58aaf5}</Project>
       <Name>GpMoonPdfViewer</Name>

@@ -1,4 +1,5 @@
-﻿using Microsoft.Win32;
+﻿using Extensions;
+using Microsoft.Win32;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -119,18 +120,18 @@ namespace TwainControl
                                 switch (Bw)
                                 {
                                     case true:
-                                        File.WriteAllBytes(saveFileDialog.FileName, resim.ToTiffJpegByteArray(Picture.Format.Tiff));
+                                        File.WriteAllBytes(saveFileDialog.FileName, resim.ToTiffJpegByteArray(ExtensionMethods.Format.Tiff));
                                         break;
 
                                     case null:
                                     case false:
-                                        File.WriteAllBytes(saveFileDialog.FileName, resim.ToTiffJpegByteArray(Picture.Format.TiffRenkli));
+                                        File.WriteAllBytes(saveFileDialog.FileName, resim.ToTiffJpegByteArray(ExtensionMethods.Format.TiffRenkli));
                                         break;
                                 }
                                 break;
 
                             case 2:
-                                File.WriteAllBytes(saveFileDialog.FileName, resim.ToTiffJpegByteArray(Picture.Format.Jpg));
+                                File.WriteAllBytes(saveFileDialog.FileName, resim.ToTiffJpegByteArray(ExtensionMethods.Format.Jpg));
                                 break;
 
                             case 3:
@@ -463,12 +464,12 @@ namespace TwainControl
                             Resimler.Add(bitmapFrame);
                             if (SeperateSave && Bw == true)
                             {
-                                File.WriteAllBytes(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures).SetUniqueFile($"{DateTime.Now.ToShortDateString()}Tarama", "tif"), evrak.ToTiffJpegByteArray(Picture.Format.Tiff));
+                                File.WriteAllBytes(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures).SetUniqueFile($"{DateTime.Now.ToShortDateString()}Tarama", "tif"), evrak.ToTiffJpegByteArray(ExtensionMethods.Format.Tiff));
                             }
 
                             if (SeperateSave && Bw == false)
                             {
-                                File.WriteAllBytes(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures).SetUniqueFile($"{DateTime.Now.ToShortDateString()}Tarama", "jpg"), evrak.ToTiffJpegByteArray(Picture.Format.Jpg));
+                                File.WriteAllBytes(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures).SetUniqueFile($"{DateTime.Now.ToShortDateString()}Tarama", "jpg"), evrak.ToTiffJpegByteArray(ExtensionMethods.Format.Jpg));
                             }
 
                             evrak = null;

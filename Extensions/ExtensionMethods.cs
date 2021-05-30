@@ -8,14 +8,15 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
-namespace Takvim
+namespace Extensions
 {
-    internal static class ExtensionMethods
+    public static class ExtensionMethods
     {
         public const uint FILE_ATTRIBUTE_NORMAL = 0x00000080;
 
@@ -35,32 +36,67 @@ namespace Takvim
 
         public enum FolderType
         {
-            Closed,
+            Closed = 0,
 
-            Open
+            Open = 1
+        }
+
+        public enum Format
+        {
+            Tiff = 0,
+
+            TiffRenkli = 1,
+
+            Jpg = 2,
+
+            Png = 3
         }
 
         public enum IconSize
         {
-            Large,
+            Large = 0,
 
-            Small
+            Small = 1
         }
 
-        internal enum Format
-        {
-            Tiff,
-
-            TiffRenkli,
-
-            Jpg,
-
-            Png
-        }
-
-        public static Bitmap BitmapChangeFormat(this Bitmap bitmap, System.Drawing.Imaging.PixelFormat format) => bitmap.Clone(new Rectangle(0, 0, bitmap.Width, bitmap.Height), format);
+        public static Bitmap BitmapChangeFormat(this Bitmap bitmap, System.Drawing.Imaging.PixelFormat format) => bitmap.Clone(new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height), format);
 
         public static bool Contains(this string source, string toCheck, StringComparison comp) => source?.IndexOf(toCheck, comp) >= 0;
+
+        public static Bitmap ConvertBlackAndWhite(this Bitmap bitmap, int bWthreshold, bool grayscale = false)
+        {
+            unsafe
+            {
+                BitmapData bitmapData = bitmap.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height), ImageLockMode.ReadWrite, bitmap.PixelFormat);
+                int bytesPerPixel = Image.GetPixelFormatSize(bitmap.PixelFormat) / 8;
+                int heightInPixels = bitmapData.Height;
+                int widthInBytes = bitmapData.Width * bytesPerPixel;
+                byte* ptrFirstPixel = (byte*)bitmapData.Scan0;
+                Parallel.For(0, heightInPixels, y =>
+                {
+                    byte* currentLine = ptrFirstPixel + (y * bitmapData.Stride);
+                    for (int x = 0; x < widthInBytes; x += bytesPerPixel)
+                    {
+                        byte gray = (byte)((currentLine[x] * 0.299) + (currentLine[x + 1] * 0.587) + (currentLine[x + 2] * 0.114));
+                        if (grayscale)
+                        {
+                            currentLine[x] = gray;
+                            currentLine[x + 1] = gray;
+                            currentLine[x + 2] = gray;
+                        }
+                        else
+                        {
+                            currentLine[x] = (byte)(gray < bWthreshold ? 0 : 255);
+                            currentLine[x + 1] = (byte)(gray < bWthreshold ? 0 : 255);
+                            currentLine[x + 2] = (byte)(gray < bWthreshold ? 0 : 255);
+                        }
+                    }
+                });
+                bitmap.UnlockBits(bitmapData);
+            }
+
+            return bitmap;
+        }
 
         public static System.Windows.Media.Brush ConvertToBrush(this System.Drawing.Color color) => new SolidColorBrush(System.Windows.Media.Color.FromArgb(color.A, color.R, color.G, color.B));
 
@@ -98,11 +134,51 @@ namespace Takvim
             }
         }
 
+        public static PdfDocument CreatePdfFile(this BitmapFrame SeçiliResim, bool compress = false)
+        {
+            try
+            {
+                using PdfDocument doc = new();
+                if (compress)
+                {
+                    doc.Options.FlateEncodeMode = PdfFlateEncodeMode.BestCompression;
+                    doc.Options.UseFlateDecoderForJpegImages = PdfUseFlateDecoderForJpegImages.Automatic;
+                    doc.Options.NoCompression = false;
+                    doc.Options.CompressContentStreams = true;
+                }
+                PdfPage page = doc.AddPage();
+                XGraphics gfx = XGraphics.FromPdfPage(page);
+                XImage xImage = XImage.FromBitmapSource(SeçiliResim);
+                gfx.DrawImage(xImage, 0, 0, page.Width, page.Height);
+                return doc;
+            }
+            catch (Exception Ex)
+            {
+                MessageBox.Show(Ex.Message);
+                return null;
+            }
+        }
+
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         public static extern bool DestroyIcon(this IntPtr handle);
 
         [DllImport("shell32.dll", CharSet = CharSet.Unicode)]
         public static extern IntPtr ExtractIcon(this IntPtr hInst, string lpszExeFileName, int nIconIndex);
+
+        public static string GetFileType(this string filename)
+        {
+            SHFILEINFO shinfo = new();
+            SHGetFileInfo
+                (
+                        filename,
+                        FILE_ATTRIBUTE_NORMAL,
+                        out shinfo, (uint)Marshal.SizeOf(shinfo),
+                        SHGFI_TYPENAME |
+                        SHGFI_USEFILEATTRIBUTES
+                    );
+
+            return shinfo.szTypeName;
+        }
 
         public static BitmapSource IconCreate(this string path, IconSize size)
         {
@@ -120,10 +196,10 @@ namespace Takvim
 
             IntPtr res = SHGetFileInfo(path, FILE_ATTRIBUTE_NORMAL, out shfi, (uint)Marshal.SizeOf(shfi), flags);
 
-            //if (res == IntPtr.Zero)
-            //{
-            //    throw Marshal.GetExceptionForHR(Marshal.GetHRForLastWin32Error());
-            //}
+            if (res == IntPtr.Zero)
+            {
+                throw Marshal.GetExceptionForHR(Marshal.GetHRForLastWin32Error());
+            }
 
             Icon.FromHandle(shfi.hIcon);
             using Icon icon = (Icon)Icon.FromHandle(shfi.hIcon).Clone();
@@ -131,21 +207,6 @@ namespace Takvim
             BitmapSource bitmapsource = Imaging.CreateBitmapSourceFromHIcon(icon.Handle, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
             bitmapsource.Freeze();
             return bitmapsource;
-        }
-
-        public static string GetFileType(this string filename)
-        {
-            SHFILEINFO shinfo = new();
-            SHGetFileInfo
-                (
-                        filename,
-                        FILE_ATTRIBUTE_NORMAL,
-                        out shinfo, (uint)Marshal.SizeOf(shinfo),
-                        SHGFI_TYPENAME |
-                        SHGFI_USEFILEATTRIBUTES
-                    );
-
-            return shinfo.szTypeName;
         }
 
         public static BitmapSource IconCreate(this string filepath, int iconindex)
@@ -221,10 +282,33 @@ namespace Takvim
             return null;
         }
 
+        public static BitmapSource Resize(this BitmapSource bfPhoto, double nWidth, double nHeight, double rotate = 0, int dpiX = 96, int dpiY = 96)
+        {
+            RotateTransform rotateTransform = new(rotate);
+            ScaleTransform scaleTransform = new(nWidth / 96 * dpiX / bfPhoto.PixelWidth, nHeight / 96 * dpiY / bfPhoto.PixelHeight, 0, 0);
+            TransformGroup transformGroup = new();
+            transformGroup.Children.Add(rotateTransform);
+            transformGroup.Children.Add(scaleTransform);
+            TransformedBitmap tb = new(bfPhoto, transformGroup);
+            tb.Freeze();
+            return tb;
+        }
+
+        public static string SetUniqueFile(this string path, string file, string extension)
+        {
+            int i;
+            for (i = 0; File.Exists($"{path}\\{file}_{i}.{extension}"); i++)
+            {
+                _ = i + 1;
+            }
+
+            return $"{path}\\{file}_{i}.{extension}";
+        }
+
         [DllImport("shell32.dll", CharSet = CharSet.Auto)]
         public static extern IntPtr SHGetFileInfo(string pszPath, uint dwFileAttributes, out SHFILEINFO psfi, uint cbFileInfo, uint uFlags);
 
-        public static ImageSource ToBitmapImage(this Image bitmap, ImageFormat format, double decodeheight = 0)
+        public static BitmapImage ToBitmapImage(this Image bitmap, ImageFormat format, double decodeheight = 0)
         {
             if (bitmap != null)
             {
@@ -238,12 +322,14 @@ namespace Takvim
                     image.DecodePixelHeight = bitmap.Height > (int)decodeheight ? (int)decodeheight : bitmap.Height;
                 }
 
-                image.CreateOptions = BitmapCreateOptions.IgnoreColorProfile;
                 image.CacheOption = BitmapCacheOption.OnLoad;
                 image.StreamSource = memoryStream;
                 image.EndInit();
                 bitmap.Dispose();
-                image.Freeze();
+                if (!image.IsFrozen && image.CanFreeze)
+                {
+                    image.Freeze();
+                }
                 return image;
             }
 
@@ -286,7 +372,7 @@ namespace Takvim
 
         public static ImageSource WebpDecode(this byte[] rawWebp, double decodeheight = 0)
         {
-            GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced, true);
+            GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced);
             using WebP webp = new();
             WebPDecoderOptions options = new() { use_threads = 1 };
             using Bitmap bmp = webp.Decode(rawWebp, options);

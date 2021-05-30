@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Extensions;
+using System;
 using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
@@ -43,8 +44,8 @@ namespace Takvim
                         using (DrawingContext dc = dv.RenderOpen())
                         {
                             BitmapSource imagesource = imageSource.Width > imageSource.Height
-                                ? TwainControl.Picture.Resize(imageSource, pd.PrintableAreaHeight, pd.PrintableAreaWidth, 90, 300, 300)
-                                : TwainControl.Picture.Resize(imageSource, pd.PrintableAreaWidth, pd.PrintableAreaHeight, 0, 300, 300);
+                                ? ExtensionMethods.Resize(imageSource, pd.PrintableAreaHeight, pd.PrintableAreaWidth, 90, 300, 300)
+                                : ExtensionMethods.Resize(imageSource, pd.PrintableAreaWidth, pd.PrintableAreaHeight, 0, 300, 300);
                             imagesource.Freeze();
                             dc.DrawImage(imagesource, new Rect(0, 0, pd.PrintableAreaWidth, pd.PrintableAreaHeight));
                         }

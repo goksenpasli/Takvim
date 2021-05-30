@@ -36,9 +36,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="PdfSharp-wpf">
-      <HintPath>..\Takvim\PdfSharp-wpf.dll</HintPath>
-    </Reference>
+    <Reference Include="PdfSharp-wpf, Version=1.51.5185.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -64,8 +62,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Compile Include="ListBoxHelper.cs" />
-    <Compile Include="Picture.cs" />
-    <Compile Include="RelayCommand.cs" />
     <Compile Include="TwainCtrl.xaml.cs">
       <DependentUpon>TwainCtrl.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -96,6 +92,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Twain\TwainWpf.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Extensions\Extensions.csproj">
+      <Project>{22b9a127-5e74-4534-bfc4-a3349544c52c}</Project>
+      <Name>Extensions</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

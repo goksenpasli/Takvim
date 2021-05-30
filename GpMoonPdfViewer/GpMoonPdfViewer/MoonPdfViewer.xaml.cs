@@ -1,18 +1,23 @@
-﻿using Microsoft.Win32;
+﻿using Extensions;
+using Microsoft.Win32;
 using MoonPdfLib.MuPdf;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Drawing;
 using System.Drawing.Imaging;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace GpMoonPdfViewer
 {
@@ -179,6 +184,17 @@ namespace GpMoonPdfViewer
             }
         }
 
+        public static BitmapImage PdfExtractSmallPreviewImage(MoonPdfViewer moonPdfViewer, int sayfano, float zoom = 0.1f)
+        {
+            return Task.Factory.StartNew(() =>
+            {
+                using (Bitmap bmp = MuPdfWrapper.ExtractPage(moonPdfViewer.Mpp.CurrentSource, sayfano, zoom))
+                {
+                    return bmp.ToBitmapImage(ImageFormat.Jpeg);
+                }
+            }, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Result;
+        }
+
         protected virtual void OnPropertyChanged(string propertyName = null) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
         private static void PdfDataChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -328,11 +344,11 @@ namespace GpMoonPdfViewer
 
                 for (int i = başlangıç; i <= bitiş; i++)
                 {
-                    using (System.Drawing.Bitmap bmp = MuPdfWrapper.ExtractPage(Mpp?.CurrentSource, i, 4))
+                    using (Bitmap bmp = MuPdfWrapper.ExtractPage(Mpp?.CurrentSource, i, 4))
                     {
                         using (DrawingContext dc = dv.RenderOpen())
                         {
-                            System.Windows.Media.Imaging.BitmapSource bitmapSource = bmp.Width > bmp.Height ? bmp.ToBitmapSource(ImageFormat.Jpeg).Resize((int)pd.PrintableAreaHeight, (int)pd.PrintableAreaWidth, 90, 300, 300) : bmp.ToBitmapSource(ImageFormat.Jpeg).Resize((int)pd.PrintableAreaWidth, (int)pd.PrintableAreaHeight, 0, 300, 300);
+                            BitmapSource bitmapSource = bmp.Width > bmp.Height ? bmp.ToBitmapImage(ImageFormat.Jpeg).Resize((int)pd.PrintableAreaHeight, (int)pd.PrintableAreaWidth, 90, 300, 300) : bmp.ToBitmapImage(ImageFormat.Jpeg).Resize((int)pd.PrintableAreaWidth, (int)pd.PrintableAreaHeight, 0, 300, 300);
                             bitmapSource.Freeze();
                             dc.DrawImage(bitmapSource, new Rect(0, 0, pd.PrintableAreaWidth, pd.PrintableAreaHeight));
                         }
@@ -350,7 +366,7 @@ namespace GpMoonPdfViewer
             SaveFileDialog saveFileDialog = new SaveFileDialog { Filter = "Jpg Dosyası (*.jpg)|*.jpg" };
             if (saveFileDialog.ShowDialog() == true)
             {
-                File.WriteAllBytes(saveFileDialog.FileName, this.PdfExtractSmallPreviewImage(ŞuankiSayfa, 2).ToTiffJpegByteArray(ExtensionMethods.Format.Jpg));
+                File.WriteAllBytes(saveFileDialog.FileName, PdfExtractSmallPreviewImage(this,ŞuankiSayfa, 2).ToTiffJpegByteArray(Extensions.ExtensionMethods.Format.Jpg));
             }
         }
 
@@ -386,11 +402,11 @@ namespace GpMoonPdfViewer
             string btniçerik = (e.OriginalSource as Button)?.Content as string;
             for (int i = 1; i <= Convert.ToInt32(btniçerik); i++)
             {
-                using (System.Drawing.Bitmap bmp = MuPdfWrapper.ExtractPage(Mpp?.CurrentSource, Mpp.GetCurrentPageNumber(), 4))
+                using (Bitmap bmp = MuPdfWrapper.ExtractPage(Mpp?.CurrentSource, Mpp.GetCurrentPageNumber(), 4))
                 {
                     using (DrawingContext dc = dv.RenderOpen())
                     {
-                        System.Windows.Media.Imaging.BitmapSource bitmapSource = bmp.Width > bmp.Height ? bmp.ToBitmapSource(ImageFormat.Jpeg).Resize((int)pd.PrintableAreaHeight, (int)pd.PrintableAreaWidth, 90, 300, 300) : bmp.ToBitmapSource(ImageFormat.Jpeg).Resize((int)pd.PrintableAreaWidth, (int)pd.PrintableAreaHeight, 0, 300, 300);
+                        BitmapSource bitmapSource = bmp.Width > bmp.Height ? bmp.ToBitmapImage(ImageFormat.Jpeg).Resize((int)pd.PrintableAreaHeight, (int)pd.PrintableAreaWidth, 90, 300, 300) : bmp.ToBitmapImage(ImageFormat.Jpeg).Resize((int)pd.PrintableAreaWidth, (int)pd.PrintableAreaHeight, 0, 300, 300);
                         bitmapSource.Freeze();
                         dc.DrawImage(bitmapSource, new Rect(0, 0, pd.PrintableAreaWidth, pd.PrintableAreaHeight));
                     }
@@ -438,7 +454,7 @@ namespace GpMoonPdfViewer
         {
             return !(values[0] is MoonPdfViewer moonPdfViewer) || !int.TryParse(values[1].ToString(), out int sayfano)
                 ? DependencyProperty.UnsetValue
-                : moonPdfViewer.PdfExtractSmallPreviewImage(sayfano);
+                :MoonPdfViewer.PdfExtractSmallPreviewImage(moonPdfViewer,sayfano);
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture) => throw new NotImplementedException();

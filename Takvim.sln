@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwainControl", "TwainContro
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GpMoonPdfViewer", "GpMoonPdfViewer\GpMoonPdfViewer\GpMoonPdfViewer.csproj", "{1DC5B602-B301-4E37-80D5-3CA7BF58AAF5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Extensions", "Extensions\Extensions.csproj", "{22B9A127-5E74-4534-BFC4-A3349544C52C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{1DC5B602-B301-4E37-80D5-3CA7BF58AAF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1DC5B602-B301-4E37-80D5-3CA7BF58AAF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1DC5B602-B301-4E37-80D5-3CA7BF58AAF5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22B9A127-5E74-4534-BFC4-A3349544C52C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22B9A127-5E74-4534-BFC4-A3349544C52C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22B9A127-5E74-4534-BFC4-A3349544C52C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22B9A127-5E74-4534-BFC4-A3349544C52C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

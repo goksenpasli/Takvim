@@ -1,4 +1,5 @@
-﻿using SharpCompress.Common;
+﻿using Extensions;
+using SharpCompress.Common;
 using SharpCompress.Readers;
 using System;
 using System.ComponentModel;
