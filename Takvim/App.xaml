@@ -13,9 +13,9 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/PresentationFramework.Aero,Version=4.0.0.0,Culture=neutral,PublicKeyToken=31bf3856ad364e35,processorArchitecture=MSIL;component/themes/Aero.NormalColor.xaml" />
-                <ResourceDictionary Source="/Takvim;component/Themes/HorizontalListBox.xaml" />
                 <ResourceDictionary Source="/Extensions;component/Themes/Generic.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <local:FilePathToIconConverter x:Key="FilePathToIconConverter" />
             <local:DateNowBooleanConverter x:Key="DateNowBooleanConverter" />
             <local:FilePathToArchiveContentCoverter x:Key="FilePathToArchiveContentCoverter" />
             <local:FilePathToFileDescriptionConverter x:Key="FilePathToFileDescriptionConverter" />
@@ -26,7 +26,6 @@
             <local:NullableToBooleanConverter x:Key="NullableToBooleanConverter" />
             <local:MonthToColorConverter x:Key="MonthToColorConverter" />
             <local:SystemFileIconConverter x:Key="SystemFileIconConverter" />
-            <local:FilePathToIconConverter x:Key="FilePathToIconConverter" />
             <local:XmlDateConverter x:Key="XmlDateConverter" />
             <local:XmlPdfDataConverter x:Key="XmlPdfDataConverter" />
             <local:Base64ImageConverter x:Key="Base64ImageConverter" />

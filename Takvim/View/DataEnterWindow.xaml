@@ -237,7 +237,7 @@
                                     <Extensions:NumericUpDownControl IsReadOnly="True"
                                         LargeChange="1" Maximum="100" Minimum="1" SmallChange="1"
                                         ToolTip="WEBP RESİM YÜKLEME KALİTESİ 1 EN DÜŞÜK BOYUTTUR."
-                                        Value="{Binding WebpQuality, Delay=500, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                        Value="{Binding WebpQuality, Delay=1000, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                 </StackPanel>
                             </TabItem.Header>
                             <Image Source="{Binding ResimData, ConverterParameter=96, Converter={StaticResource WebpByteArrayToImageConverter}, Mode=OneWay}" />

@@ -83,16 +83,14 @@
                             <local:MainViewModel ŞuAnkiAy="True" />
                         </local:MiniCalendarControl.DataContext>
                     </local:MiniCalendarControl>
-                    <ListBox x:Name="Lb"
+                    <Extensions:HorizontalListBox x:Name="Lb"
                         Grid.Row="1" Grid.Column="0"
                         HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
                         DataContext="{StaticResource MultipleImageViewer}"
                         ItemsSource="{Binding TopluDosyalar}"
-                        Style="{StaticResource HorizontalListBoxStyle}"
                         d:DataContext="{d:DesignInstance Type={x:Type local:MultipleImageViewer}}"
-                        ItemsPanel="{StaticResource HorizontalItemsPanelTemplate}"
                         VirtualizingStackPanel.VirtualizationMode="Recycling">
-                        <ListBox.ItemTemplate>
+                        <Extensions:HorizontalListBox.ItemTemplate>
                             <DataTemplate>
                                 <Border BorderBrush="{Binding VeriRenk}" BorderThickness="5">
                                     <StackPanel Width="250">
@@ -101,8 +99,8 @@
                                     </StackPanel>
                                 </Border>
                             </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
+                        </Extensions:HorizontalListBox.ItemTemplate>
+                    </Extensions:HorizontalListBox>
                     <Grid Grid.Column="1" Grid.RowSpan="2">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />

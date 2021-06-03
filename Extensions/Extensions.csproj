@@ -56,6 +56,7 @@
     <Compile Include="Controls\ContentToggleButton.cs" />
     <Compile Include="Controls\FilePathToIconConverter.cs" />
     <Compile Include="Controls\FileSelectorTextBox.cs" />
+    <Compile Include="Controls\HorizontalListBox.cs" />
     <Compile Include="Controls\MaskedTextBox.cs" />
     <Compile Include="Controls\NumericUpDownControl.cs" />
     <Compile Include="Controls\SplitButton.cs" />
@@ -77,10 +78,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Themes\Generic.xaml">
+    <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Resource>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
