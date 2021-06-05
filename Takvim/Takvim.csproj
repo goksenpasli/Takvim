@@ -82,12 +82,8 @@
     </ApplicationDefinition>
     <Compile Include="Converters\Base64Converter.cs" />
     <Compile Include="Converters\DateNowBooleanConverter.cs" />
-    <Compile Include="Converters\FilePathToFileDescriptionConverter.cs" />
     <Compile Include="Converters\XmlPdfDataConverter.cs" />
     <Compile Include="ViewModel\ArchiveData.cs" />
-    <Compile Include="View\ArchiveViewer.xaml.cs">
-      <DependentUpon>ArchiveViewer.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\Compressor.xaml.cs">
       <DependentUpon>Compressor.xaml</DependentUpon>
     </Compile>
@@ -101,7 +97,6 @@
     <Compile Include="Converters\DateEndTimeConverter.cs" />
     <Compile Include="Converters\DatePassedBooleanConverter.cs" />
     <Compile Include="Converters\FileExtToArchiveViewerContentCoverter.cs" />
-    <Compile Include="Converters\FilePathToArchiveContentCoverter.cs" />
     <Compile Include="Converters\MonthToColorConverter.cs" />
     <Compile Include="ViewModel\DataView.cs" />
     <Compile Include="ViewModel\MainView.cs" />
@@ -148,10 +143,6 @@
     <Compile Include="Converters\XmlDateConverter.cs" />
     <Compile Include="ViewModel\CompressorView.cs" />
     <Compile Include="ViewModel\CompressorViewModel.cs" />
-    <Page Include="View\ArchiveViewer.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="View\Compressor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

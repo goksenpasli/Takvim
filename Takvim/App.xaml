@@ -17,8 +17,6 @@
             </ResourceDictionary.MergedDictionaries>
             <local:FilePathToIconConverter x:Key="FilePathToIconConverter" />
             <local:DateNowBooleanConverter x:Key="DateNowBooleanConverter" />
-            <local:FilePathToArchiveContentCoverter x:Key="FilePathToArchiveContentCoverter" />
-            <local:FilePathToFileDescriptionConverter x:Key="FilePathToFileDescriptionConverter" />
             <local:FileExtToArchiveViewerContentCoverter x:Key="FileExtToArchiveViewerContentCoverter" />
             <local:CompressorViewModel x:Key="CompressorViewModel" />
             <local:DateEndTimeConverter x:Key="DateEndTimeConverter" />
@@ -1066,7 +1064,7 @@
                                                             <Setter Property="Content">
                                                                 <Setter.Value>
                                                                     <Grid>
-                                                                        <local:ArchiveViewer Width="300" Height="250"
+                                                                        <Extensions:ArchiveViewer Width="300" Height="250"
                                                                             DataContext="{Binding}"
                                                                             ArchivePath="{Binding XPath=@Yol}" />
                                                                     </Grid>
@@ -1084,11 +1082,6 @@
                     </StackPanel>
                 </Grid>
             </DataTemplate>
-            <LinearGradientBrush x:Key="PinkProgressBackground" ice:Freeze="True" StartPoint="0.5,0" EndPoint="0.5,1">
-                <GradientStop ice:Freeze="True" Offset="0" Color="#FFD82E83" />
-                <GradientStop ice:Freeze="True" Offset="1" Color="#FFD82E83" />
-                <GradientStop ice:Freeze="True" Offset="0.5" Color="#FFE83A92" />
-            </LinearGradientBrush>
             <Style x:Key="SimpleProgressBar" TargetType="{x:Type ProgressBar}">
                 <Setter Property="BorderThickness" Value="1" />
                 <Setter Property="Foreground" Value="Green" />

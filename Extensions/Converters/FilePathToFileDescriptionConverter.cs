@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Globalization;
 using System.Windows.Data;
-using Extensions;
 
-namespace Takvim
+namespace Extensions
 {
     public class FilePathToFileDescriptionConverter : IValueConverter
     {

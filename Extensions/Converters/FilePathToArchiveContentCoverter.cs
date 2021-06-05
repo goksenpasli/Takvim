@@ -6,9 +6,9 @@ using System.IO;
 using System.Linq;
 using System.Windows.Data;
 
-namespace Takvim
+namespace Extensions
 {
-    public class FilePathToArchiveContentCoverter : IValueConverter
+    public class FilePathToArchiveContentConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

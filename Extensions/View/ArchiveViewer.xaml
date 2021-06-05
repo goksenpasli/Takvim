@@ -1,15 +1,52 @@
-﻿<UserControl x:Class="Takvim.ArchiveViewer"
+﻿<UserControl x:Class="Extensions.ArchiveViewer"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:Takvim"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:Extensions"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DataContext="{d:DesignInstance Type=local:ArchiveViewer}"
     d:DesignHeight="250" d:DesignWidth="500" UseLayoutRounding="True"
     mc:Ignorable="d">
+    <UserControl.Resources>
+        <Style x:Key="ProgressBarStyle" TargetType="{x:Type ProgressBar}">
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Foreground" Value="Green" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ProgressBar}">
+                        <Border x:Name="PART_Track"
+                            MinHeight="14"
+                            Background="{x:Null}"
+                            BorderBrush="#888888"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="2">
+                            <Border x:Name="PART_Indicator"
+                                Background="{TemplateBinding Foreground}"
+                                BorderBrush="{x:Null}"
+                                Margin="1" HorizontalAlignment="Left"
+                                CornerRadius="1" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="Orientation" Value="Vertical">
+                                <Setter TargetName="PART_Track" Property="LayoutTransform">
+                                    <Setter.Value>
+                                        <RotateTransform Angle="-90" />
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
     <Grid x:Name="Grid">
         <Grid.Resources>
+            <local:SystemFileIconConverter x:Key="SystemFileIconConverter" />
+            <local:FilePathToIconConverter x:Key="FilePathToIconConverter" />
             <local:CompressorViewModel x:Key="CompressorViewModel" />
-            <CollectionViewSource x:Key="Cvs" d:DesignSource="{d:DesignInstance Type=local:ArchiveData, CreateList=True}" Source="{Binding ArchivePath, Converter={StaticResource FilePathToArchiveContentCoverter}}" />
+            <local:FilePathToFileDescriptionConverter x:Key="FilePathToFileDescriptionConverter" />
+            <local:FilePathToArchiveContentConverter x:Key="FilePathToArchiveContentConverter" />
+            <CollectionViewSource x:Key="Cvs" d:DesignSource="{d:DesignInstance Type=local:ArchiveData, CreateList=True}" Source="{Binding ArchivePath, Converter={StaticResource FilePathToArchiveContentConverter}}" />
         </Grid.Resources>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
@@ -95,7 +132,7 @@
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <ProgressBar Width="32"
-                                    Style="{StaticResource SimpleProgressBar}"
+                                    Style="{StaticResource ProgressBarStyle}"
                                     Maximum="1"
                                     Value="{Binding Oran, IsAsync=True}" />
                             </DataTemplate>
@@ -116,10 +153,49 @@
                 </Style>
             </Grid.Style>
             <ProgressBar Width="20"
-                Foreground="{StaticResource PinkProgressBackground}"
-                Style="{StaticResource SimpleProgressBar}"
                 Maximum="100" Orientation="Vertical"
-                Value="{Binding Path=(local:ArchiveViewer.ToplamOran), Mode=OneWay}" />
+                Value="{Binding Path=(local:ArchiveViewer.ToplamOran), Mode=OneWay}">
+                <ProgressBar.Foreground>
+                    <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                        <GradientStop Offset="0" Color="#FFD82E83" />
+                        <GradientStop Offset="1" Color="#FFD82E83" />
+                        <GradientStop Offset="0.5" Color="#FFE83A92" />
+                    </LinearGradientBrush>
+                </ProgressBar.Foreground>
+                <ProgressBar.Style>
+                    <Style TargetType="{x:Type ProgressBar}">
+                        <Setter Property="BorderThickness" Value="1" />
+                        <Setter Property="Foreground" Value="Green" />
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type ProgressBar}">
+                                    <Border x:Name="PART_Track"
+                                        MinHeight="14"
+                                        Background="{x:Null}"
+                                        BorderBrush="#FF888888"
+                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                        d:DesignUseLayoutRounding="True" CornerRadius="2" UseLayoutRounding="True">
+                                        <Border x:Name="PART_Indicator"
+                                            Background="{TemplateBinding Foreground}"
+                                            BorderBrush="{x:Null}"
+                                            Margin="1" HorizontalAlignment="Left"
+                                            d:DesignUseLayoutRounding="True" CornerRadius="1" UseLayoutRounding="True" />
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="Orientation" Value="Vertical">
+                                            <Setter TargetName="PART_Track" Property="LayoutTransform">
+                                                <Setter.Value>
+                                                    <RotateTransform Angle="-90" />
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ProgressBar.Style>
+            </ProgressBar>
             <TextBlock Text="{Binding Path=(local:ArchiveViewer.ToplamOran), Mode=OneWay, StringFormat=\{0:F0\}}"
                 HorizontalAlignment="Center" VerticalAlignment="Center"
                 FontSize="11" FontWeight="Bold" />

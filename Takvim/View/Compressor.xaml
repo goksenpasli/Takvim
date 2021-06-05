@@ -223,7 +223,7 @@
                 </StackPanel>
                 <Extensions:SplitButton.InternalContent>
                     <GroupBox Header="ARŞİV İÇERİK" Width="520" Height="250">
-                        <local:ArchiveViewer ArchivePath="{Binding CompressorView.ArşivDosyaYolu}" />
+                        <Extensions:ArchiveViewer ArchivePath="{Binding CompressorView.ArşivDosyaYolu}" />
                     </GroupBox>
                 </Extensions:SplitButton.InternalContent>
             </Extensions:SplitButton>
