@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 
-namespace TwainControl
+namespace Extensions
 {
     public static class ListBoxHelper
     {

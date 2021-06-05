@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Extensions;
+using System;
 using System.Collections;
 using System.ComponentModel;
 using System.IO;
@@ -6,7 +7,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Xml;
-using Extensions;
 
 namespace Takvim
 {
@@ -35,6 +35,16 @@ namespace Takvim
                 }
 
                 disposedValue = true;
+            }
+        }
+
+        private void CameraUserControl_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (DataContext is Data data && e.PropertyName == "ResimData")
+            {
+                data.ResimData = ((sender as Extensions.CameraUserControl)?.ResimData).WebpEncode(data.WebpQuality);
+                data.DosyaUzantı = ".webp";
+                data.Boyut = data.ResimData.Length / 1024;
             }
         }
 

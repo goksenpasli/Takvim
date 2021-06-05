@@ -280,7 +280,7 @@
                                 </Image.Source>
                             </Image>
                         </Extensions:ContentToggleButton.OverContent>
-                        <local:CameraUserControl Width="320" Height="260" />
+                        <Extensions:CameraUserControl Width="320" Height="260" PropertyChanged="CameraUserControl_PropertyChanged" />
                     </Extensions:ContentToggleButton>
                     <Extensions:ContentToggleButton>
                         <Extensions:ContentToggleButton.OverContent>

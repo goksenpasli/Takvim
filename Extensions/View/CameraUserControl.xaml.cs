@@ -5,15 +5,16 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using Extensions;
 
-namespace Takvim
+namespace Extensions
 {
     public partial class CameraUserControl : UserControl, INotifyPropertyChanged
     {
         private CapDevice device;
 
         private FilterInfo[] liste = CapDevice.DeviceMonikers;
+
+        private byte[] resimData;
 
         private double rotation = 180;
 
@@ -26,17 +27,12 @@ namespace Takvim
 
             KameradanResimYükle = new RelayCommand<object>(parameter =>
             {
-                if (parameter is Data data)
-                {
-                    using MemoryStream ms = new();
-                    JpegBitmapEncoder encoder = new();
-                    encoder.Frames.Add(BitmapFrame.Create(new TransformedBitmap(Device.BitmapSource, new RotateTransform(Rotation))));
-                    encoder.QualityLevel = 100;
-                    encoder.Save(ms);
-                    data.ResimData = ms.ToArray().WebpEncode(data.WebpQuality);
-                    data.DosyaUzantı = ".webp";
-                    data.Boyut = data.ResimData.Length / 1024;
-                }
+                using MemoryStream ms = new();
+                JpegBitmapEncoder encoder = new();
+                encoder.Frames.Add(BitmapFrame.Create(new TransformedBitmap(Device.BitmapSource, new RotateTransform(Rotation))));
+                encoder.QualityLevel = 100;
+                encoder.Save(ms);
+                ResimData = ms.ToArray();
             }, parameter => SeçiliKamera is not null);
 
             Durdur = new RelayCommand<object>(parameter => Device.Stop(), parameter => SeçiliKamera is not null && Device.IsRunning);
@@ -64,6 +60,8 @@ namespace Takvim
 
         public ICommand Durdur { get; }
 
+        public ICommand KameradanResimYükle { get; }
+
         public FilterInfo[] Liste
         {
             get => liste;
@@ -80,7 +78,19 @@ namespace Takvim
 
         public ICommand Oynat { get; }
 
-        public ICommand KameradanResimYükle { get; }
+        public byte[] ResimData
+        {
+            get => resimData;
+
+            set
+            {
+                if (resimData != value)
+                {
+                    resimData = value;
+                    OnPropertyChanged(nameof(ResimData));
+                }
+            }
+        }
 
         public double Rotation
         {

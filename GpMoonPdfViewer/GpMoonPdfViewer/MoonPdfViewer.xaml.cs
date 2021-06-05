@@ -188,10 +188,8 @@ namespace GpMoonPdfViewer
         {
             return Task.Factory.StartNew(() =>
             {
-                using (Bitmap bmp = MuPdfWrapper.ExtractPage(moonPdfViewer.Mpp.CurrentSource, sayfano, zoom))
-                {
-                    return bmp.ToBitmapImage(ImageFormat.Jpeg);
-                }
+                using Bitmap bmp = MuPdfWrapper.ExtractPage(moonPdfViewer.Mpp.CurrentSource, sayfano, zoom);
+                return bmp.ToBitmapImage(ImageFormat.Jpeg);
             }, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Result;
         }
 
@@ -203,18 +201,14 @@ namespace GpMoonPdfViewer
             {
                 try
                 {
-                    if (DesignerProperties.GetIsInDesignMode(new DependencyObject()))
+                    if (!DesignerProperties.GetIsInDesignMode(new DependencyObject()))
                     {
-                        return;
-                    }
-
-                    using (MemoryStream Ms = new MemoryStream(e.NewValue as byte[], false))
-                    {
+                        using MemoryStream Ms = new(e.NewValue as byte[], false);
                         pdfViewer.Mpp?.Open(new MemorySource(Ms.ToArray()));
+                        pdfViewer.Sayfalar = new ObservableCollection<int>(Enumerable.Range(1, pdfViewer.Mpp.TotalPages));
+                        pdfViewer.ŞuankiSayfa = 1;
+                        pdfViewer.ToplamSayfa = (int)(pdfViewer.Mpp?.TotalPages);
                     }
-                    pdfViewer.Sayfalar = new ObservableCollection<int>(Enumerable.Range(1, pdfViewer.Mpp.TotalPages));
-                    pdfViewer.ŞuankiSayfa = 1;
-                    pdfViewer.ToplamSayfa = (int)(pdfViewer.Mpp?.TotalPages);
                 }
                 catch (Exception ex) { MessageBox.Show(ex.Message, "EBYS", MessageBoxButton.OK, MessageBoxImage.Error); }
             }
@@ -226,16 +220,14 @@ namespace GpMoonPdfViewer
             {
                 try
                 {
-                    if (DesignerProperties.GetIsInDesignMode(new DependencyObject()))
+                    if (!DesignerProperties.GetIsInDesignMode(new DependencyObject()))
                     {
-                        return;
+                        string uriString = (string)e.NewValue;
+                        pdfViewer.Mpp?.Open(new FileSource(uriString));
+                        pdfViewer.Sayfalar = new ObservableCollection<int>(Enumerable.Range(1, pdfViewer.Mpp.TotalPages));
+                        pdfViewer.ŞuankiSayfa = 1;
+                        pdfViewer.ToplamSayfa = (int)(pdfViewer.Mpp?.TotalPages);
                     }
-
-                    string uriString = (string)e.NewValue;
-                    pdfViewer.Mpp?.Open(new FileSource(uriString));
-                    pdfViewer.Sayfalar = new ObservableCollection<int>(Enumerable.Range(1, pdfViewer.Mpp.TotalPages));
-                    pdfViewer.ŞuankiSayfa = 1;
-                    pdfViewer.ToplamSayfa = (int)(pdfViewer.Mpp?.TotalPages);
                 }
                 catch (Exception ex) { MessageBox.Show(ex.Message, "EBYS", MessageBoxButton.OK, MessageBoxImage.Error); }
             }
@@ -249,23 +241,21 @@ namespace GpMoonPdfViewer
         {
             try
             {
-                if (DesignerProperties.GetIsInDesignMode(new DependencyObject()))
+                if (!DesignerProperties.GetIsInDesignMode(new DependencyObject()))
                 {
-                    return;
-                }
-
-                if (Mpp?.CurrentSource != null)
-                {
-                    ControlsActive = true;
-                    Mpp?.ZoomToWidth();
-                    CustomZoomLevel = Mpp.CurrentZoom;
-                    ToplamSayfa = Mpp.TotalPages;
-                    Sayfalar = new ObservableCollection<int>(Enumerable.Range(1, ToplamSayfa));
-                    ŞuankiSayfa = 1;
-                }
-                else
-                {
-                    ControlsActive = false;
+                    if (Mpp?.CurrentSource != null)
+                    {
+                        ControlsActive = true;
+                        Mpp?.ZoomToWidth();
+                        CustomZoomLevel = Mpp.CurrentZoom;
+                        ToplamSayfa = Mpp.TotalPages;
+                        Sayfalar = new ObservableCollection<int>(Enumerable.Range(1, ToplamSayfa));
+                        ŞuankiSayfa = 1;
+                    }
+                    else
+                    {
+                        ControlsActive = false;
+                    }
                 }
             }
             catch (Exception ex) { MessageBox.Show(ex.Message, "EBYS", MessageBoxButton.OK, MessageBoxImage.Error); }
@@ -305,7 +295,7 @@ namespace GpMoonPdfViewer
 
         private void PdfViewerOpen_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog { Filter = "Pdf Dosyası |*.pdf", Multiselect = false };
+            OpenFileDialog openFileDialog = new() { Filter = "Pdf Dosyası |*.pdf", Multiselect = false };
             if (openFileDialog.ShowDialog() == true)
             {
                 Mpp?.Open(new FileSource(openFileDialog.FileName));
@@ -319,7 +309,7 @@ namespace GpMoonPdfViewer
 
         private void PdfViewerPrint_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            PrintDialog pd = new PrintDialog
+            PrintDialog pd = new()
             {
                 PageRangeSelection = PageRangeSelection.AllPages,
                 UserPageRangeEnabled = true,
@@ -328,7 +318,7 @@ namespace GpMoonPdfViewer
             };
             if (pd.ShowDialog() == true)
             {
-                DrawingVisual dv = new DrawingVisual();
+                DrawingVisual dv = new();
                 int başlangıç;
                 int bitiş;
                 if (pd.PageRangeSelection == PageRangeSelection.AllPages)
@@ -346,12 +336,10 @@ namespace GpMoonPdfViewer
                 {
                     using (Bitmap bmp = MuPdfWrapper.ExtractPage(Mpp?.CurrentSource, i, 4))
                     {
-                        using (DrawingContext dc = dv.RenderOpen())
-                        {
-                            BitmapSource bitmapSource = bmp.Width > bmp.Height ? bmp.ToBitmapImage(ImageFormat.Jpeg).Resize((int)pd.PrintableAreaHeight, (int)pd.PrintableAreaWidth, 90, 300, 300) : bmp.ToBitmapImage(ImageFormat.Jpeg).Resize((int)pd.PrintableAreaWidth, (int)pd.PrintableAreaHeight, 0, 300, 300);
-                            bitmapSource.Freeze();
-                            dc.DrawImage(bitmapSource, new Rect(0, 0, pd.PrintableAreaWidth, pd.PrintableAreaHeight));
-                        }
+                        using DrawingContext dc = dv.RenderOpen();
+                        BitmapSource bitmapSource = bmp.Width > bmp.Height ? bmp.ToBitmapImage(ImageFormat.Jpeg).Resize((int)pd.PrintableAreaHeight, (int)pd.PrintableAreaWidth, 90, 300, 300) : bmp.ToBitmapImage(ImageFormat.Jpeg).Resize((int)pd.PrintableAreaWidth, (int)pd.PrintableAreaHeight, 0, 300, 300);
+                        bitmapSource.Freeze();
+                        dc.DrawImage(bitmapSource, new Rect(0, 0, pd.PrintableAreaWidth, pd.PrintableAreaHeight));
                     }
 
                     pd.PrintVisual(dv, "");
@@ -363,7 +351,7 @@ namespace GpMoonPdfViewer
 
         private void PdfViewerSave_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            SaveFileDialog saveFileDialog = new SaveFileDialog { Filter = "Jpg Dosyası (*.jpg)|*.jpg" };
+            SaveFileDialog saveFileDialog = new() { Filter = "Jpg Dosyası (*.jpg)|*.jpg" };
             if (saveFileDialog.ShowDialog() == true)
             {
                 File.WriteAllBytes(saveFileDialog.FileName, PdfExtractSmallPreviewImage(this,ŞuankiSayfa, 2).ToTiffJpegByteArray(Extensions.ExtensionMethods.Format.Jpg));
@@ -397,19 +385,17 @@ namespace GpMoonPdfViewer
 
         private void UniformGridPrint_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            PrintDialog pd = new PrintDialog();
-            DrawingVisual dv = new DrawingVisual();
+            PrintDialog pd = new();
+            DrawingVisual dv = new();
             string btniçerik = (e.OriginalSource as Button)?.Content as string;
             for (int i = 1; i <= Convert.ToInt32(btniçerik); i++)
             {
                 using (Bitmap bmp = MuPdfWrapper.ExtractPage(Mpp?.CurrentSource, Mpp.GetCurrentPageNumber(), 4))
                 {
-                    using (DrawingContext dc = dv.RenderOpen())
-                    {
-                        BitmapSource bitmapSource = bmp.Width > bmp.Height ? bmp.ToBitmapImage(ImageFormat.Jpeg).Resize((int)pd.PrintableAreaHeight, (int)pd.PrintableAreaWidth, 90, 300, 300) : bmp.ToBitmapImage(ImageFormat.Jpeg).Resize((int)pd.PrintableAreaWidth, (int)pd.PrintableAreaHeight, 0, 300, 300);
-                        bitmapSource.Freeze();
-                        dc.DrawImage(bitmapSource, new Rect(0, 0, pd.PrintableAreaWidth, pd.PrintableAreaHeight));
-                    }
+                    using DrawingContext dc = dv.RenderOpen();
+                    BitmapSource bitmapSource = bmp.Width > bmp.Height ? bmp.ToBitmapImage(ImageFormat.Jpeg).Resize((int)pd.PrintableAreaHeight, (int)pd.PrintableAreaWidth, 90, 300, 300) : bmp.ToBitmapImage(ImageFormat.Jpeg).Resize((int)pd.PrintableAreaWidth, (int)pd.PrintableAreaHeight, 0, 300, 300);
+                    bitmapSource.Freeze();
+                    dc.DrawImage(bitmapSource, new Rect(0, 0, pd.PrintableAreaWidth, pd.PrintableAreaHeight));
                 }
 
                 pd.PrintVisual(dv, "");
@@ -452,7 +438,7 @@ namespace GpMoonPdfViewer
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            return !(values[0] is MoonPdfViewer moonPdfViewer) || !int.TryParse(values[1].ToString(), out int sayfano)
+            return values[0] is not MoonPdfViewer moonPdfViewer || !int.TryParse(values[1].ToString(), out int sayfano)
                 ? DependencyProperty.UnsetValue
                 :MoonPdfViewer.PdfExtractSmallPreviewImage(moonPdfViewer,sayfano);
         }

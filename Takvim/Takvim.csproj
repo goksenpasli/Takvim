@@ -47,8 +47,11 @@
     <ApplicationIcon>icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="PdfSharp-wpf">
-      <HintPath>.\PdfSharp-wpf.dll</HintPath>
+    <Reference Include="PdfSharp-wpf, Version=1.51.5185.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\PDFsharp-wpf.1.51.5185-beta\lib\net30\PdfSharp-wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="PdfSharp.Charting-wpf, Version=1.51.5185.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\PDFsharp-wpf.1.51.5185-beta\lib\net30\PdfSharp.Charting-wpf.dll</HintPath>
     </Reference>
     <Reference Include="PresentationFramework.Aero" />
     <Reference Include="SharpCompress, Version=0.24.0.0, Culture=neutral, PublicKeyToken=afb0a02973931d96, processorArchitecture=MSIL">
@@ -71,9 +74,6 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="WpfCap, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\WPFCap.1.2.0\lib\net40\WpfCap.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -87,9 +87,6 @@
     <Compile Include="ViewModel\ArchiveData.cs" />
     <Compile Include="View\ArchiveViewer.xaml.cs">
       <DependentUpon>ArchiveViewer.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\CameraUserControl.xaml.cs">
-      <DependentUpon>CameraUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Compressor.xaml.cs">
       <DependentUpon>Compressor.xaml</DependentUpon>
@@ -153,9 +150,6 @@
     <Compile Include="ViewModel\CompressorViewModel.cs" />
     <Page Include="View\ArchiveViewer.xaml">
       <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\CameraUserControl.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Compressor.xaml">

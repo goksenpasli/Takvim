@@ -1,12 +1,15 @@
-﻿<UserControl x:Class="Takvim.CameraUserControl" x:Name="UserControl"
+﻿<UserControl x:Class="Extensions.CameraUserControl" x:Name="UserControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:WebcamPlayer="clr-namespace:CatenaLogic.Windows.Presentation.WebcamPlayer;assembly=WpfCap"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:Takvim"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:Extensions"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DataContext="{d:DesignInstance Type=local:CameraUserControl}"
     d:DesignHeight="260" d:DesignWidth="320" UseLayoutRounding="True"
     mc:Ignorable="d">
+    <UserControl.Resources>
+        <local:NullableToBooleanConverter x:Key="NullableToBooleanConverter" />
+    </UserControl.Resources>
     <Grid>
         <GroupBox Header="KAMERA">
             <Grid>

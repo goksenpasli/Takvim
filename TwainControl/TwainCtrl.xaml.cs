@@ -40,7 +40,7 @@ namespace TwainControl
 
         private double eşik = 160d;
 
-        private ObservableCollection<BitmapFrame> resimler = new ObservableCollection<BitmapFrame>();
+        private ObservableCollection<BitmapFrame> resimler = new();
 
         private BitmapFrame seçiliResim;
 
@@ -97,7 +97,7 @@ namespace TwainControl
 
             PdfTopluKaydet = new RelayCommand<object>(parameter =>
             {
-                SaveFileDialog saveFileDialog = new SaveFileDialog { Filter = "Pdf Resmi(*.pdf)|*.pdf" };
+                SaveFileDialog saveFileDialog = new() { Filter = "Pdf Resmi(*.pdf)|*.pdf" };
                 if (saveFileDialog.ShowDialog() == true)
                 {
                     SeçiliResimler = parameter as IList;
@@ -111,7 +111,7 @@ namespace TwainControl
             {
                 if (parameter is BitmapFrame resim)
                 {
-                    SaveFileDialog saveFileDialog = new SaveFileDialog { Filter = "Tif Resmi (*.tif)|*.tif|Jpg Resmi(*.jpg)|*.jpg|Pdf Resmi(*.pdf)|*.pdf" };
+                    SaveFileDialog saveFileDialog = new() { Filter = "Tif Resmi (*.tif)|*.tif|Jpg Resmi(*.jpg)|*.jpg|Pdf Resmi(*.pdf)|*.pdf" };
                     if (saveFileDialog.ShowDialog() == true)
                     {
                         switch (saveFileDialog.FilterIndex)
@@ -135,7 +135,7 @@ namespace TwainControl
                                 break;
 
                             case 3:
-                                using (MemoryStream ms = new MemoryStream())
+                                using (MemoryStream ms = new())
                                 {
                                     resim.CreatePdfFile().Save(ms);
                                     File.WriteAllBytes(saveFileDialog.FileName, ms.ToArray());
