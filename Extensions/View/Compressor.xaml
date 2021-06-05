@@ -1,13 +1,16 @@
-﻿<UserControl x:Class="Takvim.Compressor"
+﻿<UserControl x:Class="Extensions.Compressor"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:Extensions="clr-namespace:Extensions;assembly=Extensions"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:Takvim"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:Extensions"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     MaxHeight="140"
     d:DataContext="{d:DesignInstance Type=local:CompressorViewModel}"
     d:DesignHeight="140" d:DesignWidth="450" UseLayoutRounding="True"
     mc:Ignorable="d">
+    <UserControl.Resources>
+        <local:SystemFileIconConverter x:Key="SystemFileIconConverter" />
+        <local:FilePathToIconConverter x:Key="FilePathToIconConverter" />
+    </UserControl.Resources>
     <Grid>
         <Grid.Style>
             <Style TargetType="{x:Type Grid}">
@@ -31,8 +34,8 @@
             <ColumnDefinition Width="1*" />
             <ColumnDefinition Width="1*" />
         </Grid.ColumnDefinitions>
-        <Extensions:SplitButton Grid.Column="0" Grid.ColumnSpan="2" Command="{Binding ArşivlenecekDosyalarıSeç, Mode=OneWay}">
-            <Extensions:SplitButton.Content>
+        <local:SplitButton Grid.Column="0" Grid.ColumnSpan="2" Command="{Binding ArşivlenecekDosyalarıSeç, Mode=OneWay}">
+            <local:SplitButton.Content>
                 <StackPanel Orientation="Horizontal">
                     <Image Width="16" Height="16">
                         <Image.Source>
@@ -44,26 +47,24 @@
                     </Image>
                     <TextBlock Text="DOSYALARI SEÇ" Visibility="{Binding ElementVisible}" VerticalAlignment="Center" />
                 </StackPanel>
-            </Extensions:SplitButton.Content>
-            <Extensions:SplitButton.InternalContent>
-                <GroupBox Header="DOSYALAR">
-                    <ListBox Width="250" Height="250" ItemsSource="{Binding CompressorView.Dosyalar}">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <Image Width="32" Height="32" Source="{Binding Converter={StaticResource FilePathToIconConverter}, Mode=OneWay}" />
-                                    <TextBlock VerticalAlignment="Center">
-                                        <Hyperlink Command="{Binding DataContext.ListedenDosyaSil, Mode=OneWay, RelativeSource={RelativeSource AncestorType=ListBox}}" CommandParameter="{Binding Mode=OneWay}" ToolTip="Silmek İçin Tıklayın.">
-                                            <Run Text="{Binding Mode=OneWay}" />
-                                        </Hyperlink>
-                                    </TextBlock>
-                                </StackPanel>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-                </GroupBox>
-            </Extensions:SplitButton.InternalContent>
-        </Extensions:SplitButton>
+            </local:SplitButton.Content>
+            <local:SplitButton.InternalContent>
+                <ListBox Width="250" Height="250" ItemsSource="{Binding CompressorView.Dosyalar}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Width="32" Height="32" Source="{Binding Converter={StaticResource FilePathToIconConverter}, Mode=OneWay}" />
+                                <TextBlock VerticalAlignment="Center">
+                                    <Hyperlink Command="{Binding DataContext.ListedenDosyaSil, Mode=OneWay, RelativeSource={RelativeSource AncestorType=ListBox}}" CommandParameter="{Binding Mode=OneWay}" ToolTip="Silmek İçin Tıklayın.">
+                                        <Run Text="{Binding Mode=OneWay}" />
+                                    </Hyperlink>
+                                </TextBlock>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </local:SplitButton.InternalContent>
+        </local:SplitButton>
         <ListBox Grid.Row="1"
             Background="{x:Null}"
             BorderBrush="{x:Null}"
@@ -130,7 +131,7 @@
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
                     <TextBlock Text="WEBP SIKIŞTIR" VerticalAlignment="Center" />
-                    <Extensions:NumericUpDownControl Grid.Column="1"
+                    <local:NumericUpDownControl Grid.Column="1"
                         IsTabStop="False" LargeChange="1" Maximum="100" Minimum="1"
                         SmallChange="1" ToolTip="ARŞİVE WEBP RESİM EKLEME KALİTESİ 1 EN DÜŞÜK BOYUTTUR."
                         Value="{Binding CompressorView.WebpQuality, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
@@ -209,7 +210,7 @@
                     </StackPanel>
                 </Button.Content>
             </Button>
-            <Extensions:SplitButton Command="{Binding ArşivİçerikGör, Mode=OneWay}">
+            <local:SplitButton Command="{Binding ArşivİçerikGör, Mode=OneWay}">
                 <StackPanel Orientation="Horizontal">
                     <Image Width="16" Height="16">
                         <Image.Source>
@@ -221,12 +222,10 @@
                     </Image>
                     <TextBlock Text="ARŞİV İÇERİK GÖR" Visibility="{Binding ElementVisible}" VerticalAlignment="Center" />
                 </StackPanel>
-                <Extensions:SplitButton.InternalContent>
-                    <GroupBox Header="ARŞİV İÇERİK" Width="520" Height="250">
-                        <Extensions:ArchiveViewer ArchivePath="{Binding CompressorView.ArşivDosyaYolu}" />
-                    </GroupBox>
-                </Extensions:SplitButton.InternalContent>
-            </Extensions:SplitButton>
+                <local:SplitButton.InternalContent>
+                    <local:ArchiveViewer Width="520" Height="250" ArchivePath="{Binding CompressorView.ArşivDosyaYolu}" />
+                </local:SplitButton.InternalContent>
+            </local:SplitButton>
         </UniformGrid>
         <Grid Grid.Row="6" Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>
@@ -235,9 +234,42 @@
             </Grid.ColumnDefinitions>
             <ProgressBar Grid.Column="0" Grid.ColumnSpan="2"
                 Height="16"
-                Style="{StaticResource SimpleProgressBar}"
                 Maximum="{Binding CompressorView.Dosyalar.Count}"
-                Value="{Binding CompressorView.Oran}" />
+                Value="{Binding CompressorView.Oran}">
+                <ProgressBar.Style>
+                    <Style TargetType="{x:Type ProgressBar}">
+                        <Setter Property="BorderThickness" Value="1" />
+                        <Setter Property="Foreground" Value="Green" />
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type ProgressBar}">
+                                    <Border x:Name="PART_Track"
+                                        MinHeight="14"
+                                        Background="{x:Null}"
+                                        BorderBrush="#FF888888"
+                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                        d:DesignUseLayoutRounding="True" CornerRadius="2" UseLayoutRounding="True">
+                                        <Border x:Name="PART_Indicator"
+                                            Background="{TemplateBinding Foreground}"
+                                            BorderBrush="{x:Null}"
+                                            Margin="1" HorizontalAlignment="Left"
+                                            d:DesignUseLayoutRounding="True" CornerRadius="1" UseLayoutRounding="True" />
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="Orientation" Value="Vertical">
+                                            <Setter TargetName="PART_Track" Property="LayoutTransform">
+                                                <Setter.Value>
+                                                    <RotateTransform Angle="-90" />
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ProgressBar.Style>
+            </ProgressBar>
             <Image Width="16" Height="16" Source="{Binding CompressorView.DosyaAdı, Converter={StaticResource FilePathToIconConverter}}" />
             <TextBlock Text="{Binding CompressorView.DosyaAdı}"
                 TextTrimming="CharacterEllipsis"

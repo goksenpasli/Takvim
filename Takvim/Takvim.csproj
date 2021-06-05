@@ -83,10 +83,6 @@
     <Compile Include="Converters\Base64Converter.cs" />
     <Compile Include="Converters\DateNowBooleanConverter.cs" />
     <Compile Include="Converters\XmlPdfDataConverter.cs" />
-    <Compile Include="ViewModel\ArchiveData.cs" />
-    <Compile Include="View\Compressor.xaml.cs">
-      <DependentUpon>Compressor.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Converters\AyTekrarConverter.cs" />
     <Compile Include="Converters\AyTekrarDataConverter.cs" />
     <Compile Include="Converters\Base64ImageConverter.cs" />
@@ -96,7 +92,6 @@
     <Compile Include="Converters\DateAnimationConverter.cs" />
     <Compile Include="Converters\DateEndTimeConverter.cs" />
     <Compile Include="Converters\DatePassedBooleanConverter.cs" />
-    <Compile Include="Converters\FileExtToArchiveViewerContentCoverter.cs" />
     <Compile Include="Converters\MonthToColorConverter.cs" />
     <Compile Include="ViewModel\DataView.cs" />
     <Compile Include="ViewModel\MainView.cs" />
@@ -141,12 +136,6 @@
     </Compile>
     <Compile Include="Converters\WebpByteArrayToImageConverter.cs" />
     <Compile Include="Converters\XmlDateConverter.cs" />
-    <Compile Include="ViewModel\CompressorView.cs" />
-    <Compile Include="ViewModel\CompressorViewModel.cs" />
-    <Page Include="View\Compressor.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="View\DataEnterWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

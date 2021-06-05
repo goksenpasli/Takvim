@@ -61,6 +61,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\FileExtToArchiveViewerContentCoverter.cs" />
     <Compile Include="ViewModel\ArchiveData.cs" />
     <Compile Include="ViewModel\CompressorView.cs" />
     <Compile Include="ViewModel\CompressorViewModel.cs" />
@@ -90,6 +91,9 @@
     <Compile Include="View\CameraUserControl.xaml.cs">
       <DependentUpon>CameraUserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Compressor.xaml.cs">
+      <DependentUpon>Compressor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="WebpWrapper.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -110,6 +114,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\CameraUserControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Compressor.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

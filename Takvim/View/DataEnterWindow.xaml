@@ -206,7 +206,7 @@
                             CommandParameter="{Binding ElementName=Compressor, Path=DataContext.CompressorView.VeriGirişKayıtYolu}"
                             FontFamily="Wingdings"
                             IsTabStop="False" ToolTip="Arşivi Dosya Listesine Ekle" />
-                        <local:Compressor x:Name="Compressor" Grid.Row="1" />
+                        <Extensions:Compressor x:Name="Compressor" Grid.Row="1" />
                     </Grid>
                 </Expander>
                 <Button Grid.Row="4" Grid.Column="0" Command="{Binding XmlVeriEkle, Mode=OneWay}">
