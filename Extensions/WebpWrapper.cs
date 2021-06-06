@@ -14,7 +14,10 @@ namespace Extensions
 
         #region | Destruction |
 
-        public void Dispose() => GC.SuppressFinalize(this);
+        public void Dispose()
+        {
+            GC.SuppressFinalize(this);
+        }
 
         #endregion | Destruction |
 
@@ -1746,7 +1749,10 @@ namespace Extensions
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 2, ArraySubType = UnmanagedType.U4)]
         private readonly uint[] pad4;
 
-        public void Dispose() => throw new NotImplementedException();
+        public void Dispose()
+        {
+            throw new NotImplementedException();
+        }
     }
 
     [StructLayout(LayoutKind.Sequential)]

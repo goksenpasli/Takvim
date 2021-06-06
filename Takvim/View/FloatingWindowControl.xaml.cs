@@ -7,6 +7,9 @@ namespace Takvim
     /// </summary>
     public partial class FloatingWindowControl : UserControl
     {
-        public FloatingWindowControl() => InitializeComponent();
+        public FloatingWindowControl()
+        {
+            InitializeComponent();
+        }
     }
 }

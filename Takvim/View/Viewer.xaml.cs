@@ -8,9 +8,15 @@ namespace Takvim
     {
         private bool disposedValue;
 
-        public Viewer() => InitializeComponent();
+        public Viewer()
+        {
+            InitializeComponent();
+        }
 
-        public Viewer(XmlElement xmldata) : this() => DataContext = new ImageViewer(xmldata);
+        public Viewer(XmlElement xmldata) : this()
+        {
+            DataContext = new ImageViewer(xmldata);
+        }
 
         public void Dispose()
         {
@@ -31,6 +37,9 @@ namespace Takvim
             }
         }
 
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) => Dispose(true);
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            Dispose(true);
+        }
     }
 }

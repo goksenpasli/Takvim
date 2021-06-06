@@ -73,7 +73,10 @@ namespace Extensions
             {
             }
 
-            protected override bool ReleaseHandle() => NativeMethods.DestroyIcon(handle);
+            protected override bool ReleaseHandle()
+            {
+                return NativeMethods.DestroyIcon(handle);
+            }
         }
     }
 }

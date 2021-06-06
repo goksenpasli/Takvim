@@ -5,6 +5,9 @@ namespace Extensions
 {
     public class HorizontalListBox : ListBox
     {
-        static HorizontalListBox() => DefaultStyleKeyProperty.OverrideMetadata(typeof(HorizontalListBox), new FrameworkPropertyMetadata(typeof(HorizontalListBox)));
+        static HorizontalListBox()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(HorizontalListBox), new FrameworkPropertyMetadata(typeof(HorizontalListBox)));
+        }
     }
 }

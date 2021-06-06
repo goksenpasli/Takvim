@@ -14,7 +14,10 @@ namespace Takvim
     {
         private bool disposedValue;
 
-        public DataEnterWindow() => InitializeComponent();
+        public DataEnterWindow()
+        {
+            InitializeComponent();
+        }
 
         public void Dispose()
         {
@@ -70,8 +73,14 @@ namespace Takvim
             }
         }
 
-        private void UserControl_Loaded(object sender, RoutedEventArgs e) => (TryFindResource("FilteredCvs") as CollectionViewSource).Filter += (s, e) => e.Accepted = DateTime.Parse((e.Item as XmlNode)?["Gun"]?.InnerText) == (DataContext as Data)?.TamTarih;
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            (TryFindResource("FilteredCvs") as CollectionViewSource).Filter += (s, e) => e.Accepted = DateTime.Parse((e.Item as XmlNode)?["Gun"]?.InnerText) == (DataContext as Data)?.TamTarih;
+        }
 
-        private void UserControl_Unloaded(object sender, RoutedEventArgs e) => Dispose(true);
+        private void UserControl_Unloaded(object sender, RoutedEventArgs e)
+        {
+            Dispose(true);
+        }
     }
 }

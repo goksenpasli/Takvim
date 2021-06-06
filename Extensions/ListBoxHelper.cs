@@ -8,9 +8,15 @@ namespace Extensions
     {
         public static readonly DependencyProperty SelectedItemsProperty = DependencyProperty.RegisterAttached("SelectedItems", typeof(IList), typeof(ListBoxHelper), new PropertyMetadata(default(IList), OnSelectedItemsChanged));
 
-        public static IList GetSelectedItems(DependencyObject d) => (IList)d.GetValue(SelectedItemsProperty);
+        public static IList GetSelectedItems(DependencyObject d)
+        {
+            return (IList)d.GetValue(SelectedItemsProperty);
+        }
 
-        public static void SetSelectedItems(DependencyObject d, IList value) => d.SetValue(SelectedItemsProperty, value);
+        public static void SetSelectedItems(DependencyObject d, IList value)
+        {
+            d.SetValue(SelectedItemsProperty, value);
+        }
 
         private static void OnSelectedItemsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {

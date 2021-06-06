@@ -120,7 +120,10 @@ namespace Extensions
             }
         }
 
-        protected virtual void OnPropertyChanged(string propertyName = null) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        protected virtual void OnPropertyChanged(string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
         private void CameraUserControl_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {

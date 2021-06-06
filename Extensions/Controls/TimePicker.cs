@@ -13,9 +13,15 @@ namespace Extensions
 
         public static readonly DependencyProperty TimeValueProperty = DependencyProperty.Register("TimeValue", typeof(string), typeof(TimePicker), new PropertyMetadata(null));
 
-        static TimePicker() => DefaultStyleKeyProperty.OverrideMetadata(typeof(TimePicker), new FrameworkPropertyMetadata(typeof(TimePicker)));
+        static TimePicker()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(TimePicker), new FrameworkPropertyMetadata(typeof(TimePicker)));
+        }
 
-        public TimePicker() => GenerateTime(Interval);
+        public TimePicker()
+        {
+            GenerateTime(Interval);
+        }
 
         public static IList<string> Saatler { get; set; }
 
@@ -46,7 +52,10 @@ namespace Extensions
             }
         }
 
-        private static void IntervalChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) => GenerateTime(Convert.ToInt32(e.NewValue));
+        private static void IntervalChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            GenerateTime(Convert.ToInt32(e.NewValue));
+        }
 
         private static bool IsValidInterval(object value)
         {

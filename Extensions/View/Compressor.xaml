@@ -69,6 +69,15 @@
             Background="{x:Null}"
             BorderBrush="{x:Null}"
             SelectedIndex="{Binding CompressorView.Biçim, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <ListBox.Style>
+                <Style TargetType="ListBox">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ElementVisible}" Value="Collapsed">
+                            <Setter Property="Grid.ColumnSpan" Value="2" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ListBox.Style>
             <ListBox.Resources>
                 <Style TargetType="{x:Type ListBoxItem}">
                     <Setter Property="Template">

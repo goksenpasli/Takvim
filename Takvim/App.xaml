@@ -675,21 +675,25 @@
                                 <Run Text="{Binding Gün}" />
                                 <Run Text="{Binding GünAdı}" />
                             </TextBlock>
-                            <Canvas Width="32.000" Height="21.333">
-                                <Canvas.Style>
-                                    <Style TargetType="Canvas">
-                                        <Setter Property="Visibility" Value="Hidden" />
+                            <ContentControl>
+                                <ContentControl.Style>
+                                    <Style TargetType="ContentControl">
                                         <Style.Triggers>
                                             <DataTrigger Binding="{Binding Converter={StaticResource GünTatilConverter}, Mode=OneWay}" Value="true">
-                                                <Setter Property="Visibility" Value="Visible" />
+                                                <Setter Property="Content">
+                                                    <Setter.Value>
+                                                        <Canvas Width="32.000" Height="21.333">
+                                                            <Path Data="M 0.000,0.000 L 32.000,0.000 L 32.000,21.333 L 0.000,21.333 L 0.000,0.000 Z" Fill="Red" />
+                                                            <Path Data="M 10.667,5.330 C 12.565,5.330 14.231,6.322 15.176,7.815 C 14.395,6.945 13.262,6.397 12.001,6.397 C 9.645,6.397 7.735,8.309 7.735,10.667 C 7.735,13.025 9.645,14.936 12.001,14.936 C 13.262,14.936 14.395,14.389 15.176,13.518 C 14.231,15.012 12.565,16.004 10.667,16.004 C 7.722,16.004 5.335,13.614 5.335,10.667 C 5.335,7.719 7.722,5.330 10.667,5.330 Z" Fill="White" />
+                                                            <Path Data="M 15.215,10.667 L 17.169,10.038 L 17.165,7.993 L 18.368,9.650 L 20.320,9.014 L 19.110,10.667 L 20.320,12.319 L 18.368,11.683 L 17.165,13.341 L 17.169,11.295 L 15.215,10.667 Z" Fill="White" />
+                                                        </Canvas>
+                                                    </Setter.Value>
+                                                </Setter>
                                             </DataTrigger>
                                         </Style.Triggers>
                                     </Style>
-                                </Canvas.Style>
-                                <Path Data="M 0.000,0.000 L 32.000,0.000 L 32.000,21.333 L 0.000,21.333 L 0.000,0.000 Z" Fill="Red" />
-                                <Path Data="M 10.667,5.330 C 12.565,5.330 14.231,6.322 15.176,7.815 C 14.395,6.945 13.262,6.397 12.001,6.397 C 9.645,6.397 7.735,8.309 7.735,10.667 C 7.735,13.025 9.645,14.936 12.001,14.936 C 13.262,14.936 14.395,14.389 15.176,13.518 C 14.231,15.012 12.565,16.004 10.667,16.004 C 7.722,16.004 5.335,13.614 5.335,10.667 C 5.335,7.719 7.722,5.330 10.667,5.330 Z" Fill="White" />
-                                <Path Data="M 15.215,10.667 L 17.169,10.038 L 17.165,7.993 L 18.368,9.650 L 20.320,9.014 L 19.110,10.667 L 20.320,12.319 L 18.368,11.683 L 17.165,13.341 L 17.169,11.295 L 15.215,10.667 Z" Fill="White" />
-                            </Canvas>
+                                </ContentControl.Style>
+                            </ContentControl>
                         </StackPanel>
                         <ListBox x:Name="Lb"
                             Width="180" Height="90"
@@ -748,27 +752,25 @@
                                                 </Style>
                                             </Expander.Style>
                                             <Expander.Header>
-                                                <StackPanel Orientation="Horizontal">
-                                                    <TextBlock VerticalAlignment="Center">
-                                                        <TextBlock.Style>
-                                                            <Style TargetType="{x:Type TextBlock}">
-                                                                <Style.Triggers>
-                                                                    <DataTrigger Binding="{Binding XPath=@Onemli}" Value="true">
-                                                                        <Setter Property="Foreground" Value="Red" />
-                                                                    </DataTrigger>
-                                                                </Style.Triggers>
-                                                            </Style>
-                                                        </TextBlock.Style>
-                                                        <Hyperlink Command="{Binding DataContext.XmlVeriSil, Mode=OneWay, RelativeSource={RelativeSource AncestorType=ListBox}}"
-                                                            CommandParameter="{Binding XPath=@Id}"
-                                                            FontSize="12" FontFamily="Segoe UI Black">
-                                                            <Run Text="X" />
-                                                        </Hyperlink>
-                                                        <Run Text="{Binding Converter={StaticResource DateEndTimeConverter}, Mode=OneWay}" />
-                                                        <LineBreak />
-                                                        <Run Text="{Binding XPath=Aciklama}" />
-                                                    </TextBlock>
-                                                </StackPanel>
+                                                <TextBlock VerticalAlignment="Center">
+                                                    <TextBlock.Style>
+                                                        <Style TargetType="{x:Type TextBlock}">
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding XPath=@Onemli}" Value="true">
+                                                                    <Setter Property="Foreground" Value="Red" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </TextBlock.Style>
+                                                    <Hyperlink Command="{Binding DataContext.XmlVeriSil, Mode=OneWay, RelativeSource={RelativeSource AncestorType=ListBox}}"
+                                                        CommandParameter="{Binding XPath=@Id}"
+                                                        FontSize="12" FontFamily="Segoe UI Black">
+                                                        <Run Text="X" />
+                                                    </Hyperlink>
+                                                    <Run Text="{Binding Converter={StaticResource DateEndTimeConverter}, Mode=OneWay}" />
+                                                    <LineBreak />
+                                                    <Run Text="{Binding XPath=Aciklama}" />
+                                                </TextBlock>
                                             </Expander.Header>
                                             <Image Width="48" Height="48">
                                                 <Image.Style>

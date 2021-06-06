@@ -193,7 +193,10 @@ namespace GpMoonPdfViewer
             }, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Result;
         }
 
-        protected virtual void OnPropertyChanged(string propertyName = null) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        protected virtual void OnPropertyChanged(string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
         private static void PdfDataChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -233,9 +236,15 @@ namespace GpMoonPdfViewer
             }
         }
 
-        private void BtnRotateLeft_Click(object sender, RoutedEventArgs e) => Mpp?.RotateLeft();
+        private void BtnRotateLeft_Click(object sender, RoutedEventArgs e)
+        {
+            Mpp?.RotateLeft();
+        }
 
-        private void BtnRotateRight_Click(object sender, RoutedEventArgs e) => Mpp?.RotateRight();
+        private void BtnRotateRight_Click(object sender, RoutedEventArgs e)
+        {
+            Mpp?.RotateRight();
+        }
 
         private void Mpp_Loaded(object sender, RoutedEventArgs e)
         {
@@ -269,9 +278,15 @@ namespace GpMoonPdfViewer
             }
         }
 
-        private void Mpp_Scroll(object sender, ScrollEventArgs e) => ŞuankiSayfa = Mpp.GetCurrentPageNumber();
+        private void Mpp_Scroll(object sender, ScrollEventArgs e)
+        {
+            ŞuankiSayfa = Mpp.GetCurrentPageNumber();
+        }
 
-        private void PdfViewerBack_CanExecute(object sender, CanExecuteRoutedEventArgs e) => e.CanExecute = ŞuankiSayfa > 1;
+        private void PdfViewerBack_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = ŞuankiSayfa > 1;
+        }
 
         private void PdfViewerBack_Executed(object sender, ExecutedRoutedEventArgs e)
         {
@@ -281,7 +296,10 @@ namespace GpMoonPdfViewer
                 : Mpp.GetCurrentPageNumber();
         }
 
-        private void PdfViewerNext_CanExecute(object sender, CanExecuteRoutedEventArgs e) => e.CanExecute = ŞuankiSayfa < Mpp.TotalPages;
+        private void PdfViewerNext_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = ŞuankiSayfa < Mpp.TotalPages;
+        }
 
         private void PdfViewerNext_Executed(object sender, ExecutedRoutedEventArgs e)
         {
@@ -291,7 +309,10 @@ namespace GpMoonPdfViewer
                 : Mpp.GetCurrentPageNumber();
         }
 
-        private void PdfViewerOpen_CanExecute(object sender, CanExecuteRoutedEventArgs e) => e.CanExecute = true;
+        private void PdfViewerOpen_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;
+        }
 
         private void PdfViewerOpen_Executed(object sender, ExecutedRoutedEventArgs e)
         {
@@ -305,7 +326,10 @@ namespace GpMoonPdfViewer
             }
         }
 
-        private void PdfViewerPrint_CanExecute(object sender, CanExecuteRoutedEventArgs e) => e.CanExecute = Mpp?.CurrentSource != null;
+        private void PdfViewerPrint_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = Mpp?.CurrentSource != null;
+        }
 
         private void PdfViewerPrint_Executed(object sender, ExecutedRoutedEventArgs e)
         {
@@ -347,7 +371,10 @@ namespace GpMoonPdfViewer
             }
         }
 
-        private void PdfViewerSave_CanExecute(object sender, CanExecuteRoutedEventArgs e) => e.CanExecute = Mpp?.CurrentSource != null;
+        private void PdfViewerSave_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = Mpp?.CurrentSource != null;
+        }
 
         private void PdfViewerSave_Executed(object sender, ExecutedRoutedEventArgs e)
         {
@@ -381,7 +408,10 @@ namespace GpMoonPdfViewer
             LbSayfalar.Visibility = Visibility.Collapsed;
         }
 
-        private void UniformGridPrint_CanExecute(object sender, CanExecuteRoutedEventArgs e) => e.CanExecute = Mpp?.CurrentSource != null;
+        private void UniformGridPrint_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = Mpp?.CurrentSource != null;
+        }
 
         private void UniformGridPrint_Executed(object sender, ExecutedRoutedEventArgs e)
         {
@@ -429,9 +459,15 @@ namespace GpMoonPdfViewer
 
     public class NullableToBooleanConverter : IValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => parameter != null ? value == null : value != null;
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return parameter != null ? value == null : value != null;
+        }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public class PdfSayfaSayıToBitmapConverter : IMultiValueConverter
@@ -443,6 +479,9 @@ namespace GpMoonPdfViewer
                 :MoonPdfViewer.PdfExtractSmallPreviewImage(moonPdfViewer,sayfano);
         }
 
-        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture) => throw new NotImplementedException();
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -21,6 +21,9 @@ namespace Extensions
             set => SetValue(StayOpenProperty, value);
         }
 
-        static SplitButton() => DefaultStyleKeyProperty.OverrideMetadata(typeof(SplitButton), new FrameworkPropertyMetadata(typeof(SplitButton)));
+        static SplitButton()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(SplitButton), new FrameworkPropertyMetadata(typeof(SplitButton)));
+        }
     }
 }

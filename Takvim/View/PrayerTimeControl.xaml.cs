@@ -14,6 +14,9 @@ namespace Takvim
             DataContext = new Prayer((XmlDataProvider)TryFindResource("Data"));
         }
 
-        private void CollectionViewSource_Filter(object sender, FilterEventArgs e) => e.Accepted = (e.Item as Prayer)?.Tarih == DateTime.Today;
+        private void CollectionViewSource_Filter(object sender, FilterEventArgs e)
+        {
+            e.Accepted = (e.Item as Prayer)?.Tarih == DateTime.Today;
+        }
     }
 }

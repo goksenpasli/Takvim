@@ -23,15 +23,27 @@ namespace Takvim
 
         public List<Tuple<short, short, string>> Günler { get; }
 
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => value is Data data && Günler.Any(z => z.Item1 == data.TamTarih.Month && z.Item2 == data.TamTarih.Day);
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return value is Data data && Günler.Any(z => z.Item1 == data.TamTarih.Month && z.Item2 == data.TamTarih.Day);
+        }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public class BilinenGünlerSeçiliConverter : IValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => value is Data data ? new BilinenGünlerConverter().Günler.Find(z => z.Item1 == data.TamTarih.Month && z.Item2 == data.TamTarih.Day) : null;
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return value is Data data ? new BilinenGünlerConverter().Günler.Find(z => z.Item1 == data.TamTarih.Month && z.Item2 == data.TamTarih.Day) : null;
+        }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -214,7 +214,10 @@ namespace Takvim
             AyGünler = new ObservableCollection<Data>(ÜçAylıkGünler.Where(z => z.TamTarih.Month == SeçiliAy));
         }
 
-        private bool CheckTtsSelected() => !string.IsNullOrEmpty(Settings.Default.SeçiliTts);
+        private bool CheckTtsSelected()
+        {
+            return !string.IsNullOrEmpty(Settings.Default.SeçiliTts);
+        }
 
         private void DatetimeTimer()
         {
@@ -266,7 +269,10 @@ namespace Takvim
             }
         }
 
-        private void GetTtsLang() => TtsDilleri = synthesizer.GetInstalledVoices().Select(z => z.VoiceInfo.Name);
+        private void GetTtsLang()
+        {
+            TtsDilleri = synthesizer.GetInstalledVoices().Select(z => z.VoiceInfo.Name);
+        }
 
         private void ListeyiOku(IEnumerable<string> Veri)
         {

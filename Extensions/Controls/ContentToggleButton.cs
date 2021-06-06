@@ -29,8 +29,14 @@ namespace Extensions
             set => SetValue(StaysOpenProperty, value);
         }
 
-        static ContentToggleButton() => DefaultStyleKeyProperty.OverrideMetadata(typeof(ContentToggleButton), new FrameworkPropertyMetadata(typeof(ContentToggleButton)));
+        static ContentToggleButton()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(ContentToggleButton), new FrameworkPropertyMetadata(typeof(ContentToggleButton)));
+        }
 
-        public override string ToString() => OverContent.ToString();
+        public override string ToString()
+        {
+            return OverContent.ToString();
+        }
     }
 }

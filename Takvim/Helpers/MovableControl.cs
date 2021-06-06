@@ -16,17 +16,35 @@ namespace Takvim
 
         public static readonly DependencyProperty PlacedDataProperty = DependencyProperty.RegisterAttached("PlacedData", typeof(object), typeof(MovableControl), new PropertyMetadata(null));
 
-        public static object GetDraggedData(DependencyObject obj) => obj.GetValue(DraggedDataProperty);
+        public static object GetDraggedData(DependencyObject obj)
+        {
+            return obj.GetValue(DraggedDataProperty);
+        }
 
-        public static bool GetMoveData(DependencyObject obj) => (bool)obj.GetValue(MoveDataProperty);
+        public static bool GetMoveData(DependencyObject obj)
+        {
+            return (bool)obj.GetValue(MoveDataProperty);
+        }
 
-        public static object GetPlacedData(DependencyObject obj) => obj.GetValue(PlacedDataProperty);
+        public static object GetPlacedData(DependencyObject obj)
+        {
+            return obj.GetValue(PlacedDataProperty);
+        }
 
-        public static void SetDraggedData(DependencyObject obj, object value) => obj.SetValue(DraggedDataProperty, value);
+        public static void SetDraggedData(DependencyObject obj, object value)
+        {
+            obj.SetValue(DraggedDataProperty, value);
+        }
 
-        public static void SetMoveData(DependencyObject obj, bool value) => obj.SetValue(MoveDataProperty, value);
+        public static void SetMoveData(DependencyObject obj, bool value)
+        {
+            obj.SetValue(MoveDataProperty, value);
+        }
 
-        public static void SetPlacedData(DependencyObject obj, object value) => obj.SetValue(PlacedDataProperty, value);
+        public static void SetPlacedData(DependencyObject obj, object value)
+        {
+            obj.SetValue(PlacedDataProperty, value);
+        }
 
         private static void Button_DragEnter(object sender, DragEventArgs e)
         {

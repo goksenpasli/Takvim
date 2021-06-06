@@ -98,7 +98,10 @@ namespace Extensions
 
         private CollectionViewSource Cvs { get; set; }
 
-        protected virtual void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
         private void ArchiveViewer_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {

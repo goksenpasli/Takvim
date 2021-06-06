@@ -15,8 +15,14 @@ namespace Takvim
             base64Converter = new Base64Converter();
         }
 
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => value is XmlNode xmldata ? base64Converter.Convert(xmldata["Pdf"]?.InnerText, null, null, CultureInfo.CurrentCulture) : null;
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return value is XmlNode xmldata ? base64Converter.Convert(xmldata["Pdf"]?.InnerText, null, null, CultureInfo.CurrentCulture) : null;
+        }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

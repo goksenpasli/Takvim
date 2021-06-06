@@ -15,7 +15,10 @@ namespace Extensions
 
         private string filePath = "Dosya Seçilmedi";
 
-        static FileSelectorTextBox() => DefaultStyleKeyProperty.OverrideMetadata(typeof(FileSelectorTextBox), new FrameworkPropertyMetadata(typeof(FileSelectorTextBox)));
+        static FileSelectorTextBox()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(FileSelectorTextBox), new FrameworkPropertyMetadata(typeof(FileSelectorTextBox)));
+        }
 
         public FileSelectorTextBox()
         {
@@ -55,7 +58,10 @@ namespace Extensions
 
         public ICommand SelectFile { get; } = new RoutedCommand();
 
-        protected virtual void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
         private void RemoveFileCommand(object sender, ExecutedRoutedEventArgs e)
         {
