@@ -902,6 +902,7 @@
                         <ColumnDefinition />
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     <Canvas Grid.Column="0"
                         Width="18" Height="18"
@@ -941,17 +942,18 @@
                         HorizontalAlignment="Right"
                         ShowShadow="True"
                         Source="{Binding ConverterParameter=120, Converter={StaticResource Base64ImageConverter}, XPath=Resim}">
-                        <local:ShadowedImage.InputBindings>
-                            <MouseBinding Command="{Binding DataContext.ŞuAnkiGünVerisi.DosyaGör, ElementName=Grid}" CommandParameter="{Binding Mode=OneWay}" Gesture="CTRL+LeftClick" />
-                        </local:ShadowedImage.InputBindings>
                         <local:ShadowedImage.ToolTip>
                             <ToolTip Template="{StaticResource GreenToolTipControlTemplate}">
                                 <Image Source="{Binding ConverterParameter=800, Converter={StaticResource Base64ImageConverter}, XPath=Resim}" />
                             </ToolTip>
                         </local:ShadowedImage.ToolTip>
                     </local:ShadowedImage>
-                    <Button Content="3"
+                    <Button Content="AÇ"
                         Grid.Column="3"
+                        Command="{Binding DataContext.ŞuAnkiGünVerisi.DosyaGör, ElementName=Grid}"
+                        CommandParameter="{Binding Mode=OneWay}" />
+                    <Button Content="3"
+                        Grid.Column="4"
                         HorizontalAlignment="Right"
                         Command="{Binding DataContext.ŞuAnkiGünVerisi.XmlVeriSil, ElementName=Grid}"
                         CommandParameter="{Binding XPath=@Id}"
@@ -964,6 +966,7 @@
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition />
                         <ColumnDefinition />
+                        <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     <Canvas Grid.Column="0"
@@ -1009,10 +1012,6 @@
                                         </ToolTip>
                                     </GpMoonPdfViewer:MoonPdfViewer.ToolTip>
                                 </GpMoonPdfViewer:MoonPdfViewer>
-                                <Button Content="AÇ"
-                                    Canvas.Left="0" Canvas.Top="0"
-                                    Command="{Binding DataContext.ŞuAnkiGünVerisi.DosyaGör, ElementName=Grid}"
-                                    CommandParameter="{Binding Mode=OneWay}" />
                             </Canvas>
                         </StackPanel>
                     </Viewbox>
@@ -1080,8 +1079,12 @@
                             </ListBox.ItemTemplate>
                         </ListBox>
                     </StackPanel>
-                    <Button Content="3"
+                    <Button Content="AÇ"
                         Grid.Column="3"
+                        Command="{Binding DataContext.ŞuAnkiGünVerisi.DosyaGör, ElementName=Grid}"
+                        CommandParameter="{Binding Mode=OneWay}" />
+                    <Button Content="3"
+                        Grid.Column="4"
                         HorizontalAlignment="Right"
                         Command="{Binding DataContext.ŞuAnkiGünVerisi.XmlVeriSil, ElementName=Grid}"
                         CommandParameter="{Binding XPath=@Id}"

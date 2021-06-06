@@ -26,7 +26,7 @@ namespace Extensions
 
         private string veriGirişKayıtYolu;
 
-        private int webpQuality;
+        private int webpQuality = 20;
 
         public string ArşivDosyaYolu
         {

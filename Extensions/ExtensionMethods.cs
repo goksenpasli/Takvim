@@ -191,31 +191,35 @@ namespace Extensions
 
         public static BitmapSource IconCreate(this string path, IconSize size)
         {
-            uint flags = SHGFI_ICON | SHGFI_USEFILEATTRIBUTES;
-
-            if (IconSize.Small == size)
+            if (!string.IsNullOrWhiteSpace(path))
             {
-                flags += SHGFI_SMALLICON;
-            }
-            else
-            {
-                flags += SHGFI_LARGEICON;
-            }
-            SHFILEINFO shfi = new();
+                uint flags = SHGFI_ICON | SHGFI_USEFILEATTRIBUTES;
 
-            IntPtr res = SHGetFileInfo(path, FILE_ATTRIBUTE_NORMAL, out shfi, (uint)Marshal.SizeOf(shfi), flags);
+                if (IconSize.Small == size)
+                {
+                    flags += SHGFI_SMALLICON;
+                }
+                else
+                {
+                    flags += SHGFI_LARGEICON;
+                }
+                SHFILEINFO shfi = new();
 
-            if (res == IntPtr.Zero)
-            {
-                throw Marshal.GetExceptionForHR(Marshal.GetHRForLastWin32Error());
+                IntPtr res = SHGetFileInfo(path, FILE_ATTRIBUTE_NORMAL, out shfi, (uint)Marshal.SizeOf(shfi), flags);
+
+                if (res == IntPtr.Zero)
+                {
+                    throw Marshal.GetExceptionForHR(Marshal.GetHRForLastWin32Error());
+                }
+
+                Icon.FromHandle(shfi.hIcon);
+                using Icon icon = (Icon)Icon.FromHandle(shfi.hIcon).Clone();
+                DestroyIcon(shfi.hIcon);
+                BitmapSource bitmapsource = Imaging.CreateBitmapSourceFromHIcon(icon.Handle, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+                bitmapsource.Freeze();
+                return bitmapsource;
             }
-
-            Icon.FromHandle(shfi.hIcon);
-            using Icon icon = (Icon)Icon.FromHandle(shfi.hIcon).Clone();
-            DestroyIcon(shfi.hIcon);
-            BitmapSource bitmapsource = Imaging.CreateBitmapSourceFromHIcon(icon.Handle, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
-            bitmapsource.Freeze();
-            return bitmapsource;
+            return null;
         }
 
         public static BitmapSource IconCreate(this string filepath, int iconindex)
