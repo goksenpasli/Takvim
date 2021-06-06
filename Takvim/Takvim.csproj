@@ -134,7 +134,6 @@
     <Compile Include="View\Viewer.xaml.cs">
       <DependentUpon>Viewer.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Converters\WebpByteArrayToImageConverter.cs" />
     <Compile Include="Converters\XmlDateConverter.cs" />
     <Page Include="View\DataEnterWindow.xaml">
       <SubType>Designer</SubType>

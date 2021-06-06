@@ -15,9 +15,11 @@
                 <ResourceDictionary Source="/PresentationFramework.Aero,Version=4.0.0.0,Culture=neutral,PublicKeyToken=31bf3856ad364e35,processorArchitecture=MSIL;component/themes/Aero.NormalColor.xaml" />
                 <ResourceDictionary Source="/Extensions;component/Themes/Generic.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <XmlDataProvider x:Key="XmlData" IsAsynchronous="False" XPath="Veriler/Veri" />
+            <Extensions:FileExtToArchiveViewerContentCoverter x:Key="FileExtToArchiveViewerContentCoverter" />
+            <Extensions:WebpByteArrayToImageConverter x:Key="WebpByteArrayToImageConverter" />
             <local:FilePathToIconConverter x:Key="FilePathToIconConverter" />
             <local:DateNowBooleanConverter x:Key="DateNowBooleanConverter" />
-            <Extensions:FileExtToArchiveViewerContentCoverter x:Key="FileExtToArchiveViewerContentCoverter" />
             <local:DateEndTimeConverter x:Key="DateEndTimeConverter" />
             <local:StringNullableToBooleanConverter x:Key="StringNullableToBooleanConverter" />
             <local:NullableToBooleanConverter x:Key="NullableToBooleanConverter" />
@@ -31,7 +33,6 @@
             <local:BilinenGünlerSeçiliConverter x:Key="BilinenGünlerSeçiliConverter" />
             <local:BilinenGünlerConverter x:Key="BilinenGünlerConverter" />
             <local:DatePassedBooleanConverter x:Key="DatePassedBooleanConverter" />
-            <XmlDataProvider x:Key="XmlData" IsAsynchronous="False" XPath="Veriler/Veri" />
             <local:DateAnimationConverter x:Key="DateAnimationConverter" />
             <local:StringToBrushConverter x:Key="StringToBrushConverter" />
             <local:GünTatilConverter x:Key="GünTatilConverter" />
@@ -40,7 +41,6 @@
             <local:DrawingColorToColorConverter x:Key="DrawingColorToColorConverter" />
             <local:AnimationtoBooleanConverter x:Key="AnimationtoBooleanConverter" />
             <local:SelectedDateToDataListConverter x:Key="SelectedDateToDataListConverter" />
-            <local:WebpByteArrayToImageConverter x:Key="WebpByteArrayToImageConverter" />
             <Storyboard x:Key="TimerColorAnimation" RepeatBehavior="Forever" Timeline.DesiredFrameRate="3">
                 <ColorAnimation Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)" From="Yellow" To="Red"
                     Duration="00:00:01" />
@@ -950,14 +950,12 @@
                             </ToolTip>
                         </local:ShadowedImage.ToolTip>
                     </local:ShadowedImage>
-                    <TextBlock Grid.Column="3" HorizontalAlignment="Right" FontSize="24">
-                        <Hyperlink Command="{Binding DataContext.ŞuAnkiGünVerisi.XmlVeriSil, ElementName=Grid}"
-                            CommandParameter="{Binding XPath=@Id}"
-                            FontFamily="Segoe UI Black"
-                            TextDecorations="{x:Null}">
-                            <Run Text="3" FontFamily="Wingdings 2" FontWeight="Bold" />
-                        </Hyperlink>
-                    </TextBlock>
+                    <Button Content="3"
+                        Grid.Column="3"
+                        HorizontalAlignment="Right"
+                        Command="{Binding DataContext.ŞuAnkiGünVerisi.XmlVeriSil, ElementName=Grid}"
+                        CommandParameter="{Binding XPath=@Id}"
+                        FontSize="24" FontFamily="Wingdings 2" />
                 </Grid>
             </DataTemplate>
             <DataTemplate x:Key="ListBoxDayStandardGroupTemplate">
@@ -966,6 +964,7 @@
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition />
                         <ColumnDefinition />
+                        <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     <Canvas Grid.Column="0"
                         Width="18" Height="18"
@@ -1081,6 +1080,12 @@
                             </ListBox.ItemTemplate>
                         </ListBox>
                     </StackPanel>
+                    <Button Content="3"
+                        Grid.Column="3"
+                        HorizontalAlignment="Right"
+                        Command="{Binding DataContext.ŞuAnkiGünVerisi.XmlVeriSil, ElementName=Grid}"
+                        CommandParameter="{Binding XPath=@Id}"
+                        FontSize="24" FontFamily="Wingdings 2" />
                 </Grid>
             </DataTemplate>
         </ResourceDictionary>

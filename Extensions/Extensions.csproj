@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Converters\FileExtToArchiveViewerContentCoverter.cs" />
+    <Compile Include="Converters\WebpByteArrayToImageConverter.cs" />
     <Compile Include="ViewModel\ArchiveData.cs" />
     <Compile Include="ViewModel\CompressorView.cs" />
     <Compile Include="ViewModel\CompressorViewModel.cs" />
