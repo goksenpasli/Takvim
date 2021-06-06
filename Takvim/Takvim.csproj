@@ -102,7 +102,6 @@
     <Compile Include="Converters\SystemFileIconConverter.cs" />
     <Compile Include="Converters\StringNullableToBooleanConverter.cs" />
     <Compile Include="Converters\WrapPanelRatioConverter.cs" />
-    <Compile Include="Converters\XmlIntValueToIlAdıConverter.cs" />
     <Compile Include="View\FloatingWindowControl.xaml.cs">
       <DependentUpon>FloatingWindowControl.xaml</DependentUpon>
     </Compile>
@@ -124,10 +123,6 @@
     <Compile Include="Helpers\Ocr.cs" />
     <Compile Include="Converters\RamadanDateToHolidayConverter.cs" />
     <Compile Include="Converters\RamadanDateToVisibilityConverter.cs" />
-    <Compile Include="ViewModel\Prayer.cs" />
-    <Compile Include="View\PrayerTimeControl.xaml.cs">
-      <DependentUpon>PrayerTimeControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Converters\AnimationtoBooleanConverter.cs" />
     <Compile Include="Converters\SelectedDateToDataListConverter.cs" />
     <Compile Include="Converters\StringToBrushConverter.cs" />
@@ -161,10 +156,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="View\MiniCalendarControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\PrayerTimeControl.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Viewer.xaml">
