@@ -119,7 +119,6 @@
     <Compile Include="Converters\NullableToBooleanConverter.cs" />
     <Compile Include="Helpers\MovableControl.cs" />
     <Compile Include="ViewModel\MultipleImage.cs" />
-    <Compile Include="ViewModel\MultipleImageViewer.cs" />
     <Compile Include="Helpers\Ocr.cs" />
     <Compile Include="Converters\RamadanDateToHolidayConverter.cs" />
     <Compile Include="Converters\RamadanDateToVisibilityConverter.cs" />

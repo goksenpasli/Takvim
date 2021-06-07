@@ -11,9 +11,6 @@
     d:DataContext="{d:DesignInstance Type=local:ImageViewer}"
     Closing="Window_Closing" ShowInTaskbar="True" WindowStartupLocation="CenterScreen" WindowState="Maximized"
     mc:Ignorable="d">
-    <Window.Resources>
-        <local:MultipleImageViewer x:Key="MultipleImageViewer" />
-    </Window.Resources>
     <Grid>
         <TabControl SelectedIndex="{Binding Index}">
             <TabItem Header="RESİM" Visibility="{Binding ImgTabVisible}">
@@ -67,61 +64,6 @@
             </TabItem>
             <TabItem Header="PDF" Visibility="{Binding PdfTabVisible}">
                 <GpMoonPdfViewer:MoonPdfViewer Grid.Column="1" AcKaydetButtonEtkin="Collapsed" PdfData="{Binding DataContext.PdfData, ElementName=Window}" />
-            </TabItem>
-            <TabItem Header="RESİMLER">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="4*" />
-                        <ColumnDefinition Width="3*" />
-                    </Grid.ColumnDefinitions>
-                    <local:MiniCalendarControl Grid.Row="0" Grid.Column="0">
-                        <local:MiniCalendarControl.DataContext>
-                            <local:MainViewModel ŞuAnkiAy="True" />
-                        </local:MiniCalendarControl.DataContext>
-                    </local:MiniCalendarControl>
-                    <Extensions:HorizontalListBox x:Name="Lb"
-                        Grid.Row="1" Grid.Column="0"
-                        HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
-                        DataContext="{StaticResource MultipleImageViewer}"
-                        ItemsSource="{Binding TopluDosyalar}"
-                        d:DataContext="{d:DesignInstance Type={x:Type local:MultipleImageViewer}}"
-                        VirtualizingStackPanel.VirtualizationMode="Recycling">
-                        <Extensions:HorizontalListBox.ItemTemplate>
-                            <DataTemplate>
-                                <Border BorderBrush="{Binding VeriRenk}" BorderThickness="5">
-                                    <StackPanel Width="250">
-                                        <TextBlock Text="{Binding GünNotAçıklama}" />
-                                        <local:ShadowedImage RenderTransformOrigin="0.5,0.5" ShowShadow="True" Source="{Binding Resim, ConverterParameter=128, Converter={StaticResource Base64ImageConverter}, IsAsync=True, Mode=OneWay}" />
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </Extensions:HorizontalListBox.ItemTemplate>
-                    </Extensions:HorizontalListBox>
-                    <Grid Grid.Column="1" Grid.RowSpan="2">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition />
-                        </Grid.RowDefinitions>
-                        <UniformGrid Grid.Row="0" Columns="2">
-                            <Slider Maximum="10" Minimum="0.25" Value="{Binding Zoom}" />
-                            <Slider Maximum="360" Minimum="0" Value="{Binding Angle}" />
-                        </UniformGrid>
-                        <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                            <local:ShadowedImage RenderTransformOrigin="0.5,0.5" ShowShadow="True" Source="{Binding SelectedItem.Resim, Converter={StaticResource Base64ImageConverter}, ElementName=Lb}">
-                                <local:ShadowedImage.LayoutTransform>
-                                    <TransformGroup ice:Freeze="True">
-                                        <ScaleTransform ice:Freeze="True" ScaleX="{Binding Zoom}" ScaleY="{Binding Zoom}" />
-                                        <RotateTransform ice:Freeze="True" Angle="{Binding Angle}" />
-                                    </TransformGroup>
-                                </local:ShadowedImage.LayoutTransform>
-                            </local:ShadowedImage>
-                        </ScrollViewer>
-                    </Grid>
-                </Grid>
             </TabItem>
         </TabControl>
     </Grid>

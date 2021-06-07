@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Xml;
+using TwainControl;
 
 namespace Takvim
 {
@@ -45,7 +46,7 @@ namespace Takvim
         {
             if (DataContext is Data data && e.PropertyName == "ResimData")
             {
-                data.ResimData = ((sender as Extensions.CameraUserControl)?.ResimData).WebpEncode(data.WebpQuality);
+                data.ResimData = ((sender as CameraUserControl)?.ResimData).WebpEncode(data.WebpQuality);
                 data.DosyaUzantı = ".webp";
                 data.Boyut = data.ResimData.Length / 1024;
             }
@@ -57,14 +58,14 @@ namespace Takvim
             {
                 if (e.PropertyName == "SeçiliResim")
                 {
-                    data.ResimData = ((sender as TwainControl.TwainCtrl)?.SeçiliResim).ToTiffJpegByteArray(ExtensionMethods.Format.Jpg).WebpEncode(data.WebpQuality);
+                    data.ResimData = ((sender as TwainCtrl)?.SeçiliResim).ToTiffJpegByteArray(ExtensionMethods.Format.Jpg).WebpEncode(data.WebpQuality);
                     data.DosyaUzantı = ".webp";
                     data.Boyut = data.ResimData.Length / 1024;
                 }
 
                 if (e.PropertyName == "SeçiliResimler")
                 {
-                    IList SeçiliResimler = (sender as TwainControl.TwainCtrl)?.SeçiliResimler;
+                    IList SeçiliResimler = (sender as TwainCtrl)?.SeçiliResimler;
                     using MemoryStream ms = new();
                     SeçiliResimler.CreatePdfFile().Save(ms);
                     data.PdfData = ms.ToArray();
