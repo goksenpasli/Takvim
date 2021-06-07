@@ -64,7 +64,7 @@ namespace Takvim
                     Application.Current.Dispatcher.BeginInvoke((Action)(() =>
                     {
                         xmldata.SetAttribute("Ocr", OcrMetin);
-                        MainViewModel.xmlDataProvider.Document.Save(MainViewModel.xmlpath);
+                        MainViewModel.xmlDataProvider.Document.Save(MainViewModel.xmldatapath);
                     }));
                 }, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default);
             }, parameter => Resim is not null && Environment.OSVersion.Version.Major > 5 && Ocr.tesseractexsist);

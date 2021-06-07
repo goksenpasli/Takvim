@@ -115,7 +115,7 @@ namespace Takvim
                     WriteFileListtoXml(document, xmlnodeDosyalar);
                 }
                 document.DocumentElement.AppendChild(rootNode);
-                document.Save(MainViewModel.xmlpath);
+                document.Save(MainViewModel.xmldatapath);
                 VeriSayısı++;
                 MainViewModel.xmlDataProvider.Refresh();
                 CollectionViewSource.GetDefaultView((Application.Current.MainWindow.DataContext as MainViewModel)?.AyGünler).Refresh();
@@ -223,7 +223,7 @@ namespace Takvim
                         }
                     }
                     VeriSayısı--;
-                    MainViewModel.xmlDataProvider.Document.Save(MainViewModel.xmlpath);
+                    MainViewModel.xmlDataProvider.Document.Save(MainViewModel.xmldatapath);
                     MainViewModel.xmlDataProvider.Refresh();
                     CollectionViewSource.GetDefaultView((Application.Current.MainWindow.DataContext as MainViewModel)?.AyGünler).Refresh();
                 }
@@ -429,7 +429,7 @@ namespace Takvim
                     item.Attributes.GetNamedItem(attributevalue).Value = updatedattributevalue;
                 }
             }
-            MainViewModel.xmlDataProvider.Document.Save(MainViewModel.xmlpath);
+            MainViewModel.xmlDataProvider.Document.Save(MainViewModel.xmldatapath);
             MainViewModel.xmlDataProvider.Refresh();
         }
 
@@ -442,7 +442,7 @@ namespace Takvim
                     item.Attributes.GetNamedItem(attributevalue).Value = updatedattributevalue;
                 }
             }
-            MainViewModel.xmlDataProvider.Document.Save(MainViewModel.xmlpath);
+            MainViewModel.xmlDataProvider.Document.Save(MainViewModel.xmldatapath);
             MainViewModel.xmlDataProvider.Refresh();
         }
 

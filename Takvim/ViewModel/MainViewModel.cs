@@ -36,11 +36,11 @@ namespace Takvim
             GenerateSystemTrayMenu();
             DatetimeTimer();
             GetTtsLang();
-            WriteXmlRootData(xmlpath);
+            WriteXmlRootData(xmldatapath);
 
             xmlDataProvider = (XmlDataProvider)Application.Current?.TryFindResource("XmlData");
 
-            xmlDataProvider.Source = new Uri(xmlpath);
+            xmlDataProvider.Source = new Uri(xmldatapath);
 
             TakvimVerileriniOluştur(SeçiliYıl);
 
@@ -87,12 +87,12 @@ namespace Takvim
             {
                 if (MessageBox.Show($"{SeçiliYıl} yılına ait tüm kayıtları silmek istiyor musun? Dikkat bu işlem geri alınamaz.", "TAKVİM", MessageBoxButton.YesNo, MessageBoxImage.Exclamation, MessageBoxResult.No) == MessageBoxResult.Yes)
                 {
-                    XDocument doc = XDocument.Load(xmlpath);
+                    XDocument doc = XDocument.Load(xmldatapath);
                     doc.Root.Elements("Veri").Where(z => DateTime.Parse(z.Element("Gun").Value).Year == SeçiliYıl).Remove();
-                    doc.Save(xmlpath);
+                    doc.Save(xmldatapath);
                     xmlDataProvider.Refresh();
                 }
-            }, parameter => SeçiliYıl < DateTime.Now.Year && File.Exists(xmlpath));
+            }, parameter => SeçiliYıl < DateTime.Now.Year && File.Exists(xmldatapath));
 
             DuyurularPopupEkranıAç = new RelayCommand<object>(parameter =>
             {
@@ -155,11 +155,11 @@ namespace Takvim
             {
                 if (MessageBox.Show("Veritabanı dosyasını düzenlemek istiyor musun? Dikkat yanlış düzenleme programın açılmamasına neden olabilir. Devam edilsin mi?", "TAKVİM", MessageBoxButton.YesNo, MessageBoxImage.Exclamation, MessageBoxResult.No) == MessageBoxResult.Yes)
                 {
-                    Process.Start(xmlpath);
+                    Process.Start(xmldatapath);
                 }
             }, parameter => true);
 
-            ŞuAnkiGünVerisi = Günler.FirstOrDefault(z => z.TamTarih == ŞuAnkiGün);
+            ŞuAnkiGünVerisi = Günler?.FirstOrDefault(z => z.TamTarih == ŞuAnkiGün);
 
             PropertyChanged += MainViewModel_PropertyChanged;
 
@@ -211,7 +211,7 @@ namespace Takvim
         private void AyTakvimVerileriniOluştur(short SeçiliAy)
         {
             ÜçAylıkGünler = new ObservableCollection<Data>(Günler?.Where(z => z.TamTarih.Month == SeçiliAy - 1 || z.TamTarih.Month == SeçiliAy || z.TamTarih.Month == SeçiliAy + 1));
-            AyGünler = new ObservableCollection<Data>(ÜçAylıkGünler.Where(z => z.TamTarih.Month == SeçiliAy));
+            AyGünler = new ObservableCollection<Data>(ÜçAylıkGünler?.Where(z => z.TamTarih.Month == SeçiliAy));
         }
 
         private bool CheckTtsSelected()
@@ -450,7 +450,7 @@ namespace Takvim
             }
             if (!File.Exists(xmlfilepath))
             {
-                using XmlWriter writer = XmlWriter.Create(xmlpath);
+                using XmlWriter writer = XmlWriter.Create(xmldatapath);
                 writer.WriteStartElement("Veriler");
                 writer.WriteEndElement();
                 writer.Flush();

@@ -82,7 +82,7 @@ namespace Takvim
             if (e.Data.GetDataPresent("data") && GetPlacedData(sender as UIElement) is Data dc)
             {
                 (e.Data.GetData("data") as XmlNode)["Gun"].InnerText = dc.TamTarih.ToString("o");
-                MainViewModel.xmlDataProvider.Document.Save(MainViewModel.xmlpath);
+                MainViewModel.xmlDataProvider.Document.Save(MainViewModel.xmldatapath);
                 dc.VeriSayısı++;
                 CollectionViewSource.GetDefaultView((Application.Current.MainWindow.DataContext as MainViewModel)?.AyGünler).Refresh();
                 MainViewModel.xmlDataProvider.Refresh();
