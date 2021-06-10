@@ -55,14 +55,10 @@
                             Command="{Binding GünGeri}"
                             FontFamily="Wingdings"
                             ToolTip="ÖNCEKİ GÜN" />
-                        <TextBlock Grid.Column="1"
-                            Padding="10,0" HorizontalAlignment="Center" VerticalAlignment="Center"
-                            FontWeight="Bold"
-                            Language="tr-tr" ToolTip="Bugüne Git.">
-                            <Hyperlink Command="{Binding GünBugün}">
-                                <Run Text="{Binding ŞuAnkiGün, StringFormat=\{0:d\}}" />
-                            </Hyperlink>
-                        </TextBlock>
+                        <DatePicker Grid.Column="1"
+                            DisplayDateEnd="{Binding YılSonu}"
+                            DisplayDateStart="{Binding YılBaşı}"
+                            SelectedDate="{Binding ŞuAnkiGün, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         <Button Content="è"
                             Grid.Column="2"
                             Command="{Binding Günİleri}"
@@ -182,18 +178,10 @@
             </TabItem>
             <TabItem>
                 <TabItem.Header>
-                    <StackPanel Orientation="Horizontal">
-                        <Button Content="ç"
-                            Command="{Binding YılGeri}"
-                            FontFamily="Wingdings"
-                            ToolTip="ÖNCEKİ YIL" />
-                        <TextBox Text="{Binding SeçiliYıl, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" HorizontalAlignment="Center" FontWeight="Bold" />
-                        <Button Content="è"
-                            Command="{Binding Yılİleri}"
-                            FontFamily="Wingdings"
-                            ToolTip="SONRAKİ YIL" />
-                        <TextBlock Text="YIL" VerticalAlignment="Center" />
-                    </StackPanel>
+                    <Extensions:NumericUpDownControl HorizontalAlignment="Center"
+                        FontWeight="Bold"
+                        Maximum="9999" Minimum="1" Orientation="Horizontal" SmallChange="1"
+                        Value="{Binding SeçiliYıl, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
                 </TabItem.Header>
                 <Grid>
                     <Grid.RowDefinitions>

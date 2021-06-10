@@ -46,11 +46,7 @@ namespace Takvim
 
             AyTakvimVerileriniOluştur(SeçiliAy);
 
-            YılGeri = new RelayCommand<object>(parameter => SeçiliYıl--, parameter => SeçiliYıl > 1);
-
             AyGeri = new RelayCommand<object>(parameter => SeçiliAy--, parameter => SeçiliAy > 1);
-
-            Yılİleri = new RelayCommand<object>(parameter => SeçiliYıl++, parameter => SeçiliYıl < 9999);
 
             Ayİleri = new RelayCommand<object>(parameter => SeçiliAy++, parameter => SeçiliAy < 12);
 
@@ -197,10 +193,6 @@ namespace Takvim
         public ICommand WebAdreseGit { get; }
 
         public ICommand YılaGit { get; }
-
-        public ICommand YılGeri { get; }
-
-        public ICommand Yılİleri { get; }
 
         public string this[string columnName] => columnName switch
         {

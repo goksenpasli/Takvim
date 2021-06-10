@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls.Primitives;
+using System.Windows.Input;
 
 namespace Extensions
 {
@@ -24,6 +25,19 @@ namespace Extensions
         {
             get => (Visibility)GetValue(NumericUpDownButtonsVisibilityProperty);
             set => SetValue(NumericUpDownButtonsVisibilityProperty, value);
+        }
+
+        protected override void OnPreviewKeyDown(KeyEventArgs e)
+        {
+            if (e.Key == Key.Up)
+            {
+                Value++;
+            }
+            else if (e.Key == Key.Down)
+            {
+                Value--;
+            }
+            base.OnKeyDown(e);
         }
     }
 }

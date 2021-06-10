@@ -233,6 +233,9 @@ namespace Takvim
 
         public int SeçiliGün { get; set; } = DateTime.Now.Day - 1;
 
+        public DateTime YılBaşı { get; set; } = DateTime.Parse("1.1." + DateTime.Now.Year);
+        public DateTime YılSonu { get; set; } = DateTime.Parse("31.12." + DateTime.Now.Year);
+
         public Brush SeçiliRenkCmt
         {
             get => seçiliRenkCmt;
