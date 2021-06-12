@@ -941,7 +941,7 @@
                         <StackPanel Orientation="Horizontal">
                             <Canvas Width="192" Height="240">
                                 <GpMoonPdfViewer:MoonPdfViewer MaxWidth="192" MaxHeight="240"
-                                    ContextMenuVisible="Collapsed" CustomZoomLevel="0.285" ToolBarVisible="Collapsed">
+                                    ContextMenuVisible="Collapsed" CustomZoomLevel="0.35" ToolBarVisible="Collapsed">
                                     <GpMoonPdfViewer:MoonPdfViewer.Style>
                                         <Style TargetType="GpMoonPdfViewer:MoonPdfViewer">
                                             <Style.Setters>

@@ -40,7 +40,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <TabControl Grid.Row="0" Grid.Column="0" Grid.RowSpan="2"
+        <TabControl Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Grid.ColumnSpan="2"
             SelectedIndex="{Binding VarsayılanTakvim, Mode=OneWay, Source={x:Static properties:Settings.Default}}">
             <TabItem>
                 <TabItem.Header>
@@ -108,6 +108,7 @@
                     </ListBox>
                     <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto">
                         <Expander IsExpanded="{Binding MiniTakvimAçık, Mode=TwoWay, Source={x:Static properties:Settings.Default}, UpdateSourceTrigger=PropertyChanged}">
+
                             <Expander.Style>
                                 <Style TargetType="Expander">
                                     <Style.Triggers>
@@ -259,21 +260,96 @@
                 </Grid>
             </TabItem>
         </TabControl>
-        <Grid Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="2"
-            Margin="2">
+        <Grid Grid.Row="0" Grid.Column="1" Margin="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <TextBox Text="{Binding AramaMetin, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="0" />
+            <TextBox Text="{Binding AramaMetin, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="0" Width="72" />
             <Extensions:SplitButton Grid.Column="1" Command="{Binding VeriAra, Mode=OneWay}" CommandParameter="{Binding AramaMetin}">
                 <Extensions:SplitButton.InternalContent>
-                    <Menu>
-                        <MenuItem Header="TÜM KAYITLAR"
-                            IsCheckable="True"
-                            IsChecked="{Binding TümKayıtlar, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                            ToolTip="İşaretli İse Tüm Kayıtlarda Arama Yapılır. İşaretsiz İse Bugünden Sonraki Kayıtlarda Arama Yapılır." />
-                    </Menu>
+                    <GroupBox>
+                        <GroupBox.Header>
+                            <CheckBox Content="TÜM KAYITLAR" IsChecked="{Binding TümKayıtlar, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ToolTip="İşaretli İse Tüm Kayıtlarda Arama Yapılır. İşaretsiz İse Bugünden Sonraki Kayıtlarda Arama Yapılır." />
+                        </GroupBox.Header>
+                        <ListBox Height="500"
+                            ItemsSource="{Binding Mode=OneWay, Source={StaticResource Cvs}}"
+                            IsSynchronizedWithCurrentItem="False" ScrollViewer.IsDeferredScrollingEnabled="True">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Canvas Width="18" Height="18"
+                                                Background="Transparent"
+                                                HorizontalAlignment="Left" VerticalAlignment="Top"
+                                                Style="{StaticResource CanvasDragStyle}">
+                                                <TextBlock Text="B"
+                                                    FontSize="18" FontFamily="Wingdings" FontWeight="Bold" />
+                                            </Canvas>
+                                            <Extensions:SplitButton Content="DOSYA AÇ" Command="{Binding DataContext.ŞuAnkiGünVerisi.DosyaGör, ElementName=Grid}" CommandParameter="{Binding Mode=OneWay}">
+                                                <Extensions:SplitButton.Style>
+                                                    <Style BasedOn="{StaticResource {x:Type Extensions:SplitButton}}" TargetType="Extensions:SplitButton">
+                                                        <Setter Property="BorderBrush" Value="Yellow" />
+                                                        <Setter Property="BorderThickness" Value="2" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding XPath=Dosyalar/Dosya}" Value="{x:Null}">
+                                                                <Setter Property="BorderBrush" Value="#FF707070" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Extensions:SplitButton.Style>
+                                                <Extensions:SplitButton.InternalContent>
+                                                    <ListBox Width="200" Height="200"
+                                                        ItemsSource="{Binding XPath=Dosyalar/Dosya}"
+                                                        FontWeight="Normal">
+                                                        <ListBox.ItemTemplate>
+                                                            <DataTemplate>
+                                                                <StackPanel Orientation="Horizontal">
+                                                                    <Image Width="24" Height="24" Source="{Binding Converter={StaticResource FilePathToIconConverter}, XPath=@Yol}" />
+                                                                    <TextBlock VerticalAlignment="Center">
+                                                                        <Hyperlink Command="{Binding DataContext.ŞuAnkiGünVerisi.EkDosyaAç, ElementName=Grid}" CommandParameter="{Binding InnerXml, XPath=@Yol}">
+                                                                            <Run Text="{Binding XPath=@Ad}" />
+                                                                        </Hyperlink>
+                                                                    </TextBlock>
+                                                                </StackPanel>
+                                                            </DataTemplate>
+                                                        </ListBox.ItemTemplate>
+                                                    </ListBox>
+                                                </Extensions:SplitButton.InternalContent>
+                                            </Extensions:SplitButton>
+                                        </StackPanel>
+                                        <TextBlock Width="96" TextWrapping="Wrap"><Hyperlink Command="{Binding DataContext.YılaGit, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" CommandParameter="{Binding Mode=OneWay, XPath=Gun}">
+                                                <Run Text="{Binding Converter={StaticResource XmlDateConverter}, StringFormat=\{0:dd/MM/yyyy\}, XPath=Gun}" />
+                                            </Hyperlink>
+                                            <LineBreak />
+                                            <Run Text="{Binding XPath=Aciklama}"
+                                                Foreground="Green"
+                                                FontWeight="Bold"
+                                                ToolTip="{Binding XPath=Aciklama}" />
+                                            <Run Text="{Binding XPath=@SaatBaslangic}" />
+                                        </TextBlock>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                            <ListBox.ItemContainerStyle>
+                                <Style TargetType="{x:Type ListBoxItem}">
+                                    <Setter Property="BorderBrush" Value="Blue" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding XPath=@Onemli}" Value="true">
+                                            <Setter Property="Background" Value="Red" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ListBox.ItemContainerStyle>
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <VirtualizingStackPanel />
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                        </ListBox>
+                    </GroupBox>
                 </Extensions:SplitButton.InternalContent>
                 <Image Width="16" Height="16">
                     <Image.Source>
@@ -284,100 +360,15 @@
                     </Image.Source>
                 </Image>
             </Extensions:SplitButton>
-        </Grid>
-        <Grid Grid.Row="1" Grid.Column="3" Grid.RowSpan="2">
-            <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <GroupBox Grid.Row="0" Margin="2">
-                <GroupBox.Header>
-                    <Button Command="{Binding ŞuAnkiGünVerisi.CsvDosyasınaYaz, Mode=OneWay}" CommandParameter="{Binding Günler}">
-                        <Image Width="24" Height="24">
-                            <Image.Source>
-                                <Binding Converter="{StaticResource FilePathToIconConverter}" Source=".csv" />
-                            </Image.Source>
-                        </Image>
-                    </Button>
-                </GroupBox.Header>
-                <ListBox Background="Transparent"
-                    ItemsSource="{Binding Mode=OneWay, Source={StaticResource Cvs}}"
-                    IsSynchronizedWithCurrentItem="False" ScrollViewer.IsDeferredScrollingEnabled="True">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel>
-                                <StackPanel Orientation="Horizontal">
-                                    <Canvas Width="18" Height="18"
-                                        Background="Transparent"
-                                        HorizontalAlignment="Left" VerticalAlignment="Top"
-                                        Style="{StaticResource CanvasDragStyle}">
-                                        <TextBlock Text="B"
-                                            FontSize="18" FontFamily="Wingdings" FontWeight="Bold" />
-                                    </Canvas>
-                                    <Extensions:SplitButton Content="DOSYA AÇ" Command="{Binding DataContext.ŞuAnkiGünVerisi.DosyaGör, ElementName=Grid}" CommandParameter="{Binding Mode=OneWay}">
-                                        <Extensions:SplitButton.Style>
-                                            <Style BasedOn="{StaticResource {x:Type Extensions:SplitButton}}" TargetType="Extensions:SplitButton">
-                                                <Setter Property="BorderBrush" Value="Yellow" />
-                                                <Setter Property="BorderThickness" Value="2" />
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding XPath=Dosyalar/Dosya}" Value="{x:Null}">
-                                                        <Setter Property="BorderBrush" Value="#FF707070" />
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Extensions:SplitButton.Style>
-                                        <Extensions:SplitButton.InternalContent>
-                                            <ListBox Width="200" Height="200"
-                                                ItemsSource="{Binding XPath=Dosyalar/Dosya}"
-                                                FontWeight="Normal">
-                                                <ListBox.ItemTemplate>
-                                                    <DataTemplate>
-                                                        <StackPanel Orientation="Horizontal">
-                                                            <Image Width="24" Height="24" Source="{Binding Converter={StaticResource FilePathToIconConverter}, XPath=@Yol}" />
-                                                            <TextBlock VerticalAlignment="Center">
-                                                                <Hyperlink Command="{Binding DataContext.ŞuAnkiGünVerisi.EkDosyaAç, ElementName=Grid}" CommandParameter="{Binding InnerXml, XPath=@Yol}">
-                                                                    <Run Text="{Binding XPath=@Ad}" />
-                                                                </Hyperlink>
-                                                            </TextBlock>
-                                                        </StackPanel>
-                                                    </DataTemplate>
-                                                </ListBox.ItemTemplate>
-                                            </ListBox>
-                                        </Extensions:SplitButton.InternalContent>
-                                    </Extensions:SplitButton>
-                                </StackPanel>
-                                <TextBlock Width="96" TextWrapping="Wrap"><Hyperlink Command="{Binding DataContext.YılaGit, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" CommandParameter="{Binding Mode=OneWay, XPath=Gun}">
-                                        <Run Text="{Binding Converter={StaticResource XmlDateConverter}, StringFormat=\{0:dd/MM/yyyy\}, XPath=Gun}" />
-                                    </Hyperlink>
-                                    <LineBreak />
-                                    <Run Text="{Binding XPath=Aciklama}"
-                                        Foreground="Green"
-                                        FontWeight="Bold"
-                                        ToolTip="{Binding XPath=Aciklama}" />
-                                    <Run Text="{Binding XPath=@SaatBaslangic}" />
-                                </TextBlock>
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                    <ListBox.ItemContainerStyle>
-                        <Style TargetType="{x:Type ListBoxItem}">
-                            <Setter Property="BorderBrush" Value="Blue" />
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding XPath=@Onemli}" Value="true">
-                                    <Setter Property="Background" Value="Red" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </ListBox.ItemContainerStyle>
-                    <ListBox.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <VirtualizingStackPanel />
-                        </ItemsPanelTemplate>
-                    </ListBox.ItemsPanel>
-                </ListBox>
-            </GroupBox>
+            <Button Grid.Column="2" Command="{Binding ŞuAnkiGünVerisi.CsvDosyasınaYaz, Mode=OneWay}" CommandParameter="{Binding Günler}">
+                <Image Width="16" Height="16">
+                    <Image.Source>
+                        <Binding Converter="{StaticResource FilePathToIconConverter}" Source=".csv" />
+                    </Image.Source>
+                </Image>
+            </Button>
             <Expander Header="AYARLAR"
-                Grid.Row="1"
+                Grid.Column="3"
                 BorderBrush="Black"
                 Margin="2"
                 IsExpanded="{Binding AyarlarGörünür, Mode=TwoWay, Source={x:Static properties:Settings.Default}}">
@@ -549,6 +540,7 @@
                     </TabItem>
                 </TabControl>
             </Expander>
+
         </Grid>
     </Grid>
 </Window>

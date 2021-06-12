@@ -128,7 +128,7 @@
                 VerticalAlignment="Center" VerticalContentAlignment="Center"
                 ToolTip="Metin Dosyaları İçin Uygun" />
         </ListBox>
-        <CheckBox Grid.Row="1" Grid.Column="1"
+        <CheckBox Grid.Row="1" Grid.Column="1" 
             Visibility="{Binding ElementVisible}"
             VerticalAlignment="Center" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center"
             IsChecked="{Binding CompressorView.ResimleriWebpZiple}"

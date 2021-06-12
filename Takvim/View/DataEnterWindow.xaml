@@ -101,7 +101,7 @@
                 <Button Content="ICAL TAKVİM EKLE" Command="{Binding IcalEkle}" />
                 <TextBox Text="{Binding GünNotAçıklama, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                     Grid.Row="1"
-                    AcceptsReturn="True" TextWrapping="Wrap"
+                    AcceptsReturn="True" SpellCheck.IsEnabled="True" TextWrapping="Wrap"
                     Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
                     VerticalScrollBarVisibility="Visible" />
                 <GroupBox Grid.Row="2" Grid.ColumnSpan="2">
