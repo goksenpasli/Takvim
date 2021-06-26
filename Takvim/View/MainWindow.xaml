@@ -375,179 +375,177 @@
                     </Image.Source>
                 </Image>
             </Button>
-            <Expander Header="AYARLAR"
-                Grid.Column="3"
-                BorderBrush="Black"
-                Margin="2"
-                IsExpanded="{Binding AyarlarGörünür, Mode=TwoWay, Source={x:Static properties:Settings.Default}}">
-                <TabControl>
-                    <TabItem Header="RENKLER">
-                        <UniformGrid Columns="2" Rows="3">
-                            <UniformGrid.Resources>
-                                <Style x:Key="CbColorBaseStyle" BasedOn="{StaticResource {x:Type ComboBox}}" TargetType="{x:Type ComboBox}">
-                                    <Setter Property="ItemContainerStyle" Value="{StaticResource ComboBoxColorItemContainerStyle}" />
-                                    <Setter Property="ItemTemplate" Value="{StaticResource ComboBoxRectItemTemplate}" />
-                                    <Setter Property="ItemsPanel" Value="{StaticResource CbItemsPanelTemplate}" />
-                                    <Setter Property="ItemsSource" Value="{Binding Source={StaticResource Renkler}}" />
-                                    <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Disabled" />
-                                    <Setter Property="SelectedValuePath" Value="Name" />
-                                </Style>
-                            </UniformGrid.Resources>
-                            <ComboBox Style="{StaticResource CbColorBaseStyle}" SelectedValue="{Binding SeçiliRenkCmt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ToolTip="Cumartesi Renk" />
-                            <ComboBox Style="{StaticResource CbColorBaseStyle}" SelectedValue="{Binding SeçiliRenkPaz, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ToolTip="Pazar Renk" />
-                            <ComboBox Style="{StaticResource CbColorBaseStyle}" SelectedValue="{Binding ResmiTatilRenk, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ToolTip="Resmi Tatil Renk" />
-                            <ComboBox Style="{StaticResource CbColorBaseStyle}" SelectedValue="{Binding GövdeRenk, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ToolTip="Gövde Renk" />
-                            <ComboBox Style="{StaticResource CbColorBaseStyle}" SelectedValue="{Binding BayramTatilRenk, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ToolTip="Bayram Renk" />
-                        </UniformGrid>
-                    </TabItem>
-                    <TabItem Header="AYARLAR">
-                        <UniformGrid Columns="2" Rows="3">
-                            <ComboBox SelectedIndex="{Binding VarsayılanTakvim, Mode=TwoWay, Source={x:Static properties:Settings.Default}}" ToolTip="Varsayılan Takvim Görünümü">
-                                <ComboBoxItem Content="BUGÜN" />
-                                <ComboBoxItem Content="AY" />
-                                <ComboBoxItem Content="YIL" />
-                            </ComboBox>
-                            <ToggleButton Content="HAFTA SONU" IsChecked="{Binding HaftaSonlarıGizle, Mode=TwoWay, Source={x:Static properties:Settings.Default}}" ToolTip="HAFTA SONLARINI GİZLE" />
-                            <Extensions:ContentToggleButton ToolTip="Panel Görünümü">
-                                <Extensions:ContentToggleButton.OverContent>
-                                    <Image Width="16" Height="16">
-                                        <Image.Source>
-                                            <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
-                                                <Binding Source="Shell32.dll" />
-                                                <Binding Source="96" />
-                                            </MultiBinding>
-                                        </Image.Source>
-                                    </Image>
-                                </Extensions:ContentToggleButton.OverContent>
-                                <GroupBox Header="PANEL AYARLARI">
-                                    <StackPanel>
-                                        <CheckBox Content="PANEL ŞEKLİNDE DİZ"
-                                            VerticalAlignment="Center"
-                                            IsChecked="{Binding Panel, Mode=TwoWay, Source={x:Static properties:Settings.Default}}"
-                                            ToolTip="İŞARETLENİRSE VERİLER YAN YANA DİZİLİR" />
-                                        <Slider IsEnabled="{Binding Panel, Mode=OneWay, Source={x:Static properties:Settings.Default}}"
-                                            AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" Maximum="20" Minimum="2"
-                                            SmallChange="1" ToolTip="Ekran Genişliği Seçili Rakama Oranlanır."
-                                            Value="{Binding YatayAdetOranı, Delay=500, Mode=TwoWay, Source={x:Static properties:Settings.Default}}" />
-                                    </StackPanel>
-                                </GroupBox>
-                            </Extensions:ContentToggleButton>
-                            <Button Command="{Binding AyarSıfırla, Mode=OneWay}" ToolTip="AYARLARI SIFIRLA">
-                                <Image Width="16" Height="16">
-                                    <Image.Source>
-                                        <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
-                                            <Binding Source="Shell32.dll" />
-                                            <Binding Source="146" />
-                                        </MultiBinding>
-                                    </Image.Source>
-                                </Image>
-                            </Button>
-                            <ToggleButton Grid.Column="0"
-                                IsChecked="{Binding BaşlangıçtaÇalışacak}"
-                                IsTabStop="False" ToolTip="Başlangıçta Çalıştır.">
-                                <Image Width="16" Height="16">
-                                    <Image.Source>
-                                        <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
-                                            <Binding Source="Shell32.dll" />
-                                            <Binding Source="24" />
-                                        </MultiBinding>
-                                    </Image.Source>
-                                </Image>
-                            </ToggleButton>
-                            <ToggleButton Grid.Column="0"
-                                IsEnabled="{Binding SeçiliTts, Converter={StaticResource StringNullableToBooleanConverter}, Mode=TwoWay, Source={x:Static properties:Settings.Default}}"
-                                IsChecked="{Binding YaklaşanEtkinlikleriOku, Mode=TwoWay, Source={x:Static properties:Settings.Default}}"
-                                IsTabStop="False"
-                                ToolTip="Bildirim Penceredesindeki Yaklaşan Etkinlikleri Oku. Bu İşaretlenmezse Sadece Sistem Sesine Göre Uyarı Sesi Çalar.">
-                                <Image Width="16" Height="16">
-                                    <Image.Source>
-                                        <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
-                                            <Binding Source="Shell32.dll" />
-                                            <Binding Source="137" />
-                                        </MultiBinding>
-                                    </Image.Source>
-                                </Image>
-                            </ToggleButton>
-                        </UniformGrid>
-                    </TabItem>
-                    <TabItem Header="DİĞER">
-                        <UniformGrid Columns="2" Rows="3">
-                            <Button Command="{Binding WebAdreseGit, Mode=OneWay}" CommandParameter="https://github.com/goksenpasli">
-                                <Image Width="16" Height="16">
-                                    <Image.Source>
-                                        <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
-                                            <Binding Source="Shell32.dll" />
-                                            <Binding Source="14" />
-                                        </MultiBinding>
-                                    </Image.Source>
-                                </Image>
-                            </Button>
-                            <Button Command="{Binding EskiVerileriSil, Mode=OneWay}" ToolTip="TÜM ESKİ VERİLERİ SİL">
-                                <Image Width="16" Height="16">
-                                    <Image.Source>
-                                        <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
-                                            <Binding Source="Shell32.dll" />
-                                            <Binding Source="152" />
-                                        </MultiBinding>
-                                    </Image.Source>
-                                </Image>
-                            </Button>
-                            <Button Command="{Binding VeritabanıAç, Mode=OneWay}" ToolTip="XML VERİTABANINI AÇ">
-                                <Image Width="16" Height="16">
-                                    <Image.Source>
-                                        <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
-                                            <Binding Source="Shell32.dll" />
-                                            <Binding Source="72" />
-                                        </MultiBinding>
-                                    </Image.Source>
-                                </Image>
-                            </Button>
-                            <Extensions:ContentToggleButton ToolTip="Uyarı Zamanlarını Ayarlayın">
-                                <Extensions:ContentToggleButton.OverContent>
-                                    <Image Width="16" Height="16">
-                                        <Image.Source>
-                                            <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
-                                                <Binding Source="Shell32.dll" />
-                                                <Binding Source="66" />
-                                            </MultiBinding>
-                                        </Image.Source>
-                                    </Image>
-                                </Extensions:ContentToggleButton.OverContent>
-                                <GroupBox Header="ZAMANLAR">
-                                    <StackPanel>
-                                        <Slider VerticalAlignment="Center"
-                                            AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" Maximum="60" Minimum="1"
-                                            ToolTip="UYARILARIN KONTROL ARALIĞI DAKİKA OLARAK"
-                                            Value="{Binding KontrolSüresi, Mode=TwoWay, Source={x:Static properties:Settings.Default}}" />
-                                        <Slider VerticalAlignment="Center"
-                                            AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" Maximum="60" Minimum="5"
-                                            ToolTip="UYARILARIN EKRANDA GÖRÜNME SÜRESİ SANİYE OLARAK"
-                                            Value="{Binding PopupSüresi, Mode=TwoWay, Source={x:Static properties:Settings.Default}}" />
-                                        <Slider VerticalAlignment="Center"
-                                            AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" Maximum="24" Minimum="1"
-                                            ToolTip="UYARILAR BELİRTİLEN SAAT ÖNCESİNDEN EKRANDA GÖRÜNMEYE BAŞLAR"
-                                            Value="{Binding UyarıSaatSüresi, Mode=TwoWay, Source={x:Static properties:Settings.Default}}" />
-                                    </StackPanel>
-                                </GroupBox>
-                            </Extensions:ContentToggleButton>
-                            <Extensions:SplitButton Content="KAYIT OKU" Command="{Binding VeriOku}">
-                                <Extensions:SplitButton.InternalContent>
-                                    <GroupBox Header="TTS AYARLARI">
+            <Extensions:ContentToggleButton Grid.Column="3" OverContent="AYARLAR">
+                <GroupBox Header="AYARLAR">
+                    <TabControl>
+                        <TabItem Header="RENKLER">
+                            <UniformGrid Columns="2" Rows="3">
+                                <UniformGrid.Resources>
+                                    <Style x:Key="CbColorBaseStyle" BasedOn="{StaticResource {x:Type ComboBox}}" TargetType="{x:Type ComboBox}">
+                                        <Setter Property="ItemContainerStyle" Value="{StaticResource ComboBoxColorItemContainerStyle}" />
+                                        <Setter Property="ItemTemplate" Value="{StaticResource ComboBoxRectItemTemplate}" />
+                                        <Setter Property="ItemsPanel" Value="{StaticResource CbItemsPanelTemplate}" />
+                                        <Setter Property="ItemsSource" Value="{Binding Source={StaticResource Renkler}}" />
+                                        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Disabled" />
+                                        <Setter Property="SelectedValuePath" Value="Name" />
+                                    </Style>
+                                </UniformGrid.Resources>
+                                <ComboBox Style="{StaticResource CbColorBaseStyle}" SelectedValue="{Binding SeçiliRenkCmt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ToolTip="Cumartesi Renk" />
+                                <ComboBox Style="{StaticResource CbColorBaseStyle}" SelectedValue="{Binding SeçiliRenkPaz, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ToolTip="Pazar Renk" />
+                                <ComboBox Style="{StaticResource CbColorBaseStyle}" SelectedValue="{Binding ResmiTatilRenk, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ToolTip="Resmi Tatil Renk" />
+                                <ComboBox Style="{StaticResource CbColorBaseStyle}" SelectedValue="{Binding GövdeRenk, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ToolTip="Gövde Renk" />
+                                <ComboBox Style="{StaticResource CbColorBaseStyle}" SelectedValue="{Binding BayramTatilRenk, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ToolTip="Bayram Renk" />
+                            </UniformGrid>
+                        </TabItem>
+                        <TabItem Header="AYARLAR">
+                            <UniformGrid Columns="2" Rows="3">
+                                <ComboBox SelectedIndex="{Binding VarsayılanTakvim, Mode=TwoWay, Source={x:Static properties:Settings.Default}}" ToolTip="Varsayılan Takvim Görünümü">
+                                    <ComboBoxItem Content="BUGÜN" />
+                                    <ComboBoxItem Content="AY" />
+                                    <ComboBoxItem Content="YIL" />
+                                </ComboBox>
+                                <ToggleButton Content="HAFTA SONU" IsChecked="{Binding HaftaSonlarıGizle, Mode=TwoWay, Source={x:Static properties:Settings.Default}}" ToolTip="HAFTA SONLARINI GİZLE" />
+                                <Extensions:ContentToggleButton ToolTip="Panel Görünümü">
+                                    <Extensions:ContentToggleButton.OverContent>
+                                        <Image Width="16" Height="16">
+                                            <Image.Source>
+                                                <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
+                                                    <Binding Source="Shell32.dll" />
+                                                    <Binding Source="96" />
+                                                </MultiBinding>
+                                            </Image.Source>
+                                        </Image>
+                                    </Extensions:ContentToggleButton.OverContent>
+                                    <GroupBox Header="PANEL AYARLARI">
                                         <StackPanel>
-                                            <TextBlock><Hyperlink Command="{Binding WebAdreseGit}" CommandParameter="https://github.com/goksenpasli/Takvim">
-                                                    <Run Text="TÜRKÇE TTS REGISTRY AYARI" />
-                                                </Hyperlink></TextBlock>
-                                            <HeaderedContentControl Header="Varsayılan Okuma Motorunu Seçin.">
-                                                <ComboBox ItemsSource="{Binding TtsDilleri}" SelectedItem="{Binding SeçiliTts, Mode=TwoWay, Source={x:Static properties:Settings.Default}}" />
-                                            </HeaderedContentControl>
+                                            <CheckBox Content="PANEL ŞEKLİNDE DİZ"
+                                                VerticalAlignment="Center"
+                                                IsChecked="{Binding Panel, Mode=TwoWay, Source={x:Static properties:Settings.Default}}"
+                                                ToolTip="İŞARETLENİRSE VERİLER YAN YANA DİZİLİR" />
+                                            <Slider IsEnabled="{Binding Panel, Mode=OneWay, Source={x:Static properties:Settings.Default}}"
+                                                AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" Maximum="20" Minimum="2"
+                                                SmallChange="1" ToolTip="Ekran Genişliği Seçili Rakama Oranlanır."
+                                                Value="{Binding YatayAdetOranı, Delay=500, Mode=TwoWay, Source={x:Static properties:Settings.Default}}" />
                                         </StackPanel>
                                     </GroupBox>
-                                </Extensions:SplitButton.InternalContent>
-                            </Extensions:SplitButton>
-                        </UniformGrid>
-                    </TabItem>
-                </TabControl>
-            </Expander>
+                                </Extensions:ContentToggleButton>
+                                <Button Command="{Binding AyarSıfırla, Mode=OneWay}" ToolTip="AYARLARI SIFIRLA">
+                                    <Image Width="16" Height="16">
+                                        <Image.Source>
+                                            <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
+                                                <Binding Source="Shell32.dll" />
+                                                <Binding Source="146" />
+                                            </MultiBinding>
+                                        </Image.Source>
+                                    </Image>
+                                </Button>
+                                <ToggleButton Grid.Column="0"
+                                    IsChecked="{Binding BaşlangıçtaÇalışacak}"
+                                    IsTabStop="False" ToolTip="Başlangıçta Çalıştır.">
+                                    <Image Width="16" Height="16">
+                                        <Image.Source>
+                                            <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
+                                                <Binding Source="Shell32.dll" />
+                                                <Binding Source="24" />
+                                            </MultiBinding>
+                                        </Image.Source>
+                                    </Image>
+                                </ToggleButton>
+                                <ToggleButton Grid.Column="0"
+                                    IsEnabled="{Binding SeçiliTts, Converter={StaticResource StringNullableToBooleanConverter}, Mode=TwoWay, Source={x:Static properties:Settings.Default}}"
+                                    IsChecked="{Binding YaklaşanEtkinlikleriOku, Mode=TwoWay, Source={x:Static properties:Settings.Default}}"
+                                    IsTabStop="False"
+                                    ToolTip="Bildirim Penceredesindeki Yaklaşan Etkinlikleri Oku. Bu İşaretlenmezse Sadece Sistem Sesine Göre Uyarı Sesi Çalar.">
+                                    <Image Width="16" Height="16">
+                                        <Image.Source>
+                                            <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
+                                                <Binding Source="Shell32.dll" />
+                                                <Binding Source="137" />
+                                            </MultiBinding>
+                                        </Image.Source>
+                                    </Image>
+                                </ToggleButton>
+                            </UniformGrid>
+                        </TabItem>
+                        <TabItem Header="DİĞER">
+                            <UniformGrid Columns="2" Rows="3">
+                                <Button Command="{Binding WebAdreseGit, Mode=OneWay}" CommandParameter="https://github.com/goksenpasli">
+                                    <Image Width="16" Height="16">
+                                        <Image.Source>
+                                            <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
+                                                <Binding Source="Shell32.dll" />
+                                                <Binding Source="14" />
+                                            </MultiBinding>
+                                        </Image.Source>
+                                    </Image>
+                                </Button>
+                                <Button Command="{Binding EskiVerileriSil, Mode=OneWay}" ToolTip="TÜM ESKİ VERİLERİ SİL">
+                                    <Image Width="16" Height="16">
+                                        <Image.Source>
+                                            <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
+                                                <Binding Source="Shell32.dll" />
+                                                <Binding Source="152" />
+                                            </MultiBinding>
+                                        </Image.Source>
+                                    </Image>
+                                </Button>
+                                <Button Command="{Binding VeritabanıAç, Mode=OneWay}" ToolTip="XML VERİTABANINI AÇ">
+                                    <Image Width="16" Height="16">
+                                        <Image.Source>
+                                            <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
+                                                <Binding Source="Shell32.dll" />
+                                                <Binding Source="72" />
+                                            </MultiBinding>
+                                        </Image.Source>
+                                    </Image>
+                                </Button>
+                                <Extensions:ContentToggleButton ToolTip="Uyarı Zamanlarını Ayarlayın">
+                                    <Extensions:ContentToggleButton.OverContent>
+                                        <Image Width="16" Height="16">
+                                            <Image.Source>
+                                                <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
+                                                    <Binding Source="Shell32.dll" />
+                                                    <Binding Source="66" />
+                                                </MultiBinding>
+                                            </Image.Source>
+                                        </Image>
+                                    </Extensions:ContentToggleButton.OverContent>
+                                    <GroupBox Header="ZAMANLAR">
+                                        <StackPanel>
+                                            <Slider VerticalAlignment="Center"
+                                                AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" Maximum="60" Minimum="1"
+                                                ToolTip="UYARILARIN KONTROL ARALIĞI DAKİKA OLARAK"
+                                                Value="{Binding KontrolSüresi, Mode=TwoWay, Source={x:Static properties:Settings.Default}}" />
+                                            <Slider VerticalAlignment="Center"
+                                                AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" Maximum="60" Minimum="5"
+                                                ToolTip="UYARILARIN EKRANDA GÖRÜNME SÜRESİ SANİYE OLARAK"
+                                                Value="{Binding PopupSüresi, Mode=TwoWay, Source={x:Static properties:Settings.Default}}" />
+                                            <Slider VerticalAlignment="Center"
+                                                AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" Maximum="24" Minimum="1"
+                                                ToolTip="UYARILAR BELİRTİLEN SAAT ÖNCESİNDEN EKRANDA GÖRÜNMEYE BAŞLAR"
+                                                Value="{Binding UyarıSaatSüresi, Mode=TwoWay, Source={x:Static properties:Settings.Default}}" />
+                                        </StackPanel>
+                                    </GroupBox>
+                                </Extensions:ContentToggleButton>
+                                <Extensions:SplitButton Content="KAYIT OKU" Command="{Binding VeriOku}">
+                                    <Extensions:SplitButton.InternalContent>
+                                        <GroupBox Header="TTS AYARLARI">
+                                            <StackPanel>
+                                                <TextBlock><Hyperlink Command="{Binding WebAdreseGit}" CommandParameter="https://github.com/goksenpasli/Takvim">
+                                                        <Run Text="TÜRKÇE TTS REGISTRY AYARI" />
+                                                    </Hyperlink></TextBlock>
+                                                <HeaderedContentControl Header="Varsayılan Okuma Motorunu Seçin.">
+                                                    <ComboBox ItemsSource="{Binding TtsDilleri}" SelectedItem="{Binding SeçiliTts, Mode=TwoWay, Source={x:Static properties:Settings.Default}}" />
+                                                </HeaderedContentControl>
+                                            </StackPanel>
+                                        </GroupBox>
+                                    </Extensions:SplitButton.InternalContent>
+                                </Extensions:SplitButton>
+                            </UniformGrid>
+                        </TabItem>
+                    </TabControl>
+                </GroupBox>
+            </Extensions:ContentToggleButton>
 
         </Grid>
     </Grid>

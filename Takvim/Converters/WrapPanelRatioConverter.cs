@@ -8,7 +8,7 @@ namespace Takvim
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return (value is short ratio) ? System.Windows.SystemParameters.WorkArea.Width / ratio : System.Windows.SystemParameters.WorkArea.Width / 2;
+            return (value is short ratio) ? (System.Windows.SystemParameters.WorkArea.Width - 48) / ratio : System.Windows.SystemParameters.WorkArea.Width / 2;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

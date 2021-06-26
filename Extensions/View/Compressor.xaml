@@ -128,7 +128,7 @@
                 VerticalAlignment="Center" VerticalContentAlignment="Center"
                 ToolTip="Metin Dosyaları İçin Uygun" />
         </ListBox>
-        <CheckBox Grid.Row="1" Grid.Column="1" 
+        <CheckBox Grid.Row="1" Grid.Column="1"
             Visibility="{Binding ElementVisible}"
             VerticalAlignment="Center" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center"
             IsChecked="{Binding CompressorView.ResimleriWebpZiple}"
@@ -243,42 +243,9 @@
             </Grid.ColumnDefinitions>
             <ProgressBar Grid.Column="0" Grid.ColumnSpan="2"
                 Height="16"
+                Style="{StaticResource ProgressBarStyle}"
                 Maximum="{Binding CompressorView.Dosyalar.Count}"
-                Value="{Binding CompressorView.Oran}">
-                <ProgressBar.Style>
-                    <Style TargetType="{x:Type ProgressBar}">
-                        <Setter Property="BorderThickness" Value="1" />
-                        <Setter Property="Foreground" Value="Green" />
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="{x:Type ProgressBar}">
-                                    <Border x:Name="PART_Track"
-                                        MinHeight="14"
-                                        Background="{x:Null}"
-                                        BorderBrush="#FF888888"
-                                        BorderThickness="{TemplateBinding BorderThickness}"
-                                        d:DesignUseLayoutRounding="True" CornerRadius="2" UseLayoutRounding="True">
-                                        <Border x:Name="PART_Indicator"
-                                            Background="{TemplateBinding Foreground}"
-                                            BorderBrush="{x:Null}"
-                                            Margin="1" HorizontalAlignment="Left"
-                                            d:DesignUseLayoutRounding="True" CornerRadius="1" UseLayoutRounding="True" />
-                                    </Border>
-                                    <ControlTemplate.Triggers>
-                                        <Trigger Property="Orientation" Value="Vertical">
-                                            <Setter TargetName="PART_Track" Property="LayoutTransform">
-                                                <Setter.Value>
-                                                    <RotateTransform Angle="-90" />
-                                                </Setter.Value>
-                                            </Setter>
-                                        </Trigger>
-                                    </ControlTemplate.Triggers>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </ProgressBar.Style>
-            </ProgressBar>
+                Value="{Binding CompressorView.Oran}" />
             <Image Width="16" Height="16" Source="{Binding CompressorView.DosyaAdı, Converter={StaticResource FilePathToIconConverter}}" />
             <TextBlock Text="{Binding CompressorView.DosyaAdı}"
                 TextTrimming="CharacterEllipsis"
