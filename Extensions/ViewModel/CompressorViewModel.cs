@@ -89,88 +89,73 @@ namespace Extensions
             {
                 if (parameter is string dosya && CompressorView?.Dosyalar.Count > 0)
                 {
-                    CompressorView.Dosyalar.Remove(dosya);
+                    _ = CompressorView.Dosyalar.Remove(dosya);
                 }
             }, parameter => true);
 
             Arşivle = new RelayCommand<object>(parameter =>
             {
-                Task.Factory.StartNew(() =>
-                  {
-                      try
-                      {
-                          CompressorView.Sürüyor = true;
-                          using FileStream stream = File.OpenWrite(CompressorView.KayıtYolu);
-                          switch (CompressorView.Biçim)
-                          {
-                              case 0:
-                                  {
-                                      using ZipWriter writer = new(stream, new ZipWriterOptions(CompressionType.Deflate) { UseZip64 = true, DeflateCompressionLevel = (SharpCompress.Compressors.Deflate.CompressionLevel)CompressorView.SıkıştırmaDerecesi });
-                                      WriteData(writer);
-                                      break;
-                                  }
+                _ = Task.Factory.StartNew(() =>
+                    {
+                        try
+                        {
+                            CompressorView.Sürüyor = true;
+                            using FileStream stream = File.OpenWrite(CompressorView.KayıtYolu);
+                            switch (CompressorView.Biçim)
+                            {
+                                case 0:
+                                    {
+                                        using ZipWriter writer = new(stream, new ZipWriterOptions(CompressionType.Deflate) { UseZip64 = true, DeflateCompressionLevel = (SharpCompress.Compressors.Deflate.CompressionLevel)CompressorView.SıkıştırmaDerecesi });
+                                        WriteData(writer);
+                                        break;
+                                    }
 
-                              case 1:
-                                  {
-                                      using IWriter writer = WriterFactory.Open(stream, ArchiveType.Tar, CompressionType.None);
-                                      WriteData(writer);
-                                      break;
-                                  }
+                                case 1:
+                                    {
+                                        using IWriter writer = WriterFactory.Open(stream, ArchiveType.Tar, CompressionType.None);
+                                        WriteData(writer);
+                                        break;
+                                    }
 
-                              case 2:
-                                  {
-                                      using IWriter writer = WriterFactory.Open(stream, ArchiveType.Zip, CompressionType.LZMA);
-                                      WriteData(writer);
-                                      break;
-                                  }
+                                case 2:
+                                    {
+                                        using IWriter writer = WriterFactory.Open(stream, ArchiveType.Zip, CompressionType.LZMA);
+                                        WriteData(writer);
+                                        break;
+                                    }
 
-                              case 3:
-                                  {
-                                      using IWriter writer = WriterFactory.Open(stream, ArchiveType.Tar, CompressionType.GZip);
-                                      WriteData(writer);
-                                      break;
-                                  }
-                          }
+                                case 3:
+                                    {
+                                        using IWriter writer = WriterFactory.Open(stream, ArchiveType.Tar, CompressionType.GZip);
+                                        WriteData(writer);
+                                        break;
+                                    }
+                            }
 
-                          CompressorView.Sürüyor = false;
-                      }
-                      catch (Exception Ex)
-                      {
-                          MessageBox.Show(Ex.Message, "TAKVİM", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                      }
-                  }, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).ContinueWith(_ =>
-                  {
-                      CompressorView.Dosyalar.Clear();
-                      CompressorView.VeriGirişKayıtYolu = CompressorView.KayıtYolu;
-                      CompressorView.KayıtYolu = null;
-                      CompressorView.Oran = 0;
-                      CompressorView.DosyaAdı = null;
-                  }, TaskScheduler.FromCurrentSynchronizationContext());
+                            CompressorView.Sürüyor = false;
+                        }
+                        catch (Exception Ex)
+                        {
+                            _ = MessageBox.Show(Ex.Message, "TAKVİM", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                        }
+                    }, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).ContinueWith(_ =>
+                    {
+                        CompressorView.Dosyalar.Clear();
+                        CompressorView.VeriGirişKayıtYolu = CompressorView.KayıtYolu;
+                        CompressorView.KayıtYolu = null;
+                        CompressorView.Oran = 0;
+                        CompressorView.DosyaAdı = null;
+                    }, TaskScheduler.FromCurrentSynchronizationContext());
             }, parameter => CompressorView.Dosyalar?.Contains(CompressorView.KayıtYolu) != true);
 
             CompressorView.PropertyChanged += ZipView_PropertyChanged;
-
-            void WriteWebpFile(string dosya, out string webpfilename, out string tempfile)
-            {
-                webpfilename = Path.GetFileNameWithoutExtension(dosya) + ".webp";
-                tempfile = $@"{Path.GetTempPath()}\{webpfilename}";
-                File.WriteAllBytes(tempfile, dosya.WebpEncode(CompressorView.WebpQuality));
-            }
 
             void WriteData(IWriter writer)
             {
                 foreach (string dosya in CompressorView.Dosyalar)
                 {
-                    if (CompressorView.ResimleriWebpZiple && imageextension.Contains(Path.GetExtension(dosya).ToLower()))
-                    {
-                        WriteWebpFile(dosya, out string webpfilename, out string tempfile);
-                        writer.Write(Path.GetFileName(webpfilename), tempfile);
-                        File.Delete(tempfile);
-                    }
-                    else
-                    {
-                        writer.Write(Path.GetFileName(dosya), dosya);
-                    }
+                    writer.Write(Path.GetFileName(dosya), dosya);
+
                     CompressorView.Oran++;
                     CompressorView.DosyaAdı = Path.GetFileName(dosya);
                 }
@@ -241,12 +226,12 @@ namespace Extensions
                 }
                 if (klasörgöster)
                 {
-                    Process.Start(extractpath);
+                    _ = Process.Start(extractpath);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Dosya Arşiv Dosyası Olarak Okunanmadı.\n\n" + ex.Message, "TAKVİM", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                _ = MessageBox.Show("Dosya Arşiv Dosyası Olarak Okunanmadı.\n\n" + ex.Message, "TAKVİM", MessageBoxButton.OK, MessageBoxImage.Exclamation);
             }
         }
 

@@ -11,6 +11,11 @@ namespace Extensions
 
         public static readonly DependencyProperty StaysOpenProperty = DependencyProperty.Register("StaysOpen", typeof(bool), typeof(ContentToggleButton), new PropertyMetadata(false));
 
+        static ContentToggleButton()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(ContentToggleButton), new FrameworkPropertyMetadata(typeof(ContentToggleButton)));
+        }
+
         public object OverContent
         {
             get => GetValue(OverContentProperty);
@@ -27,11 +32,6 @@ namespace Extensions
         {
             get => (bool)GetValue(StaysOpenProperty);
             set => SetValue(StaysOpenProperty, value);
-        }
-
-        static ContentToggleButton()
-        {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(ContentToggleButton), new FrameworkPropertyMetadata(typeof(ContentToggleButton)));
         }
 
         public override string ToString()

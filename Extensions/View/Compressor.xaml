@@ -8,6 +8,7 @@
     d:DesignHeight="140" d:DesignWidth="450" UseLayoutRounding="True"
     mc:Ignorable="d">
     <UserControl.Resources>
+        <local:NullableToBooleanConverter x:Key="NullableToBooleanConverter" />
         <local:SystemFileIconConverter x:Key="SystemFileIconConverter" />
         <local:FilePathToIconConverter x:Key="FilePathToIconConverter" />
     </UserControl.Resources>
@@ -34,7 +35,9 @@
             <ColumnDefinition Width="1*" />
             <ColumnDefinition Width="1*" />
         </Grid.ColumnDefinitions>
-        <local:SplitButton Grid.Column="0" Grid.ColumnSpan="2" Command="{Binding ArşivlenecekDosyalarıSeç, Mode=OneWay}">
+        <local:SplitButton Grid.Column="0" Grid.ColumnSpan="2"
+            Command="{Binding ArşivlenecekDosyalarıSeç, Mode=OneWay}"
+            SplitContentPartIsEnabled="{Binding CompressorView.Dosyalar, Converter={StaticResource NullableToBooleanConverter}}">
             <local:SplitButton.Content>
                 <StackPanel Orientation="Horizontal">
                     <Image Width="16" Height="16">
@@ -65,7 +68,7 @@
                 </ListBox>
             </local:SplitButton.InternalContent>
         </local:SplitButton>
-        <ListBox Grid.Row="1"
+        <ListBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
             Background="{x:Null}"
             BorderBrush="{x:Null}"
             SelectedIndex="{Binding CompressorView.Biçim, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
@@ -128,25 +131,6 @@
                 VerticalAlignment="Center" VerticalContentAlignment="Center"
                 ToolTip="Metin Dosyaları İçin Uygun" />
         </ListBox>
-        <CheckBox Grid.Row="1" Grid.Column="1"
-            Visibility="{Binding ElementVisible}"
-            VerticalAlignment="Center" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center"
-            IsChecked="{Binding CompressorView.ResimleriWebpZiple}"
-            ToolTip="İşaretlenirse Arşive Eklenen Resimler Webp Olarak Eklenir.">
-            <CheckBox.Content>
-                <Grid VerticalAlignment="Center">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Text="WEBP SIKIŞTIR" VerticalAlignment="Center" />
-                    <local:NumericUpDownControl Grid.Column="1"
-                        IsTabStop="False" LargeChange="1" Maximum="100" Minimum="1"
-                        SmallChange="1" ToolTip="ARŞİVE WEBP RESİM EKLEME KALİTESİ 1 EN DÜŞÜK BOYUTTUR."
-                        Value="{Binding CompressorView.WebpQuality, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                </Grid>
-            </CheckBox.Content>
-        </CheckBox>
         <TextBox Text="{Binding CompressorView.KayıtYolu}"
             Grid.Row="2" Grid.ColumnSpan="2"
             Visibility="{Binding ElementVisible}"
@@ -219,7 +203,7 @@
                     </StackPanel>
                 </Button.Content>
             </Button>
-            <local:SplitButton Command="{Binding ArşivİçerikGör, Mode=OneWay}">
+            <local:SplitButton Command="{Binding ArşivİçerikGör, Mode=OneWay}" SplitContentPartIsEnabled="{Binding CompressorView.ArşivDosyaYolu, Converter={StaticResource StringNullableToBooleanConverter}}">
                 <StackPanel Orientation="Horizontal">
                     <Image Width="16" Height="16">
                         <Image.Source>
@@ -232,7 +216,9 @@
                     <TextBlock Text="ARŞİV İÇERİK GÖR" Visibility="{Binding ElementVisible}" VerticalAlignment="Center" />
                 </StackPanel>
                 <local:SplitButton.InternalContent>
-                    <local:ArchiveViewer Width="520" Height="250" ArchivePath="{Binding CompressorView.ArşivDosyaYolu}" />
+                    <local:ResizablePanel Width="520" Height="250" MinWidth="520" MinHeight="250">
+                        <local:ArchiveViewer ArchivePath="{Binding CompressorView.ArşivDosyaYolu}" />
+                    </local:ResizablePanel>
                 </local:SplitButton.InternalContent>
             </local:SplitButton>
         </UniformGrid>
@@ -243,9 +229,42 @@
             </Grid.ColumnDefinitions>
             <ProgressBar Grid.Column="0" Grid.ColumnSpan="2"
                 Height="16"
-                Style="{StaticResource ProgressBarStyle}"
                 Maximum="{Binding CompressorView.Dosyalar.Count}"
-                Value="{Binding CompressorView.Oran}" />
+                Value="{Binding CompressorView.Oran}">
+                <ProgressBar.Style>
+                    <Style TargetType="{x:Type ProgressBar}">
+                        <Setter Property="BorderThickness" Value="1" />
+                        <Setter Property="Foreground" Value="Green" />
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type ProgressBar}">
+                                    <Border x:Name="PART_Track"
+                                        MinHeight="14"
+                                        Background="{x:Null}"
+                                        BorderBrush="#FF888888"
+                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                        d:DesignUseLayoutRounding="True" CornerRadius="2" UseLayoutRounding="True">
+                                        <Border x:Name="PART_Indicator"
+                                            Background="{TemplateBinding Foreground}"
+                                            BorderBrush="{x:Null}"
+                                            Margin="1" HorizontalAlignment="Left"
+                                            d:DesignUseLayoutRounding="True" CornerRadius="1" UseLayoutRounding="True" />
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="Orientation" Value="Vertical">
+                                            <Setter TargetName="PART_Track" Property="LayoutTransform">
+                                                <Setter.Value>
+                                                    <RotateTransform Angle="-90" />
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ProgressBar.Style>
+            </ProgressBar>
             <Image Width="16" Height="16" Source="{Binding CompressorView.DosyaAdı, Converter={StaticResource FilePathToIconConverter}}" />
             <TextBlock Text="{Binding CompressorView.DosyaAdı}"
                 TextTrimming="CharacterEllipsis"

@@ -22,8 +22,8 @@ namespace Extensions
 
         public FileSelectorTextBox()
         {
-            CommandBindings.Add(new CommandBinding(SelectFile, SelectFileCommand));
-            CommandBindings.Add(new CommandBinding(RemoveItem, RemoveFileCommand));
+            _ = CommandBindings.Add(new CommandBinding(SelectFile, SelectFileCommand));
+            _ = CommandBindings.Add(new CommandBinding(RemoveItem, RemoveFileCommand));
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -65,7 +65,7 @@ namespace Extensions
 
         private void RemoveFileCommand(object sender, ExecutedRoutedEventArgs e)
         {
-            Dosyalar.Remove(e.Parameter as string);
+            _ = Dosyalar.Remove(e.Parameter as string);
             FilePath = Dosyalar.Count == 0 ? "Dosya Seçilmedi" : $"{Dosyalar.Count} Dosya Seçildi";
         }
 

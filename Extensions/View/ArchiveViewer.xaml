@@ -1,8 +1,8 @@
 ﻿<UserControl x:Class="Extensions.ArchiveViewer"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:Extensions"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Extensions="clr-namespace:Extensions" xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Extensions" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DataContext="{d:DesignInstance Type=local:ArchiveViewer}"
     d:DesignHeight="250" d:DesignWidth="500" UseLayoutRounding="True"
     mc:Ignorable="d">
@@ -26,7 +26,8 @@
         <ListView x:Name="Lv"
             Foreground="Black"
             ItemsSource="{Binding Mode=OneWay, Source={StaticResource Cvs}}"
-            AlternationCount="2" IsSynchronizedWithCurrentItem="False" SelectionMode="Single">
+            Extensions:GridViewSort.AutoSort="True" AlternationCount="2" IsSynchronizedWithCurrentItem="False"
+            SelectionMode="Single">
             <ListView.ItemContainerStyle>
                 <Style TargetType="{x:Type ListViewItem}">
                     <Setter Property="Template">
@@ -82,30 +83,49 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Width="100" DisplayMemberBinding="{Binding DosyaAdı, Mode=OneWay}">
+                    <GridViewColumn Width="100" Extensions:GridViewSort.PropertyName="DosyaAdı" DisplayMemberBinding="{Binding DosyaAdı, Mode=OneWay}">
                         <GridViewColumn.HeaderTemplate>
                             <DataTemplate>
                                 <StackPanel DataContext="{Binding DataContext, ElementName=Grid}" Orientation="Horizontal">
                                     <TextBlock Text="DOSYA ADI" VerticalAlignment="Center" />
-                                    <TextBox Text="{Binding AramaMetni, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="22" />
+                                    <TextBox Text="{Binding AramaMetni, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="22">
+                                        <TextBox.Style>
+                                            <Style TargetType="TextBox">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding AramaMetni, Converter={StaticResource StringNullableToBooleanConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Value="true">
+                                                        <Setter Property="BorderBrush" Value="Green" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBox.Style>
+                                    </TextBox>
                                 </StackPanel>
                             </DataTemplate>
                         </GridViewColumn.HeaderTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="BOYUT" Width="80" DisplayMemberBinding="{Binding Boyut, Mode=OneWay}" />
-                    <GridViewColumn Header="SIKIŞTIRILMIŞ&#x0a;BOYUT" Width="80" DisplayMemberBinding="{Binding SıkıştırılmışBoyut, Mode=OneWay}" />
+                    <GridViewColumn Header="BOYUT"
+                        Width="80"
+                        Extensions:GridViewSort.PropertyName="Boyut"
+                        DisplayMemberBinding="{Binding Boyut, Mode=OneWay}" />
+                    <GridViewColumn Header="SIKIŞTIRILMIŞ&#x0a;BOYUT"
+                        Width="80"
+                        Extensions:GridViewSort.PropertyName="SıkıştırılmışBoyut"
+                        DisplayMemberBinding="{Binding SıkıştırılmışBoyut, Mode=OneWay}" />
                     <GridViewColumn Header="TİP" Width="70" DisplayMemberBinding="{Binding DosyaAdı, Converter={StaticResource FilePathToFileDescriptionConverter}, Mode=OneWay}" />
-                    <GridViewColumn Header="ORAN" Width="45">
+                    <GridViewColumn Header="ORAN" Width="45" Extensions:GridViewSort.PropertyName="Oran">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <ProgressBar Width="32"
-                                    Style="{StaticResource ProgressBarStyle}"
+                                    Style="{Binding Mode=OneWay, Source={StaticResource ProgressBarStyle}}"
                                     Maximum="1"
                                     Value="{Binding Oran, IsAsync=True}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="CRC" Width="70" DisplayMemberBinding="{Binding Crc, Mode=OneWay}" />
+                    <GridViewColumn Header="CRC"
+                        Width="70"
+                        Extensions:GridViewSort.PropertyName="Crc"
+                        DisplayMemberBinding="{Binding Crc, Mode=OneWay}" />
                 </GridView>
             </ListView.View>
         </ListView>
@@ -120,10 +140,17 @@
                 </Style>
             </Grid.Style>
             <ProgressBar Width="20"
-                Foreground="{StaticResource PinkProgressBackground}"
                 Maximum="100" Orientation="Vertical"
-                Value="{Binding Path=(local:ArchiveViewer.ToplamOran), Mode=OneWay}" />
-            <TextBlock Text="{Binding Path=(local:ArchiveViewer.ToplamOran), Mode=OneWay, StringFormat=\{0:F0\}}"
+                Value="{Binding ToplamOran}">
+                <ProgressBar.Foreground>
+                    <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                        <GradientStop Offset="0" Color="#FFD82E83" />
+                        <GradientStop Offset="1" Color="#FFD82E83" />
+                        <GradientStop Offset="0.5" Color="#FFE83A92" />
+                    </LinearGradientBrush>
+                </ProgressBar.Foreground>
+            </ProgressBar>
+            <TextBlock Text="{Binding ToplamOran, StringFormat=\{0:F0\}}"
                 HorizontalAlignment="Center" VerticalAlignment="Center"
                 FontSize="11" FontWeight="Bold" />
         </Grid>

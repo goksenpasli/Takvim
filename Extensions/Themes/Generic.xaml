@@ -24,11 +24,6 @@
     <SolidColorBrush x:Key="ScrollBar.Static.Thumb" Color="#CDCDCD" />
     <local:FilePathToIconConverter x:Key="FilePathToIconConverter" />
     <StreamGeometry x:Key="ArrowGeometry">M0,0L4,4 8,0z</StreamGeometry>
-    <LinearGradientBrush x:Key="PinkProgressBackground" StartPoint="0.5,0" EndPoint="0.5,1">
-        <GradientStop Offset="0" Color="#FFD82E83" />
-        <GradientStop Offset="1" Color="#FFD82E83" />
-        <GradientStop Offset="0.5" Color="#FFE83A92" />
-    </LinearGradientBrush>
     <Style x:Key="ProgressBarStyle" TargetType="{x:Type ProgressBar}">
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="BorderBrush" Value="#888888" />
@@ -507,6 +502,8 @@
     </Style>
     <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="local:SplitButton">
         <Setter Property="SnapsToDevicePixels" Value="true" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:SplitButton">
@@ -515,90 +512,32 @@
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"
                         Padding="{TemplateBinding Padding}"
+                        HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                        VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                         Command="{TemplateBinding Command}"
                         CommandParameter="{TemplateBinding CommandParameter}">
-                        <Grid Width="{Binding RenderSize.Width, RelativeSource={RelativeSource AncestorType=Button}}" HorizontalAlignment="Center">
+                        <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
                                 <ColumnDefinition Width="14" />
                             </Grid.ColumnDefinitions>
-                            <ContentPresenter Content="{TemplateBinding Content}"
-                                Grid.Column="0"
-                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
-                            <ToggleButton x:Name="Tb" Grid.Column="1" Background="Transparent">
-                                <ToggleButton.Style>
-                                    <Style TargetType="{x:Type ToggleButton}">
-                                        <Setter Property="FocusVisualStyle">
-                                            <Setter.Value>
-                                                <Style>
-                                                    <Setter Property="Control.Template">
-                                                        <Setter.Value>
-                                                            <ControlTemplate>
-                                                                <Rectangle Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"
-                                                                    StrokeThickness="1"
-                                                                    SnapsToDevicePixels="True" StrokeDashArray="1 2" />
-                                                            </ControlTemplate>
-                                                        </Setter.Value>
-                                                    </Setter>
-                                                </Style>
-                                            </Setter.Value>
-                                        </Setter>
-                                        <Setter Property="Background" Value="#FFDDDDDD" />
-                                        <Setter Property="BorderBrush" Value="Black" />
-                                        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
-                                        <Setter Property="BorderThickness" Value="1,0,0,0" />
-                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                        <Setter Property="VerticalContentAlignment" Value="Center" />
-                                        <Setter Property="Padding" Value="0" />
-                                        <Setter Property="Template">
-                                            <Setter.Value>
-                                                <ControlTemplate TargetType="{x:Type ToggleButton}">
-                                                    <Border x:Name="border"
-                                                        Background="{TemplateBinding Background}"
-                                                        BorderBrush="{TemplateBinding BorderBrush}"
-                                                        BorderThickness="{TemplateBinding BorderThickness}"
-                                                        SnapsToDevicePixels="True">
-                                                        <ContentPresenter x:Name="contentPresenter" Content="{TemplateBinding Content}"
-                                                            Margin="{TemplateBinding Padding}"
-                                                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                                            ContentStringFormat="{TemplateBinding ContentStringFormat}"
-                                                            ContentTemplate="{TemplateBinding ContentTemplate}"
-                                                            Focusable="False" RecognizesAccessKey="True"
-                                                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
-                                                    </Border>
-                                                    <ControlTemplate.Triggers>
-                                                        <Trigger Property="Button.IsDefaulted" Value="True">
-                                                            <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
-                                                        </Trigger>
-                                                        <Trigger Property="IsMouseOver" Value="True">
-                                                            <Setter TargetName="border" Property="Background" Value="#FFBEE6FD" />
-                                                            <Setter TargetName="border" Property="BorderBrush" Value="#FF3C7FB1" />
-                                                        </Trigger>
-                                                        <Trigger Property="IsPressed" Value="True">
-                                                            <Setter TargetName="border" Property="Background" Value="#FFC4E5F6" />
-                                                            <Setter TargetName="border" Property="BorderBrush" Value="#FF2C628B" />
-                                                        </Trigger>
-                                                        <Trigger Property="IsChecked" Value="True">
-                                                            <Setter TargetName="border" Property="Background" Value="#FFBCDDEE" />
-                                                            <Setter TargetName="border" Property="BorderBrush" Value="#FF245A83" />
-                                                        </Trigger>
-                                                        <Trigger Property="IsEnabled" Value="False">
-                                                            <Setter TargetName="border" Property="Background" Value="#FFF4F4F4" />
-                                                            <Setter TargetName="border" Property="BorderBrush" Value="#FFADB2B5" />
-                                                            <Setter Property="Foreground" Value="#FF838383" />
-                                                        </Trigger>
-                                                    </ControlTemplate.Triggers>
-                                                </ControlTemplate>
-                                            </Setter.Value>
-                                        </Setter>
-                                    </Style>
-                                </ToggleButton.Style>
+                            <ContentPresenter Content="{TemplateBinding Content}" Grid.Column="0" />
+                            <ToggleButton x:Name="Tb" Grid.Column="1" IsEnabled="{TemplateBinding SplitContentPartIsEnabled}">
                                 <Path x:Name="path"
                                     HorizontalAlignment="Center" VerticalAlignment="Center"
                                     Data="{StaticResource ArrowGeometry}"
-                                    Fill="Black" />
+                                    Focusable="False">
+                                    <Path.Style>
+                                        <Style TargetType="Path">
+                                            <Setter Property="Fill" Value="Black" />
+                                            <Style.Triggers>
+                                                <Trigger Property="IsEnabled" Value="False">
+                                                    <Setter Property="Fill" Value="#FF838383" />
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Path.Style>
+                                </Path>
                             </ToggleButton>
                             <Popup x:Name="PART_Popup"
                                 Grid.ColumnSpan="2"
@@ -614,7 +553,6 @@
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="btn" Property="Background" Value="#F4F4F4" />
                             <Setter TargetName="btn" Property="BorderBrush" Value="#ADB2B5" />
-                            <Setter TargetName="path" Property="Fill" Value="#ADB2B5" />
                             <Setter Property="TextElement.Foreground" Value="#838383" />
                         </Trigger>
                     </ControlTemplate.Triggers>
@@ -646,9 +584,7 @@
                                 PlacementTarget="{Binding RelativeSource={RelativeSource AncestorType={x:Type ToggleButton}}}"
                                 PopupAnimation="Slide"
                                 StaysOpen="{Binding IsChecked, ElementName=Cb}">
-                                <ScrollViewer Padding="2" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                                    <ContentPresenter Content="{TemplateBinding Content}" />
-                                </ScrollViewer>
+                                <ContentPresenter Content="{TemplateBinding Content}" />
                             </Popup>
                         </Grid>
                     </Border>
@@ -1078,6 +1014,73 @@
                             <Setter TargetName="ArrowRight" Property="Fill" Value="{StaticResource ScrollBar.Disabled.Glyph}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style TargetType="local:Resizer">
+        <Setter Property="BorderBrush" Value="Gray" />
+        <Setter Property="Background">
+            <Setter.Value>
+                <LinearGradientBrush MappingMode="RelativeToBoundingBox" StartPoint="0.5,0" EndPoint="0.5,1">
+                    <GradientStop Offset="1" Color="#FE00B6E8" />
+                    <GradientStop Color="#FF48F3CA" />
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:Resizer">
+                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0,0,1,1" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style TargetType="local:ResizablePanel">
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="Background" Value="{x:Null}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:ResizablePanel">
+                    <Grid Background="{TemplateBinding Background}" DataContext="{Binding RelativeSource={RelativeSource TemplatedParent}}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="5" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="5" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="5" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="5" />
+                        </Grid.RowDefinitions>
+                        <local:Resizer Grid.Row="0" Grid.Column="0"
+                            Width="3" Height="3"
+                            Cursor="SizeNWSE" ThumbDirection="TopLeft" />
+                        <local:Resizer Grid.Row="1" Grid.Column="0"
+                            Width="3"
+                            Cursor="SizeWE" ThumbDirection="Left" />
+                        <local:Resizer Grid.Row="2" Grid.Column="0"
+                            Width="3" Height="3"
+                            Cursor="SizeNESW" ThumbDirection="BottomLeft" />
+                        <local:Resizer Grid.Row="2" Grid.Column="1"
+                            Height="3"
+                            Cursor="SizeNS" ThumbDirection="Bottom" />
+                        <local:Resizer Grid.Row="2" Grid.Column="2"
+                            Width="3" Height="3"
+                            Cursor="SizeNWSE" ThumbDirection="BottomRight" />
+                        <local:Resizer Grid.Row="1" Grid.Column="2"
+                            Width="3"
+                            Cursor="SizeWE" ThumbDirection="Right" />
+                        <local:Resizer Grid.Row="0" Grid.Column="2"
+                            Width="3" Height="3"
+                            Cursor="SizeNESW" ThumbDirection="TopRight" />
+                        <local:Resizer Grid.Row="0" Grid.Column="1"
+                            Height="3"
+                            Cursor="SizeNS" ThumbDirection="Top" />
+                        <ContentPresenter Content="{TemplateBinding Content}"
+                            Grid.Row="1" Grid.Column="1"
+                            Margin="{TemplateBinding Padding}" />
+                    </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

@@ -7,7 +7,14 @@ namespace Extensions
     {
         public static readonly DependencyProperty InternalContentProperty = DependencyProperty.Register("InternalContent", typeof(object), typeof(SplitButton), new PropertyMetadata(null));
 
+        public static readonly DependencyProperty SplitContentPartIsEnabledProperty = DependencyProperty.Register("SplitContentPartIsEnabled", typeof(bool), typeof(SplitButton), new PropertyMetadata(true));
+
         public static readonly DependencyProperty StayOpenProperty = DependencyProperty.Register("StayOpen", typeof(bool), typeof(SplitButton), new PropertyMetadata(false));
+
+        static SplitButton()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(SplitButton), new FrameworkPropertyMetadata(typeof(SplitButton)));
+        }
 
         public object InternalContent
         {
@@ -15,15 +22,16 @@ namespace Extensions
             set => SetValue(InternalContentProperty, value);
         }
 
+        public bool SplitContentPartIsEnabled
+        {
+            get => (bool)GetValue(SplitContentPartIsEnabledProperty);
+            set => SetValue(SplitContentPartIsEnabledProperty, value);
+        }
+
         public bool StayOpen
         {
             get => (bool)GetValue(StayOpenProperty);
             set => SetValue(StayOpenProperty, value);
-        }
-
-        static SplitButton()
-        {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(SplitButton), new FrameworkPropertyMetadata(typeof(SplitButton)));
         }
     }
 }

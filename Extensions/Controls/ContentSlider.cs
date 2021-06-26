@@ -7,15 +7,15 @@ namespace Extensions
     {
         public static readonly DependencyProperty OverContentProperty = DependencyProperty.Register("OverContent", typeof(object), typeof(ContentSlider), new PropertyMetadata(null));
 
+        static ContentSlider()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(ContentSlider), new FrameworkPropertyMetadata(typeof(ContentSlider)));
+        }
+
         public object OverContent
         {
             get => GetValue(OverContentProperty);
             set => SetValue(OverContentProperty, value);
-        }
-
-        static ContentSlider()
-        {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(ContentSlider), new FrameworkPropertyMetadata(typeof(ContentSlider)));
         }
 
         public override string ToString()

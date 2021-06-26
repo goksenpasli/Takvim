@@ -43,9 +43,9 @@ namespace Extensions
 
         public MaskedTextBox()
         {
-            CommandBindings.Add(new CommandBinding(Reset, ResetCommand)); //handle reset
-            CommandBindings.Add(new CommandBinding(ApplicationCommands.Paste, Paste)); //handle paste
-            CommandBindings.Add(new CommandBinding(ApplicationCommands.Cut, null, CanCut)); //surpress cut
+            _ = CommandBindings.Add(new CommandBinding(Reset, ResetCommand)); //handle reset
+            _ = CommandBindings.Add(new CommandBinding(ApplicationCommands.Paste, Paste)); //handle paste
+            _ = CommandBindings.Add(new CommandBinding(ApplicationCommands.Cut, null, CanCut)); //surpress cut
         }
 
         public event RoutedPropertyChangedEventHandler<object> ValueChanged { add => AddHandler(ValueChangedEvent, value); remove => RemoveHandler(ValueChangedEvent, value); }
@@ -275,7 +275,7 @@ namespace Extensions
                 return value.ToString();
             }
 
-            MaskProvider.Set(value.ToString());
+            _ = MaskProvider.Set(value.ToString());
             return MaskProvider.ToDisplayString();
         }
 
@@ -476,7 +476,7 @@ namespace Extensions
                 if (text.Length > 0)
                 {
                     int position = SelectionStart;
-                    MaskProvider.Set(text);
+                    _ = MaskProvider.Set(text);
                     UpdateText(position);
                 }
             }
@@ -501,7 +501,7 @@ namespace Extensions
                 return;
             }
 
-            MaskProvider.RemoveAt(position, position + length - 1);
+            _ = MaskProvider.RemoveAt(position, position + length - 1);
         }
 
         private void RemoveTextFromStart(int endPosition)
