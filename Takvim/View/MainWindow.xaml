@@ -60,7 +60,13 @@
                         <DatePicker Grid.Column="2"
                             DisplayDateEnd="{Binding YılSonu}"
                             DisplayDateStart="{Binding YılBaşı}"
-                            SelectedDate="{Binding ŞuAnkiGün, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            SelectedDate="{Binding ŞuAnkiGün, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                            <DatePicker.Resources>
+                                <Style TargetType="DatePickerTextBox">
+                                    <Setter Property="IsReadOnly" Value="True" />
+                                </Style>
+                            </DatePicker.Resources>
+                        </DatePicker>
                         <Button Content="è"
                             Grid.Column="3"
                             Command="{Binding Günİleri}"
@@ -108,7 +114,6 @@
                     </ListBox>
                     <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto">
                         <Expander IsExpanded="{Binding MiniTakvimAçık, Mode=TwoWay, Source={x:Static properties:Settings.Default}, UpdateSourceTrigger=PropertyChanged}">
-
                             <Expander.Style>
                                 <Style TargetType="Expander">
                                     <Style.Triggers>
@@ -267,7 +272,10 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <TextBox Text="{Binding AramaMetin, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="0" Width="72" />
+            <TextBox Text="{Binding AramaMetin, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                Grid.Column="0"
+                Width="72"
+                VerticalContentAlignment="Center" />
             <Extensions:SplitButton Grid.Column="1" Command="{Binding VeriAra, Mode=OneWay}" CommandParameter="{Binding AramaMetin}">
                 <Extensions:SplitButton.InternalContent>
                     <GroupBox>
