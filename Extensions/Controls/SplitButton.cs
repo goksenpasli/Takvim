@@ -1,11 +1,14 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 
 namespace Extensions
 {
     public class SplitButton : Button
     {
         public static readonly DependencyProperty InternalContentProperty = DependencyProperty.Register("InternalContent", typeof(object), typeof(SplitButton), new PropertyMetadata(null));
+
+        public static readonly DependencyProperty PlacementModeProperty = DependencyProperty.Register("PlacementMode", typeof(PlacementMode), typeof(SplitButton), new PropertyMetadata(PlacementMode.Bottom));
 
         public static readonly DependencyProperty SplitContentPartIsEnabledProperty = DependencyProperty.Register("SplitContentPartIsEnabled", typeof(bool), typeof(SplitButton), new PropertyMetadata(true));
 
@@ -20,6 +23,12 @@ namespace Extensions
         {
             get => GetValue(InternalContentProperty);
             set => SetValue(InternalContentProperty, value);
+        }
+
+        public PlacementMode PlacementMode
+        {
+            get => (PlacementMode)GetValue(PlacementModeProperty);
+            set => SetValue(PlacementModeProperty, value);
         }
 
         public bool SplitContentPartIsEnabled

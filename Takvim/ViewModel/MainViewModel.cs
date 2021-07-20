@@ -63,15 +63,15 @@ namespace Takvim
                 Settings.Default.Save();
             }, parameter => SatırSayısı != 3 || SütünSayısı != 4);
 
-            YılaGit = new RelayCommand<object>(parameter =>
+            GüneGit = new RelayCommand<object>(parameter =>
             {
                 if (parameter is XmlElement xmlElement)
                 {
-                    SeçiliYıl = (short)DateTime.Parse(xmlElement.InnerText).Year;
+                    ŞuAnkiGün = DateTime.Parse(xmlElement.InnerText).Date;
                     AnimasyonTarih = null;
                     AnimasyonTarih = DateTime.Parse(xmlElement.InnerText);
                 }
-            }, parameter => true);
+            }, parameter => DateTime.Today < DateTime.Parse($"31/12/{DateTime.Now.Year}") && DateTime.Today > DateTime.Parse($"1/1/{DateTime.Now.Year}"));
 
             AyarSıfırla = new RelayCommand<object>(parameter =>
             {
@@ -176,6 +176,8 @@ namespace Takvim
 
         public ICommand GünBugün { get; }
 
+        public ICommand GüneGit { get; }
+
         public ICommand GünGeri { get; }
 
         public ICommand Günİleri { get; }
@@ -191,8 +193,6 @@ namespace Takvim
         public ICommand VeritabanıAç { get; }
 
         public ICommand WebAdreseGit { get; }
-
-        public ICommand YılaGit { get; }
 
         public string this[string columnName] => columnName switch
         {

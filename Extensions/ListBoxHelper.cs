@@ -36,7 +36,7 @@ namespace Extensions
             {
                 foreach (object item in listBox.SelectedItems)
                 {
-                    selectedItems.Add(item);
+                    _ = selectedItems.Add(item);
                 }
             }
         }

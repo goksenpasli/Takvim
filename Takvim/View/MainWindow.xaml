@@ -328,7 +328,7 @@
                                                 </Extensions:SplitButton.InternalContent>
                                             </Extensions:SplitButton>
                                         </StackPanel>
-                                        <TextBlock Width="96" TextWrapping="Wrap"><Hyperlink Command="{Binding DataContext.YılaGit, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" CommandParameter="{Binding Mode=OneWay, XPath=Gun}">
+                                        <TextBlock Width="96" TextWrapping="Wrap"><Hyperlink Command="{Binding DataContext.GüneGit, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" CommandParameter="{Binding Mode=OneWay, XPath=Gun}">
                                                 <Run Text="{Binding Converter={StaticResource XmlDateConverter}, StringFormat=\{0:dd/MM/yyyy\}, XPath=Gun}" />
                                             </Hyperlink>
                                             <LineBreak />

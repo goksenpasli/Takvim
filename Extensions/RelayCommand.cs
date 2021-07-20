@@ -39,7 +39,7 @@ namespace Extensions
                 Started?.Invoke(this, EventArgs.Empty);
 
                 Task task = Task.Factory.StartNew(() => execute());
-                task.ContinueWith(t => OnRunWorkerCompleted(EventArgs.Empty), TaskScheduler.FromCurrentSynchronizationContext());
+                _ = task.ContinueWith(t => OnRunWorkerCompleted(EventArgs.Empty), TaskScheduler.FromCurrentSynchronizationContext());
             }
             catch (Exception ex)
             {

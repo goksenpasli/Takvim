@@ -515,14 +515,14 @@
                         HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                         VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                         Command="{TemplateBinding Command}"
-                        CommandParameter="{TemplateBinding CommandParameter}">
+                        CommandParameter="{TemplateBinding CommandParameter}" IsTabStop="{TemplateBinding IsTabStop}">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
                                 <ColumnDefinition Width="14" />
                             </Grid.ColumnDefinitions>
                             <ContentPresenter Content="{TemplateBinding Content}" Grid.Column="0" />
-                            <ToggleButton x:Name="Tb" Grid.Column="1" IsEnabled="{TemplateBinding SplitContentPartIsEnabled}">
+                            <ToggleButton x:Name="Tb" Grid.Column="1" IsEnabled="{TemplateBinding SplitContentPartIsEnabled}" IsTabStop="{TemplateBinding IsTabStop}">
                                 <Path x:Name="path"
                                     HorizontalAlignment="Center" VerticalAlignment="Center"
                                     Data="{StaticResource ArrowGeometry}"
@@ -543,7 +543,8 @@
                                 Grid.ColumnSpan="2"
                                 AllowsTransparency="True" Focusable="False"
                                 IsOpen="{Binding IsChecked, ElementName=Tb}"
-                                Placement="Bottom" PopupAnimation="Slide"
+                                Placement="{TemplateBinding PlacementMode}"
+                                PopupAnimation="Slide"
                                 StaysOpen="{TemplateBinding StayOpen}">
                                 <ContentPresenter Content="{TemplateBinding InternalContent}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                             </Popup>
@@ -758,12 +759,23 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <TextBox Text="{Binding Value, RelativeSource={RelativeSource TemplatedParent}}"
-                    Grid.Row="0" Grid.Column="1"
+                <TextBox Grid.Row="0" Grid.Column="1"
                     IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource TemplatedParent}}"
                     MinWidth="18" MinHeight="18"
+                    Background="{TemplateBinding Background}"
                     BorderThickness="0"
-                    VerticalContentAlignment="Center" />
+                    VerticalContentAlignment="Center">
+                    <TextBox.Style>
+                        <Style TargetType="TextBox">
+                            <Setter Property="Text" Value="{Binding Value, RelativeSource={RelativeSource TemplatedParent}}" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding CurrencyMode, RelativeSource={RelativeSource TemplatedParent}}" Value="true">
+                                    <Setter Property="Text" Value="{Binding Value, RelativeSource={RelativeSource TemplatedParent}, StringFormat=\{0:C\}}" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
                 <RepeatButton x:Name="PART_LineUpButton"
                     Grid.Row="0" Grid.Column="0"
                     Visibility="{Binding NumericUpDownButtonsVisibility, RelativeSource={RelativeSource TemplatedParent}}"
@@ -820,12 +832,23 @@
                     <RowDefinition />
                     <RowDefinition />
                 </Grid.RowDefinitions>
-                <TextBox Text="{Binding Value, RelativeSource={RelativeSource TemplatedParent}}"
-                    Grid.Row="0" Grid.Column="0" Grid.RowSpan="2"
+                <TextBox Grid.Row="0" Grid.Column="0" Grid.RowSpan="2"
                     IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource TemplatedParent}}"
                     MinWidth="18" MinHeight="18"
+                    Background="{TemplateBinding Background}"
                     BorderThickness="0"
-                    VerticalContentAlignment="Center" />
+                    VerticalContentAlignment="Center">
+                    <TextBox.Style>
+                        <Style TargetType="TextBox">
+                            <Setter Property="Text" Value="{Binding Value, RelativeSource={RelativeSource TemplatedParent}}" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding CurrencyMode, RelativeSource={RelativeSource TemplatedParent}}" Value="true">
+                                    <Setter Property="Text" Value="{Binding Value, RelativeSource={RelativeSource TemplatedParent}, StringFormat=\{0:C\}}" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
                 <RepeatButton x:Name="PART_LineUpButton"
                     Grid.Row="0" Grid.Column="1"
                     Visibility="{Binding NumericUpDownButtonsVisibility, RelativeSource={RelativeSource TemplatedParent}}"
@@ -868,6 +891,7 @@
         </ControlTemplate.Triggers>
     </ControlTemplate>
     <Style TargetType="local:NumericUpDownControl">
+        <Setter Property="Background" Value="White" />
         <Style.Triggers>
             <Trigger Property="Orientation" Value="Horizontal">
                 <Setter Property="Template" Value="{StaticResource HorizontalNumericUpDown}" />

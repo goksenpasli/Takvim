@@ -62,6 +62,7 @@
   <ItemGroup>
     <Compile Include="Controls\Resizer.cs" />
     <Compile Include="Converters\FileExtToArchiveViewerContentCoverter.cs" />
+    <Compile Include="Converters\StringNullableToBooleanConverter.cs" />
     <Compile Include="Converters\WebpByteArrayToImageConverter.cs" />
     <Compile Include="GridViewSort.cs" />
     <Compile Include="ViewModel\ArchiveData.cs" />

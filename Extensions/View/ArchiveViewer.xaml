@@ -12,6 +12,7 @@
             <local:FilePathToIconConverter x:Key="FilePathToIconConverter" />
             <local:CompressorViewModel x:Key="CompressorViewModel" />
             <local:FilePathToFileDescriptionConverter x:Key="FilePathToFileDescriptionConverter" />
+            <local:StringNullableToBooleanConverter x:Key="StringNullableToBooleanConverter" />
             <local:FilePathToArchiveContentConverter x:Key="FilePathToArchiveContentConverter" />
             <CollectionViewSource x:Key="Cvs" d:DesignSource="{d:DesignInstance Type=local:ArchiveData, CreateList=True}" Source="{Binding ArchivePath, Converter={StaticResource FilePathToArchiveContentConverter}}" />
         </Grid.Resources>
