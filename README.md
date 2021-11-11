@@ -5,6 +5,9 @@ https://drive.google.com/file/d/1az4WT03URj8XYdzylNB5YUCLxZE4nGLi/view?usp=shari
 
 for turkish tts
 
+
+
+
 Windows Registry Editor Version 5.00
 
 [HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\SPEECH\Voices\Tokens\MSTTS_V110_trTR_Tolga]
@@ -33,7 +36,6 @@ Windows Registry Editor Version 5.00
 "Vendor"="Microsoft"
 "Version"="11.0"
 
-
 [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Speech\Voices\Tokens\MSTTS_V110_trTR_Tolga]
 @="Microsoft Tolga - Turkish (Turkey)"
 "041f"="Microsoft Tolga - Turkish (Turkey)"
@@ -59,5 +61,4 @@ Windows Registry Editor Version 5.00
 "SharedPronunciation"=""
 "Vendor"="Microsoft"
 "Version"="11.0"
-
 
